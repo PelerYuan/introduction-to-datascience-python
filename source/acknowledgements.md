@@ -13,50 +13,15 @@ kernelspec:
   name: python3
 ---
 
-# Acknowledgments
+# 致谢
 
-We'd like to thank everyone that has contributed to the development of
-[*Data Science: A First Introduction*](https://datasciencebook.ca).
-This is an open source textbook that began as a collection of course readings
-for DSCI 100, a new introductory data science course
-at the University of British Columbia (UBC).
-Several faculty members in the UBC Department of Statistics
-were pivotal in shaping the direction of that course,
-and as such, contributed greatly to the broad structure and
-list of topics in this book. We would especially like to thank Matías
-Salibían-Barrera for his mentorship during the initial development and roll-out
-of both DSCI 100 and this book. His door was always open when
-we needed to chat about how to best introduce and teach data science to our first-year students.
-We would also like to thank Gabriela Cohen Freue for her DSCI 561 (Regression I) teaching materials
-from the UBC Master of Data Science program, as some of our linear regression figures were inspired from these.
+我们要感谢所有参与[《Data Science: A First Introduction》](https://datasciencebook.ca)编写工作的人。这是一本开源教材，最初是 DSCI 100 课程的阅读材料汇编；DSCI 100 是不列颠哥伦比亚大学（UBC）新开设的数据科学入门课程。UBC 统计系的几位教师对确定这门课程的走向起了关键作用，也因此对本书的整体结构和主题清单贡献良多。我们要特别感谢 Matías Salibían-Barrera：在 DSCI 100 与本书最初的开发和推出阶段，他给予了我们悉心指导。每当我们需要商量如何最好地向一年级学生介绍和讲授数据科学时，他的大门总是向我们敞开。我们还要感谢 Gabriela Cohen Freue 提供她在 UBC 数据科学硕士项目中 DSCI 561（回归 I）课程的教学材料，本书有些线性回归图正是受这些材料启发而作。
 
-We would also like to thank all those who contributed to the process of
-publishing this book. In particular, we would like to thank all of our reviewers for their feedback and suggestions:
-Rohan Alexander, Isabella Ghement, Virgilio Gómez Rubio, Albert Kim, Adam Loy, Maria Prokofieva, Emily Riederer, and Greg Wilson.
-The book was improved substantially by their insights.
-We would like to give special thanks to Jim Zidek
-for his support and encouragement throughout the process, and to
-Roger Peng for graciously offering to write the Foreword.
+我们还要感谢所有参与本书出版工作的人。特别要感谢各位审稿人给出的反馈与建议：Rohan Alexander、Isabella Ghement、Virgilio Gómez Rubio、Albert Kim、Adam Loy、Maria Prokofieva、Emily Riederer 和 Greg Wilson。他们的洞见让本书有了显著的提升。我们要特别感谢 Jim Zidek 在整个过程中给予的支持与鼓励，也感谢 Roger Peng 慷慨应允撰写序言。
 
-Finally, we owe a debt of gratitude to all of the students of DSCI 100 over the past
-few years. They provided invaluable feedback on the book and worksheets;
-they found bugs for us (and stood by very patiently in class while
-we frantically fixed those bugs); and they brought a level of enthusiasm to the class
-that sustained us during the hard work of creating a new course and writing a textbook.
-Our interactions with them taught us how to teach data science, and that learning
-is reflected in the content of this book.
+最后，我们要向过去几年里所有修读 DSCI 100 的学生表达深深的谢意。他们为本书和练习册（worksheet）提供了宝贵的反馈；他们帮我们找出缺陷（bug），还在课堂上十分耐心地等着我们手忙脚乱地把这些缺陷一一修好；他们给课堂带来的热情，支撑我们度过了开设新课程、撰写教材的辛苦阶段。与他们的交流教会了我们如何讲授数据科学，这份收获也体现在本书的内容之中。
 
 
-## Acknowledgments for the Python Edition
+## Python 版致谢
 
-We'd like to thank everyone that has contributed to the development of
-[*Data Science: A First Introduction with Python*](https://python.datasciencebook.ca).
-This is an open source Python translation of the original
-book, which focused on the R programming language. Both of these books are
-used to teach DSCI 100 at the University of British Columbia (UBC).
-We would like to give special thanks to Navya Dahiya and Gloria Ye
-for completing the first round of translation of the R material to Python,
-and to Philip Austin for his leadership and guidance throughout the translation process.
-We also gratefully acknowledge the UBC Open Educational Resources Fund, the UBC Department of Statistics,
-and the UBC Department of Earth, Ocean, and Atmospheric Sciences for supporting the translation of
-the original R textbook and exercises to the Python programming language.
+我们要感谢所有参与[《Data Science: A First Introduction with Python》](https://python.datasciencebook.ca)编写工作的人。这是原书的开源 Python 译本，原书针对 R 语言编写。两本书都用于在不列颠哥伦比亚大学（UBC）教授 DSCI 100。我们要特别感谢 Navya Dahiya 和 Gloria Ye 完成了把 R 材料转写为 Python 的第一轮翻译，也感谢 Philip Austin 在整个翻译过程中的领导与指导。我们还要衷心感谢 UBC 开放教育资源基金、UBC 统计系以及 UBC 地球、海洋与大气科学系支持将原 R 版教材和习题译为 Python 版。

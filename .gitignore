@@ -11,3 +11,13 @@ source/*.py
 source/__pycache__
 .local/
 .viminfo
+
+# --- local translation/build tooling (added by .translation/) -----------------
+# The build virtualenv and package caches are large and machine-specific.
+# .translation/ itself IS tracked: it holds the glossary, style guide, prompts and
+# tooling that produced this edition, plus the English originals under source_en/.
+.venv-build/
+.uv-cache/
+.build-cache/
+.translation/seg/_mut.md
+.translation/seg/_lint.json

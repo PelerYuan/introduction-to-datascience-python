@@ -20,157 +20,103 @@ from IPython.display import Image
 ```
 
 (viz)=
-# Effective data visualization
+# 有效的数据可视化
 
-## Overview
-This chapter will introduce concepts and tools relating to data visualization
-beyond what we have seen and practiced so far.  We will focus on guiding
-principles for effective data visualization and explaining visualizations
-independent of any particular tool or programming language.  In the process, we
-will cover some specifics of creating visualizations (scatter plots, bar
-plots, line plots, and histograms) for data using Python.
+## 概述
+本章介绍数据可视化的概念与工具，内容超出我们目前已经见过和练习过的范围。我们会着重讲解有效数据可视化的指导原则，并说明数据可视化如何独立于任何特定工具或编程语言。在此过程中，还会涉及用 Python 为数据创建可视化图形的一些具体做法（散点图、条形图、折线图和直方图）。
 
-## Chapter learning objectives
+## 本章学习目标
 
-By the end of the chapter, readers will be able to do the following:
+学完本章后，你将能够：
 
-- Describe when to use the following kinds of visualizations to answer specific questions using a data set:
-    - scatter plots
-    - line plots
-    - bar plots
-    - histogram plots
-- Given a data set and a question, select from the above plot types and use Python to create a visualization that best answers the question.
-- Evaluate the effectiveness of a visualization and suggest improvements to better answer a given question.
-- Referring to the visualization, communicate the conclusions in non-technical terms.
-- Identify rules of thumb for creating effective visualizations.
-- Use the `altair` library in Python to create and refine the above visualizations using:
-    - graphical marks: `mark_point`, `mark_line`, `mark_circle`, `mark_bar`, `mark_rule`
-    - encoding channels: `x`, `y`, `color`, `shape`
-    - labeling: `title`
-    - transformations: `scale`
-    - subplots: `facet`
-- Define the two key aspects of `altair` charts:
-    - graphical marks
-    - encoding channels
-- Describe the difference in raster and vector output formats.
-- Use `chart.save()` to save visualizations in `.png` and `.svg` format.
+- 说明借助数据集回答具体问题时，何时该使用以下几种可视化：
+    - 散点图
+    - 折线图
+    - 条形图
+    - 直方图
+- 给定一个数据集和一个问题，从上述图形类型中挑选合适的一种，用 Python 创建最能回答该问题的可视化。
+- 评价一张可视化图形的效果，并提出改进建议，以便更好地回答给定的问题。
+- 结合可视化图形，用非技术的语言表达得出的结论。
+- 识别创建有效可视化的经验法则。
+- 使用 Python 中的 `altair` 库，借助以下要素创建并改进上述可视化：
+    - 图形标记（graphical mark）：`mark_point`、`mark_line`、`mark_circle`、`mark_bar`、`mark_rule`
+    - 编码通道（encoding channel）：`x`、`y`、`color`、`shape`
+    - 标签：`title`
+    - 变换：`scale`
+    - 子图：`facet`
+- 说明 `altair` 图形的两个关键要素：
+    - 图形标记
+    - 编码通道
+- 说明栅格图（raster graphics）与矢量图两种输出格式的区别。
+- 使用 `chart.save()` 把可视化图形保存为 `.png` 和 `.svg` 格式。
 
-## Choosing the visualization
+## 选择可视化图形
 
-<font size="5">*Ask a question, and answer it*</font>
+<font size="5">*提出问题，并回答它*</font>
 
-```{index} question; visualization
+```{index} 问题; 可视化
 ```
 
-The purpose of a visualization is to answer a question
-about a data set of interest. So naturally, the
-first thing to do **before** creating a visualization is to formulate the
-question about the data you are trying to answer.  A good visualization will
-clearly answer your question without distraction; a *great* visualization will
-suggest even what the question was itself without additional explanation.
-Imagine your visualization as part of a poster presentation for a project; even
-if you aren't standing at the poster explaining things, an effective
-visualization will convey your message to the audience.
+可视化的目的在于回答关于某个数据集的问题。因此，在创建可视化图形**之前**，首先要做的就是把你想要回答的、关于数据的问题表述清楚。好的可视化能不受干扰地清楚回答你的问题；*出色的*可视化甚至不需要额外解释，就能让人看出问题本身是什么。你可以把自己的可视化想象成项目海报展示的一部分：即使你没有站在海报前讲解，有效的可视化也能把你的信息传达给观众。
 
-Recall the different data analysis questions
-from {numref}`Chapter %s <intro>`.
-With the visualizations we will cover in this chapter,
-we will be able to answer *only descriptive and exploratory* questions.
-Be careful to not answer any *predictive, inferential, causal*
-*or mechanistic* questions with the visualizations presented here,
-as we have not learned the tools necessary to do that properly just yet.
+回想一下{numref}`第 %s 章 <intro>`中介绍的各种数据分析问题。用本章将要介绍的可视化方法，我们能够回答的*只有描述性和探索性*问题。请注意，不要用这里介绍的可视化去回答任何*预测性、推断性、因果性*或*机理性*问题，因为要恰当地回答这些问题所需的工具，我们还没有学过。
 
-As with most coding tasks, it is totally fine (and quite common) to make
-mistakes and iterate a few times before you find the right visualization for
-your data and question. There are many different kinds of plotting
-graphics available to use (see Chapter 5 of *Fundamentals of Data Visualization* {cite:p}`wilkeviz` for a directory).
-The types of plots that we introduce in this book are shown in {numref}`plot_sketches`;
-which one you should select depends on your data
-and the question you want to answer.
-In general, the guiding principles of when to use each type of plot
-are as follows:
+和大多数编程任务一样，在找到适合自己数据和问题的可视化之前，出错并迭代几次完全没问题（而且相当常见）。可用的绘图图形种类很多（目录可参见《Fundamentals of Data Visualization》的第 5 章 {cite:p}`wilkeviz`）。本书要介绍的图形类型见{numref}`plot_sketches`；你应该选择哪一种，取决于你的数据和你想回答的问题。一般来说，何时该用哪类图形的指导原则如下：
 
-```{index} visualization; line, visualization; histogram, visualization; scatter, visualization; bar, distribution
+```{index} 可视化; 折线图, 可视化; 直方图, 可视化; 散点图, 可视化; 条形图, 分布
 ```
 
-- **scatter plots** visualize the relationship between two quantitative variables
-- **line plots** visualize trends with respect to an independent, ordered quantity (e.g., time)
-- **bar plots** visualize comparisons of amounts
-- **histograms** visualize the distribution of one quantitative variable (i.e., all its possible values and how often they occur)
+- **散点图**用来展示两个定量变量之间的关系
+- **折线图**用来展示相对于某个独立且有序的量（例如时间）的趋势
+- **条形图**用来展示数量之间的比较
+- **直方图**用来展示某个定量变量的分布（也就是它所有可能的取值，以及每个取值出现的频率）
 
 ```{figure} img/viz/plot-sketches-1.png
 ---
 height: 400px
 name: plot_sketches
 ---
-Examples of scatter, line and bar plots, as well as histograms.
+散点图、折线图和条形图以及直方图的示例。
 ```
 
 
-All types of visualization have their (mis)uses, but three kinds are usually
-hard to understand or are easily replaced with an oft-better alternative.  In
-particular, you should avoid **pie charts**; it is generally better to use
-bars, as it is easier to compare bar heights than pie slice sizes.  You should
-also not use **3-D visualizations**, as they are typically hard to understand
-when converted to a static 2-D image format. Finally, do not use tables to make
-numerical comparisons; humans are much better at quickly processing visual
-information than text and math. Bar plots are again typically a better
-alternative.
+所有类型的可视化都有各自的用法（以及误用），但有三类通常难以理解，或者很容易被更好的做法取代。特别要避免使用**饼图**：一般来说用条形更好，因为比较条形的高度比比较饼图扇区的大小更容易。也不要使用**三维可视化**，因为把它们转换成静态的二维图像格式后，通常很难理解。最后，不要用表格做数值比较；人快速处理视觉信息的能力远胜于处理文字和数学。条形图通常又是更好的选择。
 
 +++
 
-## Refining the visualization
+## 改进可视化图形
 
-<font size="5">*Convey the message, minimize noise*</font>
+<font size="5">*传达信息，减少噪声*</font>
 
-Just being able to make a visualization in Python with `altair` (or any other tool
-for that matter) doesn't mean that it effectively communicates your message to
-others. Once you have selected a broad type of visualization to use, you will
-have to refine it to suit your particular need.  Some rules of thumb for doing
-this are listed below. They generally fall into two classes: you want to
-*make your visualization convey your message*, and you want to *reduce visual noise*
-as much as possible. Humans have limited cognitive ability to process
-information; both of these types of refinement aim to reduce the mental load on
-your audience when viewing your visualization, making it easier for them to
-understand and remember your message quickly.
+仅仅能用 Python 和 `altair`（或任何其他工具）做出一张可视化图形，并不意味着它就能有效地把你的信息传达给别人。选定大致的可视化类型之后，你还得加以改进，让它符合自己的具体需要。下面列出了一些可用的经验法则。这些法则大致分为两类：你要*让可视化图形传达你的信息*，并且要*尽可能减少视觉噪声*。人处理信息的认知能力有限；这两类改进都是为了减轻观众观看可视化图形时的心理负担，让他们更容易快速理解并记住你的信息。
 
-**Convey the message**
+**传达信息**
 
-- Make sure the visualization answers the question you have asked most simply and plainly as possible.
-- Use legends and labels so that your visualization is understandable without reading the surrounding text.
-- Ensure the text, symbols, lines, etc., on your visualization are big enough to be easily read.
-- Ensure the data are clearly visible; don't hide the shape/distribution of the data behind other objects (e.g.,  a bar).
-- Make sure to use color schemes that are understandable by those with
-  colorblindness (a surprisingly large fraction of the overall
-  population&mdash;from about 1% to 10%, depending on sex and ancestry {cite:p}`deebblind`).
-  For example, [Color Schemes](https://altair-viz.github.io/user_guide/customization.html#customizing-colors)
-  provides the ability to pick such color schemes, and you can check
-  your visualizations after you have created them by uploading to online tools
-  such as a [color blindness simulator](https://www.color-blindness.com/coblis-color-blindness-simulator/).
-- Redundancy can be helpful; sometimes conveying the same message in multiple ways reinforces it for the audience.
+- 确保可视化图形尽可能简单、直白地回答问题。
+- 使用图例和标签，让别人不看周围的文字也能看懂你的可视化图形。
+- 确保可视化图形上的文字、符号、线条等都足够大，容易看清。
+- 确保数据清晰可见；不要把数据的形状或分布藏在其他对象（例如条形）后面。
+- 确保使用色盲者也能看懂的配色方案（这部分人在总人口中的比例大得惊人——约 1% 到 10%，具体取决于性别和血统 {cite:p}`deebblind`）。
+  例如，[配色方案](https://altair-viz.github.io/user_guide/customization.html#customizing-colors)功能让你可以选择这类配色方案；图形画好之后，你还可以上传到[色盲模拟器](https://www.color-blindness.com/coblis-color-blindness-simulator/)之类的在线工具进行检查。
+- 冗余有时也有帮助：用多种方式传达同一条信息，能加深观众的印象。
 
-**Minimize noise**
+**减少噪声**
 
-- Use colors sparingly. Too many different colors can be distracting, create false patterns, and detract from the message.
-- Be wary of overplotting. Overplotting is when marks that represent the data
-  overlap, and is problematic as it prevents you from seeing how many data
-  points are represented in areas of the visualization where this occurs. If your
-  plot has too many dots or lines and starts to look like a mess, you need to do
-  something different.
-- Only make the plot area (where the dots, lines, bars are) as big as needed. Simple plots can be made small.
-- Don't adjust the axes to zoom in on small differences. If the difference is small, show that it's small!
+- 少用颜色。颜色太多会分散注意力、制造出并不存在的模式，还会削弱信息的传达。
+- 警惕标记重叠（overplotting）。标记重叠指的是表示数据的标记互相交叠，它的问题在于：在发生重叠的区域，你无法看出这里究竟表示了多少个数据点。如果图中的点或线太多，已经开始显得杂乱，就得换一种做法。
+- 绘图区域（点、线和条形所在的区域）只做到需要的大小即可。简单的图形可以画得小一些。
+- 不要调整坐标轴去放大微小的差异。差异小，就把它显示为小！
 
 +++
 
-## Creating visualizations with `altair`
+## 用 `altair` 创建可视化图形
 
-<font size="5">*Build the visualization iteratively*</font>
+<font size="5">*迭代构建可视化图形*</font>
 
 ```{index} altair
 ```
 
-This section will cover examples of how to choose and refine a visualization given a data set and a question that you want to answer,
-and then how to create the visualization in Python using `altair`.  To use the `altair` package, we need to first import it. We will also import `pandas` to use for reading in the data.
+本节会给出一些示例，说明在给定数据集和待回答的问题时，如何选择和改进可视化图形，以及随后如何用 Python 和 `altair` 把它创建出来。要使用 `altair` 包，先得导入它。我们还会导入 `pandas`，用来读入数据。
 
 ```{code-cell} ipython3
 import pandas as pd
@@ -178,35 +124,20 @@ import altair as alt
 ```
 
 ```{note}
-In this chapter, we will provide example visualizations using relatively small
-data sets, so we are fine using the default settings in `altair`. However,
-`altair` will raise an error if you try to plot with a data frame that has more
-than 5,000 rows. The simplest way to plot larger data sets is to enable the
-`vegafusion` data transformer right after you import the `altair` package:
-`alt.data_transformers.enable("vegafusion")`. This will allow you to plot up to
-100,000 graphical objects (e.g., a scatter plot with 100,000 points). To
-visualize *even larger* data sets, see [the `altair` documentation](https://altair-viz.github.io/user_guide/large_datasets).
+本章的示例可视化都使用相对较小的数据集，所以用 `altair` 的默认设置就足够了。不过，如果你想用行数超过 5,000 的数据框绘图，`altair` 会报错。要绘制更大的数据集，最简单的做法是在导入 `altair` 包之后立刻启用 `vegafusion` 数据转换器：`alt.data_transformers.enable("vegafusion")`。这样最多可以绘制 100,000 个图形对象（例如含 100,000 个点的散点图）。要可视化*更大*的数据集，请参阅 [altair 文档](https://altair-viz.github.io/user_guide/large_datasets)。
 ```
 
-### Scatter plots and line plots: the Mauna Loa CO$_{\text{2}}$ data set
+### 散点图与折线图：冒纳罗亚 CO$_{\text{2}}$ 数据集
 
-```{index} Mauna Loa
+```{index} 冒纳罗亚
 ```
 
-The [Mauna Loa CO$_{\text{2}}$ data set](https://www.esrl.noaa.gov/gmd/ccgg/trends/data.html),
-curated by Dr. Pieter Tans, NOAA/GML
-and Dr. Ralph Keeling, Scripps Institution of Oceanography,
-records the atmospheric concentration of carbon dioxide
-(CO$_{\text{2}}$, in parts per million)
-at the Mauna Loa research station in Hawaii
-from 1959 onward {cite:p}`maunadata`.
-For this book, we are going to focus on the years 1980-2020.
+[冒纳罗亚 CO$_{\text{2}}$ 数据集](https://www.esrl.noaa.gov/gmd/ccgg/trends/data.html)由 NOAA/GML 的 Pieter Tans 博士和斯克里普斯海洋研究所的 Ralph Keeling 博士整理，记录了 1959 年以来夏威夷冒纳罗亚研究站大气中二氧化碳（CO$_{\text{2}}$，单位为百万分率）的浓度 {cite:p}`maunadata`。本书将重点关注 1980—2020 年。
 
-```{index} question; visualization
+```{index} 问题; 可视化
 ```
 
-**Question:** Does the concentration of atmospheric CO$_{\text{2}}$ change over time,
-and are there any interesting patterns to note?
+**问题：**大气中 CO$_{\text{2}}$ 的浓度会随时间变化吗？有没有值得注意的有趣模式？
 
 ```{code-cell} ipython3
 :tags: ["remove-cell"]
@@ -217,7 +148,7 @@ mauna_loa = mauna_loa[["date_measured", "ppm"]].query('ppm>0 and date_measured>"
 mauna_loa.to_csv("data/mauna_loa_data.csv", index=False)
 ```
 
-To get started, we will read and inspect the data:
+首先读入并查看数据：
 
 ```{code-cell} ipython3
 # mauna loa carbon dioxide data
@@ -233,71 +164,36 @@ co2_df
 co2_df.info()
 ```
 
-We see that there are two columns in the `co2_df` data frame; `date_measured` and `ppm`.
-The `date_measured` column holds the date the measurement was taken,
-and is of type `datetime64`.
-The `ppm` column holds the value of CO$_{\text{2}}$ in parts per million
-that was measured on each date, and is type `float64`; this is the usual
-type for decimal numbers.
+可以看到，`co2_df` 数据框中有两列：`date_measured` 和 `ppm`。`date_measured` 列保存测量的日期，类型是 `datetime64`。`ppm` 列保存每个日期测得的 CO$_{\text{2}}$ 浓度，单位为百万分率，类型是 `float64`，这是小数的常见类型。
 
-```{index} dates and times
+```{index} 日期与时间
 ```
 
 ```{note}
-`read_csv` was able to parse the `date_measured` column into the
-`datetime` vector type because it was entered
-in the international standard date format,
-called ISO 8601, which lists dates as `year-month-day` and we used `parse_dates=True`.
-`datetime` vectors are `double` vectors with special properties that allow
-them to handle dates correctly.
-For example, `datetime` type vectors allow functions like `altair`
-to treat them as numeric dates and not as character vectors,
-even though they contain non-numeric characters
-(e.g., in the `date_measured` column in the `co2_df` data frame).
-This means Python will not accidentally plot the dates in the wrong order
-(i.e., not alphanumerically as would happen if it was a character vector).
-More about dates and times can be viewed [here](https://wesmckinney.com/book/time-series.html).
+`read_csv` 之所以能把 `date_measured` 列解析成 `datetime` 向量类型，是因为该列采用的是国际标准日期格式，即 ISO 8601，这种格式把日期写成 `year-month-day`，并且我们使用了 `parse_dates=True`。`datetime` 向量是一种具有特殊性质的 `double` 向量，能够正确处理日期。例如，`datetime` 类型向量允许 `altair` 之类的函数把它们当作数值日期处理，而不是当作字符向量，尽管其中包含非数字字符（例如 `co2_df` 数据框中 `date_measured` 列的取值）。这意味着 Python 不会不小心把日期按错误的顺序绘制出来（也就是说，不会像字符向量那样按字母数字顺序排列）。关于日期与时间的更多内容可以看[这里](https://wesmckinney.com/book/time-series.html)。
 ```
 
-Since we are investigating a relationship between two variables
-(CO$_{\text{2}}$ concentration and date),
-a scatter plot is a good place to start.
-Scatter plots show the data as individual points with `x` (horizontal axis)
-and `y` (vertical axis) coordinates.
-Here, we will use the measurement date as the `x` coordinate
-and the CO$_{\text{2}}$ concentration as the `y` coordinate.
-We create a chart with the `alt.Chart()` function.
-There are a few basic aspects of a plot that we need to specify:
+我们要研究的是两个变量（CO$_{\text{2}}$ 浓度和日期）之间的关系，所以从散点图入手比较合适。散点图把数据表示为一个个单独的点，每个点有 `x`（水平轴）和 `y`（垂直轴）坐标。这里我们用测量日期作为 `x` 坐标，用 CO$_{\text{2}}$ 浓度作为 `y` 坐标。图形用 `alt.Chart()` 函数创建。创建图形时有几个基本方面需要指定：
 
-```{index} altair; graphical mark, altair; encoding channel, altair; mark_point
+```{index} altair; 图形标记, altair; 编码通道, altair; mark_point
 ```
 
-- The name of the **data frame** to visualize.
-    - Here, we specify the `co2_df` data frame as an argument to `alt.Chart`
-- The **graphical mark**, which specifies how the mapped data should be displayed.
-    - To create a graphical mark, we use `Chart.mark_*` methods (see the
-      [altair reference](https://altair-viz.github.io/user_guide/marks.html)
-      for a list of graphical mark).
-    - Here, we use the `mark_point` function to visualize our data as a scatter plot.
-- The **encoding channels**, which tells `altair` how the columns in the data frame map to visual properties in the chart.
-    - To create an encoding, we use the `encode` function.
-    - The `encode` method builds a key-value mapping between encoding channels (such as x, y) to fields in the data set, accessed by field name (column names)
-    - Here, we set the `x` axis of the plot to the `date_measured` variable,
-      and on the `y` axis, we plot the `ppm` variable.
-    - For the y-axis, we also provided the method
-      `scale(zero=False)`. By default, `altair` chooses the y-limits
-      based on the data and will keep `y=0` in view.
-      This is often a helpful default, but here it makes it
-      difficult to see any trends in our data since the smallest value is >300
-      ppm. So by providing `scale(zero=False)`, we tell altair to
-      choose a reasonable lower bound based on our data, and that lower bound
-      doesn't have to be zero.
-    - To change the properties of the encoding channels,
-      we need to leverage the helper functions `alt.Y` and `alt.X`.
-      These helpers have the role of customizing things like order, titles, and scales.
-      Here, we use `alt.Y` to change the domain of the y-axis,
-      so that it starts from the lowest value in the `date_measured` column
-      rather than from zero.
+- 要可视化的**数据框**名称。
+    - 这里我们把 `co2_df` 数据框作为参数传给 `alt.Chart`
+- **图形标记**，它规定映射后的数据应该如何显示。
+    - 创建图形标记要用 `Chart.mark_*` 方法（图形标记的清单见
+      [altair 参考文档](https://altair-viz.github.io/user_guide/marks.html)）。
+    - 这里我们用 `mark_point` 函数把数据可视化为散点图。
+- **编码通道**，它告诉 `altair` 数据框中的各列如何映射到图形中的视觉属性。
+    - 创建编码要用 `encode` 函数。
+    - `encode` 方法在编码通道（例如 x、y）与数据集中的字段之间建立键值映射，字段通过字段名（列名）来访问
+    - 这里我们把图形的 `x` 轴设为 `date_measured` 变量，
+      在 `y` 轴上绘制 `ppm` 变量。
+    - 对 y 轴，我们还提供了方法
+      `scale(zero=False)`。默认情况下，`altair` 根据数据选择 y 轴的上下界，并让 `y=0` 留在视野内。这往往是很有用的默认行为，但在这里，由于最小值大于 300
+      ppm，我们就很难看出数据中的任何趋势。于是我们提供 `scale(zero=False)`，告诉 altair 根据数据选择一个合理的下界，这个下界不必是 0。
+    - 要改变编码通道的属性，
+      需要借助辅助函数 `alt.Y` 和 `alt.X`。这些辅助函数用来定制顺序、标题和标度等内容。这里我们用 `alt.Y` 改变 y 轴的取值范围，让它从 `date_measured` 列中的最小值开始，而不是从 0 开始。
 
 ```{code-cell} ipython3
 co2_scatter = alt.Chart(co2_df).mark_point().encode(
@@ -315,34 +211,17 @@ glue("co2_scatter", co2_scatter, display=False)
 :figwidth: 700px
 :name: co2_scatter
 
-Scatter plot of atmospheric concentration of CO$_{2}$ over time.
+大气中 CO$_{2}$ 的浓度随时间变化的散点图。
 :::
 
-The visualization in {numref}`co2_scatter`
-shows a clear upward trend
-in the atmospheric concentration of CO$_{\text{2}}$ over time.
-This plot answers the first part of our question in the affirmative,
-but that appears to be the only conclusion one can make
-from the scatter visualization.
+{numref}`co2_scatter` 中的可视化图形显示，大气中 CO$_{\text{2}}$ 的浓度随时间有明显上升的趋势。这张图对我们问题的前半部分给出了肯定回答，但这似乎是从散点图中能得出的唯一结论。
 
-One important thing to note about this data is that one of the variables
-we are exploring is time.
-Time is a special kind of quantitative variable
-because it forces additional structure on the data&mdash;the
-data points have a natural order.
-Specifically, each observation in the data set has a predecessor
-and a successor, and the order of the observations matters; changing their order
-alters their meaning.
-In situations like this, we typically use a line plot to visualize
-the data. Line plots connect the sequence of `x` and `y` coordinates
-of the observations with line segments, thereby emphasizing their order.
+关于这份数据，有一点很重要：我们要考察的变量之一是时间。时间是一类特殊的定量变量，因为它给数据加上了额外的结构——数据点有自然的先后顺序。具体来说，数据集中的每个观测都有前一个和后一个观测，观测的顺序很重要；改变顺序就会改变它们的含义。遇到这种情况，我们通常用折线图来可视化数据。折线图用线段把观测的 `x` 和 `y` 坐标依次连接起来，从而突出它们的顺序。
 
 ```{index} altair; mark_line
 ```
 
-We can create a line plot in `altair` using the `mark_line` function.
-Let's now try to visualize the `co2_df` as a line plot
-with just the default arguments:
+在 `altair` 中可以用 `mark_line` 函数创建折线图。现在我们试着只用默认参数把 `co2_df` 可视化为折线图：
 
 ```{code-cell} ipython3
 co2_line = alt.Chart(co2_df).mark_line().encode(
@@ -361,32 +240,18 @@ glue("co2_line", co2_line, display=False)
 :figwidth: 700px
 :name: co2_line
 
-Line plot of atmospheric concentration of CO$_{2}$ over time.
+大气中 CO$_{2}$ 的浓度随时间变化的折线图。
 :::
 
-```{index} overplotting
+```{index} 标记重叠
 ```
 
-Aha! {numref}`co2_line` shows us there *is* another interesting
-phenomenon in the data: in addition to increasing over time, the concentration
-seems to oscillate as well.  Given the visualization as it is now, it is still
-hard to tell how fast the oscillation is, but nevertheless, the line seems to
-be a better choice for answering the question than the scatter plot was. The
-comparison between these two visualizations also illustrates a common issue with
-scatter plots: often, the points are shown too close together or even on top of
-one another, muddling information that would otherwise be clear
-(*overplotting*).
+啊哈！{numref}`co2_line` 显示，数据中*确实*还有另一个有趣的现象：除了随时间上升，浓度似乎还在上下振荡。就目前的这张图而言，仍然很难判断振荡有多快，不过，回答我们的问题，折线似乎比散点图更合适。这两张图的对比还说明散点图有一个常见问题：点常常挨得太近，甚至互相叠在一起，把原本清楚的信息搅乱了（*标记重叠*）。
 
 ```{index} altair; alt.X, altair; alt.Y, altair; configure_axis
 ```
 
-Now that we have settled on the rough details of the visualization, it is time
-to refine things. This plot is fairly straightforward, and there is not much
-visual noise to remove. But there are a few things we must do to improve
-clarity, such as adding informative axis labels and making the font a more
-readable size.  To add axis labels, we use the `title` method along with `alt.X` and `alt.Y` functions. To
-change the font size, we use the `configure_axis` function with the
-`titleFontSize` argument.
+可视化的大致细节定下来之后，就该做改进了。这张图相当简单，没有多少视觉噪声需要去除。但为了提高清晰度，有几件事必须做，例如加上信息明确的坐标轴标签，并把字体调到更容易阅读的字号。添加坐标轴标签要用 `title` 方法配合 `alt.X` 和 `alt.Y` 函数。改变字号要用 `configure_axis` 函数，并指定 `titleFontSize` 参数。
 
 ```{code-cell} ipython3
 co2_line_labels = alt.Chart(co2_df).mark_line().encode(
@@ -404,34 +269,17 @@ glue("co2_line_labels", co2_line_labels, display=False)
 :figwidth: 700px
 :name: co2_line_labels
 
-Line plot of atmospheric concentration of CO$_{2}$ over time with clearer axes and labels.
+大气中 CO$_{2}$ 的浓度随时间变化的折线图，坐标轴和标签更清晰。
 :::
 
 ```{note}
-The `configure_*` functions in `altair` support additional customization,
-such as updating the size of the plot, changing
-the font color, and many other options that can be viewed
-[here](https://altair-viz.github.io/user_guide/configuration.html).
+`altair` 中的 `configure_*` 函数还支持更多定制，例如调整图形大小、改变字体颜色，以及许多其他选项，可参见[这里](https://altair-viz.github.io/user_guide/configuration.html)。
 ```
 
 ```{index} altair; alt.Scale
 ```
 
-Finally, let's see if we can better understand the oscillation by changing the
-visualization slightly. Note that it is totally fine to use a small number of
-visualizations to answer different aspects of the question you are trying to
-answer. We will accomplish this by using *scale*,
-another important feature of `altair` that easily transforms the different
-variables and set limits.
-In particular, here, we will use the `alt.Scale` function to zoom in
-on just a few years of data (say, 1990-1995). The
-`domain` argument takes a list of length two
-to specify the upper and lower bounds to limit the axis.
-We also added the argument `clip=True` to `mark_line`. This tells `altair`
-to "clip" (remove) the data outside of the specified domain that we set so that it doesn't
-extend past the plot area.
-Since we are using both the `scale` and `title` method on the encodings
-we stack them on separate lines to make the code easier to read.
+最后，我们看看能不能稍微改动一下图形，以便更好地理解这种振荡。请注意，用少量几张图来回答问题的不同侧面，完全没问题。为此我们要用到*标度*，这是 `altair` 的另一个重要特性，它可以方便地变换各个变量并设定界限。具体来说，这里我们用 `alt.Scale` 函数只放大几年的数据（比如 1990—1995 年）。`domain` 参数接收一个长度为 2 的列表，用来指定限制坐标轴的上下界。我们还给 `mark_line` 加上了 `clip=True` 参数。这告诉 `altair` 把设定取值范围之外的数据“裁剪”（删除）掉，使其不会延伸到绘图区域之外。由于我们在编码上同时使用了 `scale` 和 `title` 方法，所以把它们分行堆叠，让代码更易读。
 
 ```{code-cell} ipython3
 co2_line_scale = alt.Chart(co2_df).mark_line(clip=True).encode(
@@ -453,50 +301,26 @@ glue("co2_line_scale", co2_line_scale, display=False)
 :figwidth: 700px
 :name: co2_line_scale
 
-Line plot of atmospheric concentration of CO$_{2}$ from 1990 to 1995.
+1990 年至 1995 年大气中 CO$_{2}$ 的浓度随时间变化的折线图。
 :::
 
-Interesting! It seems that each year, the atmospheric CO$_{\text{2}}$ increases
-until it reaches its peak somewhere around April, decreases until around late
-September, and finally increases again until the end of the year. In Hawaii,
-there are two seasons: summer from May through October, and winter from
-November through April.  Therefore, the oscillating pattern in CO$_{\text{2}}$
-matches up fairly closely with the two seasons.
+有意思！看来每年大气 CO$_{\text{2}}$ 都会上升，在 4 月前后达到峰值，随后一直下降到 9 月下旬前后，然后又再次上升，直到年底。夏威夷有两个季节：5 月到 10 月是夏季，11 月到 4 月是冬季。因此，CO$_{\text{2}}$ 的振荡模式与这两个季节相当吻合。
 
-A useful analogy to constructing a data visualization is painting a picture.
-We start with a blank canvas,
-and the first thing we do is prepare the surface
-for our painting by adding primer.
-In our data visualization this is akin to calling `alt.Chart`
-and specifying the data set we will be using.
-Next, we sketch out the background of the painting.
-In our data visualization,
-this would be when we map data to the axes in the `encode` function.
-Then we add our key visual subjects to the painting.
-In our data visualization,
-this would be the graphical marks (e.g., `mark_point`, `mark_line`, etc.).
-And finally, we work on adding details and refinements to the painting.
-In our data visualization this would be when we fine tune axis labels,
-change the font, adjust the point size, and do other related things.
+有一个很贴切的类比：构建数据可视化就像画一幅画。我们先准备一张空白画布，第一件事是给画布打底，为作画做好准备。在数据可视化中，这相当于调用 `alt.Chart` 并指定要用的数据集。接下来，我们勾画画面的背景。在数据可视化中，这相当于用 `encode` 函数把数据映射到坐标轴上。然后，我们把要表现的主要对象画进图中。在数据可视化中，这就是图形标记（例如 `mark_point`、`mark_line` 等）。最后，我们给画面添加细节和修饰。在数据可视化中，这就是微调坐标轴标签、改变字体、调整点的大小，以及做其他类似的事情。
 
 
 
-### Scatter plots: the Old Faithful eruption time data set
+### 散点图：老忠实间歇泉的喷发时间数据集
 
-```{index} Old Faithful
+```{index} 老忠实间歇泉
 ```
 
-The `faithful` data set contains measurements
-of the waiting time between eruptions
-and the subsequent eruption duration (in minutes) of the Old Faithful
-geyser in Yellowstone National Park, Wyoming, United States.
-First, we will read the data and then answer the following question:
+`faithful` 数据集收录了美国怀俄明州黄石国家公园老忠实间歇泉的测量值，包括两次喷发之间的等待时间，以及紧接着那次喷发的持续时间（单位为分钟）。首先读入数据，然后回答下面的问题：
 
-```{index} question; visualization
+```{index} 问题; 可视化
 ```
 
-**Question:** Is there a relationship between the waiting time before an eruption
-and the duration of the eruption?
+**问题：**喷发前的等待时间与喷发的持续时间之间是否存在关系？
 
 ```{code-cell} ipython3
 faithful = pd.read_csv("data/faithful.csv")
@@ -504,16 +328,7 @@ faithful
 
 ```
 
-Here again, we investigate the relationship between two quantitative variables
-(waiting time and eruption time).
-But if you look at the output of the data frame,
-you'll notice that unlike time in the Mauna Loa CO$_{\text{2}}$ data set,
-neither of the variables here have a natural order to them.
-So a scatter plot is likely to be the most appropriate
-visualization. Let's create a scatter plot using the `altair`
-package with the `waiting` variable on the horizontal axis, the `eruptions`
-variable on the vertical axis, and `mark_point` as the graphical mark.
-The result is shown in {numref}`faithful_scatter`.
+这里我们再次研究两个定量变量（等待时间和喷发时间）之间的关系。但如果你看看数据框的输出，就会注意到：与冒纳罗亚 CO$_{\text{2}}$ 数据集中的时间不同，这里的两个变量都没有天然的先后顺序。所以散点图很可能是最合适的可视化方式。我们用 `altair` 包创建散点图，把 `waiting` 变量放在水平轴上，把 `eruptions` 变量放在垂直轴上，并用 `mark_point` 作为图形标记。结果见{numref}`faithful_scatter`。
 
 ```{code-cell} ipython3
 faithful_scatter = alt.Chart(faithful).mark_point().encode(
@@ -531,16 +346,10 @@ glue("faithful_scatter", faithful_scatter, display=False)
 :figwidth: 700px
 :name: faithful_scatter
 
-Scatter plot of waiting time and eruption time.
+等待时间与喷发时间的散点图。
 :::
 
-We can see in {numref}`faithful_scatter` that the data tend to fall
-into two groups: one with short waiting and eruption times, and one with long
-waiting and eruption times. Note that in this case, there is no overplotting:
-the points are generally nicely visually separated, and the pattern they form
-is clear.
-In order to refine the visualization, we need only to add axis
-labels and make the font more readable.
+从{numref}`faithful_scatter` 可以看出，数据倾向于分成两组：一组等待时间和喷发时间都短，另一组两者都长。请注意，这里没有出现标记重叠：各点总体上分得很清楚，形成的模式也很清晰。要改进这张图，我们只需加上坐标轴标签，并把字体调得更容易阅读。
 
 ```{code-cell} ipython3
 faithful_scatter_labels = alt.Chart(faithful).mark_point().encode(
@@ -558,11 +367,11 @@ glue("faithful_scatter_labels", faithful_scatter_labels, display=False)
 :figwidth: 700px
 :name: faithful_scatter_labels
 
-Scatter plot of waiting time and eruption time with clearer axes and labels.
+等待时间与喷发时间的散点图，坐标轴和标签更清晰。
 :::
 
 
-We can change the size of the point and color of the plot by specifying `mark_point(size=10, color="black")`.
+指定 `mark_point(size=10, color="black")` 可以改变点的大小和图形的颜色。
 
 ```{code-cell} ipython3
 faithful_scatter_labels_black = alt.Chart(faithful).mark_point(size=10, color="black").encode(
@@ -580,31 +389,25 @@ glue("faithful_scatter_labels_black", faithful_scatter_labels_black, display=Fal
 :figwidth: 700px
 :name: faithful_scatter_labels_black
 
-Scatter plot of waiting time and eruption time with black points.
+等待时间与喷发时间的散点图，点用黑色标出。
 :::
 
 +++
 
-### Axis transformation and colored scatter plots: the Canadian languages data set
+### 坐标轴变换与彩色散点图：加拿大语言数据集
 
-```{index} Canadian languages
+```{index} 加拿大语言
 ```
 
-Recall the `can_lang` data set {cite:p}`timbers2020canlang` from {numref}`Chapters %s <intro>`, {numref}`%s <reading>`, and {numref}`%s <wrangling>`.
-It contains counts of languages from the 2016
-Canadian census.
+回顾一下{numref}`第 %s 章 <intro>`、{numref}`第 %s 章 <reading>`与{numref}`第 %s 章 <wrangling>`中介绍过的
+`can_lang` 数据集 {cite:p}`timbers2020canlang`。该数据集记录了 2016 年加拿大人口普查中各种语言的使用人数。
 
-```{index} question; visualization
+```{index} 问题; 可视化
 ```
 
-**Question:** Is there a relationship between
-the percentage of people who speak a language as their mother tongue and
-the percentage for whom that is the primary language spoken at home?
-And is there a pattern in the strength of this relationship in the
-higher-level language categories (Official languages, Aboriginal languages, or
-non-official and non-Aboriginal languages)?
+**问题：**把某种语言作为母语的人所占的百分比，与把该语言作为在家主要使用的语言的人所占的百分比之间，是否存在关系？这种关系的强度在更高层级的语言类别——官方语言、原住民语言（Aboriginal languages），以及非官方、非原住民语言——中是否呈现出某种模式？
 
-To get started, we will read and inspect the data:
+我们先读取并查看这份数据：
 
 ```{code-cell} ipython3
 :tags: ["output_scroll"]
@@ -621,16 +424,7 @@ can_lang = pd.DataFrame(can_lang[(can_lang["most_at_home"] > 0) & (can_lang["mot
 ```{index} altair; mark_circle
 ```
 
-We will begin with a scatter plot of the `mother_tongue` and `most_at_home` columns from our data frame.
-As we have seen in the scatter plots in the previous section,
-the default behavior of `mark_point` is to draw the outline of each point.
-If we would like to fill them in,
-we can pass the argument `filled=True` to `mark_point`
-or use the shortcut `mark_circle`.
-Whether to fill points or not is mostly a matter of personal preferences,
-although hollow points can make it easier to see individual points
-when there are many overlapping points in a chart.
-The resulting plot is shown in {numref}`can_lang_plot`.
+我们先为数据框中的 `mother_tongue` 列与 `most_at_home` 列画一张散点图。正如上一节的散点图所示，`mark_point` 默认只画出每个点的轮廓。如果想把点填充起来，可以给 `mark_point` 传入参数 `filled=True`，也可以直接使用简写 `mark_circle`。点要不要填充，主要取决于个人偏好，不过图中有很多点互相重叠时，空心点让人更容易看清每一个点。由此得到的图形见{numref}`can_lang_plot`。
 
 ```{code-cell} ipython3
 can_lang_plot = alt.Chart(can_lang).mark_circle().encode(
@@ -648,21 +442,12 @@ glue("can_lang_plot", can_lang_plot, display=False)
 :figwidth: 700px
 :name: can_lang_plot
 
-Scatter plot of number of Canadians reporting a language as their mother tongue vs the primary language at home
+以某种语言为母语的加拿大人人数，与在家主要使用该语言的加拿大人人数之间的散点图。
 :::
 
-To make an initial improvement in the interpretability
-of {numref}`can_lang_plot`, we should
-replace the default axis
-names with more informative labels.
-To make the axes labels on the plots more readable,
-we can print long labels over multiple lines.
-To achieve this, we specify the title as a list of strings
-where each string in the list will correspond to a new line of text.
-We can also increase the font size to further
-improve readability.
+要初步提高{numref}`can_lang_plot` 的可解释性，我们应该把默认的坐标轴名称换成信息更明确的标签。要让图中的坐标轴标签更易读，可以把较长的标签分成多行显示。为此，我们把 title 写成一个字符串列表，列表中的每个字符串对应新的一行文字。我们还可以加大字号，进一步提高可读性。
 
-```{index} altair; multiline labels
+```{index} altair; 多行标签
 ```
 
 ```{code-cell} ipython3
@@ -684,7 +469,7 @@ glue("can_lang_plot_labels", can_lang_plot_labels, display=False)
 :figwidth: 700px
 :name: can_lang_plot_labels
 
-Scatter plot of number of Canadians reporting a language as their mother tongue vs the primary language at home with x and y labels.
+以某种语言为母语的加拿大人人数，与在家主要使用该语言的加拿大人人数之间的散点图，并带有 x 轴和 y 轴标签。
 :::
 
 
@@ -702,19 +487,7 @@ glue("numlang_speakers_min", "{0:,.0f}".format(numlang_speakers_min))
 glue("log_result", log_result)
 ```
 
-Okay! The axes and labels in {numref}`can_lang_plot_labels` are
-much more readable and interpretable now. However, the scatter points themselves could use
-some work; most of the 214 data points are bunched
-up in the lower left-hand side of the visualization. The data is clumped because
-many more people in Canada speak English or French (the two points in
-the upper right corner) than other languages.
-In particular, the most common mother tongue language
-has {glue:text}`numlang_speakers_max` speakers,
-while the least common has only {glue:text}`numlang_speakers_min`.
-That's a six-decimal-place difference
-in the magnitude of these two numbers!
-We can confirm that the two points in the upper right-hand corner correspond
-to Canada's two official languages by filtering the data:
+很好！{numref}`can_lang_plot_labels` 的坐标轴和标签现在清楚多了，也更容易解读。不过散点本身还有改进的空间：214 个数据点大多挤在图形的左下方。数据之所以挤成一团，是因为在加拿大讲英语或法语的人（也就是右上角的两个点）远多于讲其他语言的人。具体来说，最常用的母语有 {glue:text}`numlang_speakers_max` 名使用者，而最不常用的母语只有 {glue:text}`numlang_speakers_min`。这两个数字的大小相差六个数量级！我们可以筛选数据，确认右上角的这两个点对应的正是加拿大的两种官方语言：
 
 ```{index} DataFrame; loc[]
 ```
@@ -727,28 +500,12 @@ can_lang.loc[
 ]
 ```
 
-```{index} logarithmic scale, altair; logarithmic scaling
+```{index} 对数标度, altair; 对数标度
 ```
 
-Recall that our question about this data pertains to *all* languages;
-so to properly answer our question,
-we will need to adjust the scale of the axes so that we can clearly
-see all of the scatter points.
-In particular, we will improve the plot by adjusting the horizontal
-and vertical axes so that they are on a **logarithmic** (or **log**) scale.
-Log scaling is useful when your data take both *very large* and *very small* values,
-because it helps space out small values and squishes larger values together.
-For example, $\log_{10}(1) = 0$, $\log_{10}(10) = 1$, $\log_{10}(100) = 2$, and $\log_{10}(1000) = 3$;
-on the logarithmic scale,
-the values 1, 10, 100, and 1000 are all the same distance apart!
-So we see that applying this function is moving big values closer together
-and moving small values farther apart.
-Note that if your data can take the value 0, logarithmic scaling may not
-be appropriate (since `log10(0)` is `-inf` in Python). There are other ways to transform
-the data in such a case, but these are beyond the scope of the book.
+回忆一下，我们这个关于数据的问题涉及*全部*语言；所以要妥善回答这个问题，就需要调整坐标轴的标度，以便看清所有散点。具体来说，我们会把水平和垂直坐标轴改成**对数**（**log**）标度，以此改进这张图。数据中同时出现*非常大*和*非常小*的取值时，对数标度就很有用，因为它有助于把小的取值拉开、把大的取值压缩在一起。例如，$\log_{10}(1) = 0$、$\log_{10}(10) = 1$、$\log_{10}(100) = 2$，以及 $\log_{10}(1000) = 3$；在对数标度上，1、10、100 和 1000 这几个数值彼此间距完全相同！可见，做这种变换就是把大的取值拉近、把小的取值推远。请注意，如果你的数据可能取到 0，对数标度也许并不合适（因为在 Python 中 `log10(0)` 是 `-inf`）。这种情况下还有其他变换数据的方法，但已超出本书范围。
 
-We can accomplish logarithmic scaling in the `altair` visualization
-using the argument `type="log"` in the scale method.
+在 `altair` 可视化中，只要在 scale 方法里使用参数 `type="log"`，就能实现对数标度。
 
 ```{code-cell} ipython3
 can_lang_plot_log = alt.Chart(can_lang).mark_circle().encode(
@@ -770,21 +527,12 @@ glue("can_lang_plot_log", can_lang_plot_log, display=False)
 :figwidth: 700px
 :name: can_lang_plot_log
 
-Scatter plot of number of Canadians reporting a language as their mother tongue vs the primary language at home with log-adjusted x and y axes.
+以某种语言为母语的加拿大人人数，与在家主要使用该语言的加拿大人人数之间的散点图，其中 x 轴和 y 轴已按对数调整。
 :::
 
-You will notice two things in the chart above,
-changing the axis to log creates many axis ticks and gridlines,
-which makes the appearance of the chart rather noisy
-and it is hard to focus on the data.
-You can also see that the second last tick label is missing on the x-axis;
-Altair dropped it because there wasn't space to fit in all the large numbers next to each other.
-It is also hard to see if the label for 100,000,000 is for the last or second last tick.
-To fix these issue,
-we can limit the number of ticks and gridlines to only include the seven major ones,
-and change the number formatting to include a suffix which makes the labels shorter.
+在上面的图中你会注意到两件事。把坐标轴改成对数后会产生很多刻度和网格线，让图形看起来相当杂乱，很难把注意力集中到数据上。你还会看到，x 轴上倒数第二个刻度标签不见了；Altair 之所以省掉它，是因为那些大数字并排放不下。另外也不容易判断 100,000,000 这个标签属于最后一个刻度还是倒数第二个刻度。要解决这些问题，我们可以把刻度和网格线的数量限制为只保留主要的七条，并把数字格式改成带后缀的形式，让标签更短。
 
-```{index} altair; tick count, altair; tick formatting
+```{index} altair; 刻度数量, altair; 刻度格式
 ```
 
 ```{code-cell} ipython3
@@ -809,7 +557,7 @@ glue("can_lang_plot_log_revised", can_lang_plot_log_revised, display=False)
 :figwidth: 700px
 :name: can_lang_plot_log_revised
 
-Scatter plot of number of Canadians reporting a language as their mother tongue vs the primary language at home with log-adjusted x and y axes. Only the major gridlines are shown. The suffix "k" indicates 1,000 ("kilo"), while the suffix "M" indicates 1,000,000 ("million").
+以某种语言为母语的加拿大人人数，与在家主要使用该语言的加拿大人人数之间的散点图，其中 x 轴和 y 轴已按对数调整。图中只显示主要的网格线。后缀“k”表示 1,000（“kilo”），而后缀“M”表示 1,000,000（“million”）。
 :::
 
 
@@ -824,29 +572,13 @@ glue("result", "{:.2f}".format(result))
 
 ```
 
-Similar to some of the examples in {numref}`Chapter %s <wrangling>`,
-we can convert the counts to percentages to give them context
-and make them easier to understand.
-We can do this by dividing the number of people reporting a given language
-as their mother tongue or primary language at home
-by the number of people who live in Canada and multiplying by 100\%.
-For example,
-the percentage of people who reported that their mother tongue was English
-in the 2016 Canadian census
-was {glue:text}`english_mother_tongue` / {glue:text}`census_popn` $\times$
+与{numref}`第 %s 章 <wrangling>`中的一些例子类似，我们可以把计数换算成百分比，为这些数字提供参照，也让它们更容易理解。做法是：把以某种语言为母语、或以该语言作为在家主要使用的语言的人数，除以居住在加拿大的人口数，再乘以 100\%。例如，在 2016 年加拿大人口普查中报告自己的母语为英语的人所占百分比为
+{glue:text}`english_mother_tongue` / {glue:text}`census_popn` $\times$
 100\% = {glue:text}`result`\%
 
-Below we assign the percentages of people reporting a given
-language as their mother tongue and primary language at home
-to two new columns in the `can_lang` data frame. Since the new columns are appended to the
-end of the data table, we selected the new columns after the transformation so
-you can clearly see the mutated output from the table.
-Note that we formatted the number for the Canadian population
-using `_` so that it is easier to read;
-this does not affect how Python interprets the number
-and is just added for readability.
+下面我们把以某种语言为母语的人所占百分比，与以该语言作为在家主要使用的语言的人所占百分比，分别赋给 `can_lang` 数据框中的两个新列。由于新列是追加在数据表末尾的，我们在变换之后选取了这两列，这样你能清楚地看到表格变换后的输出。请注意，我们把加拿大人口数用 `_` 分隔书写，这样读起来更方便；这不会影响 Python 对这个数字的解释方式，仅仅是为了便于阅读。
 
-```{index} DataFrame; column assignment, DataFrame; []
+```{index} DataFrame; 列赋值, DataFrame; []
 ```
 
 ```{code-cell} ipython3
@@ -856,14 +588,7 @@ can_lang["most_at_home_percent"] = can_lang["most_at_home"]/canadian_population*
 can_lang[["mother_tongue_percent", "most_at_home_percent"]]
 ```
 
-Next, we will edit the visualization to use the percentages we just computed
-(and change our axis labels to reflect this change in
-units). {numref}`can_lang_plot_percent` displays
-the final result.
-Here all the tick labels fit by default so we are not changing the labels to include suffixes.
-Note that suffixes can also be harder to understand,
-so it is often advisable to avoid them (particularly for small quantities)
-unless you are communicating to a technical audience.
+接下来，我们修改可视化，改用刚算出的百分比（并相应调整坐标轴标签，以反映单位的变化）。最终结果见{numref}`can_lang_plot_percent`。这里的刻度标签默认都能放下，所以我们没有给标签加后缀。请注意，后缀有时也更难理解，因此除非你的交流对象是技术背景的人，一般建议避免使用后缀（数值很小时尤其如此）。
 
 ```{code-cell} ipython3
 can_lang_plot_percent = alt.Chart(can_lang).mark_circle().encode(
@@ -888,68 +613,35 @@ glue("can_lang_plot_percent", can_lang_plot_percent.properties(height=320, width
 :figwidth: 700px
 :name: can_lang_plot_percent
 
-Scatter plot of percentage of Canadians reporting a language as their mother tongue vs the primary language at home.
+以某种语言为母语的加拿大人所占百分比，与在家主要使用该语言的加拿大人所占百分比之间的散点图。
 :::
 
-{numref}`can_lang_plot_percent` is the appropriate
-visualization to use to answer the first question in this section, i.e.,
-whether there is a relationship between the percentage of people who speak
-a language as their mother tongue and the percentage for whom that
-is the primary language spoken at home.
-To fully answer the question, we need to use
- {numref}`can_lang_plot_percent`
-to assess a few key characteristics of the data:
+{numref}`can_lang_plot_percent` 正是回答本节第一个问题所要用的可视化，也就是：把某种语言作为母语的人所占百分比，与把该语言作为在家主要使用的语言的人所占百分比之间是否存在关系。要完整回答这个问题，我们需要借助{numref}`can_lang_plot_percent`
+来评估数据的几个关键特征：
 
-```{index} relationship; positive, relationship; negative, relationship; none
+```{index} 关系; 正, 关系; 负, 关系; 无
 ```
 
-- **Direction:** if the y variable tends to increase when the x variable increases, then y has a **positive** relationship with x. If
-  y tends to decrease when x increases, then y has a **negative** relationship with x. If y does not meaningfully increase or decrease
-  as x increases, then y has **little or no** relationship with x.
+- **方向：** x 变量增大时 y 变量往往也增大，那么 y 与 x 就是**正**相关关系（positive relationship）。x 增大时 y 往往减小，
+  那么 y 与 x 就是**负**相关关系。如果 x 增大时 y 没有明显的增大或减小，那么 y 与 x **几乎没有**相关关系。
 
-```{index} relationship; strong, relationship; weak
+```{index} 关系; 强, 关系; 弱
 ```
 
-- **Strength:** if the y variable *reliably* increases, decreases, or stays flat as x increases,
-  then the relationship is **strong**. Otherwise, the relationship is **weak**. Intuitively,
-  the relationship is strong when the scatter points are close together and look more like a "line" or "curve" than a "cloud."
+- **强度：** x 增大时 y 变量*稳定地*增大、减小或保持不变，
+  这种关系就是**强**相关关系；否则就是**弱**相关关系。直观地说，散点靠得比较近、整体看起来更像一条“线”或“曲线”而不是一团“云”时，这种关系就强。
 
-```{index} relationship; linear, relationship; nonlinear
+```{index} 关系; 线性, 关系; 非线性
 ```
 
-- **Shape:** if you can draw a straight line roughly through the data points, the relationship is **linear**. Otherwise, it is **nonlinear**.
+- **形状：**如果能大致沿着这些数据点画出一条直线，这种关系就是**线性**关系；否则就是**非线性**关系。
 
-In {numref}`can_lang_plot_percent`, we see that
-as the percentage of people who have a language as their mother tongue increases,
-so does the percentage of people who speak that language at home.
-Therefore, there is a **positive** relationship between these two variables.
-Furthermore, because the points in {numref}`can_lang_plot_percent`
-are fairly close together, and the points look more like a "line" than a "cloud",
-we can say that this is a **strong** relationship.
-And finally, because drawing a straight line through these points in
-{numref}`can_lang_plot_percent`
-would fit the pattern we observe quite well, we say that the relationship is **linear**.
+在{numref}`can_lang_plot_percent` 中可以看到，把某种语言作为母语的人所占百分比越高，在家中讲这种语言的人所占百分比也越高。因此，这两个变量之间是**正**相关关系。此外，因为{numref}`can_lang_plot_percent` 中的点相当集中，整体更像一条“线”而不是一团“云”，所以可以说这是一种**强**相关关系。最后，因为在{numref}`can_lang_plot_percent`
+中穿过这些点画一条直线能相当好地贴合我们观察到的模式，所以我们说这种关系是**线性**的。
 
-Onto the second part of our exploratory data analysis question!
-Recall that we are interested in knowing whether the strength
-of the relationship we uncovered
-in {numref}`can_lang_plot_percent` depends
-on the higher-level language category (Official languages, Aboriginal languages,
-and non-official, non-Aboriginal languages).
-One common way to explore this
-is to color the data points on the scatter plot we have already created by
-group. For example, given that we have the higher-level language category for
-each language recorded in the 2016 Canadian census, we can color the points in
-our previous
-scatter plot to represent each language's higher-level language category.
+接下来看探索性数据分析问题的第二部分！回忆一下，我们想知道在{numref}`can_lang_plot_percent` 中发现的关系的强度，是否取决于更高层级的语言类别（官方语言、原住民语言，以及非官方、非原住民语言）。一种常见的探索方法，是给已经画好的散点图上的数据点按组着色。例如，既然 2016 年加拿大人口普查中记录的每种语言都有对应的更高层级语言类别，我们就可以给之前那张散点图上的点着色，以表示每种语言所属的更高层级语言类别。
 
-Here we want to distinguish the values according to the `category` group with
-which they belong.  We can add the argument `color` to the `encode` method, specifying
-that the `category` column should color the points. Adding this argument will
-color the points according to their group and add a legend at the side of the
-plot.
-Since the labels of the language category as descriptive of their own,
-we can remove the title of the legend to reduce visual clutter without reducing the effectiveness of the chart.
+这里我们要按取值所属的 `category` 组把它们区分开。我们可以在 `encode` 方法中加上 `color` 参数，指定用 `category` 列为点着色。加上这个参数后，点会按所属组着色，图的一侧也会出现图例。语言类别的标签本身已经说明了含义，所以我们可以删掉图例标题，这样既能减少视觉杂乱，又不会削弱图表的表达效果。
 
 ```{code-cell} ipython3
 can_lang_plot_category=alt.Chart(can_lang).mark_circle().encode(
@@ -976,16 +668,11 @@ glue("can_lang_plot_category", can_lang_plot_category.properties(height=320, wid
 :figwidth: 700px
 :name: can_lang_plot_category
 
-Scatter plot of percentage of Canadians reporting a language as their mother tongue vs the primary language at home colored by language category.
+以某种语言为母语的加拿大人所占百分比，与在家主要使用该语言的加拿大人所占百分比之间的散点图，按语言类别着色。
 :::
 
 
-Another thing we can adjust is the location of the legend.
-This is a matter of preference and not critical for the visualization.
-We move the legend title using the `alt.Legend` method
-and specify that we want it on the top of the chart.
-This automatically changes the legend items to be laid out horizontally instead of vertically,
-but we could also keep the vertical layout by specifying `direction="vertical"` inside `alt.Legend`.
+另一个可以调整的地方是图例的位置。这属于个人偏好，对可视化并不关键。我们用 `alt.Legend` 方法移动图例标题，并指定把它放在图形顶部。这样图例项会自动改成水平排列，而不是垂直排列，不过也可以在 `alt.Legend` 中指定 `direction="vertical"`，保留垂直排列。
 
 ```{index} altair; alt.Legend
 ```
@@ -1016,33 +703,15 @@ glue("can_lang_plot_legend", can_lang_plot_legend.properties(height=320, width=4
 :figwidth: 700px
 :name: can_lang_plot_legend
 
-Scatter plot of percentage of Canadians reporting a language as their mother tongue vs the primary language at home colored by language category with the legend edited.
+以某种语言为母语的加拿大人所占百分比，与在家主要使用该语言的加拿大人所占百分比之间的散点图，按语言类别着色，并调整了图例。
 :::
 
-```{index} color palette, color blindness simulator
+```{index} 配色方案, 色盲模拟器
 ```
 
-In {numref}`can_lang_plot_legend`, the points are colored with
-the default `altair` color scheme, which is called `"tableau10"`. This is an appropriate choice for most situations and is also easy to read for people with reduced color vision.
-In general, the color schemes that are used by default in Altair are adapted to the type of data that is displayed and selected to be easy to interpret both for people with good and reduced color vision.
-If you are unsure about a certain color combination, you can use
-this [color blindness simulator](https://www.color-blindness.com/coblis-color-blindness-simulator/) to check
-if your visualizations are color-blind friendly.
+在{numref}`can_lang_plot_legend` 中，点使用的是 `altair` 默认的配色方案 `"tableau10"`。这在多数情况下都是合适的选择，色觉减弱的人也容易分辨。一般来说，Altair 默认使用的配色方案会与所展示数据的类型相匹配，挑选时兼顾色觉正常和色觉减弱的人，让两者都容易解读。如果你对某个颜色搭配没有把握，可以使用这个[色盲模拟器](https://www.color-blindness.com/coblis-color-blindness-simulator/)检查你的可视化对色盲是否友好。
 
-All the available color schemes and information on how to create your own can be viewed [in the Altair documentation](https://altair-viz.github.io/user_guide/customization.html#customizing-colors).
-To change the color scheme of our chart,
-we can add the `scheme` argument in the `scale` of the `color` encoding.
-Below we pick the `"dark2"` theme, with the result shown
-in {numref}`can_lang_plot_theme`.
-We also set the `shape` aesthetic mapping to the `category` variable as well;
-this makes the scatter point shapes different for each language category. This kind of
-visual redundancy&mdash;i.e., conveying the same information with both scatter point color and shape&mdash;can
-further improve the clarity and accessibility of your visualization,
-but can add visual noise if there are many different shapes and colors,
-so it should be used with care.
-Note that we are switching back to the use of `mark_point` here
-since `mark_circle` does not support the `shape` encoding
-and will always show up as a filled circle.
+全部可用的配色方案，以及如何创建自己的配色方案，都可以在 [Altair 文档](https://altair-viz.github.io/user_guide/customization.html#customizing-colors)中查看。要更换图表的配色方案，我们可以在 `color` 编码的 `scale` 中加上 `scheme` 参数。下面我们选择 `"dark2"` 主题，结果见{numref}`can_lang_plot_theme`。我们还把 `shape` 图形属性映射（aesthetic mapping）设到 `category` 变量上；这样每个语言类别的散点形状都不一样。这类视觉冗余（visual redundancy）——也就是用散点的颜色和形状同时传达同一信息——能进一步提高可视化的清晰度和可及性（accessibility），但如果形状和颜色种类太多，也会增加视觉噪声，所以要谨慎使用。请注意，这里我们改回使用 `mark_point`，因为 `mark_circle` 不支持 `shape` 编码，画出来的点永远是实心圆。
 
 ```{code-cell} ipython3
 can_lang_plot_theme = alt.Chart(can_lang).mark_point(filled=True).encode(
@@ -1072,19 +741,10 @@ glue("can_lang_plot_theme", can_lang_plot_theme.properties(height=320, width=420
 :figwidth: 700px
 :name: can_lang_plot_theme
 
-Scatter plot of percentage of Canadians reporting a language as their mother tongue vs the primary language at home colored by language category with custom colors and shapes.
+以某种语言为母语的加拿大人所占百分比，与在家主要使用该语言的加拿大人所占百分比之间的散点图，按语言类别着色，并使用自定义的颜色和形状。
 :::
 
-The chart above gives a good indication of how the different language categories differ,
-and this information is sufficient to answer our research question.
-But what if we want to know exactly which language correspond to which point in the chart?
-With a regular visualization library this would not be possible,
-as adding text labels for each individual language
-would add a lot of visual noise and make the chart difficult to interpret.
-However, since Altair is an interactive visualization library we can add information on demand
-via the `Tooltip` encoding channel,
-so that text labels for each point show up once we hover over it with the mouse pointer.
-Here we also add the exact values of the variables on the x and y-axis to the tooltip.
+上图已经很好地展示了不同语言类别之间的差异，有了这些信息，就足以回答我们的研究问题了。但如果我们想知道图中每个点究竟对应哪一种语言，又该怎么办呢？用普通的可视化库做不到这一点，因为给每一种语言都单独加上文字标签会带来大量视觉噪声，让图表难以解读。不过，altair 是交互式可视化库，我们可以通过 `Tooltip` 编码通道按需添加信息：只要把鼠标指针悬停在某个点上，该点的文字标签就会显示出来。这里我们还会把 x 轴和 y 轴变量的确切取值也加进提示框。
 
 ```{index} altair; alt.Tooltip
 ```
@@ -1121,47 +781,26 @@ else:
 :figwidth: 700px
 :name: can_lang_plot_tooltip
 
-Scatter plot of percentage of Canadians reporting a language as their mother tongue vs the primary language at home colored by language category with custom colors and mouse hover tooltip.
+以某种语言为母语的加拿大人所占百分比，与在家主要使用该语言的加拿大人所占百分比之间的散点图，按语言类别着色，并使用自定义的颜色和鼠标悬停提示框。
 :::
 
-From the visualization in {numref}`can_lang_plot_tooltip`,
-we can now clearly see that the vast majority of Canadians reported one of the official languages
-as their mother tongue and as the language they speak most often at home.
-What do we see when considering the second part of our exploratory question?
-Do we see a difference in the relationship
-between languages spoken as a mother tongue and as a primary language
-at home across the higher-level language categories?
-Based on {numref}`can_lang_plot_tooltip`, there does not
-appear to be much of a difference.
-For each higher-level language category,
-there appears to be a strong, positive, and linear relationship between
-the percentage of people who speak a language as their mother tongue
-and the percentage who speak it as their primary language at home.
-The relationship looks similar regardless of the category.
+从{numref}`can_lang_plot_tooltip` 这张图可以清楚地看到，绝大多数加拿大人申报的母语，以及他们在家中说得最多的语言，都是某一种官方语言。再看探索性问题的后半部分，我们能发现什么？在不同高层级的语言类别中，把某种语言作为母语与作为在家主要使用的语言，这两种情况之间的关系是否存在差异？从{numref}`can_lang_plot_tooltip` 来看，差异似乎不大。对每一个高层级的语言类别而言，把某种语言作为母语的人数占比，与把它作为在家主要使用的语言的人数占比之间，似乎都存在很强的正相关关系，而且这种关系呈线性。无论属于哪个类别，这种关系看起来都很相似。
 
-Does this mean that this relationship is positive for all languages in the
-world? And further, can we use this data visualization on its own to predict how many people
-have a given language as their mother tongue if we know how many people speak
-it as their primary language at home? The answer to both these questions is
-"no!" However, with exploratory data analysis, we can create new hypotheses,
-ideas, and questions (like the ones at the beginning of this paragraph).
-Answering those questions often involves doing more complex analyses, and sometimes
-even gathering additional data. We will see more of such complex analyses later on in
-this book.
+这是否意味着，世界上所有语言的这种关系都是正相关的？更进一步说，如果已经知道有多少人把某种语言作为在家主要使用的语言，我们能否只凭这张数据可视化图就预测出有多少人把它作为母语？这两个问题的答案都是“不能！”不过，借助探索性数据分析，我们可以提出新的假设、新的想法和新的问题（就像本段开头那样）。回答这些问题往往要做更复杂的分析，有时甚至还要收集更多数据。本书后面还会看到更多这样的复杂分析。
 
-### Bar plots: the island landmass data set
+### 条形图：岛屿陆块数据集
 
-```{index} Island landmasses
+```{index} 岛屿陆块
 ```
 
-The `islands.csv` data set contains a list of Earth's landmasses as well as their area (in thousands of square miles) {cite:p}`islandsdata`.
+`islands.csv` 数据集收录了地球上的各个陆块及其面积（单位为千平方英里）{cite:p}`islandsdata`。
 
-```{index} question; visualization
+```{index} 问题; 可视化
 ```
 
-**Question:** Are the continents (North / South America, Africa, Europe, Asia, Australia, Antarctica) Earth's seven largest landmasses? If so, what are the next few largest landmasses after those?
+**问题：**七大洲（北美洲、南美洲、非洲、欧洲、亚洲、澳大利亚和南极洲）是地球上最大的七个陆块吗？如果是，紧随其后的几个最大陆块又是哪些？
 
-To get started, we will read and inspect the data:
+首先，我们读入并查看数据：
 
 ```{code-cell} ipython3
 :tags: ["output_scroll"]
@@ -1169,23 +808,12 @@ islands_df = pd.read_csv("data/islands.csv")
 islands_df
 ```
 
-Here, we have a data frame of Earth's landmasses,
-and are trying to compare their sizes.
-The right type of visualization to answer this question is a bar plot.
-In a bar plot, the height of each bar represents the value of an *amount*
-(a size, count, proportion, percentage, etc).
-They are particularly useful for comparing counts or proportions across different
-groups of a categorical variable. Note, however, that bar plots should generally not be
-used to display mean or median values, as they hide important information about
-the variation of the data. Instead it's better to show the distribution of
-all the individual data points, e.g., using a histogram, which we will discuss further in {numref}`histogramsviz`.
+这里的数据框列出了地球上的各个陆块，我们要比较它们的大小。回答这个问题，合适的可视化方式是条形图。条形图中，每根条形的高度代表某个*数量*的取值（大小、计数、比例、百分比等）。比较分类变量各组的计数或比例时，条形图特别有用。不过要注意，条形图一般不宜用来展示均值或中位数，因为这样会掩盖数据变异的重要信息。更好的做法是展示所有单个数据点的分布，例如使用直方图，我们会在{numref}`histogramsviz`中进一步讨论。
 
 ```{index} altair; mark_bar
 ```
 
-We specify that we would like to use a bar plot
-via the `mark_bar` function in `altair`.
-The result is shown in {numref}`islands_bar`.
+我们通过 `altair` 中的 `mark_bar` 函数指定使用条形图。结果见{numref}`islands_bar`。
 
 ```{code-cell} ipython3
 islands_bar = alt.Chart(islands_df).mark_bar().encode(
@@ -1203,27 +831,13 @@ glue("islands_bar", islands_bar, display=False)
 :figwidth: 400px
 :name: islands_bar
 
-Bar plot of Earth's landmass sizes. The plot is too wide with the default settings.
+地球各陆块大小的条形图。使用默认设置时图形太宽。
 :::
 
-Alright, not bad! The plot in {numref}`islands_bar` is
-definitely the right kind of visualization, as we can clearly see and compare
-sizes of landmasses. The major issues are that the smaller landmasses' sizes
-are hard to distinguish, and the plot is so wide that we can't compare them all! But remember that the
-question we asked was only about the largest landmasses; let's make the plot a
-little bit clearer by keeping only the largest 12 landmasses. We do this using
-the `nlargest` function: the first argument is the number of rows we want and
-the second is the name of the column we want to use for comparing which is
-largest. Then to help make the landmass labels easier to read
-we'll swap the `x` and `y` variables,
-so that the labels are on the y-axis and we don't have to tilt our head to read them.
+好，还不错！{numref}`islands_bar` 中的图形肯定是对的可视化方式，我们能清楚地看到并比较各陆块的大小。主要问题在于，较小陆块的大小很难分辨，而且图形太宽，没法把它们放在一起比较！不过别忘了，我们问的问题只涉及最大的那些陆块；只保留最大的 12 个陆块，图形就能更清楚一些。我们用 `nlargest` 函数来做这件事：第一个参数是要保留的行数，第二个是用来比较大小的列名。为了让陆块名称更容易读，我们再交换 `x` 和 `y` 变量，把标签放到 y 轴上，这样就不用歪着头去读了。
 
 ```{note}
-Recall that in {numref}`Chapter %s <intro>`, we used `sort_values` followed by `head` to obtain
-the ten rows with the largest values of a variable. We could have instead used the `nlargest` function
-from `pandas` for this purpose. The `nsmallest` and `nlargest` functions achieve the same goal
-as `sort_values` followed by `head`, but are slightly more efficient because they are specialized for this purpose.
-In general, it is good to use more specialized functions when they are available!
+回想一下，在{numref}`第 %s 章 <intro>`中，我们用 `sort_values` 后接 `head` 取出了某个变量取值最大的十行。其实也可以改用 `pandas` 的 `nlargest` 函数。`nsmallest` 和 `nlargest` 函数与 `sort_values` 后接 `head` 的效果一样，但效率略高，因为它们是专门为此设计的。一般来说，只要有更专用的函数，就该优先使用！
 ```
 
 ```{index} DataFrame; nlargest, DataFrame; nsmallest
@@ -1247,41 +861,16 @@ glue("islands_bar_top", islands_bar_top, display=True)
 :figwidth: 700px
 :name: islands_bar_top
 
-Bar plot of size for Earth's largest 12 landmasses.
+地球最大的 12 个陆块各自大小的条形图。
 :::
 
 
-The plot in {numref}`islands_bar_top` is definitely clearer now,
-and allows us to answer our initial questions:
-"Are the seven continents Earth's largest landmasses?"
-and "Which are the next few largest landmasses?".
-However, we could still improve this visualization
-by coloring the bars based on whether they correspond to a continent, and
-by organizing the bars by landmass size rather than by alphabetical order.
-The data for coloring the bars is stored in the `landmass_type` column, so
-we set the `color` encoding to `landmass_type`.
-To organize the landmasses by their `size` variable,
-we will use the altair `sort` function
-in the y-encoding of the chart.
-Since the `size` variable is encoded in the x channel of the chart,
-we specify `sort("x")` on `alt.Y`.
-This plots the values on `y` axis
-in the ascending order of `x` axis values.
-This creates a chart where the largest bar is the closest to the axis line,
-which is generally the most visually appealing when sorting bars.
-If instead we wanted to sort the values on `y-axis` in descending order of `x-axis`,
-we could add a minus sign to reverse the order and specify `sort="-x"`.
+{numref}`islands_bar_top` 中的图形明显更清楚了，也能帮我们回答最初的问题：“七大洲是地球上最大的陆块吗？”以及“紧随其后的几个最大陆块是哪些？”不过，这张图还可以再改进：按各陆块是否属于大洲给条形着色，并按陆块大小而不是字母顺序排列条形。用于给条形着色的数据存放在 `landmass_type` 列中，所以我们把 `color` 编码设为 `landmass_type`。要按 `size` 变量排列陆块，我们会在图形的 y 编码通道中使用 altair 的 `sort` 函数。由于 `size` 变量编码在图形的 x 通道中，我们在 `alt.Y` 上指定 `sort("x")`。这样就会把 `y` 轴上的取值按 `x` 轴取值的升序绘制出来。于是得到的图形中，最长的条形最靠近坐标轴线，这通常是条形排序时视觉效果最好的做法。如果反过来想按 `x-axis` 的降序排列 `y-axis` 上的取值，可以加上一个负号反转顺序，写成 `sort="-x"`。
 
 ```{index} altair; sort
 ```
 
-To finalize this plot we will customize the axis and legend labels using the `title` method,
-and add a title to the chart by specifying the `title` argument of `alt.Chart`.
-Plot titles are not always required, especially when it would be redundant with an already-existing
-caption or surrounding context (e.g., in a slide presentation with annotations).
-But if you decide to include one, a good plot title should provide the take home message
-that you want readers to focus on, e.g., "Earth's seven largest landmasses are continents,"
-or a more general summary of the information displayed, e.g., "Earth's twelve largest landmasses."
+最后，我们用 `title` 方法定制坐标轴标签和图例标签，并通过指定 `alt.Chart` 的 `title` 参数给图形加上标题。图形标题并非总是必需的，尤其是当它与已有的图注或周围上下文重复时（例如在带注释的幻灯片里）。但如果你决定加上标题，好的图形标题应当给出你希望读者关注的核心信息，例如“地球上最大的七个陆块都是大洲”，或者对所展示信息做一个更概括的总结，例如“地球上最大的十二个陆块”。
 
 ```{code-cell} ipython3
 islands_plot_sorted = alt.Chart(
@@ -1303,77 +892,41 @@ glue("islands_plot_sorted", islands_plot_sorted, display=True)
 :figwidth: 700px
 :name: islands_plot_sorted
 
-Bar plot of size for Earth's largest 12 landmasses, colored by landmass type, with clearer axes and labels.
+地球最大的 12 个陆块各自大小的条形图，按陆块类型着色，坐标轴和标签更清晰。
 :::
 
 
-The plot in {numref}`islands_plot_sorted` is now an effective
-visualization for answering our original questions. Landmasses are organized by
-their size, and continents are colored differently than other landmasses,
-making it quite clear that all the seven largest landmasses are continents.
+{numref}`islands_plot_sorted` 中的图形现在可以有效地回答我们最初的问题了。陆块按大小排列，大洲和其他陆块的颜色不同，可以很清楚地看出，最大的七个陆块都是大洲。
 
 (histogramsviz)=
-### Histograms: the Michelson speed of light data set
+### 直方图：迈克尔逊光速数据集
 
-```{index} Michelson speed of light
+```{index} 迈克尔逊光速
 ```
 
-The `morley` data set
-contains measurements of the speed of light
-collected in experiments performed in 1879.
-Five experiments were performed,
-and in each experiment, 20 runs were performed&mdash;meaning that
-20 measurements of the speed of light were collected
-in each experiment {cite:p}`lightdata`.
-Because the speed of light is a very large number
-(the true value is 299,792.458 km/sec), the data is coded
-to be the measured speed of light minus 299,000.
-This coding allows us to focus on the variations in the measurements, which are generally
-much smaller than 299,000.
-If we used the full large speed measurements, the variations in the measurements
-would not be noticeable, making it difficult to study the differences between the experiments.
+`morley` 数据集收录了 1879 年实验中测得的光速测量值。当时做了五次实验，每次实验又做了 20 轮——也就是说，每次实验都收集了 20 个光速测量值 {cite:p}`lightdata`。因为光速是很大的数（真值为 299,792.458 千米/秒），数据被编码成测得的光速减去 299,000。这样编码便于我们关注测量值的波动，这些波动通常远小于 299,000。如果直接使用完整的大数值光速测量值，测量值之间的波动就看不出来，也就难以研究各次实验之间的差异。
 
-```{index} question; visualization
+```{index} 问题; 可视化
 ```
 
-**Question:** Given what we know now about the speed of
-light (299,792.458 kilometres per second), how accurate were each of the experiments?
+**问题：**已知我们现在对光速的了解（每秒 299,792.458 千米），各次实验的准确程度如何？
 
-First, we read in the data.
+首先读入数据。
 
 ```{code-cell} ipython3
 morley_df = pd.read_csv("data/morley.csv")
 morley_df
 ```
 
-```{index} distribution, altair; histogram, altair; count
+```{index} 分布, altair; histogram, altair; count
 ```
 
 ```{index} see: count; altair
 ```
 
-In this experimental data,
-Michelson was trying to measure just a single quantitative number
-(the speed of light).
-The data set contains many measurements of this single quantity.
-To tell how accurate the experiments were,
-we need to visualize the distribution of the measurements
-(i.e., all their possible values and how often each occurs).
-We can do this using a *histogram*.
-A histogram
-helps us visualize how a particular variable is distributed in a data set
-by grouping the values into bins,
-and then using vertical bars to show how many data points fell in each bin.
+在这份实验数据中，迈克尔逊要测量的只是一个定量数值（光速）。该数据集包含这个量的许多测量值。要判断各次实验的准确程度，就需要把测量值的分布可视化（也就是它们所有可能的取值，以及每个取值出现了多少次）。这可以用*直方图*来做。直方图把取值划分到各个箱中，再用竖条显示每个箱里落入了多少个数据点，从而帮助我们观察某个变量在数据集中的分布。
 
-To understand how to create a histogram in `altair`,
-let's start by creating a bar chart
-just like we did in the previous section.
-Note that this time,
-we are setting the `y` encoding to `"count()"`.
-There is no `"count()"` column-name in `morley_df`;
-we use `"count()"` to tell `altair`
-that we want to count the number of occurrences of each value in along the x-axis
-(which we encoded as the `Speed` column).
+要了解如何在 `altair` 中绘制直方图，我们先像上一节那样画一张条形图。注意这一次我们把 `y` 编码设为 `"count()"`。`morley_df` 里并没有名为 `"count()"` 的列；我们用 `"count()"` 告诉 `altair`，我们希望统计 x 轴上每个取值出现的次数（x 轴编码的是 `Speed` 列）。
 
 ```{code-cell} ipython3
 morley_bars = alt.Chart(morley_df).mark_bar().encode(
@@ -1391,20 +944,10 @@ glue("morley_bars", morley_bars, display=False)
 :figwidth: 700px
 :name: morley_bars
 
-A bar chart of Michelson's speed of light data.
+迈克尔逊光速数据的条形图。
 :::
 
-The bar chart above gives us an indication of
-which values are more common than others,
-but because the bars are so thin it's hard to get a sense for the
-overall distribution of the data.
-We don't really care about how many occurrences there are of each exact `Speed` value,
-but rather where most of the `Speed` values fall in general.
-To more effectively communicate this information
-we can group the x-axis into bins (or "buckets") using the `bin` method
-and then count how many `Speed` values fall within each bin.
-A bar chart that represent the count of values
-for a binned quantitative variable is called a histogram.
+上面的条形图能提示哪些取值比其他取值更常见，但条形太细，很难看出数据的整体分布。我们其实并不关心每个确切的 `Speed` 取值出现了多少次，而是关心大多数 `Speed` 取值大体落在什么位置。要更有效地传达这些信息，我们可以用 `bin` 方法把 x 轴划分成若干个箱，也就是“分组区间”，然后统计每个箱里落入多少个 `Speed` 取值。对分箱后的定量变量统计取值个数而画出的条形图，就叫做直方图。
 
 ```{code-cell} ipython3
 morley_hist = alt.Chart(morley_df).mark_bar().encode(
@@ -1422,53 +965,20 @@ glue("morley_hist", morley_hist, display=False)
 :figwidth: 700px
 :name: morley_hist
 
-Histogram of Michelson's speed of light data.
+迈克尔逊光速数据的直方图。
 :::
 
-#### Adding layers to an `altair` chart
+#### 为 `altair` 图形叠加图层
 
-```{index} altair; +, altair; mark_rule, altair; layers
+```{index} altair; +, altair; mark_rule, altair; 图层
 ```
 
-{numref}`morley_hist` is a great start.
-However,
-we cannot tell how accurate the measurements are using this visualization
-unless we can see the true value.
-In order to visualize the true speed of light,
-we will add a vertical line with the `mark_rule` function.
-To draw a vertical line with `mark_rule`,
-we need to specify where on the x-axis the line should be drawn.
-We can do this by providing `x=alt.datum(792.458)`,
-where the value `792.458` is the true speed of light minus 299,000
-and `alt.datum` tells altair that we have a single datum
-(number) that we would like plotted (rather than a column in the data frame).
-Similarly, a horizontal line can be plotted using the `y` axis encoding and
-the dataframe with one value, which would act as the be the y-intercept.
-Note that
-*vertical lines* are used to denote quantities on the *horizontal axis*,
-while *horizontal lines* are used to denote quantities on the *vertical axis*.
+{numref}`morley_hist` 是个很好的开始。不过，除非能看到真值，否则用这张图无法判断测量有多准确。为了把真实光速可视化，我们用 `mark_rule` 函数加上一条竖线。要用 `mark_rule` 画竖线，需要指定这条线画在 x 轴上的哪个位置。这可以通过 `x=alt.datum(792.458)` 来实现，其中 `792.458` 是真实光速减去 299,000 的结果，而 `alt.datum` 告诉 altair，我们要绘制的是一个单独的数据取值（数字），而不是数据框中的某一列。类似地，用 `y` 轴编码并传入只含单个取值的数据框，就能画出水平线，这个取值就是 y 轴截距。请注意，*竖线*用来标示*横轴*上的量，而*横线*用来标示*纵轴*上的量。
 
-To fine tune the appearance of this vertical line,
-we can change it from a solid to a dashed line with `strokeDash=[5]`,
-where `5` indicates the length of each dash. We also
-change the thickness of the line by specifying `size=2`.
-To add the dashed line on top of the histogram, we
-**add** the `mark_rule` chart to the `morley_hist`
-using the `+` operator.
-Adding features to a plot using the `+` operator is known as *layering* in `altair`.
-This is a powerful feature of `altair`; you
-can continue to iterate on a single chart, adding and refining
-one layer at a time. If you stored your chart as a variable
-using the assignment symbol (`=`), you can add to it using the `+` operator.
-Below we add a vertical line created using `mark_rule`
-to the `morley_hist` we created previously.
+要微调这条竖线的外观，可以用 `strokeDash=[5]` 把它从实线改成虚线，其中 `5` 表示每一段虚线的长度。我们还可以用 `size=2` 改变线的粗细。为了把虚线叠加到直方图上，我们用 `+` 运算符把 `mark_rule` 图形**添加**到 `morley_hist` 上。用 `+` 运算符给图形添加内容，在 `altair` 中叫做*图层叠加*。这是 `altair` 的强大特性：你可以不断迭代同一张图，一次叠加一个图层并逐步改进。如果你已经用赋值符号（`=`）把图形存成了变量，就可以用 `+` 运算符在它上面继续添加。下面我们把用 `mark_rule` 创建的竖线加到前面创建的 `morley_hist` 上。
 
 ```{note}
-Technically we could have left out the data argument
-when creating the rule chart
-since we're not using any values from the `morley_df` data frame,
-but we will need it later when we facet this layered chart,
-so we are including it here already.
+严格来说，创建这条竖线时本来可以省略 data 参数，因为我们并没有用到 `morley_df` 数据框中的任何取值；但后面给这张叠加图层后的图形分面时还会用到它，所以这里就先写上了。
 ```
 
 ```{code-cell} ipython3
@@ -1489,20 +999,10 @@ glue("morley_hist_line", morley_hist_line, display=False)
 :figwidth: 700px
 :name: morley_hist_line
 
-Histogram of Michelson's speed of light data with vertical line indicating the true speed of light.
+迈克尔逊光速数据的直方图，并用竖线标出真实光速。
 :::
 
-In {numref}`morley_hist_line`,
-we still cannot tell which experiments (denoted by the `Expt` column)
-led to which measurements;
-perhaps some experiments were more accurate than others.
-To fully answer our question,
-we need to separate the measurements from each other visually.
-We can try to do this using a *colored* histogram,
-where counts from different experiments are stacked on top of each other
-in different colors.
-We can create a histogram colored by the `Expt` variable
-by adding it to the `color` argument.
+在{numref}`morley_hist_line` 中，我们仍然看不出哪些测量值来自哪次实验（实验由 `Expt` 列标示），也许有的实验比其他实验更准确。要完整回答我们的问题，就得在图上把这些测量值彼此区分开。可以尝试用*带颜色的*直方图，把不同实验的计数以不同颜色堆叠在一起。只要把 `Expt` 变量加到 `color` 参数上，就能画出按它着色的直方图。
 
 ```{code-cell} ipython3
 morley_hist_colored = alt.Chart(morley_df).mark_bar().encode(
@@ -1524,39 +1024,21 @@ glue("morley_hist_colored", morley_hist_colored, display=True)
 :figwidth: 700px
 :name: morley_hist_colored
 
-Histogram of Michelson's speed of light data colored by experiment.
+迈克尔逊光速数据的直方图，按实验着色。
 :::
 
-```{index} integer
+```{index} 整数
 ```
 
-Alright great, {numref}`morley_hist_colored` looks... wait a second! We are not able to easily distinguish
-between the colors of the different Experiments in the histogram! What is going on here? Well, if you
-recall from {numref}`Chapter %s <wrangling>`, the *data type* you use for each variable
-can influence how Python and `altair` treats it. Here, we indeed have an issue
-with the data types in the `morley` data frame. In particular, the `Expt` column
-is currently an *integer*---specifically, an `int64` type. But we want to treat it as a
-*category*, i.e., there should be one category per type of experiment.
+好，{numref}`morley_hist_colored` 看起来……等等！我们没法轻易区分直方图中不同实验的颜色！这是怎么回事？回想一下{numref}`第 %s 章 <wrangling>`的内容：你为每个变量选择的*数据类型*会影响 Python 和 `altair` 处理它的方式。这里，`morley` 数据框中的数据类型确实有问题。具体来说，`Expt` 列目前是*整数*，准确地说是 `int64` 类型。但我们希望把它当作*类别*来处理，也就是说，每种实验类型应该对应一个类别。
 ```{code-cell} ipython3
 morley_df.info()
 ```
 
-```{index} nominal, altair; :N
+```{index} 名义型, altair; :N
 ```
 
-To fix this issue we can convert the `Expt` variable into a `nominal`
-(i.e., categorical) type variable by adding a suffix `:N`
-to the `Expt` variable. Adding the `:N` suffix ensures that `altair`
-will treat a variable as a categorical variable, and
-hence use a discrete color map in visualizations
-([read more about data types in the altair documentation](https://altair-viz.github.io/user_guide/encodings/index.html#encoding-data-types)).
-We also add the `stack(False)` method on the `y` encoding so
-that the bars are not stacked on top of each other,
-but instead share the same baseline.
-We try to ensure that the different colors can be seen
-despite them sitting in front of each other
-by setting the `opacity` argument in `mark_bar` to `0.5`
-to make the bars slightly translucent.
+要解决这个问题，我们可以在 `Expt` 变量后面加上后缀 `:N`，把它转换成 `nominal`（即分类）类型的变量。给 `Expt` 加上 `:N` 后缀能确保 `altair` 把该变量当作分类变量处理，从而在可视化中使用离散的配色方案（[关于数据类型的更多说明见 altair 文档](https://altair-viz.github.io/user_guide/encodings/index.html#encoding-data-types)）。我们还在 `y` 编码上调用 `stack(False)` 方法，让条形不再互相堆叠，而是共用同一条基线。不同颜色的条形会互相遮挡，为了尽量让它们都能看清，我们把 `mark_bar` 中的 `opacity` 参数设为 `0.5`，让条形略微半透明。
 
 ```{code-cell} ipython3
 morley_hist_categorical = alt.Chart(morley_df).mark_bar(opacity=0.5).encode(
@@ -1577,36 +1059,17 @@ glue("morley_hist_categorical", morley_hist_categorical, display=True)
 :figwidth: 700px
 :name: morley_hist_categorical
 
-Histogram of Michelson's speed of light data colored by experiment as a categorical variable.
+迈克尔逊光速数据的直方图，把实验当作分类变量着色。
 :::
 
-Unfortunately, the attempt to separate out the experiment number visually has
-created a bit of a mess. All of the colors in {numref}`morley_hist_categorical` are blending together, and although it is
-possible to derive *some* insight from this (e.g., experiments 1 and 3 had some
-of the most incorrect measurements), it isn't the clearest way to convey our
-message and answer the question. Let's try a different strategy of creating
-grid of separate histogram plots.
+遗憾的是，想用颜色把实验编号区分开，结果弄得有些混乱。{numref}`morley_hist_categorical` 里的所有颜色都混在了一起；虽然仍能从中得出*一些*认识（例如实验 1 和实验 3 中有一些测量值的偏差最大），但这并不是传达信息、回答问题的最清晰方式。我们换一种策略：把直方图排成一张网格，每格放一个子图。
 
 +++
 
-```{index} altair; facet
+```{index} altair; 分面
 ```
 
-We can use the `facet` function to create a chart
-that has multiple subplots arranged in a grid.
-The argument to `facet` specifies the variable(s) used to split the plot
-into subplots (`Expt` in the code below),
-and how many columns there should be in the grid.
-In this example, we chose to
-arrange our plots in a single column (`columns=1`) since this makes it easier for
-us to compare the location of the histograms along the `x`-axis
-in the different subplots.
-We also reduce the height of each chart
-so that they all fit in the same view.
-Note that we are re-using the chart we created just above,
-instead of re-creating the same chart from scratch.
-We also explicitly specify that `facet` is a categorical variable
-since faceting should only be done with categorical variables.
+我们可以用 `facet` 函数创建由多个子图按网格排列而成的图。`facet` 的参数指定用一个或多个变量把图形拆分成子图（下面代码中的 `Expt`），以及网格中应有多少列。本例中我们选择把子图排成一列（`columns=1`），因为这样更容易比较不同子图里直方图在 `x` 轴上的位置。我们还降低了每张图的高度，好让它们都能放进同一个视图。请注意，我们复用了上面刚创建的那张图，而不是从头重新创建一张同样的图。我们还显式声明 `facet` 用的是分类变量，因为分面只应针对分类变量来做。
 
 ```{code-cell} ipython3
 morley_hist_facet = morley_hist_categorical.properties(
@@ -1626,31 +1089,15 @@ glue("morley_hist_facet", morley_hist_facet, display=True)
 :figwidth: 700px
 :name: morley_hist_facet
 
-Histogram of Michelson's speed of light data split vertically by experiment.
+按实验纵向拆分的迈克尔逊光速数据直方图。
 :::
 
-The visualization in {numref}`morley_hist_facet`
-makes it clear how accurate the different experiments were
-with respect to one another.
-The most variable measurements came from Experiment 1,
-where the measurements ranged from about 650&ndash;1050 km/sec.
-The least variable measurements came from Experiment 2,
-where the measurements ranged from about 750&ndash;950 km/sec.
-The most different experiments still obtained quite similar overall results!
+{numref}`morley_hist_facet` 中的可视化清楚地表明各个实验彼此之间有多准确。测量值波动最大的是实验 1，其测量值大致在 650—1050 km/sec 之间。测量值波动最小的是实验 2，其测量值大致在 750—950 km/sec 之间。差别最大的几个实验，总体上仍然得到了相当接近的结果！
 
 ```{index} altair; alt.X, altair; alt.Y, altair; configure_axis
 ```
 
-There are three finishing touches to make this visualization even clearer.
-First and foremost, we need to add informative axis labels using the `alt.X`
-and `alt.Y` function, and increase the font size to make it readable using the
-`configure_axis` function. We can also add a title; for a `facet` plot, this is
-done by providing the `title` to the facet function. Finally, and perhaps most
-subtly, even though it is easy to compare the experiments on this plot to one
-another, it is hard to get a sense of just how accurate all the experiments
-were overall. For example, how accurate is the value 800 on the plot, relative
-to the true speed of light?  To answer this question, we'll
-transform our data to a relative measure of error rather than an absolute measurement.
+要让这张图更清楚，还有三处收尾工作。首先，也是最重要的，是用 `alt.X` 和 `alt.Y` 函数加上有信息量的坐标轴标签，并用 `configure_axis` 函数调大字号以保持清晰可读。我们还可以加一个标题；对 `facet` 图来说，只要把 `title` 传给 facet 函数即可。最后一点也许最不易察觉：在这张图上，虽然很容易把各个实验互相比较，却很难体会所有实验总体上到底有多准确。例如，图上 800 这个值相对于真实光速到底有多准确？为了回答这个问题，我们要把数据转换成相对误差，而不是绝对测量值。
 
 ```{code-cell} ipython3
 speed_of_light = 299792.458
@@ -1693,19 +1140,14 @@ glue("morley_hist_relative", morley_hist_relative, display=True)
 :figwidth: 700px
 :name: morley_hist_relative
 
-Histogram of relative error split vertically by experiment with clearer axes and labels
+按实验纵向拆分的相对误差直方图，坐标轴和标签更清晰。
 :::
 
-Wow, impressive! These measurements of the speed of light from 1879 had errors
-around *0.05%* of the true speed. {numref}`morley_hist_relative` shows you that
-even though experiments 2 and 5 were perhaps the most accurate, all of the
-experiments did quite an admirable job given the technology available at the time.
+哇，真了不起！这些 1879 年的光速测量结果，误差只有真实光速的 *0.05%* 左右。{numref}`morley_hist_relative` 告诉你：虽然实验 2 和实验 5 也许最为准确，但考虑到当时的可用技术，所有实验都做得相当出色。
 
-#### Choosing a binwidth for histograms
+#### 为直方图选择箱宽
 
-When you create a histogram in `altair`, it tries to choose a reasonable number of bins.
-We can change the number of bins by using the `maxbins` parameter
-inside the `bin` method.
+在 `altair` 中创建直方图时，它会尝试选择一个合理的箱数。我们可以用 `bin` 方法里的 `maxbins` 参数来改变箱数。
 
 ```{index} altair; maxbins
 ```
@@ -1726,29 +1168,13 @@ glue("morley_hist_maxbins", morley_hist_maxbins, display=False)
 :figwidth: 700px
 :name: morley_hist_maxbins
 
-Histogram of Michelson's speed of light data.
+迈克尔逊光速数据的直方图。
 :::
 
 
-But what number of bins is the right one to use?
-Unfortunately there is no hard rule for what the right bin number
-or width is. It depends entirely on your problem; the *right* number of bins
-or bin width is
-the one that *helps you answer the question* you asked.
-Choosing the correct setting for your problem
-is something that commonly takes iteration.
-It's usually a good idea to try out several `maxbins` to see which one
-most clearly captures your data in the context of the question
-you want to answer.
+可是，箱数取多少才合适呢？很遗憾，正确的箱数或箱宽并没有硬性规则。这完全取决于你要解决的问题；*正确*的箱数或箱宽，就是*能帮你回答所提问题*的那个。为你要解决的问题选出合适的设置，往往需要反复迭代。通常值得多试几个不同的 `maxbins`，看看在你想回答的问题背景下，哪一个最能清楚地呈现数据。
 
-To get a sense for how different bin affect visualizations,
-let's experiment with the histogram that we have been working on in this section.
-In {numref}`morley_hist_max_bins`,
-we compare the default setting with three other histograms where we set the
-`maxbins` to 200, 70 and 5.
-In this case, we can see that both the default number of bins
-and the `maxbins=70` of  are effective for helping to answer our question.
-On the other hand, the `maxbins=200` and `maxbins=5` are too small and too big, respectively.
+为了体会不同分箱方式对可视化的影响，我们就用本节一直在处理的这张直方图来做实验。在{numref}`morley_hist_max_bins` 中，我们把默认设置与另外三张直方图作比较，后者的 `maxbins` 分别设为 200、70 和 5。在这里可以看到，默认箱数和 `maxbins=70` 都能有效地帮助我们回答问题。另一方面，`maxbins=200` 和 `maxbins=5` 分别过小和过大。
 
 ```{code-cell} ipython3
 :tags: ["remove-cell"]
@@ -1826,163 +1252,87 @@ glue("morley_hist_max_bins", morley_hist_max_bins, display=True)
 :figwidth: 700px
 :name: morley_hist_max_bins
 
-Effect of varying number of max bins on histograms.
+不同 maxbins 取值对直方图的影响。
 :::
 
-## Explaining the visualization
-<font size="5">*Tell a story*</font>
+## 讲解可视化
+<font size="5">*讲一个故事*</font>
 
-Typically, your visualization will not be shown entirely on its own, but rather
-it will be part of a larger presentation.  Further, visualizations can provide
-supporting information for any aspect of a presentation, from opening to
-conclusion.  For example, you could use an exploratory visualization in the
-opening of the presentation to motivate your choice of a more detailed data
-analysis / model, a visualization of the results of your analysis to show what
-your analysis has uncovered, or even one at the end of a presentation to help
-suggest directions for future work.
+通常情况下，你的可视化不会完全独立出现，而会是更大规模演示的一部分。此外，可视化可以为演示的任何环节提供辅助信息，从开场到结论都可以。例如，你可以在演示开场时用一张探索性可视化图，说明自己为什么选择更细致的数据分析或模型；也可以用一张分析结果的可视化图，展示分析发现了什么；甚至可以在演示结尾放一张图，为今后的工作方向提供建议。
 
-```{index} visualization; explanation
+```{index} 可视化; 讲解
 ```
 
-Regardless of where it appears, a good way to discuss your visualization is as
-a story:
+无论在什么地方出现，讨论可视化的一个好办法是把它当成一个故事来讲：
 
-1) Establish the setting and scope, and describe why you did what you did.
-2) Pose the question that your visualization answers. Justify why the question is important to answer.
-3) Answer the question using your visualization. Make sure you describe *all* aspects of the visualization (including describing the axes). But you
-   can emphasize different aspects based on what is important to answer your question:
-    - **trends (lines):** Does a line describe the trend well? If so, the trend is *linear*, and if not, the trend is *nonlinear*. Is the trend increasing, decreasing, or neither?
-                        Is there a periodic oscillation (wiggle) in the trend? Is the trend noisy (does the line "jump around" a lot) or smooth?
-    - **distributions (scatters, histograms):** How spread out are the data? Where are they centered, roughly? Are there any obvious "clusters" or "subgroups", which would be visible as multiple bumps in the histogram?
-    - **distributions of two variables (scatters):** Is there a clear / strong relationship between the variables (points fall in a distinct pattern), a weak one (points fall in a pattern but there is some noise), or no discernible
-      relationship (the data are too noisy to make any conclusion)?
-    - **amounts (bars):** How large are the bars relative to one another? Are there patterns in different groups of bars?
-4) Summarize your findings, and use them to motivate whatever you will discuss next.
+1) 交代背景和范围，说明你为什么做这件事。2) 提出你的可视化要回答的问题，并说明为什么这个问题值得回答。3) 用你的可视化回答这个问题。务必描述可视化的*所有*方面（包括描述坐标轴）。但你可以根据回答问题的需要，突出不同的方面：
+    - **趋势（折线图）：**直线能很好地描述趋势吗？如果能，趋势就是*线性*的；如果不能，趋势就是*非线性*的。趋势是上升、下降，还是两者都不是？
+                        趋势中是否有周期性振荡（摆动）？趋势是有噪声的（也就是线条频繁“跳来跳去”）还是平滑的？
+    - **分布（散点图、直方图）：**数据的离散程度如何？大致以哪里为中心？有没有明显的“簇”或“子组”，在直方图上会表现为多个峰？
+    - **两个变量的分布（散点图）：**变量之间的关系是清晰 / 强的（点落在明显的模式中）、弱的（点落在某种模式中但带有一些噪声），还是看不出
+      关系（数据噪声太大，无法得出任何结论）？
+    - **数量（条形图）：**各条形彼此相比有多大？不同组的条形中是否有模式？
+4) 总结你的发现，并用它们引出你接下来要讲的内容。
 
-Below are two examples of how one might take these four steps in describing the example visualizations that appeared earlier in this chapter.
-Each of the steps is denoted by its numeral in parentheses, e.g. (3).
+下面用两个例子说明，如何按这四个步骤讲解本章前面出现过的示例可视化。每一步都用括号中的编号标出，例如（3）。
 
-```{index} Mauna Loa
+```{index} 冒纳罗亚
 ```
 
-**Mauna Loa Atmospheric CO$_{\text{2}}$ Measurements:** (1) Many
-current forms of energy generation and conversion&mdash;from automotive
-engines to natural gas power plants&mdash;rely on burning fossil fuels and produce
-greenhouse gases, typically primarily carbon dioxide (CO$_{\text{2}}$), as a
-byproduct. Too much of these gases in the Earth's atmosphere will cause it to
-trap more heat from the sun, leading to global warming. (2) In order to assess
-how quickly the atmospheric concentration of CO$_{\text{2}}$ is increasing over
-time, we (3) used a data set from the Mauna Loa observatory in Hawaii,
-consisting of CO$_{\text{2}}$ measurements from 1980 to 2020. We plotted the
-measured concentration of CO$_{\text{2}}$ (on the vertical axis) over time (on
-the horizontal axis). From this plot, you can see a clear, increasing, and
-generally linear trend over time. There is also a periodic oscillation that
-occurs once per year and aligns with Hawaii's seasons, with an amplitude that
-is small relative to the growth in the overall trend. This shows that
-atmospheric CO$_{\text{2}}$ is clearly increasing over time, and (4) it is
-perhaps worth investigating more into the causes.
+**冒纳罗亚大气 CO$_{\text{2}}$ 测量数据：**（1）当前许多形式的能源生产与转换——从汽车发动机到天然气发电厂——都依赖燃烧化石燃料，并产生温室气体作为副产物，其中通常主要是二氧化碳（CO$_{\text{2}}$）。这些气体在地球大气中过多，就会使大气截留更多来自太阳的热量，导致全球变暖。（2）为了评估大气中 CO$_{\text{2}}$ 浓度上升得有多快，我们（3）使用了夏威夷冒纳罗亚观测站的一套数据，其中包含 1980 年到 2020 年的 CO$_{\text{2}}$ 测量值。我们把测得的 CO$_{\text{2}}$ 浓度画在纵轴上，把时间画在横轴上。从这张图可以看到，随时间推移存在清晰、上升、总体呈线性的趋势。图中还有每年发生一次、与夏威夷季节相吻合的周期性振荡，其振幅相对于整体趋势的增长很小。这说明大气中的 CO$_{\text{2}}$ 显然在随时间上升，（4）也许值得进一步研究其中的成因。
 
-```{index} Michelson speed of light
+```{index} 迈克尔逊光速
 ```
 
-**Michelson Light Speed Experiments:** (1) Our
-modern understanding of the physics of light has advanced significantly from
-the late 1800s when Michelson and Morley's experiments first demonstrated that
-it had a finite speed. We now know, based on modern experiments, that it moves at
-roughly 299,792.458 kilometers per second. (2) But how accurately were we first
-able to measure this fundamental physical constant, and did certain experiments
-produce more accurate results than others?  (3) To better understand this, we
-plotted data from 5 experiments by Michelson in 1879, each with 20 trials, as
-histograms stacked on top of one another. The horizontal axis shows the
-error of the measurements relative to the true speed of light as we know it
-today, expressed as a percentage.  From this visualization, you can see that
-most results had relative errors of at most 0.05%. You can also see that
-experiments 1 and 3 had measurements that were the farthest from the true
-value, and experiment 5 tended to provide the most consistently accurate
-result. (4) It would be worth further investigating the differences between
-these experiments to see why they produced different results.
+**迈克尔逊光速实验：**（1）与 19 世纪末相比，我们对光物理的现代认识已经进步了很多；当年迈克尔逊和莫雷的实验首次证明光速是有限的。根据现代实验，我们现在知道光的传播速度约为每秒 299,792.458 千米。（2）但是，我们最初测量这个基本物理常数的准确程度如何？某些实验是否比另一些实验得到了更准确的结果？（3）为了更好地理解这一点，我们把迈克尔逊在 1879 年所做的 5 次实验的数据画成彼此堆叠的直方图，每次实验有 20 轮试验。横轴表示测量值相对于我们今天所知真实光速的误差，用百分比表示。从这张图可以看到，大多数结果的相对误差至多为 0.05%。你还能看到，实验 1 和实验 3 的测量值离真实值最远，而实验 5 往往给出最稳定的准确结果。（4）值得进一步研究这些实验之间的差异，看看它们为什么会产生不同的结果。
 
-## Saving the visualization
+## 保存可视化
 
-<font size="5">*Choose the right output format for your needs*</font>
+<font size="5">*按需要选择合适的输出格式*</font>
 
-```{index} see: bitmap; raster graphics
+```{index} see: 位图; 栅格图
 ```
 
-```{index} raster graphics, vector graphics
+```{index} 栅格图, 矢量图
 ```
 
-Just as there are many ways to store data sets, there are many ways to store
-visualizations and images.  Which one you choose can depend on several factors,
-such as file size/type limitations (e.g., if you are submitting your
-visualization as part of a conference paper or to a poster printing shop) and
-where it will be displayed (e.g., online, in a paper, on a poster, on a
-billboard, in talk slides).  Generally speaking, images come in two flavors:
-*raster* formats
-and *vector* formats.
+正如存储数据集有很多方式一样，存储可视化和图像也有很多方式。该选哪一种取决于若干因素，例如文件大小或类型的限制（比如把可视化作为会议论文的一部分提交，或送到海报打印店），以及它将在哪里显示（例如网上、论文中、海报上、广告牌上、报告幻灯片里）。一般来说，图像分为两大类：*栅格*格式和*矢量*格式。
 
-```{index} raster graphics; file types
+```{index} 栅格图; 文件类型
 ```
 
-**Raster** images are represented as a 2-D grid of square pixels, each
-with its own color. Raster images are often *compressed* before storing so they
-take up less space. A compressed format is *lossy* if the image cannot be
-perfectly re-created when loading and displaying, with the hope that the change
-is not noticeable. *Lossless* formats, on the other hand, allow a perfect
-display of the original image.
+**栅格**图像表示成由正方形像素组成的二维网格，每个像素有各自的颜色。栅格图像在存储前往往要先*压缩*，以占用更少的空间。如果图像在加载和显示时无法被完美重建，这种压缩格式就是*有损*的，只是希望这种变化不易察觉。相反，*无损*格式可以完美地显示原始图像。
 
-- *Common file types:*
-    - [JPEG](https://en.wikipedia.org/wiki/JPEG) (`.jpg`, `.jpeg`): lossy, usually used for photographs
-    - [PNG](https://en.wikipedia.org/wiki/Portable_Network_Graphics) (`.png`): lossless, usually used for plots / line drawings
-    - [BMP](https://en.wikipedia.org/wiki/BMP_file_format) (`.bmp`): lossless, raw image data, no compression (rarely used)
-    - [TIFF](https://en.wikipedia.org/wiki/TIFF) (`.tif`, `.tiff`): typically lossless, no compression, used mostly in graphic arts, publishing
-- *Open-source software:* [GIMP](https://www.gimp.org/)
+- *常见文件类型：*
+    - [JPEG](https://en.wikipedia.org/wiki/JPEG)（`.jpg`、`.jpeg`）：有损，通常用于照片
+    - [PNG](https://en.wikipedia.org/wiki/Portable_Network_Graphics)（`.png`）：无损，通常用于统计图形和线条图
+    - [BMP](https://en.wikipedia.org/wiki/BMP_file_format)（`.bmp`）：无损，原始图像数据，不压缩（很少使用）
+    - [TIFF](https://en.wikipedia.org/wiki/TIFF)（`.tif`、`.tiff`）：通常无损，不压缩，多用于美术设计和出版
+- *开源软件：* [GIMP](https://www.gimp.org/)
 
-```{index} vector graphics; file types
+```{index} 矢量图; 文件类型
 ```
 
-**Vector** images are represented as a collection of mathematical
-objects (lines, surfaces, shapes, curves). When the computer displays the image, it
-redraws all of the elements using their mathematical formulas.
+**矢量**图像表示成一组数学对象（直线、曲面、形状、曲线）。计算机显示图像时，会用这些对象的数学公式重新绘制所有元素。
 
-- *Common file types:*
-    - [SVG](https://en.wikipedia.org/wiki/Scalable_Vector_Graphics) (`.svg`): general-purpose use
-    - [EPS](https://en.wikipedia.org/wiki/Encapsulated_PostScript) (`.eps`), general-purpose use (rarely used)
-- *Open-source software:* [Inkscape](https://inkscape.org/)
+- *常见文件类型：*
+    - [SVG](https://en.wikipedia.org/wiki/Scalable_Vector_Graphics)（`.svg`）：通用
+    - [EPS](https://en.wikipedia.org/wiki/Encapsulated_PostScript)（`.eps`）：通用（很少使用）
+- *开源软件：* [Inkscape](https://inkscape.org/)
 
-Raster and vector images have opposing advantages and disadvantages. A raster
-image of a fixed width / height takes the same amount of space and time to load
-regardless of what the image shows (the one caveat is that the compression algorithms may
-shrink the image more or run faster for certain images). A vector image takes
-space and time to load corresponding to how complex the image is, since the
-computer has to draw all the elements each time it is displayed. For example,
-if you have a scatter plot with 1 million points stored as an SVG file, it may
-take your computer some time to open the image. On the other hand, you can zoom
-into / scale up vector graphics as much as you like without the image looking
-bad, while raster images eventually start to look "pixelated."
+栅格图像和矢量图像的优缺点正好相反。宽高固定的栅格图像，无论显示什么内容，占用的空间和加载时间都相同（唯一的例外是：对某些图像，压缩算法可能把文件压得更小，或者运行得更快）。矢量图像占用的空间和加载时间取决于图像的复杂程度，因为每次显示时计算机都要重新绘制所有元素。例如，把包含 100 万个点的散点图存成 SVG 文件，你的计算机可能要花一些时间才能打开。反过来，矢量图可以随意放大 / 缩放，画面都不会变差；而栅格图像放大到一定程度就会显得“像素化”。
 
 ```{index} PDF
 ```
 
-```{index} see: portable document format; PDF
+```{index} see: 可移植文档格式; PDF
 ```
 
 ```{note}
-The portable document format [PDF](https://en.wikipedia.org/wiki/PDF) (`.pdf`) is commonly used to
-store *both* raster and vector formats. If you try to open a PDF and it's taking a long time
-to load, it may be because there is a complicated vector graphics image that your computer is rendering.
+可移植文档格式 [PDF](https://en.wikipedia.org/wiki/PDF)（`.pdf`）常用来*同时*存储栅格和矢量两种格式。如果你打开一个 PDF 时发现加载很久，可能是因为其中有一张复杂的矢量图，正由你的计算机渲染。
 ```
 
-Let's learn how to save plot images to `.png` and `.svg` file formats using the
-`faithful_scatter_labels` scatter plot of the [Old Faithful data set](https://www.stat.cmu.edu/~larry/all-of-statistics/=data/faithful.dat)
-{cite:p}`faithfuldata` that we created earlier, shown in {numref}`faithful_scatter_labels`.
-To save the plot to a file, we can use the `save`
-method. The `save` method takes the path to the filename where you would like to
-save the file (e.g., `img/viz/filename.png` to save a file named `filename.png` to the `img/viz/` directory).
-The kind of image to save is specified by the file extension.  For example, to
-create a PNG image file, we specify that the file extension is `.png`.  Below
-we demonstrate how to save PNG and SVG file types for the
-`faithful_scatter_labels` plot.
+下面我们学习如何把图形保存成 `.png` 和 `.svg` 文件格式。这里用的例子是前面创建的 `faithful_scatter_labels` 散点图，它来自[老忠实间歇泉数据集](https://www.stat.cmu.edu/~larry/all-of-statistics/=data/faithful.dat) {cite:p}`faithfuldata`，见{numref}`faithful_scatter_labels`。要把图形保存到文件，可以用 `save` 方法。`save` 方法接收保存文件的路径（例如 `img/viz/filename.png` 表示把名为 `filename.png` 的文件保存到 `img/viz/` 目录）。保存成哪种图像由文件扩展名决定。例如，要创建 PNG 图像文件，就把文件扩展名指定为 `.png`。下面演示如何把 `faithful_scatter_labels` 图保存成 PNG 和 SVG 两种文件类型。
 
 ```{code-cell} ipython3
 faithful_scatter_labels.save("img/viz/faithful_plot.png")
@@ -2001,70 +1351,44 @@ glue("png_size", "{:.2f}".format(png_size))
 glue("svg_size", "{:.2f}".format(svg_size))
 ```
 
-```{list-table} File sizes of the scatter plot of the Old Faithful data set when saved as different file formats.
+```{list-table} 老忠实间歇泉数据集散点图存成不同文件格式时的文件大小。
 :header-rows: 1
 :name: png-vs-svg-table
 
-* - Image type
-  - File type
-  - Image size
-* - Raster
+* - 图像类型
+  - 文件类型
+  - 图像大小
+* - 栅格
   - PNG
   - {glue:text}`png_size` MB
-* - Vector
+* - 矢量
   - SVG
   - {glue:text}`svg_size` MB
 ```
 
-Take a look at the file sizes in {numref}`png-vs-svg-table`.
-Wow, that's quite a difference! In this case, the `.png` image is almost 4 times
-smaller than the `.svg` image. Since there are a decent number of points in the plot,
-the vector graphics format image (`.svg`) is bigger than the raster image (`.png`), which
-just stores the image data itself.
-In {numref}`png-vs-svg`, we show what
-the images look like when we zoom in to a rectangle with only 3 data points.
-You can see why vector graphics formats are so useful: because they're just
-based on mathematical formulas, vector graphics can be scaled up to arbitrary
-sizes.  This makes them great for presentation media of all sizes, from papers
-to posters to billboards.
+看看{numref}`png-vs-svg-table` 中的文件大小。哇，差别还真大！这里 `.png` 图像几乎比 `.svg` 图像小 4 倍。由于图中的点相当多，矢量图格式的 `.svg` 文件比只存储图像数据本身的栅格图像 `.png` 更大。在{numref}`png-vs-svg` 中，我们展示了放大到只有 3 个数据点的矩形区域时图像的样子。你就能明白矢量图格式为什么这么有用了：正因为它们只是基于数学公式，矢量图可以放大到任意尺寸。这使它们很适合各种尺寸的展示媒介，从论文到海报再到广告牌。
 
 ```{figure} img/viz/png-vs-svg.png
 ---
 height: 400px
 name: png-vs-svg
 ---
-Zoomed in `faithful`, raster (PNG, left) and vector (SVG, right) formats.
+放大后的 `faithful` 图，栅格格式（PNG，左）和矢量格式（SVG，右）。
 ```
 
-## Exercises
+## 习题
 
-Practice exercises for the material covered in this chapter can be found in the
-accompanying [worksheets repository](https://worksheets.python.datasciencebook.ca) in
-the "Effective data visualization" row. You can preview a
-non-interactive version of the worksheet for this chapter by clicking "view
-worksheet." To work on the exercises interactively, follow the instructions in
-the worksheets repository to download all worksheets, and follow the
-instructions for computer setup found in {numref}`Chapter %s <move-to-your-own-machine>`. This will ensure
-that the automated feedback and guidance that the worksheets provide will
-function as intended.
+本章内容的练习题可在配套的[练习册仓库](https://worksheets.python.datasciencebook.ca)（worksheets repository）的“有效的数据可视化（Effective data visualization）”一行中找到。点击“查看练习册（view worksheet）”，即可预览本章练习册的非交互版本。若要交互式地完成这些习题，请按练习册仓库中的说明下载全部练习册，并按照{numref}`第 %s 章 <move-to-your-own-machine>`中的计算机配置说明做好准备。这样才能保证练习册提供的自动反馈和指导按预期发挥作用。
 
-## Additional resources
+## 拓展资源
 
-- The [altair documentation](https://altair-viz.github.io/) {cite:p}`altair` is
-  where you should look if you want to learn more about the functions in this
-  chapter, the full set of arguments you can use, and other related functions.
-- The [*Fundamentals of Data Visualization*](https://clauswilke.com/dataviz/) {cite:p}`wilkeviz` has
-  a wealth of information on designing effective visualizations. It is not
-  specific to any particular programming language or library. If you want to
-  improve your visualization skills, this is the next place to look.
-- The [dates and times](https://wesmckinney.com/book/time-series.html) chapter
-  of [*Python for Data Analysis*](https://wesmckinney.com/book/) {cite:p}`mckinney2012python`
-  is where you should look if you want to learn about `date` and `time`, including
-  how to create them, and how to use them to effectively handle durations, etc
+- 如果想进一步了解本章讲到的函数、可以使用的全部参数以及其他相关函数，可以查阅 [altair 文档](https://altair-viz.github.io/) {cite:p}`altair`。
+- [《Fundamentals of Data Visualization》](https://clauswilke.com/dataviz/) {cite:p}`wilkeviz` 中有大量关于设计有效可视化的内容。这本书不针对任何特定的编程语言或库。如果你想提高自己的可视化能力，接下来就该看这本书。
+- 如果想了解 `date` 和 `time`，包括如何创建它们，以及如何用它们有效地处理时长等，可以查阅[《Python for Data Analysis》](https://wesmckinney.com/book/) {cite:p}`mckinney2012python` 中关于[日期与时间](https://wesmckinney.com/book/time-series.html)的那一章
 
 +++
 
-## References
+## 参考文献
 
 ```{bibliography}
 :filter: docname in docnames

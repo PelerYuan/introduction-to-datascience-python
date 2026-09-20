@@ -13,7 +13,7 @@ kernelspec:
 ---
 
 (regression1)=
-# Regression I: K-nearest neighbors
+# 回归 I：k 近邻回归
 
 ```{code-cell} ipython3
 :tags: [remove-cell]
@@ -25,122 +25,61 @@ import plotly.express as px
 import plotly.graph_objects as go
 ```
 
-## Overview
+## 概述
 
-This chapter continues our foray into answering predictive questions.
-Here we will focus on predicting *numerical* variables
-and will use *regression* to perform this task.
-This is unlike the past two chapters, which focused on predicting categorical
-variables via classification. However, regression does have many similarities
-to classification: for example, just as in the case of classification,
-we will split our data into training, validation, and test sets, we will
-use `scikit-learn` workflows, we will use a K-nearest neighbors (K-NN)
-approach to make predictions, and we will use cross-validation to choose K.
-Because of how similar these procedures are, make sure to read
-{numref}`Chapters %s <classification1>` and {numref}`%s <classification2>` before reading
-this one&mdash;we will move a little bit faster here with the
-concepts that have already been covered.
-This chapter will primarily focus on the case where there is a single predictor,
-but the end of the chapter shows how to perform
-regression with more than one predictor variable, i.e., *multivariable regression*.
-It is important to note that regression
-can also be used to answer inferential and causal questions,
-however that is beyond the scope of this book.
+本章继续探讨如何回答预测性问题。这里要预测的是*数值*变量，所用的方法是*回归*。前两章与此不同，它们用分类来预测类别型变量。不过，回归与分类有许多相似之处：例如，和分类一样，我们会把数据划分为训练集、验证集和测试集，会使用 `scikit-learn` 工作流，会用 k 近邻（K-NN）方法做出预测，也会用交叉验证来选择 K。正因为这些步骤十分相似，读本章之前请务必先读{numref}`第 %s 章 <classification1>`和 {numref}`%s <classification2>`——已经讲过的概念，这里会讲得快一些。本章主要讨论只有一个预测变量的情形，章末则展示如何用多个预测变量做回归，也就是*多元回归*（multivariable regression）。请注意，回归也可以用来回答推断性问题和因果问题，不过这超出了本书的范围。
 
 +++
 
-## Chapter learning objectives
-By the end of the chapter, readers will be able to do the following:
+## 本章学习目标
+学完本章后，你将能够：
 
-- Recognize situations where a regression analysis would be appropriate for making predictions.
-- Explain the K-nearest neighbors (K-NN) regression algorithm and describe how it differs from K-NN classification.
-- Interpret the output of a K-NN regression.
-- In a data set with two or more variables, perform K-nearest neighbors regression in Python.
-- Evaluate K-NN regression prediction quality in Python using the root mean squared prediction error (RMSPE).
-- Estimate the RMSPE in Python using cross-validation or a test set.
-- Choose the number of neighbors in K-nearest neighbors regression by minimizing estimated cross-validation RMSPE.
-- Describe underfitting and overfitting, and relate it to the number of neighbors in K-nearest neighbors regression.
-- Describe the advantages and disadvantages of K-nearest neighbors regression.
+- 识别适合用回归分析做出预测的情形。
+- 解释 k 近邻（K-NN）回归算法，并说明它与 k 近邻分类的区别。
+- 解读 k 近邻回归的输出。
+- 在含两个及以上变量的数据集中，用 Python 完成 k 近邻回归。
+- 在 Python 中用均方根预测误差（root mean squared prediction error，RMSPE）评估 k 近邻回归的预测质量。
+- 在 Python 中用交叉验证或测试集估计 RMSPE。
+- 以最小化交叉验证 RMSPE 估计值为准则，选择 k 近邻回归中的近邻个数。
+- 说明欠拟合与过拟合，并解释它们与 k 近邻回归中近邻个数的关系。
+- 说明 k 近邻回归的优缺点。
 
 +++
 
-## The regression problem
+## 回归问题
 
-```{index} predictive question, response variable
+```{index} 预测性问题, 响应变量
 ```
 
-Regression, like classification, is a predictive problem setting where we want
-to use past information to predict future observations. But in the case of
-regression, the goal is to predict *numerical* values instead of *categorical* values.
-The variable that you want to predict is often called the *response variable*.
-For example, we could try to use the number of hours a person spends on
-exercise each week to predict their race time in the annual Boston marathon. As
-another example, we could try to use the size of a house to
-predict its sale price. Both of these response variables&mdash;race time and sale price&mdash;are
-numerical, and so predicting them given past data is considered a regression problem.
+回归和分类一样，都属于预测性问题：我们希望用过去的信息预测未来的观测。不过就回归而言，目标是预测*数值*而不是*类别型*取值。你想要预测的变量通常称为*响应变量*。例如，我们可以用一个人每周锻炼的小时数，来预测他参加一年一度波士顿马拉松的比赛用时；也可以用房子的面积来预测它的售价。这两个响应变量——比赛用时和售价——都是数值，因此根据过去的数据预测它们属于回归问题。
 
-```{index} classification; comparison to regression
+```{index} 分类; 与回归的比较
 ```
 
-```{index} regression; comparison to classification
+```{index} 回归; 与分类的比较
 ```
 
-Just like in the classification setting, there are many possible methods that we can use
-to predict numerical response variables. In this chapter we will
-focus on the **K-nearest neighbors** algorithm {cite:p}`knnfix,knncover`, and in the next chapter
-we will study **linear regression**.
-In your future studies, you might encounter regression trees, splines,
-and general local regression methods; see the additional resources
-section at the end of the next chapter for where to begin learning more about
-these other methods.
+和分类的情形一样，可以用来预测数值响应变量的方法有很多。本章重点介绍 **k 近邻**（K-nearest neighbors）算法 {cite:p}`knnfix,knncover`，下一章则学习**线性回归**。以后的学习中，你可能会遇到回归树、样条以及一般的局部回归方法；要从哪里开始了解这些方法，可以看下一章末尾的“拓展资源”一节。
 
-Many of the concepts from classification map over to the setting of regression. For example,
-a regression model predicts a new observation's response variable based on the response variables
-for similar observations in the data set of past observations. When building a regression model,
-we first split the data into training and test sets, in order to ensure that we assess the performance
-of our method on observations not seen during training. And finally, we can use cross-validation to evaluate different
-choices of model parameters (e.g., K in a K-nearest neighbors model). The major difference
-is that we are now predicting numerical variables instead of categorical variables.
+分类中的许多概念都可以套用到回归上。例如，回归模型根据过去观测的数据集中相似观测的响应变量，来预测新观测的响应变量。建立回归模型时，我们先把数据划分为训练集和测试集，以确保在训练时未见过的观测上评估方法的性能。最后，我们可以用交叉验证来评价模型参数的不同取值（例如 k 近邻模型中的 K）。最大的区别在于，我们现在预测的是数值变量，而不是分类变量。
 
-```{index} categorical variable, numerical variable
+```{index} 分类变量, 数值变量
 ```
 
 ```{note}
-You can usually tell whether a variable is numerical or
-categorical&mdash;and therefore whether you need to perform regression or
-classification&mdash;by taking the response variable for two observations X and Y from your data,
-and asking the question, "is response variable X *more* than response
-variable Y?" If the variable is categorical, the question will make no sense.
-(Is blue more than red?  Is benign more than malignant?) If the variable is
-numerical, it will make sense. (Is 1.5 hours more than 2.25 hours? Is
-\$500,000 more than \$400,000?) Be careful when applying this heuristic,
-though: sometimes categorical variables will be encoded as numbers in your
-data (e.g., "1" represents "benign", and "0" represents "malignant"). In
-these cases you have to ask the question about the *meaning* of the labels
-("benign" and "malignant"), not their values ("1" and "0").
+通常你可以判断一个变量是数值还是类别型——从而判断自己需要做回归还是分类——方法是取出数据中两个观测 X 和 Y 的响应变量，然后问：“响应变量 X 是否*大于*响应变量 Y？”如果变量是类别型，这个问题毫无意义。（蓝色比红色更大吗？良性比恶性更大吗？）如果变量是数值，问题就有意义。（1.5 小时比 2.25 小时更长吗？\$500,000 比 \$400,000 更多吗？）不过使用这个经验法则时要小心：有时数据中的分类变量会被编码成数字（例如用“1”表示“benign”，用“0”表示“malignant”）。这时你要问的是标签的*含义*（“benign”与“malignant”），而不是它们的取值（“1”与“0”）。
 ```
 
 +++
 
-## Exploring a data set
+## 探索数据集
 
-```{index} Sacramento real estate, question; regression
+```{index} 萨克拉门托房地产市场, 问题; 回归
 ```
 
-In this chapter and the next, we will study
-a data set of
-[932 real estate transactions in Sacramento, California](https://support.spatialkey.com/spatialkey-sample-csv-data/)
-originally reported in the *Sacramento Bee* newspaper.
-We first need to formulate a precise question that
-we want to answer. In this example, our question is again predictive:
-Can we use the size of a house in the Sacramento, CA area to predict
-its sale price? A rigorous, quantitative answer to this question might help
-a realtor advise a client as to whether the price of a particular listing
-is fair, or perhaps how to set the price of a new listing.
-We begin the analysis by loading and examining the data,
-as well as setting the seed value.
+本章和下一章要研究的数据集，包含[加利福尼亚州萨克拉门托的 932 笔房地产交易](https://support.spatialkey.com/spatialkey-sample-csv-data/)，最初由《Sacramento Bee》报道。我们首先要把自己想回答的问题表述清楚。这个例子中的问题仍然是预测性问题：能否用加利福尼亚州萨克拉门托地区一所房子的面积来预测它的售价？对这个问题给出严谨的定量答案，也许能帮助房地产经纪人告诉客户某套房源的挂牌价是否合理，或者帮他确定新挂牌房源的定价。我们先读取并查看数据，同时设定种子值。
 
-```{index} seed;numpy.random.seed
+```{index} 种子;numpy.random.seed
 ```
 
 ```{code-cell} ipython3
@@ -162,22 +101,13 @@ sacramento = pd.read_csv("data/sacramento.csv")
 sacramento
 ```
 
-```{index} altair; mark_circle, visualization; scatter
+```{index} altair; mark_circle, 可视化; 散点图
 ```
 
-The scientific question guides our initial exploration: the columns in the
-data that we are interested in are `sqft` (house size, in livable square feet)
-and `price` (house sale price, in US dollars (USD)).  The first step is to visualize
-the data as a scatter plot where we place the predictor variable
-(house size) on the x-axis, and we place the response variable that we
-want to predict (sale price) on the y-axis.
+科学问题指引我们做最初的探索：我们关心的数据列是 `sqft`（房屋面积，以可居住的平方英尺计）和 `price`（房屋售价，以美元（USD）计）。第一步是把数据画成散点图，预测变量（房屋面积）放在 x 轴，想要预测的响应变量（售价）放在 y 轴。
 
 ```{note}
-Given that the y-axis unit is dollars in {numref}`fig:07-edaRegr`,
-we format the axis labels to put dollar signs in front of the house prices,
-as well as commas to increase the readability of the larger numbers.
-We can do this in `altair` by using `.axis(format="$,.0f")` on
-the `y` encoding channel.
+由于{numref}`fig:07-edaRegr` 中 y 轴的单位是美元，我们把坐标轴标签的格式设为：在房价前面加上美元符号，并用逗号分隔，让较大的数字更易读。在 `altair` 中，只要在 `y` 编码通道上使用 `.axis(format="$,.0f")` 就能做到。
 ```
 
 ```{code-cell} ipython3
@@ -203,57 +133,32 @@ glue("fig:07-edaRegr", scatter)
 :::{glue:figure} fig:07-edaRegr
 :name: fig:07-edaRegr
 
-Scatter plot of price (USD) versus house size (square feet).
+售价（美元）与房屋面积（平方英尺）的散点图。
 :::
 
 +++
 
-The plot is shown in {numref}`fig:07-edaRegr`.
-We can see that in Sacramento, CA, as the
-size of a house increases, so does its sale price. Thus, we can reason that we
-may be able to use the size of a not-yet-sold house (for which we don't know
-the sale price) to predict its final sale price. Note that we do not suggest here
-that a larger house size *causes* a higher sale price; just that house price
-tends to increase with house size, and that we may be able to use the latter to
-predict the former.
+绘图结果见{numref}`fig:07-edaRegr`。可以看出，在加利福尼亚州萨克拉门托，房子面积越大，售价也越高。因此我们有理由认为，可以用一套尚未售出的房子（我们还不知道它的售价）的面积，来预测它最终的售价。这里并不是说面积大*导致*了售价高，只是说房价往往随面积增大而上升，而且我们也许能用后者预测前者。
 
 +++
 
-## K-nearest neighbors regression
+## k 近邻回归
 
-```{index} K-nearest neighbors, K-nearest neighbors; regression
+```{index} k 近邻, k 近邻; 回归
 ```
 
-Much like in the case of classification,
-we can use a K-nearest neighbors-based
-approach in regression to make predictions.
-Let's take a small sample of the data in {numref}`fig:07-edaRegr`
-and walk through how K-nearest neighbors (K-NN) works
-in a regression context before we dive in to creating our model and assessing
-how well it predicts house sale price. This subsample is taken to allow us to
-illustrate the mechanics of K-NN regression with a few data points; later in
-this chapter we will use all the data.
+和分类一样，在回归中我们也可以用基于 k 近邻的方法做出预测。在动手建立模型、评估它预测房价的效果之前，我们先从{numref}`fig:07-edaRegr` 的数据中抽取一个小样本，看看 k 近邻在回归语境下是如何工作的。抽取这个子样本，是为了用少量数据点说明 k 近邻回归的机制；本章后面会使用全部数据。
 
 ```{index} DataFrame; sample
 ```
 
-To take a small random sample of size 30, we'll use the
-`sample` method on the `sacramento` data frame, specifying
-that we want to select `n=30` rows.
+要抽取一个大小为 30 的小随机样本，我们在 `sacramento` 数据框上使用 `sample` 方法，并指定选取 `n=30` 行。
 
 ```{code-cell} ipython3
 small_sacramento = sacramento.sample(n=30)
 ```
 
-Next let's say we come across a  2,000 square-foot house in Sacramento we are
-interested in purchasing, with an advertised list price of \$350,000. Should we
-offer to pay the asking price for this house, or is it overpriced and we should
-offer less? Absent any other information, we can get a sense for a good answer
-to this question by using the data we have to predict the sale price given the
-sale prices we have already observed. But in {numref}`fig:07-small-eda-regr`,
-you can see that we have no
-observations of a house of size *exactly* 2,000 square feet. How can we predict
-the sale price?
+接下来假设我们在萨克拉门托遇到一套 2,000 平方英尺的房子，有意购买，挂牌价为 \$350,000。我们该按要价买下它，还是认为它定价偏高、应该压价？没有其他信息时，我们可以用手头的数据，根据已经观测到的售价来预测这套房子的售价，从而对合理的答案有个大致判断。但在{numref}`fig:07-small-eda-regr` 中可以看到，我们并没有面积*恰好*为 2,000 平方英尺的房子的观测。那该怎么预测它的售价呢？
 
 ```{code-cell} ipython3
 :tags: [remove-output]
@@ -283,7 +188,7 @@ glue("fig:07-small-eda-regr", (small_plot + rule))
 :::{glue:figure} fig:07-small-eda-regr
 :name: fig:07-small-eda-regr
 
-Scatter plot of price (USD) versus house size (square feet) with vertical line indicating 2,000 square feet on x-axis.
+售价（美元）与房屋面积（平方英尺）的散点图，其中竖线在 x 轴上标出 2,000 平方英尺的位置。
 :::
 
 +++
@@ -291,12 +196,7 @@ Scatter plot of price (USD) versus house size (square feet) with vertical line i
 ```{index} DataFrame; abs, DataFrame; nsmallest
 ```
 
-We will employ the same intuition from {numref}`Chapters %s <classification1>` and {numref}`%s <classification2>`, and use the
-neighboring points to the new point of interest to suggest/predict what its
-sale price might be.
-For the example shown in {numref}`fig:07-small-eda-regr`,
-we find and label the 5 nearest neighbors to our observation
-of a house that is 2,000 square feet.
+我们会沿用{numref}`第 %s 章 <classification1>`和 {numref}`%s <classification2>` 中的思路，用与感兴趣的新数据点相邻的点，来推测、预测它可能的售价。在{numref}`fig:07-small-eda-regr` 所示的例子里，我们找出距离那套 2,000 平方英尺的房子最近的 5 个近邻，并加以标注。
 
 ```{code-cell} ipython3
 small_sacramento["dist"] = (2000 - small_sacramento["sqft"]).abs()
@@ -340,18 +240,12 @@ glue("fig:07-knn5-example", nn_plot)
 :::{glue:figure} fig:07-knn5-example
 :name: fig:07-knn5-example
 
-Scatter plot of price (USD) versus house size (square feet) with lines to 5 nearest neighbors (highlighted in orange).
+售价（美元）与房屋面积（平方英尺）的散点图，并用线段连接到 5 个最近的近邻（用橙色标出）。
 :::
 
 +++
 
-{numref}`fig:07-knn5-example` illustrates the difference between the house sizes
-of the 5 nearest neighbors (in terms of house size) to our new
-2,000 square-foot house of interest. Now that we have obtained these nearest neighbors,
-we can use their values to predict the
-sale price for the new home.  Specifically, we can take the mean (or
-average) of these 5 values as our predicted value, as illustrated by
-the red point in {numref}`fig:07-predictedViz-knn`.
+{numref}`fig:07-knn5-example` 展示了与我们关注的那套 2,000 平方英尺新房最接近的 5 个近邻（就房屋面积而言）的面积与这套新房的差别。得到这些近邻之后，我们就可以用它们的取值来预测新房子的售价。具体来说，可以取这 5 个取值的均值（也就是平均数）作为预测值，{numref}`fig:07-predictedViz-knn` 中的红点就是它。
 
 ```{code-cell} ipython3
 prediction = nearest_neighbors["price"].mean()
@@ -376,50 +270,28 @@ glue("fig:07-predictedViz-knn", nn_plot_pred)
 :::{glue:figure} fig:07-predictedViz-knn
 :name: fig:07-predictedViz-knn
 
-Scatter plot of price (USD) versus house size (square feet) with predicted price for a 2,000 square-foot house based on 5 nearest neighbors represented as a red dot.
+售价（美元）与房屋面积（平方英尺）的散点图，其中根据 5 个近邻对一套 2,000 平方英尺房子给出的预测价格用红点表示。
 :::
 
 +++
 
-Our predicted price is \${glue:text}`knn-5-pred`
-(shown as a red point in {numref}`fig:07-predictedViz-knn`), which is much less than \$350,000; perhaps we
-might want to offer less than the list price at which the house is advertised.
-But this is only the very beginning of the story. We still have all the same
-unanswered questions here with K-NN regression that we had with K-NN
-classification: which $K$ do we choose, and is our model any good at making
-predictions? In the next few sections, we will address these questions in the
-context of K-NN regression.
+我们的预测价格是 \${glue:text}`knn-5-pred`（见{numref}`fig:07-predictedViz-knn` 中的红点），它远低于 \$350,000；也许我们应该出价比挂牌价低一些。不过故事才刚刚开始。在 k 近邻回归中，我们仍然面临当初做 k 近邻分类时那些没有答案的问题：$K$ 该取多少？模型的预测够不够好？接下来几节会在 k 近邻回归的语境下回答这些问题。
 
-One strength of the K-NN regression algorithm
-that we would like to draw attention to at this point
-is its ability to work well with non-linear relationships
-(i.e., if the relationship is not a straight line).
-This stems from the use of nearest neighbors to predict values.
-The algorithm really has very few assumptions
-about what the data must look like for it to work.
+这里要特别提一下 k 近邻回归算法的一个优点：它能很好地处理非线性关系（也就是说，关系不是一条直线）。这源于它用近邻来预测取值的做法。这个算法对数据必须呈现什么样子，只提出很少的假设。
 
 +++
 
-## Training, evaluating, and tuning the model
+## 训练、评估与调优模型
 
-```{index} training set, test set
+```{index} 训练集, 测试集
 ```
 
-As usual, we must start by putting some test data away in a lock box
-that we will come back to only after we choose our final model.
-Let's take care of that now.
-Note that for the remainder of the chapter
-we'll be working with the entire Sacramento data set,
-as opposed to the smaller sample of 30 points
-that we used earlier in the chapter ({numref}`fig:07-small-eda-regr`).
+和往常一样，我们必须先把一部分测试数据放进保险箱锁起来，等选定最终模型之后再回头使用。现在就来做这件事。请注意，本章余下的部分都会使用完整的萨克拉门托数据集，而不是前面用过的那个 30 个数据点的小样本（{numref}`fig:07-small-eda-regr`）。
 
 +++
 
 ```{note}
-We are not specifying the `stratify` argument here like we did in
-{numref}`Chapter %s <classification2>`, since
-the `train_test_split` function cannot stratify based on a
-quantitative variable.
+这里没有像{numref}`第 %s 章 <classification2>`那样指定 `stratify` 参数，因为 `train_test_split` 函数无法按定量变量分层。
 ```
 
 ```{code-cell} ipython3
@@ -435,41 +307,23 @@ sacramento_train, sacramento_test = train_test_split(
 )
 ```
 
-```{index} cross-validation, RMSPE
+```{index} 交叉验证, RMSPE
 ```
 
-```{index} see: root mean square prediction error; RMSPE
+```{index} see: 均方根预测误差; RMSPE
 ```
 
-Next, we'll use cross-validation to choose $K$. In K-NN classification, we used
-accuracy to see how well our predictions matched the true labels. We cannot use
-the same metric in the regression setting, since our predictions will almost never
-*exactly* match the true response variable values. Therefore in the
-context of K-NN regression we will use root mean square prediction error (RMSPE) instead.
-The mathematical formula for calculating RMSPE is:
+接下来，我们用交叉验证来选择 $K$。在 k 近邻分类中，我们用准确率来衡量预测结果与真实标签的吻合程度；在回归的场景下则不能沿用同一个指标，因为我们的预测几乎不可能与响应变量的真实取值*完全*一致。因此在 k 近邻回归中，我们改用均方根预测误差（root mean square prediction error，RMSPE）。计算 RMSPE 的数学公式为：
 
 $$\text{RMSPE} = \sqrt{\frac{1}{n}\sum\limits_{i=1}^{n}(y_i - \hat{y}_i)^2}$$
 
-where:
+其中：
 
-- $n$ is the number of observations,
-- $y_i$ is the observed value for the $i^\text{th}$ observation, and
-- $\hat{y}_i$ is the forecasted/predicted value for the $i^\text{th}$ observation.
+- $n$ 是观测个数，
+- $y_i$ 是第 $i^\text{th}$ 个观测的观测值，
+- $\hat{y}_i$ 是第 $i^\text{th}$ 个观测的预测值。
 
-In other words, we compute the *squared* difference between the predicted and true response
-value for each observation in our test (or validation) set, compute the average, and then finally
-take the square root. The reason we use the *squared* difference (and not just the difference)
-is that the differences can be positive or negative, i.e., we can overshoot or undershoot the true
-response value. {numref}`fig:07-verticalerrors` illustrates both positive and negative differences
-between predicted and true response values.
-So if we want to measure error&mdash;a notion of distance between our predicted and true response values&mdash;we
-want to make sure that we are only adding up positive values, with larger positive values representing larger
-mistakes.
-If the predictions are very close to the true values, then
-RMSPE will be small. If, on the other-hand, the predictions are very
-different from the true values, then RMSPE will be quite large. When we
-use cross-validation, we will choose the $K$ that gives
-us the smallest RMSPE.
+换句话说，对测试集（或验证集）中的每个观测，我们计算预测值与响应变量真实值之差的*平方*，再求平均，最后取平方根。之所以用*平方*差（而不是只用差），是因为差值可正可负，也就是说，我们的预测可能高估、也可能低估响应变量的真实值。{numref}`fig:07-verticalerrors` 展示了预测值与真实响应值之间正向和负向的差。因此，如果要衡量误差——也就是预测值与真实响应值之间的距离——我们就要确保只把正值累加起来，而且正值越大代表错误越大。如果预测值与真实值非常接近，RMSPE 就很小；反过来，如果预测值与真实值相差很大，RMSPE 就相当大。使用交叉验证时，我们会选择让 RMSPE 最小的 $K$。
 
 ```{code-cell} ipython3
 :tags: [remove-cell]
@@ -527,57 +381,25 @@ glue("fig:07-verticalerrors", errors_plot, display=False)
 :::{glue:figure} fig:07-verticalerrors
 :name: fig:07-verticalerrors
 
-Scatter plot of price (USD) versus house size (square feet) with example predictions (orange line) and the error in those predictions compared with true response values (vertical lines).
+售价（美元）与房屋面积（平方英尺）的散点图，其中包含示例预测值（橙色线条），以及这些预测值与真实响应值相比的误差（竖线）。
 :::
 
 +++
 
-```{index} RMSPE; comparison with RMSE
+```{index} RMSPE; 与 RMSE 的比较
 ```
 
 ```{note}
-When using many code packages, the evaluation output
-we will get to assess the prediction quality of
-our K-NN regression models is labeled "RMSE", or "root mean squared
-error". Why is this so, and why not RMSPE?
-In statistics, we try to be very precise with our
-language to indicate whether we are calculating the prediction error on the
-training data (*in-sample* prediction) versus on the testing data
-(*out-of-sample* prediction). When predicting and evaluating prediction quality on the training data, we
-say RMSE. By contrast, when predicting and evaluating prediction quality
-on the testing or validation data, we say RMSPE.
-The equation for calculating RMSE and RMSPE is exactly the same; all that changes is whether the $y$s are
-training or testing data. But many people just use RMSE for both,
-and rely on context to denote which data the root mean squared error is being calculated on.
+在使用许多代码包时，用来评估 k 近邻回归模型预测质量的输出会被标注为“RMSE”，也就是“均方根误差”（root mean squared error）。为什么会这样，而不是 RMSPE 呢？在统计学中，我们尽量把话说得精确，以表明所计算的预测误差来自训练数据（*样本内*预测）还是测试数据（*样本外*预测）。在训练数据上做预测并评估预测质量时，我们说 RMSE；相比之下，在测试数据或验证数据上做预测并评估预测质量时，我们说 RMSPE。RMSE 与 RMSPE 的计算式完全相同，唯一的区别在于其中的 $y$ 取自训练数据还是测试数据。不过很多人对两者都直接用 RMSE，靠上下文来表明均方根误差是基于哪一份数据计算的。
 ```
 
 ```{index} scikit-learn, scikit-learn; Pipeline, scikit-learn; make_pipeline, scikit-learn; make_column_transformer
 ```
 
-Now that we know how we can assess how well our model predicts a numerical
-value, let's use Python to perform cross-validation and to choose the optimal
-$K$.  First, we will create a column transformer for preprocessing our data.  Note
-that we include standardization in our preprocessing to build good habits, but
-since we only have one predictor, it is technically not necessary; there is no
-risk of comparing two predictors of different scales.  Next we create a model
-pipeline for K-nearest neighbors regression. Note that we use the
-`KNeighborsRegressor` model object now to denote a regression problem, as
-opposed to the classification problems from the previous chapters.  The use of
-`KNeighborsRegressor` essentially tells `scikit-learn` that we need to use
-different metrics (instead of accuracy) for tuning and evaluation.  Next we
-specify a parameter grid containing numbers of neighbors
-ranging from 1 to 200.  Then we create a 5-fold `GridSearchCV` object, and
-pass in the pipeline and parameter grid.
-There is one additional slight complication: unlike classification models in `scikit-learn`---which
-by default use accuracy for tuning, as desired---regression models in `scikit-learn`
-do not use the RMSPE for tuning by default.
-So we need to specify that we want to use the RMSPE for tuning by setting the
-`scoring` argument to `"neg_root_mean_squared_error"`.
+现在我们知道了如何评估模型对数值的预测效果，接下来就用 Python 做交叉验证，选出最优的 $K$。首先创建一个列变换器（column transformer）来预处理数据。请注意，我们在预处理中加入了标准化，是为了养成良好习惯；但由于只有一个预测变量，技术上并不需要这一步：不存在比较两个标度不同的预测变量的风险。接着我们为 k 近邻回归创建模型流水线。注意这里改用 `KNeighborsRegressor` 模型对象，以表示这是一个回归问题，而不是前几章讨论的分类问题。使用 `KNeighborsRegressor` 实际上是在告诉 `scikit-learn`：调优和评估需要使用不同的指标（而不是准确率）。随后我们指定一个参数网格，其中近邻个数从 1 到 200。然后创建一个 5 折 `GridSearchCV` 对象，并传入流水线和参数网格。这里还有一点小麻烦：与 `scikit-learn` 中的分类模型不同——分类模型默认就用准确率来调优，正合我们的需要——`scikit-learn` 中的回归模型默认不用 RMSPE 来调优。因此，我们需要把 `scoring` 参数设为 `"neg_root_mean_squared_error"`，以指明调优时要使用 RMSPE。
 
 ```{note}
-We obtained the identifier of the parameter representing the number
-of neighbours, `"kneighborsregressor__n_neighbors"` by examining the output
-of `sacr_pipeline.get_params()`, as we did in {numref}`Chapter %s <classification1>`.
+表示近邻个数的参数标识符 `"kneighborsregressor__n_neighbors"`，是我们查看 `sacr_pipeline.get_params()` 的输出得到的，做法与{numref}`第 %s 章 <classification1>`中一样。
 ```
 
 ```{index} scikit-learn; GridSearchCV
@@ -603,21 +425,9 @@ sacr_gridsearch = GridSearchCV(
 )
 ```
 
-Next, we use the run cross validation by calling the `fit` method
-on `sacr_gridsearch`. Note the use of two brackets for the input features
-(`sacramento_train[["sqft"]]`), which creates a data frame with a single column.
-As we learned in {numref}`Chapter %s <wrangling>`, we can obtain a data frame with a
-subset of columns by passing a list of column names; `["sqft"]` is a list with one
-item, so we obtain a data frame with one column. If instead we used
-just one bracket (`sacramento_train["sqft"]`), we would obtain a series.
-In `scikit-learn`, it is easier to work with the input features as a data frame
-rather than a series, so we opt for two brackets here. On the other hand, the response variable
-can be a series, so we use just one bracket there (`sacramento_train["price"]`).
+接下来，我们调用 `sacr_gridsearch` 的 `fit` 方法来运行交叉验证。请注意，输入特征用了两层方括号（`sacramento_train[["sqft"]]`），这样得到的是只含一列的数据框。正如我们在{numref}`第 %s 章 <wrangling>`中学到的，传入列名列表就能得到包含部分列的数据框；`["sqft"]` 是只含一个元素的列表，所以得到的数据框只有一列。如果只用一层方括号（`sacramento_train["sqft"]`），得到的则是一个序列。在 `scikit-learn` 中，把输入特征当作数据框处理比当作序列更方便，因此这里我们选择两层方括号。而在响应变量那边，用序列就可以了，所以只用一层方括号（`sacramento_train["price"]`）。
 
-As in {numref}`Chapter %s <classification2>`, once the model has been fit
-we will wrap the `cv_results_` output in a data frame, extract
-only the relevant columns, compute the standard error based on 5 folds,
-and rename the parameter column to be more readable.
+与{numref}`第 %s 章 <classification2>`一样，模型拟合完成后，我们会把 `cv_results_` 的输出放进数据框，只提取需要的列，按 5 折计算标准误，并把参数列重命名，使其更易读。
 
 
 ```{code-cell} ipython3
@@ -641,34 +451,16 @@ sacr_results = (
 sacr_results
 ```
 
-In the `sacr_results` results data frame, we see that the
-`n_neighbors` variable contains the values of $K$,
-and `mean_test_score` variable contains the value of the RMSPE estimated via
-cross-validation...Wait a moment! Isn't the RMSPE supposed to be nonnegative?
-Recall that when we specified the `scoring` argument in the `GridSearchCV` object,
-we used the value `"neg_root_mean_squared_error"`. See the `neg_` at the start?
-That stands for *negative*! As it turns out, `scikit-learn` always tries to *maximize* a score
-when it tunes a model. But we want to *minimize* the RMSPE when we tune a regression
-model. So `scikit-learn` gets around this by working with the *negative* RMSPE instead.
-It is a little convoluted, but we need to add one more step to convert the negative
-RMSPE back to the regular RMSPE.
+在结果数据框 `sacr_results` 中可以看到，`n_neighbors` 变量存放的是 $K$ 的各项取值，`mean_test_score` 变量存放的是交叉验证估计出的 RMSPE……等一下！RMSPE 不是应该非负吗？回想一下，我们在 `GridSearchCV` 对象中指定 `scoring` 参数时，用的值是 `"neg_root_mean_squared_error"`。看到开头的 `neg_` 了吗？它表示*负*（negative）！原来，`scikit-learn` 调优模型时总是设法*最大化*得分，而调优回归模型时我们要*最小化* RMSPE。于是 `scikit-learn` 改用*负的* RMSPE 来绕开这个矛盾。这确实有点绕，但我们还需要再多做一步，把负的 RMSPE 换算回普通的 RMSPE。
 
 ```{code-cell} ipython3
 sacr_results["mean_test_score"] = -sacr_results["mean_test_score"]
 sacr_results
 ```
 
-Alright, now the `mean_test_score` variable actually has values of the RMSPE
-for different numbers of neighbors. Finally, the `sem_test_score` variable
-contains the standard error of our cross-validation RMSPE estimate, which
-is a measure of how uncertain we are in the mean value. Roughly, if
-your estimated mean RMSPE is \$100,000 and standard error is \$1,000, you can expect the
-*true* RMSPE to be somewhere roughly between \$99,000 and \$101,000 (although it
-may fall outside this range).
+好了，现在 `mean_test_score` 变量存放的确实是不同近邻个数下的 RMSPE 取值。最后，`sem_test_score` 变量存放的是交叉验证 RMSPE 估计值的标准误，它衡量我们对这个均值有多不确定。粗略地说，如果估计出的平均 RMSPE 是 \$100,000，标准误是 \$1,000，那么可以预期*真实*的 RMSPE 大致落在 \$99,000 到 \$101,000 之间（不过也可能落在这个范围之外）。
 
-{numref}`fig:07-choose-k-knn-plot` visualizes how the RMSPE varies with the number of neighbors $K$.
-We take the *minimum* RMSPE to find the best setting for the number of neighbors.
-The smallest RMSPE occurs when $K$ is {glue:text}`best_k_sacr`.
+{numref}`fig:07-choose-k-knn-plot` 展示了 RMSPE 如何随近邻个数 $K$ 变化。我们取 RMSPE 的*最小值*来确定近邻个数的最佳设置。RMSPE 最小时，$K$ 的取值为 {glue:text}`best_k_sacr`。
 
 ```{code-cell} ipython3
 :tags: [remove-cell]
@@ -698,13 +490,10 @@ glue("fig:07-choose-k-knn-plot", sacr_tunek_plot, display=False)
 :::{glue:figure} fig:07-choose-k-knn-plot
 :name: fig:07-choose-k-knn-plot
 
-Effect of the number of neighbors on the RMSPE.
+近邻个数对 RMSPE 的影响。
 :::
 
-To see which parameter value corresponds to the minimum RMSPE,
-we can also access the `best_params_` attribute of the original fit `GridSearchCV` object.
-Note that it is still useful to visualize the results as we did above
-since this provides additional information on how the model performance varies.
+要想知道哪个参数取值对应最小的 RMSPE，我们也可以访问最初拟合的 `GridSearchCV` 对象的 `best_params_` 属性。请注意，像上面那样把结果可视化仍然很有用，因为它能额外说明模型性能是怎样变化的。
 
 ```{code-cell} ipython3
 sacr_gridsearch.best_params_
@@ -712,17 +501,10 @@ sacr_gridsearch.best_params_
 
 +++
 
-## Underfitting and overfitting
-Similar to the setting of classification, by setting the number of neighbors
-to be too small or too large, we cause the RMSPE to increase, as shown in
-{numref}`fig:07-choose-k-knn-plot`. What is happening here?
+## 欠拟合与过拟合
+与分类的情形类似，把近邻个数设得太小或太大，都会使 RMSPE 增大，如{numref}`fig:07-choose-k-knn-plot` 所示。这里发生了什么？
 
-{numref}`fig:07-howK` visualizes the effect of different settings of $K$ on the
-regression model. Each plot shows the predicted values for house sale price from
-our K-NN regression model for 6 different values for $K$: 1, 3, 25, {glue:text}`best_k_sacr`, 250, and 699 (i.e., all of the training data).
-For each model, we predict prices for the range of possible home sizes we
-observed in the data set (here 500 to 5,000 square feet) and we plot the
-predicted prices as a orange line.
+{numref}`fig:07-howK` 展示了 $K$ 取不同值时回归模型的表现。每张图都给出了我们的 k 近邻回归模型在 6 个不同的 $K$ 值下预测的房屋售价：1、3、25、{glue:text}`best_k_sacr`、250 和 699（也就是全部训练数据）。对每个模型，我们都预测数据集中出现过的各种房屋面积（这里是 500 到 5,000 平方英尺）对应的价格，并把预测价格画成橙色线条。
 
 ```{code-cell} ipython3
 :tags: [remove-cell]
@@ -779,74 +561,26 @@ glue(
 :::{glue:figure} fig:07-howK
 :name: fig:07-howK
 
-Predicted values for house price (represented as a orange line) from K-NN regression models for six different values for $K$.
+取六个不同 $K$ 值时 k 近邻回归模型预测的房屋价格（用橙色线条表示）。
 :::
 
 +++
 
-```{index} overfitting; regression
+```{index} 过拟合; 回归
 ```
 
-{numref}`fig:07-howK` shows that when $K$ = 1, the orange line runs perfectly
-through (almost) all of our training observations.
-This happens because our
-predicted values for a given region (typically) depend on just a single observation.
-In general, when $K$ is too small, the line follows the training data quite
-closely, even if it does not match it perfectly.
-If we used a different training data set of house prices and sizes
-from the Sacramento real estate market, we would end up with completely different
-predictions. In other words, the model is *influenced too much* by the data.
-Because the model follows the training data so closely, it will not make accurate
-predictions on new observations which, generally, will not have the same fluctuations
-as the original training data.
-Recall from the classification
-chapters that this behavior&mdash;where the model is influenced too much
-by the noisy data&mdash;is called *overfitting*; we use this same term
-in the context of regression.
+{numref}`fig:07-howK` 表明，当 $K$ = 1 时，橙色线条完美地穿过了我们几乎所有的训练观测。这是因为某个区域的预测值（通常）只取决于单个观测。一般来说，$K$ 太小时，线条会相当贴近训练数据，即使不能与之完全吻合。如果我们换一份来自萨克拉门托房地产市场、包含房屋价格和面积的训练数据集，最终会得到完全不同的预测。换句话说，模型受数据的*影响太大*。由于模型紧紧跟随训练数据，它对新的观测就做不出准确预测，而新观测通常不会带有与原训练数据相同的波动。回忆分类各章的内容可知，这种模型受有噪声数据影响过大的行为称为*过拟合*；在回归的语境中我们也用同一个术语。
 
-```{index} underfitting; regression
+```{index} 欠拟合; 回归
 ```
 
-What about the plots in {numref}`fig:07-howK` where $K$ is quite large,
-say, $K$ = 250 or 699?
-In this case the orange line becomes extremely smooth, and actually becomes flat
-once $K$ is equal to the number of datapoints in the entire data set.
-This happens because our predicted values for a given x value (here, home
-size), depend on many neighboring observations; in the case where $K$ is equal
-to the size of the data set, the prediction is just the mean of the house prices
-in the data set (completely ignoring the house size).
-In contrast to the $K=1$ example,
-the smooth, inflexible orange line does not follow the training observations very closely.
-In other words, the model is *not influenced enough* by the training data.
-Recall from the classification
-chapters that this behavior is called *underfitting*; we again use this same
-term in the context of regression.
+{numref}`fig:07-howK` 中 $K$ 相当大的那几张图，比如 $K$ = 250 或 699，又是什么情况呢？这时橙色线条变得极其平滑，而当 $K$ 等于整个数据集中的数据点个数时，它实际上变成了一条水平线。这是因为，对于某个 x 取值（这里是房屋面积），我们的预测值取决于许多近邻观测；如果 $K$ 等于数据集的大小，预测值就只是数据集中房屋价格的均值（完全忽略了房屋面积）。与 $K=1$ 的例子相比，这条平滑、不灵活的橙色线条并不怎么贴近训练观测。换句话说，模型受训练数据的*影响不够*。回忆分类各章的内容可知，这种行为称为*欠拟合*；在回归的语境中我们同样使用这个术语。
 
-Ideally, what we want is neither of the two situations discussed above. Instead,
-we would like a model that (1) follows the overall "trend" in the training data, so the model
-actually uses the training data to learn something useful, and (2) does not follow
-the noisy fluctuations, so that we can be confident that our model will transfer/generalize
-well to other new data. If we explore
-the other values for $K$, in particular $K$ = {glue:text}`best_k_sacr` (as suggested by cross-validation),
-we can see it achieves this goal: it follows the increasing trend of house price
-versus house size, but is not influenced too much by the idiosyncratic variations
-in price. All of this is similar to how
-the choice of $K$ affects K-nearest neighbors classification, as discussed in the previous
-chapter.
+理想情况下，上面讨论的两种情况都不是我们想要的。我们希望模型既能（1）跟随训练数据整体的“趋势”，真正利用训练数据学到有用的东西，又能（2）不跟随有噪声的波动，这样我们才有把握说模型能很好地迁移/泛化到其他新数据。如果我们再看看 $K$ 的其他取值，特别是 $K$ = {glue:text}`best_k_sacr`（正如交叉验证所建议的），就会发现它达到了这个目标：它跟随房屋价格随房屋面积上升的趋势，又不会受价格中那些个别波动的影响。这一切都与 $K$ 的取值如何影响 k 近邻分类类似，上一章已经讨论过。
 
-## Evaluating on the test set
+## 在测试集上评估
 
-To assess how well our model might do at predicting on unseen data, we will
-assess its RMSPE on the test data. To do this, we first need to retrain the
-K-NN regression model on the entire training data set using $K =$ {glue:text}`best_k_sacr`
-neighbors. As we saw in {numref}`Chapter %s <classification2>` we do not have to do this ourselves manually; `scikit-learn`
-does it for us automatically. To make predictions with the best model on the test data,
-we can use the `predict` method of the fit `GridSearchCV` object.
-We then use the `mean_squared_error` function (with the `y_true` and `y_pred` arguments)
-to compute the mean squared prediction error, and finally take the
-square root to get the RMSPE. The reason that we do not just use the `score`
-method---as in {numref}`Chapter %s <classification2>`---is that the `KNeighborsRegressor`
-model uses a different default scoring metric than the RMSPE.
+要评估模型在未见过的数据上预测得怎么样，我们来看它在测试数据上的 RMSPE。为此，首先要用 $K =$ {glue:text}`best_k_sacr` 个近邻在整个训练数据集上重新训练 k 近邻回归模型。正如我们在{numref}`第 %s 章 <classification2>`中所见，这一步不必自己手动完成，`scikit-learn` 会自动替我们做好。要用最佳模型在测试数据上做预测，我们可以调用已拟合的 `GridSearchCV` 对象的 `predict` 方法。接着用 `mean_squared_error` 函数（传入 `y_true` 和 `y_pred` 参数）计算均方预测误差，最后开平方得到 RMSPE。我们不直接使用 `score` 方法——如{numref}`第 %s 章 <classification2>`中那样——是因为 `KNeighborsRegressor` 模型默认使用的评分指标与 RMSPE 不同。
 
 ```{code-cell} ipython3
 from sklearn.metrics import mean_squared_error
@@ -865,37 +599,9 @@ RMSPE
 glue("test_RMSPE", "{0:,.0f}".format(RMSPE))
 ```
 
-Our final model's test error as assessed by RMSPE
-is \${glue:text}`test_RMSPE`.
-Note that RMSPE is measured in the same units as the response variable.
-In other words, on new observations, we expect the error in our prediction to be
-*roughly* \${glue:text}`test_RMSPE`.
-From one perspective, this is good news: this is about the same as the cross-validation
-RMSPE estimate of our tuned model
-(which was \${glue:text}`cv_RMSPE`,
-so we can say that the model appears to generalize well
-to new data that it has never seen before.
-However, much like in the case of K-NN classification, whether this value for RMSPE is *good*&mdash;i.e.,
-whether an error of around \${glue:text}`test_RMSPE`
-is acceptable&mdash;depends entirely on the application.
-In this application, this error
-is not prohibitively large, but it is not negligible either;
-\${glue:text}`test_RMSPE`
-might represent a substantial fraction of a home buyer's budget, and
-could make or break whether or not they could afford put an offer on a house.
+以 RMSPE 衡量，我们最终模型的测试误差为 \${glue:text}`test_RMSPE`。请注意，RMSPE 的度量单位与响应变量相同。换句话说，对于新观测，我们预计预测误差*大致*为 \${glue:text}`test_RMSPE`。从一个角度看，这是好消息：这个值和调优后模型的交叉验证 RMSPE 估计值差不多（该估计值为 \${glue:text}`cv_RMSPE`），因此可以说，该模型看上去能很好地泛化到从未见过的新数据。不过，与 k 近邻分类的情形很像，这个 RMSPE 值算不算*好*——也就是说，大约 \${glue:text}`test_RMSPE` 的误差是否可以接受——完全取决于具体应用。在这个应用里，这个误差不算大得无法承受，但也绝不可忽略；\${glue:text}`test_RMSPE` 可能占购房者预算的相当大一部分，甚至决定他们到底买不买得起、能不能给房子出价。
 
-Finally, {numref}`fig:07-predict-all` shows the predictions that our final
-model makes across the range of house sizes we might encounter in the
-Sacramento area.
-Note that instead of predicting the house price only for those house sizes that happen to appear in our data,
-we predict it for evenly spaced values between the minimum and maximum in the data set
-(roughly 500 to 5000 square feet).
-We superimpose this prediction line on a scatter
-plot of the original housing price data,
-so that we can qualitatively assess if the model seems to fit the data well.
-You have already seen a
-few plots like this in this chapter, but here we also provide the code that
-generated it as a learning opportunity.
+最后，{numref}`fig:07-predict-all` 展示了我们最终的模型在萨克拉门托地区可能遇到的各种房屋面积上给出的预测。请注意，我们并不是只对数据中恰好出现的那些房屋面积预测房价，而是对数据集中最小值与最大值之间等间距的取值（大约 500 到 5000 平方英尺）逐一预测。我们把这条预测线叠加在原始房价数据的散点图上，这样就能定性地判断模型是否很好地拟合了数据。本章前面你已经见过几张这样的图，不过这里我们也把生成它的代码提供出来，当作一次学习机会。
 
 ```{code-cell} ipython3
 :tags: [remove-output]
@@ -940,40 +646,21 @@ glue("fig:07-predict-all", sacr_preds_plot)
 :::{glue:figure} fig:07-predict-all
 :name: fig:07-predict-all
 
-Predicted values of house price (orange line) for the final K-NN regression model.
+最终 k 近邻回归模型预测的房价（橙色线）。
 :::
 
 +++
 
-## Multivariable K-NN regression
+## 多元 k 近邻回归
 
-As in K-NN classification, we can use multiple predictors in K-NN regression.
-In this setting, we have the same concerns regarding the scale of the predictors. Once again,
- predictions are made by identifying the $K$
-observations that are nearest to the new point we want to predict; any
-variables that are on a large scale will have a much larger effect than
-variables on a small scale. Hence, we should re-define the preprocessor in the
-pipeline to incorporate all predictor variables.
+与 k 近邻分类一样，k 近邻回归也可以使用多个预测变量。此时预测变量的标度会带来同样的顾虑。同样，做预测时要先找出与待预测的新点最接近的 $K$ 个观测；标度大的变量所起的作用会远大于标度小的变量。因此，我们应当重新定义流水线中的预处理器（preprocessor），把所有预测变量都纳入进来。
 
-Note that we also have the same concern regarding the selection of predictors
-in K-NN regression as in K-NN classification: having more predictors is **not** always
-better, and the choice of which predictors to use has a potentially large influence
-on the quality of predictions. Fortunately, we can use the predictor selection
-algorithm from {numref}`Chapter %s <classification2>` in K-NN regression as well.
-As the algorithm is the same, we will not cover it again in this chapter.
+还要注意，k 近邻回归中预测变量的选择与 k 近邻分类有同样的顾虑：预测变量更多**并不**总是更好，而且选用哪些预测变量对预测质量可能有很大影响。好在 k 近邻回归同样可以使用{numref}`第 %s 章 <classification2>`中的预测变量选择算法。算法是同一个，本章不再重复介绍。
 
-```{index} K-nearest neighbors; multivariable regression, Sacramento real estate
+```{index} k 近邻; 多元回归, 萨克拉门托房地产市场
 ```
 
-We will now demonstrate a multivariable K-NN regression analysis of the
-Sacramento real estate data using `scikit-learn`. This time we will use
-house size (measured in square feet) as well as number of bedrooms as our
-predictors, and continue to use house sale price as our response variable
-that we are trying to predict.
-It is always a good practice to do exploratory data analysis, such as
-visualizing the data, before we start modeling the data. {numref}`fig:07-bedscatter`
-shows that the number of bedrooms might provide useful information
-to help predict the sale price of a house.
+下面我们用 `scikit-learn` 对萨克拉门托房地产数据做一次多元 k 近邻回归分析。这一次，我们用房屋面积（以平方英尺计）和卧室数量作为预测变量，并继续用房屋售价作为我们要预测的响应变量。在开始建模之前先做探索性数据分析（例如把数据可视化），始终是良好实践。{numref}`fig:07-bedscatter` 表明，卧室数量也许能提供有助于预测房屋售价的有用信息。
 
 ```{code-cell} ipython3
 :tags: [remove-output]
@@ -995,32 +682,21 @@ glue("fig:07-bedscatter", plot_beds)
 :::{glue:figure} fig:07-bedscatter
 :name: fig:07-bedscatter
 
-Scatter plot of the sale price of houses versus the number of bedrooms.
+房屋售价与卧室数量的散点图。
 :::
 
 +++
 
-{numref}`fig:07-bedscatter` shows that as the number of bedrooms increases,
-the house sale price tends to increase as well, but that the relationship
-is quite weak. Does adding the number of bedrooms
-to our model improve our ability to predict price? To answer that
-question, we will have to create a new K-NN regression
-model using house size and number of bedrooms, and then we can compare it to
-the model we previously came up with that only used house
-size. Let's do that now!
+{numref}`fig:07-bedscatter` 表明，卧室数量增加时，房屋售价往往也随之上升，但两者关系相当弱。把卧室数量加入模型，能否提高我们预测价格的能力？要回答这个问题，我们需要新建一个使用房屋面积和卧室数量的 k 近邻回归模型，再把它与之前只用房屋面积的模型比较。我们现在就动手！
 
-First we'll build a new model object and preprocessor for the analysis.
-Note that we pass the list `["sqft", "beds"]` into the `make_column_transformer`
-function to denote that we have two predictors.  Moreover, we do not specify `n_neighbors` in
-`KNeighborsRegressor`, indicating that we want this parameter to be tuned by `GridSearchCV`.
+首先，我们为这次分析构建新的模型对象和预处理器。注意，我们把列表 `["sqft", "beds"]` 传给 `make_column_transformer` 函数，以表明有两个预测变量。此外，我们没有在 `KNeighborsRegressor` 中指定 `n_neighbors`，说明希望这个参数由 `GridSearchCV` 来调优。
 
 ```{code-cell} ipython3
 sacr_preprocessor = make_column_transformer((StandardScaler(), ["sqft", "beds"]))
 sacr_pipeline = make_pipeline(sacr_preprocessor, KNeighborsRegressor())
 ```
 
-Next, we'll use 5-fold cross-validation with a `GridSearchCV` object
-to choose the number of neighbors via the minimum RMSPE:
+接下来，我们用 5 折交叉验证配合 `GridSearchCV` 对象，按照 RMSPE 最小来选取近邻个数：
 
 ```{code-cell} ipython3
 # create the 5-fold GridSearchCV object
@@ -1066,22 +742,9 @@ glue("best_k_sacr_multi", "{:d}".format(best_k_sacr_multi))
 glue("cv_RMSPE_2pred", "{0:,.0f}".format(min_rmspe_sacr_multi))
 ```
 
-Here we see that the smallest estimated RMSPE from cross-validation occurs when $K =$ {glue:text}`best_k_sacr_multi`.
-If we want to compare this multivariable K-NN regression model to the model with only a single
-predictor *as part of the model tuning process* (e.g., if we are running forward selection as described
-in the chapter on evaluating and tuning classification models),
-then we must compare the RMSPE estimated using only the training data via cross-validation.
-Looking back, the estimated cross-validation RMSPE for the single-predictor
-model was \${glue:text}`cv_RMSPE`.
-The estimated cross-validation RMSPE for the multivariable model is
-\${glue:text}`cv_RMSPE_2pred`.
-Thus in this case, we did not improve the model
-by a large amount by adding this additional predictor.
+这里我们看到，交叉验证给出的最小 RMSPE 估计值出现在 $K =$ {glue:text}`best_k_sacr_multi` 时。如果要在*模型调优过程中*把这个多元 k 近邻回归模型与只有单个预测变量的模型作比较（例如，我们正在做前向选择（forward selection），具体做法见讲解分类模型评估与调优的那一章），那就必须比较仅用训练数据通过交叉验证估计出的 RMSPE。回头看，单预测变量模型的交叉验证 RMSPE 估计值为 \${glue:text}`cv_RMSPE`。多元模型的交叉验证 RMSPE 估计值为 \${glue:text}`cv_RMSPE_2pred`。因此在这个例子里，加入这个额外的预测变量并没有让模型提升多少。
 
-Regardless, let's continue the analysis to see how we can make predictions with a multivariable K-NN regression model
-and evaluate its performance on test data. As previously, we will use the best model to make predictions on the test data
-via the `predict` method of the fit `GridSearchCV` object. Finally, we will use the `mean_squared_error` function
-to compute the RMSPE.
+不管怎样，我们继续分析，看看如何用多元 k 近邻回归模型做预测，并在测试数据上评估它的性能。和前面一样，我们用最佳模型对测试数据做预测，也就是调用已拟合的 `GridSearchCV` 对象的 `predict` 方法。最后，我们用 `mean_squared_error` 函数计算 RMSPE。
 
 ```{code-cell} ipython3
 sacramento_test["predicted"] = sacr_gridsearch.predict(sacramento_test)
@@ -1099,12 +762,7 @@ RMSPE_mult
 glue("RMSPE_mult", "{0:,.0f}".format(RMSPE_mult))
 ```
 
-This time, when we performed K-NN regression on the same data set, but also
-included number of bedrooms as a predictor, we obtained a RMSPE test error
-of \${glue:text}`RMSPE_mult`.
-{numref}`fig:07-knn-mult-viz` visualizes the model's predictions overlaid on top of the data. This
-time the predictions are a surface in 3D space, instead of a line in 2D space, as we have 2
-predictors instead of 1.
+这一次，我们在同一个数据集上做 k 近邻回归，但把卧室数量也作为预测变量，得到的 RMSPE 测试误差为 \${glue:text}`RMSPE_mult`。{numref}`fig:07-knn-mult-viz` 把模型的预测叠加在数据之上做了可视化。这次有 2 个预测变量而不是 1 个，所以预测不再是二维空间中的一条直线，而是三维空间中的一个曲面。
 
 ```{code-cell} ipython3
 :tags: [remove-input]
@@ -1160,58 +818,41 @@ else:
 :name: fig:07-knn-mult-viz
 :figclass: caption-hack
 
-K-NN regression model's predictions represented as a surface in 3D space overlaid on top of the data using three predictors (price, house size, and the number of bedrooms). Note that in general we recommend against using 3D visualizations; here we use a 3D visualization only to illustrate what the surface of predictions looks like for learning purposes.
+k 近邻回归模型的预测以三维空间中的曲面表示，叠加在使用三个预测变量（价格、房屋面积和卧室数量）的数据之上。一般我们并不推荐使用三维可视化；这里只是为了教学演示，才用三维可视化展示预测曲面是什么样子。
 ```
 
 +++
 
-We can see that the predictions in this case, where we have 2 predictors, form
-a surface instead of a line. Because the newly added predictor (number of bedrooms) is
-related to price (as price changes, so does number of bedrooms)
-and is not totally determined by house size (our other predictor),
-we get additional and useful information for making our
-predictions. For example, in this model we would predict that the cost of a
-house with a size of 2,500 square feet generally increases slightly as the number
-of bedrooms increases. Without having the additional predictor of number of
-bedrooms, we would predict the same price for these two houses.
+可以看到，在有 2 个预测变量时，预测形成的是曲面而不是直线。新加入的预测变量（卧室数量）与价格有关（价格变化时，卧室数量也随之变化），并且不完全由房屋面积（我们的另一个预测变量）决定，因此它为我们做预测带来了额外而有用的信息。例如，在这个模型中，我们会预测面积为 2,500 平方英尺的房屋，其价格通常随卧室数量增加而略有上升。如果没有卧室数量这个额外的预测变量，我们对这两栋房子会给出相同的预测价格。
 
 +++
 
-## Strengths and limitations of K-NN regression
+## k 近邻回归的优势与局限
 
-As with K-NN classification (or any prediction algorithm for that matter), K-NN
-regression has both strengths and weaknesses. Some are listed here:
+与 k 近邻分类（其实任何预测算法都是如此）一样，k 近邻回归既有优势也有不足。这里列出其中一些：
 
-**Strengths:** K-nearest neighbors regression
+**优势：** k 近邻回归
 
-1. is a simple, intuitive algorithm,
-2. requires few assumptions about what the data must look like, and
-3. works well with non-linear relationships (i.e., if the relationship is not a straight line).
+1. 是一种简单、直观的算法，
+2. 对数据必须呈现什么样子只提出很少的假设，
+3. 能很好地处理非线性关系（即关系不是一条直线）。
 
-**Weaknesses:** K-nearest neighbors regression
+**不足：** k 近邻回归
 
-1. becomes very slow as the training data gets larger,
-2. may not perform well with a large number of predictors, and
-3. may not predict well beyond the range of values input in your training data.
+1. 训练数据变大时会变得非常慢，
+2. 预测变量很多时可能表现不佳，
+3. 在你的训练数据取值范围之外可能预测得不好。
 
 +++
 
-## Exercises
+## 习题
 
-Practice exercises for the material covered in this chapter can be found in the
-accompanying [worksheets repository](https://worksheets.python.datasciencebook.ca) in
-the "Regression I: K-nearest neighbors" row. You can preview a
-non-interactive version of the worksheet for this chapter by clicking "view
-worksheet." To work on the exercises interactively, follow the instructions in
-the worksheets repository to download all worksheets, and follow the
-instructions for computer setup found in {numref}`Chapter %s <move-to-your-own-machine>`. This will ensure
-that the automated feedback and guidance that the worksheets provide will
-function as intended.
+本章所讲内容对应的练习题，可以在配套的[练习册仓库](https://worksheets.python.datasciencebook.ca)中“Regression I: K-nearest neighbors”那一行找到。点击“查看练习册（view worksheet）”，你就能预览本章练习册的非交互版本。要交互式地做这些习题，请按练习册仓库中的说明下载全部练习册，并按{numref}`第 %s 章 <move-to-your-own-machine>`中给出的计算机环境配置说明操作。这样才能保证练习册提供的自动反馈和指导按预期正常工作。
 
 
 +++
 
-## References
+## 参考文献
 
 ```{bibliography}
 :filter: docname in docnames

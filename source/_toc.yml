@@ -1,13 +1,13 @@
 format: jb-book
 root: index.md
 parts:
-- caption: Front Matter
+- caption: 前言
   chapters:
     - file: preface-text.md
     - file: foreword-text.md
     - file: acknowledgements.md
     - file: authors.md
-- caption: Chapters
+- caption: 正文章节
   numbered: 3
   chapters:
     - file: intro.md

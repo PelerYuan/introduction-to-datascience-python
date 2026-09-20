@@ -1,0 +1,30 @@
+{
+  "src": "source\\regression2.md",
+  "front_matter_bytes": 256,
+  "chunks": [
+    {
+      "index": 1,
+      "lines": 435,
+      "bytes": 15618,
+      "first_line": ""
+    },
+    {
+      "index": 2,
+      "lines": 399,
+      "bytes": 13664,
+      "first_line": "+++"
+    },
+    {
+      "index": 3,
+      "lines": 480,
+      "bytes": 17225,
+      "first_line": "+++"
+    },
+    {
+      "index": 4,
+      "lines": 83,
+      "bytes": 3650,
+      "first_line": "+++"
+    }
+  ]
+}

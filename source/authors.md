@@ -13,63 +13,25 @@ kernelspec:
   name: python3
 ---
 
-# About the authors
+# 作者简介
 
-The original version of this textbook was developed by Tiffany Timbers, Trevor
-Campbell, and Melissa Lee for the R programming language. The content of the R
-textbook was adapted to Python by Trevor Campbell, Joel Ostblom, and Lindsey
-Heagy.
+本书最初由 Tiffany Timbers、Trevor Campbell 和 Melissa Lee 为 R 语言编写。R 版教材的内容由 Trevor Campbell、Joel Ostblom 和 Lindsey Heagy 改写成 Python 版本。
 
-**[Tiffany Timbers](https://www.tiffanytimbers.com/)** is an Associate Professor of Teaching in the Department of
-Statistics and Co-Director for the Master of Data Science program (Vancouver
-Option) at the University of British Columbia. In these roles she teaches and
-develops curriculum around the responsible application of Data Science to solve
-real-world problems. One of her favorite courses she teaches is a graduate
-course on collaborative software development, which focuses on teaching how to
-create R and Python packages using modern tools and workflows.
+**[Tiffany Timbers](https://www.tiffanytimbers.com/)** 是不列颠哥伦比亚大学统计系教学系列副教授，并担任该校数据科学硕士项目（温哥华方向）联合主任。在这些岗位上，她围绕如何负责任地应用数据科学解决现实问题开展教学并设计课程体系。她最喜欢讲授的课程之一，是一门关于协作式软件开发的研究生课程，重点教学生如何用现代工具和工作流创建 R 包和 Python 包。
 
 +++
 
-**[Trevor Campbell](https://trevorcampbell.me/)** is an Associate Professor in the Department of Statistics at
-the University of British Columbia. His research focuses on automated, scalable
-Bayesian inference algorithms, Bayesian nonparametrics, streaming data, and
-Bayesian theory. He was previously a postdoctoral associate advised by Tamara
-Broderick in the Computer Science and Artificial Intelligence Laboratory
-(CSAIL) and Institute for Data, Systems, and Society (IDSS) at MIT, a Ph.D.
-candidate under Jonathan How in the Laboratory for Information and Decision
-Systems (LIDS) at MIT, and before that he was in the Engineering Science
-program at the University of Toronto.
+**[Trevor Campbell](https://trevorcampbell.me/)** 是不列颠哥伦比亚大学统计系副教授。他的研究关注自动化、可扩展的贝叶斯推断算法、贝叶斯非参数方法、流式数据和贝叶斯理论。他此前的经历包括：在麻省理工学院（MIT）计算机科学与人工智能实验室（CSAIL）与数据、系统与社会研究所（IDSS）担任博士后研究员，指导老师是 Tamara Broderick；在 MIT 信息与决策系统实验室（LIDS）师从 Jonathan How 攻读博士学位；更早的时候，他在多伦多大学工程科学专业学习。
 
 +++
 
-**[Melissa Lee](https://www.stat.ubc.ca/users/melissa-lee)** is an Assistant Professor of Teaching in the Department of
-Statistics at the University of British Columbia. She teaches and develops
-curriculum for undergraduate statistics and data science courses. Her work
-focuses on student-centered approaches to teaching, developing and assessing
-open educational resources, and promoting equity, diversity, and inclusion
-initiatives.
+**[Melissa Lee](https://www.stat.ubc.ca/users/melissa-lee)** 是不列颠哥伦比亚大学统计系教学系列助理教授。她为本科生讲授统计学与数据科学课程，并设计课程体系。她的工作关注以学生为中心的教学方法、开放教育资源的开发与评估，以及推动公平、多元与包容的各项举措。
 
 +++
 
-**[Joel Ostblom](https://joelostblom.com/)** is an Assistant Professor of Teaching in the Department of
-Statistics at the University of British Columbia.
-During his PhD, Joel developed a passion for data science and reproducibility
-through the development of quantitative image analysis pipelines for studying
-stem cell and developmental biology. He has since co-created or lead the
-development of several courses and workshops at the University of Toronto and
-is now an assistant professor of teaching in the statistics department at the
-University of British Columbia. Joel cares deeply about spreading data literacy
-and excitement over programmatic data analysis, which is reflected in his
-contributions to open source projects and data science learning resources.
+**[Joel Ostblom](https://joelostblom.com/)** 是不列颠哥伦比亚大学统计系教学系列助理教授。攻读博士期间，Joel 在开发用于研究干细胞与发育生物学的定量图像分析流水线时，对数据科学与可复现性产生了浓厚兴趣。此后，他在多伦多大学参与创建或主持开发了若干课程与工作坊，如今担任不列颠哥伦比亚大学统计系教学系列助理教授。Joel 十分看重传播数据素养，也乐于让更多人对编程式数据分析产生热情，这一点体现在他为开源项目和数据科学学习资源所做的贡献之中。
 
 +++
 
-**[Lindsey Heagy](https://lindseyjh.ca/)** is an Assistant Professor in the Department of Earth, Ocean, and Atmospheric
-Sciences and director of the Geophysical Inversion Facility at the University of British Columbia.
-Her research combines computational methods in numerical simulations, inversions, and machine
-learning to answer questions about the subsurface of the Earth. Primary applications include
-mineral exploration, carbon sequestration, groundwater and environmental studies. She
-completed her BSc at the University of Alberta, her PhD at the University of British Columbia,
-and held a Postdoctoral research position at the University of California Berkeley prior to
-starting her current position at UBC.
+**[Lindsey Heagy](https://lindseyjh.ca/)** 是不列颠哥伦比亚大学地球、海洋与大气科学系助理教授，兼地球物理反演实验室主任。她的研究把数值模拟、反演与机器学习中的计算方法结合起来，回答有关地球地下的问题。主要应用领域包括矿产勘查、碳封存、地下水与环境研究。她本科毕业于阿尔伯塔大学，博士毕业于不列颠哥伦比亚大学；在到 UBC 任职之前，她曾在加州大学伯克利分校担任博士后研究员。
 

@@ -13,7 +13,7 @@ kernelspec:
 ---
 
 (regression2)=
-# Regression II: linear regression
+# 回归 II：线性回归
 
 ```{code-cell} ipython3
 :tags: [remove-cell]
@@ -26,84 +26,43 @@ import plotly.express as px
 import plotly.graph_objects as go
 ```
 
-## Overview
-Up to this point, we have solved all of our predictive problems&mdash;both classification
-and regression&mdash;using K-nearest neighbors (K-NN)-based approaches. In the context of regression,
-there is another commonly used method known as *linear regression*. This chapter provides an introduction
-to the basic concept of linear regression, shows how to use `scikit-learn` to perform linear regression in Python,
-and characterizes its strengths and weaknesses compared to K-NN regression. The focus is, as usual,
-on the case where there is a single predictor and single response variable of interest; but the chapter
-concludes with an example using *multivariable linear regression* when there is more than one
-predictor.
+## 概述
+到目前为止，我们解决所有预测性问题——无论是分类还是回归——用的都是基于 k 近邻（K-NN）的方法。在回归问题中，还有一种常用方法，叫作*线性回归*。本章介绍线性回归的基本概念，演示如何用 `scikit-learn` 在 Python 中做线性回归，并说明它与 k 近邻回归相比有哪些长处和不足。和往常一样，重点放在只有一个预测变量和一个响应变量的情形；不过本章最后会用一个*多元线性回归（multivariable linear regression）*的例子，说明预测变量不止一个时该怎么办。
 
-## Chapter learning objectives
-By the end of the chapter, readers will be able to do the following:
+## 本章学习目标
+学完本章后，你将能够：
 
-- Use Python to fit simple and multivariable linear regression models on training data.
-- Evaluate the linear regression model on test data.
-- Compare and contrast predictions obtained from K-nearest neighbors regression to those obtained using linear regression from the same data set.
-- Describe how linear regression is affected by outliers and multicollinearity.
+- 用 Python 在训练数据上拟合简单线性回归模型和多元线性回归模型。
+- 在测试数据上评估线性回归模型。
+- 比较并对照同一数据集上由 k 近邻回归和线性回归得到的预测。
+- 说明离群值和多重共线性（multicollinearity）会如何影响线性回归。
 
 +++
 
-## Simple linear regression
+## 简单线性回归
 
-```{index} regression; linear
+```{index} 回归; 线性
 ```
 
-At the end of the previous chapter, we noted some limitations of K-NN regression.
-While the method is simple and easy to understand, K-NN regression does not
-predict well beyond the range of the predictors in the training data, and
-the method gets significantly slower as the training data set grows.
-Fortunately, there is an alternative to K-NN regression&mdash;*linear regression*&mdash;that addresses
-both of these limitations. Linear regression is also very commonly
-used in practice because it provides an interpretable mathematical equation that describes
-the relationship between the predictor and response variables. In this first part of the chapter, we will focus on *simple* linear regression,
-which involves only one predictor variable and one response variable; later on, we will consider
- *multivariable* linear regression, which involves multiple predictor variables.
- Like K-NN regression, simple linear regression involves
-predicting a numerical response variable (like race time, house price, or height);
-but *how* it makes those predictions for a new observation is quite different from K-NN regression.
- Instead of looking at the K nearest neighbors and averaging
-over their values for a prediction, in simple linear regression, we create a
-straight line of best fit through the training data and then
-"look up" the prediction using the line.
+上一章末尾，我们提到 k 近邻回归的一些局限。这种方法虽然简单易懂，但在训练数据的预测变量取值范围之外预测效果不佳，而且随着训练数据集变大，速度会明显变慢。好在 k 近邻回归有一个替代方案——*线性回归*——恰好能解决这两个局限。线性回归在实际中也十分常用，因为它给出一个可解释的数学方程，描述预测变量与响应变量之间的关系。本章前半部分讲*简单*线性回归，其中只涉及一个预测变量和一个响应变量；后面我们会讨论*多元*线性回归，其中涉及多个预测变量。和 k 近邻回归一样，简单线性回归预测的也是数值型响应变量（比如赛跑时间、房屋价格或身高）；但它*如何*对新观测作出预测，与 k 近邻回归很不一样。简单线性回归不是找出最近的 K 个近邻、对它们的取值求平均来得到预测，而是穿过训练数据画一条最优拟合直线，再在这条直线上“查”出预测值。
 
 +++
 
-```{index} regression; logistic
+```{index} 回归; 逻辑回归
 ```
 
 ```{note}
-Although we did not cover it in earlier chapters, there
-is another popular method for classification called *logistic
-regression* (it is used for classification even though the name, somewhat confusingly,
-has the word "regression" in it). In logistic regression&mdash;similar to linear regression&mdash;you
-"fit" the model to the training data and then "look up" the prediction for each new observation.
-Logistic regression and K-NN classification have an advantage/disadvantage comparison
-similar to that of linear regression and K-NN
-regression. It is useful to have a good understanding of linear regression before learning about
-logistic regression. After reading this chapter, see the "Additional Resources" section at the end of the
-classification chapters to learn more about logistic regression.
+虽然前面的章节没有涉及，分类还有一种常用的方法，叫作*逻辑回归*（它用于分类，尽管名字里带着“回归”二字，这多少有些让人困惑）。在逻辑回归中——和线性回归类似——你先把模型“拟合”到训练数据上，再为每个新观测“查”出预测值。逻辑回归与 K-NN 分类之间的优势与不足对比，和线性回归与 k 近邻回归之间的对比类似。在学习逻辑回归之前，先较好地理解线性回归会很有帮助。读完本章后，如果想进一步了解逻辑回归，可以看分类各章末尾的“拓展资源”一节。
 ```
 
 +++
 
-```{index} Sacramento real estate, question; regression
+```{index} 萨克拉门托房地产, 问题; 回归
 ```
 
-Let's return to the Sacramento housing data from {numref}`Chapter %s <regression1>` to learn
-how to apply linear regression and compare it to K-NN regression. For now, we
-will consider
-a smaller version of the housing data to help make our visualizations clear.
-Recall our predictive question: can we use the size of a house in the Sacramento, CA area to predict
-its sale price? In particular, recall that we have come across a new 2,000 square-foot house we are interested
-in purchasing with an advertised list price of
-\$350,000. Should we offer the list price, or is that over/undervalued?
-To answer this question using simple linear regression, we use the data we have
-to draw the straight line of best fit through our existing data points.
-The small subset of data as well as the line of best fit are shown
-in {numref}`fig:08-lin-reg1`.
+我们回到{numref}`第 %s 章 <regression1>`中的萨克拉门托住房数据，学习如何应用线性回归，并把它与
+k 近邻回归作比较。这里先用住房数据的一个较小版本，以便把可视化结果看清楚。回忆一下我们的预测性问题：能否用加利福尼亚州萨克拉门托地区的房屋面积来预测它的售价？特别是，回想我们碰到过一栋 2,000 平方英尺的新房，想把它买下来，而广告标价是
+\$350,000。我们该按标价出价吗？这个价格是偏高还是偏低？要用简单线性回归回答这个问题，我们就用手上的数据，穿过已有的数据点画出最优拟合直线。数据的小子集以及最优拟合直线如{numref}`fig:08-lin-reg1` 所示。
 
 ```{code-cell} ipython3
 :tags: [remove-cell]
@@ -186,42 +145,30 @@ glue("fig:08-lin-reg1", small_plot)
 :::{glue:figure} fig:08-lin-reg1
 :name: fig:08-lin-reg1
 
-Scatter plot of sale price versus size with line of best fit for subset of the Sacramento housing data.
+萨克拉门托住房数据子集的售价与面积散点图，图中画出了最优拟合直线。
 :::
 
 +++
 
-```{index} straight line; equation
+```{index} 直线; 方程
 ```
 
-```{index} see: line; straight line
+```{index} see: 线; 直线
 ```
 
-The equation for the straight line is:
+这条直线的方程是：
 
 $$\text{house sale price} = \beta_0 + \beta_1 \cdot (\text{house size}),$$
-where
+其中
 
-- $\beta_0$ is the *vertical intercept* of the line (the price when house size is 0)
-- $\beta_1$ is the *slope* of the line (how quickly the price increases as you increase house size)
+- $\beta_0$ 是这条直线的*纵截距*（房屋面积为 0 时的价格）
+- $\beta_1$ 是这条直线的*斜率*（房屋面积增加时价格上升的快慢）
 
-Therefore using the data to find the line of best fit is equivalent to finding coefficients
-$\beta_0$ and $\beta_1$ that *parametrize* (correspond to) the line of best fit.
-Now of course, in this particular problem, the idea of a 0 square-foot house is a bit silly;
-but you can think of $\beta_0$ here as the "base price," and
-$\beta_1$ as the increase in price for each square foot of space.
-Let's push this thought even further: what would happen in the equation for the line if you
-tried to evaluate the price of a house with size 6 *million* square feet?
-Or what about *negative* 2,000 square feet? As it turns out, nothing in the formula breaks; linear
-regression will happily make predictions for crazy predictor values if you ask it to. But even though
-you *can* make these wild predictions, you shouldn't. You should only make predictions roughly within
-the range of your original data, and perhaps a bit beyond it only if it makes sense. For example,
-the data in {numref}`fig:08-lin-reg1` only reaches around 600 square feet on the low end, but
-it would probably be reasonable to use the linear regression model to make a prediction at 500 square feet, say.
+因此，用数据找出最优拟合直线，等价于找出*参数化*（即与之对应）这条最优拟合直线的系数
+$\beta_0$ 和 $\beta_1$。当然，在这个具体问题里，0 平方英尺的房子这个想法有点荒唐；但你可以把这里的 $\beta_0$ 看作“基础价”，把
+$\beta_1$ 看作每平方英尺面积带来的价格增量。我们把这个想法再推得远一点：如果去算一栋 *600 万*平方英尺的房子的价格，直线的方程会怎样？那*负* 2,000 平方英尺又怎样？结果是，公式本身不会出任何问题；只要你去问，线性回归会很乐意对荒唐的预测变量取值作出预测。但即使你*可以*作出这些不着边际的预测，也不该这么做。你只应把预测限制在原始数据的大致范围内，只有在确实说得通时，才可以稍微超出一点。例如，{numref}`fig:08-lin-reg1` 中的数据低端只到大约 600 平方英尺，但用线性回归模型预测 500 平方英尺的价格，大概还是合理的。
 
-Back to the example! Once we have the coefficients $\beta_0$ and $\beta_1$, we can use the equation
-above to evaluate the predicted sale price given the value we have for the
-predictor variable&mdash;here 2,000 square feet. {numref}`fig:08-lin-reg2` demonstrates this process.
+回到例子！有了系数 $\beta_0$ 和 $\beta_1$，我们就可以用上面的方程，代入预测变量的取值——这里是 2,000 平方英尺——算出预测售价。{numref}`fig:08-lin-reg2` 展示了这个过程。
 
 ```{code-cell} ipython3
 :tags: [remove-cell]
@@ -271,17 +218,13 @@ glue("pred_2000", "{0:,.0f}".format(prediction))
 :::{glue:figure} fig:08-lin-reg2
 :name: fig:08-lin-reg2
 
-Scatter plot of sale price versus size with line of best fit and a red dot at the predicted sale price for a 2,000 square-foot home.
+售价与面积的散点图，图中画出最优拟合直线，并用红点标出一栋 2,000 平方英尺房屋的预测售价。
 :::
 
 +++
 
-By using simple linear regression on this small data set to predict the sale price
-for a 2,000 square-foot house, we get a predicted value of
-\${glue:text}`pred_2000`. But wait a minute...how
-exactly does simple linear regression choose the line of best fit? Many
-different lines could be drawn through the data points.
-Some plausible examples are shown in {numref}`fig:08-several-lines`.
+我们用简单线性回归在这个小数据集上预测一栋 2,000 平方英尺房屋的售价，得到预测值
+\${glue:text}`pred_2000`。不过等一下……简单线性回归究竟是怎样选出最优拟合直线的呢？穿过这些数据点可以画出许多条不同的直线。几个看似合理的例子如{numref}`fig:08-several-lines` 所示。
 
 ```{code-cell} ipython3
 :tags: [remove-cell]
@@ -304,7 +247,7 @@ glue("fig:08-several-lines", several_lines_plot)
 :::{glue:figure} fig:08-several-lines
 :name: fig:08-several-lines
 
-Scatter plot of sale price versus size with many possible lines that could be drawn through the data points.
+售价与面积的散点图，图中画出了多条可以穿过这些数据点的可能直线。
 :::
 
 +++
@@ -312,12 +255,7 @@ Scatter plot of sale price versus size with many possible lines that could be dr
 ```{index} RMSPE
 ```
 
-Simple linear regression chooses the straight line of best fit by choosing
-the line that minimizes the **average squared vertical distance** between itself and
-each of the observed data points in the training data (equivalent to minimizing the RMSE). {numref}`fig:08-verticalDistToMin` illustrates
-these vertical distances as lines. Finally, to assess the predictive
-accuracy of a simple linear regression model,
-we use RMSPE&mdash;the same measure of predictive performance we used with K-NN regression.
+简单线性回归选出最优拟合直线的方式，是选出这样一条直线：它到训练数据中每个观测数据点的**纵向距离平方的平均值**最小（等价于让均方根误差（RMSE）最小）。{numref}`fig:08-verticalDistToMin` 用线段画出了这些纵向距离。最后，要评估简单线性回归模型的预测准确程度，我们用均方根预测误差（root mean squared prediction error，RMSPE）——也就是 k 近邻回归中用过的同一个衡量预测性能的指标。
 
 ```{code-cell} ipython3
 :tags: [remove-cell]
@@ -351,35 +289,24 @@ glue("fig:08-verticalDistToMin", error_plot)
 :::{glue:figure} fig:08-verticalDistToMin
 :name: fig:08-verticalDistToMin
 
-Scatter plot of sale price versus size with lines denoting the vertical distances between the predicted values and the observed data points.
+售价与面积的散点图，图中用线段表示预测值与观测数据点之间的纵向距离。
 :::
 
 +++
 
-## Linear regression in Python
+## 用 Python 做线性回归
 
 +++
 
 ```{index} scikit-learn
 ```
 
-We can perform simple linear regression in Python using `scikit-learn` in a
-very similar manner to how we performed K-NN regression.
-To do this, instead of creating a `KNeighborsRegressor` model object,
-we use a `LinearRegression` model object;
-and as usual, we first have to import it from `sklearn`.
-Another difference is that we do not need to choose $K$ in the
-context of linear regression, and so we do not need to perform cross-validation.
-Below we illustrate how we can use the usual `scikit-learn` workflow to predict house sale
-price given house size. We use a simple linear regression approach on the full
-Sacramento real estate data set.
+在 Python 中，我们可以用 `scikit-learn` 做简单线性回归，做法与 k 近邻回归非常相似。区别在于，我们不创建 `KNeighborsRegressor` 模型对象，而是使用 `LinearRegression` 模型对象；和平时一样，先要从 `sklearn` 把它导入进来。另一个区别是，线性回归不需要选择 $K$，因此也不需要做交叉验证。下面演示如何用常见的 `scikit-learn` 工作流，根据房屋面积预测房屋售价。我们在完整的萨克拉门托房地产数据集上使用简单线性回归方法。
 
-```{index} seed; numpy.random.seed
+```{index} 种子; numpy.random.seed
 ```
 
-As usual, we start by loading packages, setting the seed, loading data, and
-putting some test data away in a lock box that we
-can come back to after we choose our final model. Let's take care of that now.
+和平时一样，我们先加载包、设置种子、读取数据，并把一部分测试数据放进保险箱，等选定最终模型后再回来取用。我们现在就来处理这些事。
 
 ```{code-cell} ipython3
 import numpy as np
@@ -402,13 +329,9 @@ sacramento_train, sacramento_test = train_test_split(
 )
 ```
 
-Now that we have our training data, we will create
-and fit the linear regression model object.
-We will also extract the slope of the line
-via the `coef_[0]` property, as well as the
-intercept of the line via the `intercept_` property.
+有了训练数据，接下来我们创建并拟合线性回归模型对象。我们还会用 `coef_[0]` 属性取出直线的斜率，用 `intercept_` 属性取出直线的截距。
 
-```{index} scikit-learn; fit
+```{index} scikit-learn; 拟合
 ```
 
 ```{code-cell} ipython3
@@ -432,34 +355,20 @@ glue("train_lm_slope_f", "{0:,.0f}".format(lm.coef_[0]))
 glue("train_lm_intercept_f", "{0:,.0f}".format(lm.intercept_))
 ```
 
-```{index} standardization
+```{index} 标准化
 ```
 
 ```{note}
-An additional difference that you will notice here is that we do
-not standardize (i.e., scale and center) our
-predictors. In K-nearest neighbors models, recall that the model fit changes
-depending on whether we standardize first or not. In linear regression,
-standardization does not affect the fit (it *does* affect the coefficients in
-the equation, though!).  So you can standardize if you want&mdash;it won't
-hurt anything&mdash;but if you leave the predictors in their original form,
-the best fit coefficients are usually easier to interpret afterward.
+你还会注意到另一个区别：我们没有对预测变量做标准化（也就是缩放并中心化）。回忆一下，在 k 近邻模型中，拟合结果会随事先是否标准化而变化。在线性回归中，标准化不影响拟合结果（但它*确实*会影响方程中的系数！）。所以你想标准化也可以——不会有什么坏处——但如果让预测变量保持原来的形式，最优拟合系数通常在事后更容易解释。
 ```
 
 +++
 
-Our coefficients are
-(intercept) $\beta_0=$ {glue:text}`train_lm_intercept`
-and (slope) $\beta_1=$ {glue:text}`train_lm_slope`.
-This means that the equation of the line of best fit is
+我们的系数为：（截距）$\beta_0=$ {glue:text}`train_lm_intercept`，（斜率）$\beta_1=$ {glue:text}`train_lm_slope`。这意味着最优拟合直线的方程为：
 
 $\text{house sale price} =$ {glue:text}`train_lm_intercept` $+$ {glue:text}`train_lm_slope` $\cdot (\text{house size}).$
 
-In other words, the model predicts that houses
-start at \${glue:text}`train_lm_intercept_f` for 0 square feet, and that
-every extra square foot increases the cost of
-the house by \${glue:text}`train_lm_slope_f`. Finally,
-we predict on the test data set to assess how well our model does.
+换句话说，模型预测：面积为 0 平方英尺的房屋起价为 \${glue:text}`train_lm_intercept_f`，而每增加一平方英尺，房屋价格就提高 \${glue:text}`train_lm_slope_f`。最后，我们在测试数据集上做预测，评估模型的表现如何。
 
 ```{code-cell} ipython3
 # make predictions
@@ -483,22 +392,9 @@ glue("sacr_RMSPE", "{0:,.0f}".format(RMSPE))
 ```{index} RMSPE
 ```
 
-Our final model's test error as assessed by RMSPE
-is \${glue:text}`sacr_RMSPE`.
-Remember that this is in units of the response variable, and here that
-is US Dollars (USD). Does this mean our model is "good" at predicting house
-sale price based off of the predictor of home size? Again, answering this is
-tricky and requires knowledge of how you intend to use the prediction.
+用 RMSPE 评估，我们最终模型的测试误差为 \${glue:text}`sacr_RMSPE`。请记住，这个误差的单位就是响应变量的单位，在这里是美元（USD）。这是否说明，我们的模型根据房屋面积这个预测变量来预测房屋售价就算得上“好”？同样，这个问题依旧不好回答，需要知道你打算如何使用这个预测结果。
 
-To visualize the simple linear regression model, we can plot the predicted house
-sale price across all possible house sizes we might encounter.
-Since our model is linear,
-we only need to compute the predicted price of the minimum and maximum house size,
-and then connect them with a straight line.
-We superimpose this prediction line on a scatter
-plot of the original housing price data,
-so that we can qualitatively assess if the model seems to fit the data well.
-{numref}`fig:08-lm-predict-all` displays the result.
+为了可视化简单线性回归模型，我们可以画出所有可能遇到的房屋面积下房屋售价的预测值。由于模型是线性的，我们只需算出最小和最大房屋面积对应的预测价格，再用一条直线把这两个点连起来。我们把这条预测直线叠加到原始房价数据的散点图上，这样就可以定性地判断模型是否很好地拟合了数据。{numref}`fig:08-lm-predict-all` 展示了结果。
 
 ```{code-cell} ipython3
 :tags: [remove-output]
@@ -534,20 +430,15 @@ glue("fig:08-lm-predict-all", sacr_preds_plot)
 :::{glue:figure} fig:08-lm-predict-all
 :name: fig:08-lm-predict-all
 
-Scatter plot of sale price versus size with line of best fit for the full Sacramento housing data.
+萨克拉门托完整住房数据的售价与面积散点图，并叠加最优拟合直线。
 :::
 
-## Comparing simple linear and K-NN regression
+## 简单线性回归与 k 近邻回归的比较
 
-```{index} regression; comparison of methods
+```{index} 回归; 方法的比较
 ```
 
-Now that we have a general understanding of both simple linear and K-NN
-regression, we can start to compare and contrast these methods as well as the
-predictions made by them. To start, let's look at the visualization of the
-simple linear regression model predictions for the Sacramento real estate data
-(predicting price from house size) and the "best" K-NN regression model
-obtained from the same problem, shown in {numref}`fig:08-compareRegression`.
+现在我们已经对简单线性回归和 k 近邻回归有了大致了解，就可以开始比较这两种方法以及它们做出的预测，并讨论其异同。首先，我们来看看萨克拉门托房地产数据上简单线性回归模型的预测可视化（用房屋面积预测价格），以及由同一个问题得到的“最佳”k 近邻回归模型，结果见{numref}`fig:08-compareRegression`。
 
 ```{code-cell} ipython3
 :tags: [remove-cell]
@@ -656,96 +547,43 @@ glue("fig:08-compareRegression", (lm_plot_final | knn_plot_final))
 :::{glue:figure} fig:08-compareRegression
 :name: fig:08-compareRegression
 
-Comparison of simple linear regression and K-NN regression.
+简单线性回归与 k 近邻回归的比较。
 :::
 
 +++
 
-What differences do we observe in {numref}`fig:08-compareRegression`? One obvious
-difference is the shape of the orange lines. In simple linear regression we are
-restricted to a straight line, whereas in K-NN regression our line is much more
-flexible and can be quite wiggly. But there is a major interpretability advantage in limiting the
-model to a straight line. A
-straight line can be defined by two numbers, the
-vertical intercept and the slope. The intercept tells us what the prediction is when
-all of the predictors are equal to 0; and the slope tells us what unit increase in the response
-variable we predict given a unit increase in the predictor
-variable. K-NN regression, as simple as it is to implement and understand, has no such
-interpretability from its wiggly line.
+在{numref}`fig:08-compareRegression` 中，我们看到了哪些差异？一个明显的差异是两条橙色线的形状。在简单线性回归中，我们只能得到一条直线；而在 k 近邻回归中，拟合线灵活得多，可以相当曲折。不过，把模型限制为直线，有一个很大的可解释性优势。一条直线只需两个数字就能确定：纵截距和斜率。截距告诉我们，所有预测变量都等于 0 时的预测值是多少；斜率告诉我们，预测变量每增加一个单位，响应变量预计会增加多少。k 近邻回归虽然实现和理解起来都很简单，但它的曲折拟合线并不具备这种可解释性。
 
-```{index} underfitting; regression
+```{index} 欠拟合; 回归
 ```
 
-There can, however, also be a disadvantage to using a simple linear regression
-model in some cases, particularly when the relationship between the response variable and
-the predictor is not linear, but instead some other shape (e.g., curved or oscillating). In
-these cases the prediction model from a simple linear regression
-will underfit, meaning that model/predicted values do not
-match the actual observed values very well. Such a model would probably have a
-quite high RMSE when assessing model goodness of fit on the training data and
-a quite high RMSPE when assessing model prediction quality on a test data
-set. On such a data set, K-NN regression may fare better. Additionally, there
-are other types of regression you can learn about in future books that may do
-even better at predicting with such data.
+不过，有时使用简单线性回归模型也会有劣势，尤其是响应变量与预测变量之间的关系并非线性，而是呈其他形状（例如弯曲或振荡）时。这种情况下，简单线性回归给出的预测模型会欠拟合，也就是说模型的预测值与实际的观测值吻合得不太好。这样的模型在训练数据上评估拟合优度时，RMSE 可能相当高；而在测试数据集上评估预测质量时，RMSPE 也会相当高。在这样的数据集上，k 近邻回归的表现可能更好。此外，后续教材中还会介绍其他类型的回归，它们甚至可能在预测这类数据时做得更好。
 
-How do these two models compare on the Sacramento house prices data set? In
-{numref}`fig:08-compareRegression`, we also printed the RMSPE as calculated from
-predicting on the test data set that was not used to train/fit the models. The RMSPE for the simple linear
-regression model is slightly lower than the RMSPE for the K-NN regression model.
-Considering that the simple linear regression model is also more interpretable,
-if we were comparing these in practice we would likely choose to use the simple
-linear regression model.
+这两个模型在萨克拉门托房价数据集上表现如何？在{numref}`fig:08-compareRegression` 中，我们还打印了 RMSPE，它是在未参与训练/拟合模型的测试数据集上做预测算出来的。简单线性回归模型的 RMSPE 略低于 k 近邻回归模型的 RMSPE。考虑到简单线性回归模型的可解释性也更好，如果要在实践中比较两者，我们多半会选择简单线性回归模型。
 
-```{index} extrapolation
+```{index} 外推
 ```
 
-Finally, note that the K-NN regression model becomes "flat"
-at the left and right boundaries of the data, while the linear model
-predicts a constant slope. Predicting outside the range of the observed
-data is known as *extrapolation*; K-NN and linear models behave quite differently
-when extrapolating. Depending on the application, the flat
-or constant slope trend may make more sense. For example, if our housing
-data were slightly different, the linear model may have actually predicted
-a *negative* price for a small house (if the intercept $\beta_0$ was negative),
-which obviously does not match reality. On the other hand, the trend of increasing
-house size corresponding to increasing house price probably continues for large houses,
-so the "flat" extrapolation of K-NN likely does not match reality.
+最后，请注意，k 近邻回归模型在数据左右两侧的边界处会变得“平坦”，而线性模型预测的斜率始终不变。在观测数据的取值范围之外做预测称为*外推*（extrapolation）；k 近邻与线性模型在外推时的表现差别很大。平坦的趋势和恒定斜率的趋势哪一种更合理，取决于具体应用。例如，如果房价数据稍有不同，线性模型实际上可能对一套小房子预测出*负的*价格（截距 $\beta_0$ 为负时就会如此），这显然不符合现实。另一方面，房屋面积越大、房价越高这一趋势，对大房子很可能依然成立，因此 k 近邻的“平坦”外推多半也不符合现实。
 
 +++
 
-## Multivariable linear regression
+## 多元线性回归
 
 +++
 
-```{index} regression; multivariable linear, regression; multivariable linear equation
+```{index} 回归; 多元线性, 回归; 多元线性方程
 ```
 
-```{index} see: multivariable linear equation; plane equation
+```{index} see: 多元线性方程; 平面方程
 ```
 
-As in K-NN classification and K-NN regression, we can move beyond the simple
-case of only one predictor to the case with multiple predictors,
-known as *multivariable linear regression*.
-To do this, we follow a very similar approach to what we did for
-K-NN regression: we just specify the training data by adding more predictors.
-But recall that we do not need to use cross-validation to choose any parameters,
-nor do we need to standardize (i.e., center and scale) the data for linear regression.
-Note once again that we have the same concerns regarding multiple predictors
- as in the settings of multivariable K-NN regression and classification: having more predictors is **not** always
-better. But because the same predictor selection
-algorithm from {numref}`Chapter %s <classification2>` extends to the setting of linear regression,
-it will not be covered again in this chapter.
+与 k 近邻分类和 k 近邻回归一样，我们可以从只有一个预测变量的简单情形，扩展到含有多个预测变量的情形，即*多元线性回归*。做法与 k 近邻回归非常相似：只需在指定训练数据时加入更多预测变量。但请回想，线性回归既不需要用交叉验证来选参数，也不需要对数据做标准化（即中心化和缩放）。还要再次注意，多个预测变量会带来同样的顾虑，这与多元 k 近邻回归和分类中的情形一样：预测变量更多**并非**总是更好。不过，{numref}`第 %s 章 <classification2>`中的预测变量选择算法同样适用于线性回归，因此本章不再重复介绍。
 
-```{index} Sacramento real estate
+```{index} 萨克拉门托房地产
 ```
 
-We will demonstrate multivariable linear regression using the Sacramento real estate
-data with both house size
-(measured in square feet) as well as number of bedrooms as our predictors, and
-continue to use house sale price as our response variable.
-The `scikit-learn` framework makes this easy to do: we just need to set
-both the `sqft` and `beds` variables as predictors, and then use the `fit`
-method as usual.
+我们将用萨克拉门托房地产数据演示多元线性回归，预测变量同时取房屋面积（以平方英尺计）和卧室数量，响应变量仍然取房屋售价。用 `scikit-learn` 框架做这件事很容易：只需把 `sqft` 和 `beds` 两个变量设为预测变量，然后照常调用 `fit` 方法即可。
 
 ```{code-cell} ipython3
 
@@ -755,7 +593,7 @@ mlm.fit(
     sacramento_train["price"]
 )
 ```
-Finally, we make predictions on the test data set to assess the quality of our model.
+最后，我们在测试数据集上做预测，评估模型的质量。
 
 ```{index} scikit-learn;predict, scikit-learn;mean_squared_error
 ```
@@ -780,10 +618,7 @@ lm_mult_test_RMSPE
 glue("sacr_mult_RMSPE", "{0:,.0f}".format(lm_mult_test_RMSPE))
 ```
 
-Our model's test error as assessed by RMSPE
-is \${glue:text}`sacr_mult_RMSPE`.
-In the case of two predictors, we can plot the predictions made by our linear regression creates a *plane* of best fit, as
-shown in {numref}`fig:08-3DlinReg`.
+用 RMSPE 评估，我们模型的测试误差为 \${glue:text}`sacr_mult_RMSPE`。预测变量有两个时，我们可以把线性回归给出的预测结果画出来，它构成一个*最优拟合平面*，如{numref}`fig:08-3DlinReg` 所示。
 
 ```{code-cell} ipython3
 :tags: [remove-input]
@@ -839,22 +674,14 @@ else:
 :name: fig:08-3DlinReg
 :figclass: caption-hack
 
-Linear regression plane of best fit overlaid on top of the data (using price,
-house size, and number of bedrooms as predictors). Note that in general we
-recommend against using 3D visualizations; here we use a 3D visualization only
-to illustrate what the regression plane looks like for learning purposes.
+线性回归的最优拟合平面，叠加在数据之上（以价格、房屋面积和卧室数量作为预测变量）。请注意，我们一般不建议使用 3D 可视化；这里使用 3D 可视化，只是为了教学目的展示回归平面的样子。
 ```
 
 +++
 
-We see that the predictions from linear regression with two predictors form a
-flat plane. This is the hallmark of linear regression, and differs from the
-wiggly, flexible surface we get from other methods such as K-NN regression.
- As discussed, this can be advantageous in one aspect, which is that for each
-predictor, we can get slopes/intercept from linear regression, and thus describe the
-plane mathematically. We can extract those slope values from the `coef_` property
-of our model object, and the intercept from the `intercept_` property,
-as shown below.
+可以看到，含两个预测变量的线性回归给出的预测构成一个平坦的平面。这是线性回归的标志性特征，与
+k 近邻回归等其他方法得到的起伏、灵活的曲面并不相同。如前所述，这一点在某一方面有优势：对每个预测变量，我们都能从线性回归中得到斜率与截距，从而用数学方式描述这个平面。我们可以从模型对象的
+`coef_` 属性中取出这些斜率值，从 `intercept_` 属性中取出截距，如下所示。
 
 ```{code-cell} ipython3
 mlm.coef_
@@ -864,29 +691,24 @@ mlm.coef_
 mlm.intercept_
 ```
 
-When we have multiple predictor variables, it is not easy to
-know which variable goes with which coefficient in `mlm.coef_`. In particular,
-you will see that `mlm.coef_` above is just an array of values without any variable names.
-Unfortunately you have to do this mapping yourself: the coefficients in `mlm.coef_` appear
-in the *same order* as the columns of the predictor data frame you used when training.
-So since we used `sacramento_train[["sqft", "beds"]]` when training,
-we have that `mlm.coef_[0]` corresponds to `sqft`, and `mlm.coef_[1]` corresponds to `beds`.
-Once you sort out the correspondence, you can then use those slopes to write a mathematical equation to describe the prediction plane:
+当预测变量不止一个时，并不容易看出 `mlm.coef_` 中哪个系数对应哪个变量。特别是，你会看到上面的
+`mlm.coef_` 只是一个数值数组，没有任何变量名。遗憾的是，这种对应关系只能由你自己理清：`mlm.coef_` 中系数的排列顺序与你训练时所用预测变量数据框的列顺序*完全一致*。由于训练时我们用的是
+`sacramento_train[["sqft", "beds"]]`，因此 `mlm.coef_[0]` 对应 `sqft`，`mlm.coef_[1]`
+对应 `beds`。理清对应关系之后，你就可以用这些斜率写出一个数学方程来描述这个预测平面：
 
-```{index} plane equation
+```{index} 平面方程
 ```
 
 
 
 $$\text{house sale price} = \beta_0 + \beta_1\cdot(\text{house size}) + \beta_2\cdot(\text{number of bedrooms}),$$
-where:
+其中：
 
-- $\beta_0$ is the *vertical intercept* of the hyperplane (the price when both house size and number of bedrooms are 0)
-- $\beta_1$ is the *slope* for the first predictor (how quickly the price increases as you increase house size)
-- $\beta_2$ is the *slope* for the second predictor (how quickly the price increases as you increase the number of bedrooms)
+- $\beta_0$ 是超平面的*纵截距*（房屋面积与卧室数都为 0 时的价格）
+- $\beta_1$ 是第一个预测变量的*斜率*（房屋面积增加时价格上升的速度）
+- $\beta_2$ 是第二个预测变量的*斜率*（卧室数增加时价格上升的速度）
 
-Finally, we can fill in the values for $\beta_0$, $\beta_1$ and $\beta_2$ from the model output above
-to create the equation of the plane of best fit to the data:
+最后，我们可以把上面模型输出中 $\beta_0$、$\beta_1$ 和 $\beta_2$ 的取值填进去，写出数据的最优拟合平面方程：
 
 ```{code-cell} ipython3
 :tags: [remove-cell]
@@ -901,19 +723,7 @@ glue("bedsc", bedsc)
 
 $\text{house sale price} =$ {glue:text}`icept` $+$ {glue:text}`sqftc` $\cdot (\text{house size})$ {glue:text}`bedsc` $\cdot (\text{number of bedrooms})$
 
-This model is more interpretable than the multivariable K-NN
-regression model; we can write a mathematical equation that explains how
-each predictor is affecting the predictions. But as always, we should
-question how well multivariable linear regression is doing compared to
-the other tools we have, such as simple linear regression
-and multivariable K-NN regression. If this comparison is part of
-the model tuning process&mdash;for example, if we are trying
- out many different sets of predictors for multivariable linear
-and K-NN regression&mdash;we must perform this comparison using
-cross-validation on only our training data. But if we have already
-decided on a small number (e.g., 2 or 3) of tuned candidate models and
-we want to make a final comparison, we can do so by comparing the prediction
-error of the methods on the test data.
+这个模型比多元 k 近邻回归模型更容易解释：我们可以写出一个数学方程，说明每个预测变量如何影响预测结果。但一如既往，我们还应该追问：与简单线性回归、多元 k 近邻回归等其他工具相比，多元线性回归的表现究竟如何。如果这种比较属于模型调优过程的一部分——例如，我们正在为多元线性回归和 k 近邻回归尝试许多不同的预测变量组合——那就必须只用训练数据，通过交叉验证来完成比较。但如果已经确定了少数几个（例如 2 个或 3 个）调优后的候选模型，只想做最终比较，那就可以直接比较各方法在测试数据上的预测误差。
 
 ```{code-cell} ipython3
 lm_mult_test_RMSPE
@@ -922,50 +732,24 @@ lm_mult_test_RMSPE
 ```{index} RMSPE
 ```
 
-We obtain an RMSPE for the multivariable linear regression model
-of \${glue:text}`sacr_mult_RMSPE`. This prediction error
- is less than the prediction error for the multivariable K-NN regression model,
-indicating that we should likely choose linear regression for predictions of
-house sale price on this data set. Revisiting the simple linear regression model
-with only a single predictor from earlier in this chapter, we see that the RMSPE for that model was
-\${glue:text}`sacr_RMSPE`,
-which is slightly higher than that of our more complex model. Our model with two predictors
-provided a slightly better fit on test data than our model with just one.
-As mentioned earlier, this is not always the case: sometimes including more
-predictors can negatively impact the prediction performance on unseen
-test data.
+多元线性回归模型得到的 RMSPE 为 \${glue:text}`sacr_mult_RMSPE`。这个预测误差小于多元 k 近邻回归模型的预测误差，说明在这个数据集上预测房屋售价时，我们很可能应当选择线性回归。回顾本章前面只含一个预测变量的简单线性回归模型，其 RMSPE 为 \${glue:text}`sacr_RMSPE`，略高于我们这个更复杂的模型。含两个预测变量的模型在测试数据上的拟合效果略好于只含一个预测变量的模型。如前所述，情况并非总是如此：有时纳入更多预测变量反而会损害模型在未见过的测试数据上的预测性能。
 
 +++
 
-## Multicollinearity and outliers
+## 多重共线性与离群值
 
-What can go wrong when performing (possibly multivariable) linear regression?
-This section will introduce two common issues&mdash;*outliers* and *collinear predictors*&mdash;and
-illustrate their impact on predictions.
+做（可能是多元的）线性回归时，哪些地方会出问题？本节将介绍两个常见问题——*离群值*与*共线预测变量*——并说明它们对预测的影响。
 
 +++
 
-### Outliers
+### 离群值
 
-```{index} outliers
+```{index} 离群值
 ```
 
-Outliers are data points that do not follow the usual pattern of the rest of the data.
-In the setting of linear regression, these are points that
- have a vertical distance to the line of best fit that is either much higher or much lower
-than you might expect based on the rest of the data. The problem with outliers is that
-they can have *too much influence* on the line of best fit. In general, it is very difficult
-to judge accurately which data are outliers without advanced techniques that are beyond
-the scope of this book.
+离群值是不遵循其余数据常规模式的数据点。在线性回归中，离群值指的是到最优拟合直线的纵向距离比根据其余数据所能预期的要大得多或小得多的点。离群值的问题在于，它们可能对最优拟合直线产生*过大的影响*。一般来说，如果不借助超出本书范围的高级技术，很难准确判断哪些数据属于离群值。
 
-But to illustrate what can happen when you have outliers, {numref}`fig:08-lm-outlier`
-shows a small subset of the Sacramento housing data again, except we have added a *single* data point (highlighted
-in red). This house is 5,000 square feet in size, and sold for only \$50,000. Unbeknownst to the
-data analyst, this house was sold by a parent to their child for an absurdly low price. Of course,
-this is not representative of the real housing market values that the other data points follow;
-the data point is an *outlier*. In orange we plot the original line of best fit, and in red
-we plot the new line of best fit including the outlier. You can see how different the red line
-is from the orange line, which is entirely caused by that one extra outlier data point.
+不过，为了说明出现离群值时会发生什么，{numref}`fig:08-lm-outlier` 再次展示了一小部分萨克拉门托住房数据，只是我们额外加入了*一个*数据点（用红色标出）。这套房子面积为 5,000 平方英尺，售价却只有 \$50,000。数据分析师并不知道，这套房子是家长以极不合理的低价卖给子女的。当然，它并不能代表其余数据点所反映的真实住房市场价值；这个数据点就是一个*离群值*。橙色画的是原来的最优拟合直线，红色画的是把离群值包含在内的新最优拟合直线。可以看到红线与橙线相差很大，而这完全是由那一个额外加入的离群数据点造成的。
 
 ```{code-cell} ipython3
 :tags: [remove-cell]
@@ -1025,19 +809,12 @@ glue("fig:08-lm-outlier", lm_plot_outlier)
 :::{glue:figure} fig:08-lm-outlier
 :name: fig:08-lm-outlier
 
-Scatter plot of a subset of the data, with outlier highlighted in red.
+数据子集的散点图，其中离群值用红色标出。
 :::
 
 +++
 
-Fortunately, if you have enough data, the inclusion of one or two
-outliers&mdash;as long as their values are not *too* wild&mdash;will
-typically not have a large effect on the line of best fit. {numref}`fig:08-lm-outlier-2` shows how that same outlier data point from earlier
-influences the line of best fit when we are working with the entire original
-Sacramento training data. You can see that with this larger data set, the line
-changes much less when adding the outlier.
-Nevertheless, it is still important when working with linear regression to critically
-think about how much any individual data point is influencing the model.
+好在只要数据量足够，加入一两个离群值——只要它们的取值不*太*极端——通常不会对最优拟合直线造成很大影响。{numref}`fig:08-lm-outlier-2` 展示了在完整的萨克拉门托原始训练数据上，前面那个离群数据点会如何影响最优拟合直线。可以看到，数据集更大时，加入离群值后直线发生的变化小得多。尽管如此，使用线性回归时仍然要批判性地思考：单个数据点对模型的影响究竟有多大。
 
 ```{code-cell} ipython3
 :tags: [remove-cell]
@@ -1089,25 +866,17 @@ glue("fig:08-lm-outlier-2", lm_plot_outlier_large)
 :::{glue:figure} fig:08-lm-outlier-2
 :name: fig:08-lm-outlier-2
 
-Scatter plot of the full data, with outlier highlighted in red.
+完整数据的散点图，其中离群值用红色标出。
 :::
 
 +++
 
-### Multicollinearity
+### 多重共线性
 
-```{index} multicollinearity
+```{index} 多重共线性
 ```
 
-The second, and much more subtle, issue can occur when performing multivariable
-linear regression.  In particular, if you include multiple predictors that are
-strongly linearly related to one another, the coefficients that describe the
-plane of best fit can be very unreliable&mdash;small changes to the data can
-result in large changes in the coefficients. Consider an extreme example using
-the Sacramento housing data where the house was measured twice by two people.
-Since the two people are each slightly inaccurate, the two measurements might
-not agree exactly, but they are very strongly linearly related to each other,
-as shown in {numref}`fig:08-lm-multicol`.
+第二个问题更隐蔽，做多元线性回归时就可能出现。具体来说，如果你纳入的多个预测变量彼此之间高度线性相关，那么描述最优拟合平面的系数就会非常不可靠——数据上的微小改动就可能让系数发生很大变化。来看一个极端的例子：在萨克拉门托住房数据中，同一套房子由两个人各测量了一次。由于两个人都略有误差，两次测量结果未必完全一致，但它们彼此高度线性相关，如{numref}`fig:08-lm-multicol` 所示。
 
 ```{code-cell} ipython3
 :tags: [remove-cell]
@@ -1148,7 +917,7 @@ glue("fig:08-lm-multicol", lm_plot_multicol_1)
 :::{glue:figure} fig:08-lm-multicol
 :name: fig:08-lm-multicol
 
-Scatter plot of house size (in square feet) measured by person 1 versus house size (in square feet) measured by person 2.
+第一个人测量的房屋面积（平方英尺）与第二个人测量的房屋面积（平方英尺）的散点图。
 :::
 
 ```{code-cell} ipython3
@@ -1197,41 +966,23 @@ glue("sqft3", sqft3)
 glue("sqft33", sqft33)
 ```
 
- If we again fit the multivariable linear regression model on this data, then the plane of best fit
-has regression coefficients that are very sensitive to the exact values in the data. For example,
-if we change the data ever so slightly&mdash;e.g., by running cross-validation, which splits
-up the data randomly into different chunks&mdash;the coefficients vary by large amounts:
+如果我们再次在这份数据上拟合多元线性回归模型，那么最优拟合平面的回归系数对数据的确切取值非常敏感。例如，只要把数据稍作改动——比如运行交叉验证，它会将数据随机切分成若干个不同的等份——系数就会出现大幅变化：
 
-Best Fit 1: $\text{house sale price} =$ {glue:text}`icept1` $+$ {glue:text}`sqft1` $\cdot (\text{house size 1}$ $(\text{ft}^2)) +$ {glue:text}`sqft11` $\cdot (\text{house size 2}$ $(\text{ft}^2)).$
+最优拟合 1：$\text{house sale price} =$ {glue:text}`icept1` $+$ {glue:text}`sqft1` $\cdot (\text{house size 1}$ $(\text{ft}^2)) +$ {glue:text}`sqft11` $\cdot (\text{house size 2}$ $(\text{ft}^2)).$
 
-Best Fit 2: $\text{house sale price} =$ {glue:text}`icept2` $+$ {glue:text}`sqft2` $\cdot (\text{house size 1}$ $(\text{ft}^2)) +$ {glue:text}`sqft22` $\cdot (\text{house size 2}$ $(\text{ft}^2)).$
+最优拟合 2：$\text{house sale price} =$ {glue:text}`icept2` $+$ {glue:text}`sqft2` $\cdot (\text{house size 1}$ $(\text{ft}^2)) +$ {glue:text}`sqft22` $\cdot (\text{house size 2}$ $(\text{ft}^2)).$
 
-Best Fit 3: $\text{house sale price} =$ {glue:text}`icept3` $+$ {glue:text}`sqft3` $\cdot (\text{house size 1}$ $(\text{ft}^2)) +$ {glue:text}`sqft33` $\cdot (\text{house size 2}$ $(\text{ft}^2)).$
+最优拟合 3：$\text{house sale price} =$ {glue:text}`icept3` $+$ {glue:text}`sqft3` $\cdot (\text{house size 1}$ $(\text{ft}^2)) +$ {glue:text}`sqft33` $\cdot (\text{house size 2}$ $(\text{ft}^2)).$
 
- Therefore, when performing multivariable linear regression, it is important to avoid including very
-linearly related predictors. However, techniques for doing so are beyond the scope of this
-book; see the list of additional resources at the end of this chapter to find out where you can learn more.
+因此，做多元线性回归时，重要的是避免纳入高度线性相关的预测变量。不过，具体做法超出了本书的范围；你可以查看本章末尾的拓展资源列表，了解可以去哪里深入学习。
 
 +++
 
-## Designing new predictors
+## 设计新的预测变量
 
-We were quite fortunate in our initial exploration to find a predictor variable (house size)
-that seems to have a meaningful and nearly linear relationship with our response variable (sale price).
-But what should we do if we cannot immediately find such a nice variable?
-Well, sometimes it is just a fact that the variables in the data do not have enough of
-a relationship with the response variable to provide useful predictions. For example,
-if the only available predictor was "the current house owner's favorite ice cream flavor",
-we likely would have little hope of using that variable to predict the house's sale price
-(barring any future remarkable scientific discoveries about the relationship between
-the housing market and homeowner ice cream preferences). In cases like these,
-the only option is to obtain measurements of more useful variables.
+在最初的探索中，我们相当幸运，找到了一个预测变量（房屋面积），它似乎与响应变量（售价）之间存在有意义且近乎线性的关系。但如果一时找不到这么好的变量，又该怎么办呢？有时事实就是如此：数据中的变量与响应变量之间的关系不够强，无法给出有用的预测。例如，如果唯一可用的预测变量是“现任房主最喜欢的冰淇淋口味”，那么用它来预测房屋售价大概没什么希望（除非将来在住房市场与房主冰淇淋偏好之间的关系上出现惊人的科学发现）。遇到这类情况，唯一的办法就是获取更有用变量的测量值。
 
-There are, however, a wide variety of cases where the predictor variables do have a
-meaningful relationship with the response variable, but that relationship does not fit
-the assumptions of the regression method you have chosen. For example, a data frame `df`
-with two variables&mdash;`x` and `y`&mdash;with a nonlinear relationship between the two variables
-will not be fully captured by simple linear regression, as shown in {numref}`fig:08-predictor-design`.
+不过，在很多情况下，预测变量与响应变量之间确实存在有意义的关系，只是这种关系不符合你所选回归方法的假设。例如，数据框 `df` 有两个变量 `x` 和 `y`，二者之间的关系是非线性的，简单线性回归无法完整刻画，如{numref}`fig:08-predictor-design` 所示。
 
 ```{code-cell} ipython3
 :tags: [remove-cell]
@@ -1273,30 +1024,21 @@ glue("fig:08-predictor-design", curve_plt)
 :::{glue:figure} fig:08-predictor-design
 :name: fig:08-predictor-design
 
-Example of a data set with a nonlinear relationship between the predictor and the response.
+预测变量与响应变量之间呈非线性关系的数据集示例。
 :::
 
 +++
 
-```{index} predictor design
+```{index} 预测变量设计
 ```
 
-Instead of trying to predict the response `y` using a linear regression on `x`,
-we might have some scientific background about our problem to suggest that `y`
-should be a cubic function of `x`. So before performing regression,
-we might *create a new predictor variable* `z`:
+与其直接对 `x` 做线性回归来预测响应 `y`，我们可能掌握了一些关于该问题的科学背景，提示 `y` 应当是 `x` 的三次函数。于是在做回归之前，我们可以*创建一个新的预测变量* `z`：
 
 ```{code-cell} ipython3
 df["z"] = df["x"] ** 3
 ```
 
-Then we can perform linear regression for `y` using the predictor variable `z`,
-as shown in {numref}`fig:08-predictor-design-2`.
-Here you can see that the transformed predictor `z` helps the
-linear regression model make more accurate predictions.
-Note that none of the `y` response values have changed between {numref}`fig:08-predictor-design`
-and {numref}`fig:08-predictor-design-2`; the only change is that the `x` values
-have been replaced by `z` values.
+然后就可以用预测变量 `z` 对 `y` 做线性回归，如{numref}`fig:08-predictor-design-2` 所示。可以看到，变换后的预测变量 `z` 能帮助线性回归模型给出更准确的预测。请注意，{numref}`fig:08-predictor-design` 与{numref}`fig:08-predictor-design-2` 之间，`y` 的响应取值没有发生任何变化；唯一的变化是把 `x` 的取值换成了 `z` 的取值。
 
 ```{code-cell} ipython3
 :tags: [remove-cell]
@@ -1322,88 +1064,44 @@ glue("fig:08-predictor-design-2", curve_plt2)
 :::{glue:figure} fig:08-predictor-design-2
 :name: fig:08-predictor-design-2
 
-Relationship between the transformed predictor and the response.
+变换后的预测变量与响应变量之间的关系。
 :::
 
 +++
 
-```{index} see: feature engineering; predictor design
+```{index} see: 特征工程; 预测变量设计
 ```
 
-The process of
-transforming predictors (and potentially combining multiple predictors in the process)
-is known as *feature engineering*. In real data analysis
-problems, you will need to rely on
-a deep understanding of the problem&mdash;as well as the wrangling tools
-from previous chapters&mdash;to engineer useful new features that improve
-predictive performance.
+对预测变量做变换（过程中还可能把多个预测变量组合起来），这种做法称为*特征工程*（feature engineering）。在真实的数据分析问题中，你需要依靠对问题的深入理解——以及前面各章介绍的数据整理工具——来构造出有用的新特征，从而提升预测性能。
 
 ```{note}
-Feature engineering
-is *part of tuning your model*, and as such you must not use your test data
-to evaluate the quality of the features you produce. You are free to use
-cross-validation, though!
+特征工程*是模型调优的一部分*，因此绝不能用测试数据来评估你构造的特征的好坏。不过，你完全可以使用交叉验证！
 ```
 
 +++
 
-## The other sides of regression
+## 回归的另一面
 
-So far in this textbook we have used regression only in the context of
-prediction. However, regression can also be seen as a method to understand and
-quantify the effects of individual variables on a response variable of interest.
-In the housing example from this chapter, beyond just using past data
-to predict future sale prices,
-we might also be interested in describing the
-individual relationships of house size and the number of bedrooms with house price,
-quantifying how strong each of these relationships are, and assessing how accurately we
-can estimate their magnitudes. And even beyond that, we may be interested in
-understanding whether the predictors *cause* changes in the price.
-These sides of regression are well beyond the scope of this book; but
-the material you have learned here should give you a foundation of knowledge
-that will serve you well when moving to more advanced books on the topic.
+到目前为止，本书只把回归用于预测。不过，回归也可以看成一种方法，用来理解和量化单个变量对我们所关心的响应变量有多大影响。在本章的房价案例中，除了用历史数据预测未来的成交价，我们可能还想描述房屋面积和卧室数量各自与房价的关系，量化这些关系分别有多强，并评估我们能把这种关系的大小估计得多准确。再进一步，我们可能还想弄清预测变量是否会*导致*价格的变化。回归的这些方面都远远超出本书的范围；不过，你在这里学到的内容会为你打下知识基础，让你日后阅读该主题更进阶的教材时受益良多。
 
 +++
 
-## Exercises
+## 习题
 
-Practice exercises for the material covered in this chapter can be found in the
-accompanying [worksheets repository](https://worksheets.python.datasciencebook.ca) in
-the "Regression II: linear regression" row. You can preview a
-non-interactive version of the worksheet for this chapter by clicking "view
-worksheet." To work on the exercises interactively, follow the instructions in
-the worksheets repository to download all worksheets, and follow the
-instructions for computer setup found in {numref}`Chapter %s <move-to-your-own-machine>`. This will ensure
-that the automated feedback and guidance that the worksheets provide will
-function as intended.
+本章内容的练习题可以在配套的[练习册仓库](https://worksheets.python.datasciencebook.ca)的“回归 II：线性回归（Regression II: linear regression）”一行中找到。你可以预览本章练习册（worksheet）的非交互版本，只需点击“查看练习册（view worksheet）”。如果要交互式地做习题，请按照练习册仓库中的说明下载所有练习册，并按照{numref}`第 %s 章 <move-to-your-own-machine>`中的计算机环境配置说明操作。这样就能确保练习册提供的自动反馈和指导按预期正常工作。
 
 
 
 +++
 
-## Additional resources
+## 拓展资源
 
-- The [`scikit-learn` website](https://scikit-learn.org/stable/) is an excellent
-  reference for more details on, and advanced usage of, the functions and
-  packages in the past two chapters. Aside from that, it also offers many
-  useful [tutorials](https://scikit-learn.org/stable/tutorial/index.html) and [an extensive list
-  of more advanced examples](https://scikit-learn.org/stable/auto_examples/index.html#general-examples)
-  that you can use to continue learning beyond the scope of this book.
-- *An Introduction to Statistical Learning* {cite:p}`james2013introduction` provides
-  a great next stop in the process of
-  learning about regression. Chapter 3 covers linear regression at a slightly
-  more mathematical level than we do here, but it is not too large a leap and so
-  should provide a good stepping stone. Chapter 6 discusses how to pick a subset
-  of "informative" predictors when you have a data set with many predictors, and
-  you expect only a few of them to be relevant. Chapter 7 covers regression
-  models that are more flexible than linear regression models but still enjoy the
-  computational efficiency of linear regression. In contrast, the K-NN methods we
-  covered earlier are indeed more flexible but become very slow when given lots
-  of data.
+- [`scikit-learn` 网站](https://scikit-learn.org/stable/)是查阅前两章各项函数与包的更多细节以及进阶用法时极好的参考资料。除此之外，网站还提供了许多实用的 [教程](https://scikit-learn.org/stable/tutorial/index.html)和 [一份内容丰富的进阶示例清单](https://scikit-learn.org/stable/auto_examples/index.html#general-examples)，你可以借助它们继续学习本书范围之外的内容。
+- 《An Introduction to Statistical Learning》{cite:p}`james2013introduction` 是学习回归过程中极好的下一站。第 3 章讲解线性回归，数学程度比本书稍高，但跨度不算太大，可以作为一块很好的垫脚石。第 6 章讨论当数据集包含很多预测变量、而你预期其中只有少数几个真正有用时，如何选出“有信息量的”预测变量子集。第 7 章介绍的回归模型比线性回归模型更灵活，同时又保留了线性回归的计算效率。相比之下，我们前面讲过的 k 近邻方法确实更灵活，但数据量一大就会变得非常慢。
 
 +++
 
-## References
+## 参考文献
 
 ```{bibliography}
 :filter: docname in docnames

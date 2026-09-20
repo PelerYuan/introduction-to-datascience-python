@@ -13,62 +13,26 @@ kernelspec:
   name: python3
 ---
 
-# Preface
+# 前言
 
-```{index} data science; definition, auditable, reproducible
+```{index} 数据科学; 定义, 可审核, 可复现
 ```
 
-This textbook aims to be an approachable introduction to the world of data science.
-In this book, we define **data science** as the process of generating
-insight from data through **reproducible** and **auditable** processes.
-If you analyze some data and give your analysis to a friend or colleague, they should
-be able to re-run the analysis from start to finish and get the same result you did (*reproducibility*).
-They should also be able to see and understand all the steps in the analysis, as well as the history of how
-the analysis developed (*auditability*). Creating reproducible and auditable
-analyses allows both you and others to easily double-check and validate your work.
+本教材旨在成为一本平易近人的数据科学入门读物。在本书中，我们把**数据科学**定义为：借助**可复现**、**可审核**的流程，从数据中提炼洞见的过程。如果你分析了某些数据，并把分析交给朋友或同事，他们应当能够从头到尾重新运行这项分析，并得到与你相同的结果（*可复现性*）。他们还应当能够看到并理解分析中的每一个步骤，以及这项分析一步步发展成型的来龙去脉（*可审核性*）。做出可复现、可审核的分析，你和别人就都能轻松复查并验证你的工作。
 
-At a high level, in this book, you will learn how to
+概括而言，在本书中你将学会：
 
-1. identify common problems in data science, and
-2. solve those problems with reproducible and auditable workflows.
+1. 识别数据科学中的常见问题，以及
+2. 用可复现、可审核的工作流解决这些问题。
 
-{numref}`preface-overview-fig` summarizes what you will learn in each chapter
-of this book. Throughout, you will learn how to use the [Python programming language](https://www.python.org/) to perform
-all the tasks associated with data analysis. You will
-spend the first four chapters learning how to use Python to load, clean, wrangle
-(i.e., restructure the data into a usable format) and visualize data
-while answering descriptive and exploratory data analysis questions. In the next
-six chapters, you will learn how to answer predictive, exploratory, and inferential
-data analysis questions with common methods in data science, including
-classification, regression, clustering, and estimation.
-In the final chapters
-you will learn how to combine Python code, formatted text, and images
-in a single coherent document with Jupyter, use version control for
-collaboration, and install and configure the software needed for data science
-on your own computer. If you are reading this book as part of a course that you are
-taking, the instructor may have set up all of these tools already for you; in this
-case, you can continue on through the book reading the chapters in order.
-But if you are reading this independently, you may want to jump to these last three chapters
-early before going on to make sure your computer is set up in such a way that you can
-try out the example code that we include throughout the book.
+{numref}`preface-overview-fig` 概括了你在本书各章会学到的内容。贯穿全书，你将学会用 [Python 编程语言](https://www.python.org/)完成数据分析的各项任务。前四章，你将学习如何用 Python 读取、清洗、整理（即把数据重新组织成可用的格式）和可视化数据，同时回答描述性与探索性的数据分析问题。接下来的六章，你将学习如何用数据科学中的常见方法回答预测性、探索性和推断性的数据分析问题，这些方法包括分类、回归、聚类和估计。最后几章，你将学习如何用 Jupyter 把 Python 代码、带格式的文本和图片整合成一份连贯的文档，如何用版本控制开展协作，以及如何在自己的计算机上安装并配置数据科学所需的软件。如果你是在修读一门课程时使用本书，授课教师可能已经为你把这些工具都配置好了；这种情况下，你只要按顺序逐章读下去即可。但如果你是自学本书，不妨先跳到最后三章，确认自己的计算机已经配置妥当，能够运行我们在全书各处给出的示例代码，然后再继续往下读。
 
 ```{figure} img/frontmatter/chapter_overview.png
 ---
 name: preface-overview-fig
 ---
-Where are we going?
+我们将去向何方？
 ```
 
 
-Each chapter in the book has an accompanying worksheet that provides exercises
-to help you practice the concepts you will learn. We strongly recommend that you
-work through the worksheet for each chapter 
-before moving on to the next chapter. All of the worksheets
-are available at 
-[https://worksheets.python.datasciencebook.ca](https://worksheets.python.datasciencebook.ca);
-the "Exercises" section at the end of each chapter points you to the right worksheet for that chapter.
-For each worksheet, you can preview a non-interactive version of the worksheet by clicking "view worksheet."
-To work on the exercises interactively, follow the instructions in the worksheets repository
-to download all worksheets, and follow the instructions for computer setup
-found in {numref}`Chapter %s <move-to-your-own-machine>`. This will ensure that the automated feedback
-and guidance that the worksheets provide will function as intended.
+本书每一章都配有练习册（worksheet），其中的习题可以帮助你练习即将学到的概念。我们强烈建议你先把每一章的练习册做完，再进入下一章。所有练习册都可以在 [https://worksheets.python.datasciencebook.ca](https://worksheets.python.datasciencebook.ca) 获取；每章末尾的“习题”一节会指向该章对应的练习册。对每一份练习册，你都可以点击“查看练习册”预览它的非交互版本。如果想以交互方式做习题，请按照练习册仓库中的说明下载所有练习册，再按照{numref}`第 %s 章 <move-to-your-own-machine>`中的计算机配置说明操作。这样才能保证练习册提供的自动反馈和指导按预期正常工作。

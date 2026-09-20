@@ -1,0 +1,619 @@
+{
+  "chapters": {
+    "index": {
+      "title": "封面",
+      "chunks": [
+        {
+          "chunk": 1,
+          "src_kb": 1.9,
+          "zh_kb": 2.1,
+          "han": 176,
+          "status": "VFAIL",
+          "verify": "FAIL",
+          "verify_detail": [
+            "  - front_matter: EN='NONE' ZH='2e5c9a70b9b2'"
+          ],
+          "lint": "OK"
+        }
+      ],
+      "done": 0,
+      "total": 1
+    },
+    "preface-text": {
+      "title": "前言",
+      "chunks": [
+        {
+          "chunk": 1,
+          "src_kb": 3.4,
+          "zh_kb": 3.2,
+          "han": 770,
+          "status": "VFAIL",
+          "verify": "FAIL",
+          "verify_detail": [
+            "  - front_matter: EN='NONE' ZH='c0e03082c253'",
+            "  - paragraphs: EN=6 ZH=7"
+          ],
+          "lint": "OK"
+        }
+      ],
+      "done": 0,
+      "total": 1
+    },
+    "foreword-text": {
+      "title": "序",
+      "chunks": [
+        {
+          "chunk": 1,
+          "src_kb": 4.5,
+          "zh_kb": 4.0,
+          "han": 1103,
+          "status": "VFAIL",
+          "verify": "FAIL",
+          "verify_detail": [
+            "  - front_matter: EN='NONE' ZH='2e5c9a70b9b2'",
+            "  - paragraphs: EN=9 ZH=10"
+          ],
+          "lint": "OK"
+        }
+      ],
+      "done": 0,
+      "total": 1
+    },
+    "acknowledgements": {
+      "title": "致谢",
+      "chunks": [
+        {
+          "chunk": 1,
+          "src_kb": 3.0,
+          "zh_kb": 2.8,
+          "han": 598,
+          "status": "VFAIL",
+          "verify": "FAIL",
+          "verify_detail": [
+            "  - front_matter: EN='NONE' ZH='2e5c9a70b9b2'",
+            "  - paragraphs: EN=6 ZH=7"
+          ],
+          "lint": "OK"
+        }
+      ],
+      "done": 0,
+      "total": 1
+    },
+    "authors": {
+      "title": "作者",
+      "chunks": [
+        {
+          "chunk": 1,
+          "src_kb": 3.4,
+          "zh_kb": 3.6,
+          "han": 813,
+          "status": "VFAIL",
+          "verify": "FAIL",
+          "verify_detail": [
+            "  - front_matter: EN='NONE' ZH='2e5c9a70b9b2'",
+            "  - paragraphs: EN=11 ZH=12"
+          ],
+          "lint": "OK"
+        }
+      ],
+      "done": 0,
+      "total": 1
+    },
+    "intro": {
+      "title": "Ch1 Python 与 Pandas",
+      "chunks": [
+        {
+          "chunk": 1,
+          "src_kb": 20.8,
+          "zh_kb": 18.1,
+          "han": 4054,
+          "status": "VFAIL",
+          "verify": "FAIL",
+          "verify_detail": [
+            "  - paragraphs: EN=37 ZH=38"
+          ],
+          "lint": "OK"
+        },
+        {
+          "chunk": 2,
+          "src_kb": 22.2,
+          "status": "MISSING"
+        },
+        {
+          "chunk": 3,
+          "src_kb": 12.3,
+          "zh_kb": 11.1,
+          "han": 1988,
+          "status": "ok",
+          "verify": "OK",
+          "lint": "OK"
+        }
+      ],
+      "done": 1,
+      "total": 3
+    },
+    "reading": {
+      "title": "Ch2 读取数据",
+      "chunks": [
+        {
+          "chunk": 1,
+          "src_kb": 21.3,
+          "zh_kb": 19.2,
+          "han": 3364,
+          "status": "ok",
+          "verify": "OK",
+          "lint": "OK"
+        },
+        {
+          "chunk": 2,
+          "src_kb": 17.7,
+          "zh_kb": 15.6,
+          "han": 2912,
+          "status": "ok",
+          "verify": "OK",
+          "lint": "OK"
+        },
+        {
+          "chunk": 3,
+          "src_kb": 19.9,
+          "zh_kb": 17.7,
+          "han": 3646,
+          "status": "ok",
+          "verify": "OK",
+          "lint": "OK"
+        },
+        {
+          "chunk": 4,
+          "src_kb": 11.5,
+          "zh_kb": 10.3,
+          "han": 1687,
+          "status": "ok",
+          "verify": "OK",
+          "lint": "OK"
+        }
+      ],
+      "done": 4,
+      "total": 4
+    },
+    "wrangling": {
+      "title": "Ch3 数据清洗与整理",
+      "chunks": [
+        {
+          "chunk": 1,
+          "src_kb": 18.7,
+          "zh_kb": 16.9,
+          "han": 3533,
+          "status": "ok",
+          "verify": "OK",
+          "lint": "OK"
+        },
+        {
+          "chunk": 2,
+          "src_kb": 13.6,
+          "zh_kb": 12.2,
+          "han": 2437,
+          "status": "ok",
+          "verify": "OK",
+          "lint": "OK"
+        },
+        {
+          "chunk": 3,
+          "src_kb": 14.5,
+          "zh_kb": 12.6,
+          "han": 2292,
+          "status": "ok",
+          "verify": "OK",
+          "lint": "OK"
+        },
+        {
+          "chunk": 4,
+          "src_kb": 13.0,
+          "zh_kb": 11.3,
+          "han": 2028,
+          "status": "ok",
+          "verify": "OK",
+          "lint": "OK"
+        },
+        {
+          "chunk": 5,
+          "src_kb": 14.2,
+          "zh_kb": 12.3,
+          "han": 2151,
+          "status": "ok",
+          "verify": "OK",
+          "lint": "OK"
+        }
+      ],
+      "done": 5,
+      "total": 5
+    },
+    "viz": {
+      "title": "Ch4 有效的数据可视化",
+      "chunks": [
+        {
+          "chunk": 1,
+          "src_kb": 23.5,
+          "status": "MISSING"
+        },
+        {
+          "chunk": 2,
+          "src_kb": 20.4,
+          "zh_kb": 19.1,
+          "han": 2904,
+          "status": "ok",
+          "verify": "OK",
+          "lint": "OK"
+        },
+        {
+          "chunk": 3,
+          "src_kb": 19.0,
+          "zh_kb": 16.7,
+          "han": 3291,
+          "status": "ok",
+          "verify": "OK",
+          "lint": "OK"
+        },
+        {
+          "chunk": 4,
+          "src_kb": 19.5,
+          "zh_kb": 17.2,
+          "han": 3110,
+          "status": "ok",
+          "verify": "OK",
+          "lint": "OK"
+        },
+        {
+          "chunk": 5,
+          "src_kb": 1.7,
+          "zh_kb": 1.4,
+          "han": 277,
+          "status": "ok",
+          "verify": "OK",
+          "lint": "OK"
+        }
+      ],
+      "done": 4,
+      "total": 5
+    },
+    "classification1": {
+      "title": "Ch5 分类 I",
+      "chunks": [
+        {
+          "chunk": 1,
+          "src_kb": 19.4,
+          "zh_kb": 17.3,
+          "han": 2950,
+          "status": "ok",
+          "verify": "OK",
+          "lint": "OK"
+        },
+        {
+          "chunk": 2,
+          "src_kb": 14.1,
+          "zh_kb": 12.8,
+          "han": 1228,
+          "status": "ok",
+          "verify": "OK",
+          "lint": "OK"
+        },
+        {
+          "chunk": 3,
+          "src_kb": 22.4,
+          "zh_kb": 20.4,
+          "han": 2822,
+          "status": "ok",
+          "verify": "OK",
+          "lint": "OK"
+        },
+        {
+          "chunk": 4,
+          "src_kb": 15.5,
+          "zh_kb": 13.8,
+          "han": 1802,
+          "status": "ok",
+          "verify": "OK",
+          "lint": "OK"
+        },
+        {
+          "chunk": 5,
+          "src_kb": 6.7,
+          "zh_kb": 6.3,
+          "han": 768,
+          "status": "ok",
+          "verify": "OK",
+          "lint": "OK"
+        }
+      ],
+      "done": 5,
+      "total": 5
+    },
+    "classification2": {
+      "title": "Ch6 分类 II",
+      "chunks": [
+        {
+          "chunk": 1,
+          "src_kb": 20.9,
+          "zh_kb": 17.8,
+          "han": 3838,
+          "status": "VFAIL",
+          "verify": "FAIL",
+          "verify_detail": [
+            "  - paragraphs: EN=44 ZH=45"
+          ],
+          "lint": "OK"
+        },
+        {
+          "chunk": 2,
+          "src_kb": 17.3,
+          "zh_kb": 15.1,
+          "han": 2505,
+          "status": "ok",
+          "verify": "OK",
+          "lint": "OK"
+        },
+        {
+          "chunk": 3,
+          "src_kb": 18.9,
+          "zh_kb": 16.3,
+          "han": 2606,
+          "status": "ok",
+          "verify": "OK",
+          "lint": "OK"
+        },
+        {
+          "chunk": 4,
+          "src_kb": 13.4,
+          "zh_kb": 12.0,
+          "han": 1641,
+          "status": "ok",
+          "verify": "OK",
+          "lint": "OK"
+        },
+        {
+          "chunk": 5,
+          "src_kb": 19.9,
+          "zh_kb": 17.7,
+          "han": 2933,
+          "status": "ok",
+          "verify": "OK",
+          "lint": "OK"
+        },
+        {
+          "chunk": 6,
+          "src_kb": 1.5,
+          "zh_kb": 1.2,
+          "han": 288,
+          "status": "ok",
+          "verify": "OK",
+          "lint": "OK"
+        }
+      ],
+      "done": 5,
+      "total": 6
+    },
+    "regression1": {
+      "title": "Ch7 回归 I",
+      "chunks": [
+        {
+          "chunk": 1,
+          "src_kb": 15.2,
+          "status": "MISSING"
+        },
+        {
+          "chunk": 2,
+          "src_kb": 17.2,
+          "status": "MISSING"
+        },
+        {
+          "chunk": 3,
+          "src_kb": 14.5,
+          "zh_kb": 12.8,
+          "han": 2043,
+          "status": "ok",
+          "verify": "OK",
+          "lint": "OK"
+        }
+      ],
+      "done": 1,
+      "total": 3
+    },
+    "regression2": {
+      "title": "Ch8 回归 II",
+      "chunks": [
+        {
+          "chunk": 1,
+          "src_kb": 15.7,
+          "zh_kb": 14.4,
+          "han": 2131,
+          "status": "ok",
+          "verify": "OK",
+          "lint": "OK"
+        },
+        {
+          "chunk": 2,
+          "src_kb": 13.7,
+          "zh_kb": 12.7,
+          "han": 1660,
+          "status": "ok",
+          "verify": "OK",
+          "lint": "OK"
+        },
+        {
+          "chunk": 3,
+          "src_kb": 17.3,
+          "zh_kb": 15.4,
+          "han": 2262,
+          "status": "ok",
+          "verify": "OK",
+          "lint": "OK"
+        },
+        {
+          "chunk": 4,
+          "src_kb": 3.6,
+          "zh_kb": 3.1,
+          "han": 762,
+          "status": "ok",
+          "verify": "OK",
+          "lint": "OK"
+        }
+      ],
+      "done": 4,
+      "total": 4
+    },
+    "clustering": {
+      "title": "Ch9 聚类",
+      "chunks": [
+        {
+          "chunk": 1,
+          "src_kb": 18.5,
+          "zh_kb": 16.0,
+          "han": 2606,
+          "status": "VFAIL",
+          "verify": "FAIL",
+          "verify_detail": [
+            "  - paragraphs: EN=44 ZH=45"
+          ],
+          "lint": "OK"
+        },
+        {
+          "chunk": 2,
+          "src_kb": 12.0,
+          "zh_kb": 11.4,
+          "han": 1066,
+          "status": "ok",
+          "verify": "OK",
+          "lint": "OK"
+        },
+        {
+          "chunk": 3,
+          "src_kb": 9.6,
+          "zh_kb": 8.6,
+          "han": 1430,
+          "status": "ok",
+          "verify": "OK",
+          "lint": "OK"
+        }
+      ],
+      "done": 2,
+      "total": 3
+    },
+    "inference": {
+      "title": "Ch10 统计推断",
+      "chunks": [
+        {
+          "chunk": 1,
+          "src_kb": 17.9,
+          "zh_kb": 15.4,
+          "han": 3172,
+          "status": "VFAIL",
+          "verify": "FAIL",
+          "verify_detail": [
+            "  - inline_codes: missing_in_zh=0 extra_in_zh=1",
+            "      extra:   assign x1"
+          ],
+          "lint": "OK"
+        },
+        {
+          "chunk": 2,
+          "src_kb": 17.2,
+          "zh_kb": 15.6,
+          "han": 2145,
+          "status": "ok",
+          "verify": "OK",
+          "lint": "OK"
+        },
+        {
+          "chunk": 3,
+          "src_kb": 17.1,
+          "zh_kb": 15.0,
+          "han": 2472,
+          "status": "VFAIL",
+          "verify": "FAIL",
+          "verify_detail": [
+            "  - paragraphs: EN=50 ZH=51"
+          ],
+          "lint": "OK"
+        }
+      ],
+      "done": 1,
+      "total": 3
+    },
+    "jupyter": {
+      "title": "Ch11 Jupyter",
+      "chunks": [
+        {
+          "chunk": 1,
+          "src_kb": 22.0,
+          "status": "MISSING"
+        },
+        {
+          "chunk": 2,
+          "src_kb": 1.5,
+          "zh_kb": 1.3,
+          "han": 304,
+          "status": "ok",
+          "verify": "OK",
+          "lint": "OK"
+        }
+      ],
+      "done": 1,
+      "total": 2
+    },
+    "version-control": {
+      "title": "Ch12 版本控制",
+      "chunks": [
+        {
+          "chunk": 1,
+          "src_kb": 17.3,
+          "zh_kb": 14.3,
+          "han": 3618,
+          "status": "ok",
+          "verify": "OK",
+          "lint": "OK"
+        },
+        {
+          "chunk": 2,
+          "src_kb": 15.4,
+          "zh_kb": 14.3,
+          "han": 3040,
+          "status": "ok",
+          "verify": "OK",
+          "lint": "OK"
+        },
+        {
+          "chunk": 3,
+          "src_kb": 11.6,
+          "zh_kb": 10.5,
+          "han": 2076,
+          "status": "ok",
+          "verify": "OK",
+          "lint": "WARN chunk_03.zh.md: 1 项  {'UNTRANSLATED': 1}  (1938 汉字, 37 段落)"
+        }
+      ],
+      "done": 3,
+      "total": 3
+    },
+    "setup": {
+      "title": "Ch13 环境配置",
+      "chunks": [
+        {
+          "chunk": 1,
+          "src_kb": 16.5,
+          "zh_kb": 14.6,
+          "han": 2643,
+          "status": "ok",
+          "verify": "OK",
+          "lint": "OK"
+        }
+      ],
+      "done": 1,
+      "total": 1
+    }
+  },
+  "totals": {
+    "chunks_done": 47,
+    "chunks_missing": 5,
+    "verify_fail": 10,
+    "lint_warn": 1
+  }
+}

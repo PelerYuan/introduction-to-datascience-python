@@ -1,0 +1,42 @@
+{
+  "src": "source\\viz.md",
+  "front_matter_bytes": 256,
+  "chunks": [
+    {
+      "index": 1,
+      "lines": 572,
+      "bytes": 23505,
+      "first_line": ""
+    },
+    {
+      "index": 2,
+      "lines": 331,
+      "bytes": 13124,
+      "first_line": "+++"
+    },
+    {
+      "index": 3,
+      "lines": 333,
+      "bytes": 14865,
+      "first_line": "```{index} relationship; linear, relationship; nonlinear"
+    },
+    {
+      "index": 4,
+      "lines": 330,
+      "bytes": 11853,
+      "first_line": "Bar plot of size for Earth's largest 12 landmasses."
+    },
+    {
+      "index": 5,
+      "lines": 325,
+      "bytes": 13156,
+      "first_line": "Histogram of Michelson's speed of light data colored by experiment as a categorical variable."
+    },
+    {
+      "index": 6,
+      "lines": 167,
+      "bytes": 7552,
+      "first_line": "## Saving the visualization"
+    }
+  ]
+}

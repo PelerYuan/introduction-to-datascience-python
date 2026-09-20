@@ -1,0 +1,24 @@
+{
+  "src": "source\\clustering.md",
+  "front_matter_bytes": 256,
+  "chunks": [
+    {
+      "index": 1,
+      "lines": 469,
+      "bytes": 18478,
+      "first_line": ""
+    },
+    {
+      "index": 2,
+      "lines": 311,
+      "bytes": 11977,
+      "first_line": "+++"
+    },
+    {
+      "index": 3,
+      "lines": 278,
+      "bytes": 9589,
+      "first_line": "## K-means in Python"
+    }
+  ]
+}

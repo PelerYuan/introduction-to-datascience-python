@@ -1,0 +1,218 @@
+{
+  "index": {
+    "assembled": true,
+    "messages": [
+      "wrote source/index.md (2.1 KB, 1/1 chunks, CRLF, joined 3 CJK soft breaks)"
+    ],
+    "soft_break_joins": 3,
+    "bytes": 2151,
+    "chunks": "1/1",
+    "newline": "CRLF",
+    "verify_rc": 0,
+    "lint_rc": 0
+  },
+  "preface-text": {
+    "assembled": true,
+    "messages": [
+      "wrote source/preface-text.md (3.1 KB, 1/1 chunks, CRLF, joined 0 CJK soft breaks)"
+    ],
+    "soft_break_joins": 0,
+    "bytes": 3205,
+    "chunks": "1/1",
+    "newline": "CRLF",
+    "verify_rc": 0,
+    "lint_rc": 0
+  },
+  "foreword-text": {
+    "assembled": true,
+    "messages": [
+      "wrote source/foreword-text.md (3.9 KB, 1/1 chunks, CRLF, joined 0 CJK soft breaks)"
+    ],
+    "soft_break_joins": 0,
+    "bytes": 4041,
+    "chunks": "1/1",
+    "newline": "CRLF",
+    "verify_rc": 0,
+    "lint_rc": 0
+  },
+  "acknowledgements": {
+    "assembled": true,
+    "messages": [
+      "wrote source/acknowledgements.md (2.7 KB, 1/1 chunks, CRLF, joined 0 CJK soft breaks)"
+    ],
+    "soft_break_joins": 0,
+    "bytes": 2783,
+    "chunks": "1/1",
+    "newline": "CRLF",
+    "verify_rc": 0,
+    "lint_rc": 0
+  },
+  "authors": {
+    "assembled": true,
+    "messages": [
+      "wrote source/authors.md (3.1 KB, 1/1 chunks, CRLF, joined 0 CJK soft breaks)"
+    ],
+    "soft_break_joins": 0,
+    "bytes": 3133,
+    "chunks": "1/1",
+    "newline": "CRLF",
+    "verify_rc": 0,
+    "lint_rc": 0
+  },
+  "intro": {
+    "assembled": true,
+    "messages": [
+      "wrote source/intro.md (48.7 KB, 3/3 chunks, CRLF, joined 15 CJK soft breaks)"
+    ],
+    "soft_break_joins": 15,
+    "bytes": 49863,
+    "chunks": "3/3",
+    "newline": "CRLF",
+    "verify_rc": 0,
+    "lint_rc": 0
+  },
+  "reading": {
+    "assembled": true,
+    "messages": [
+      "wrote source/reading.md (64.2 KB, 4/4 chunks, CRLF, joined 38 CJK soft breaks)"
+    ],
+    "soft_break_joins": 38,
+    "bytes": 65693,
+    "chunks": "4/4",
+    "newline": "CRLF",
+    "verify_rc": 0,
+    "lint_rc": 1
+  },
+  "wrangling": {
+    "assembled": true,
+    "messages": [
+      "wrote source/wrangling.md (66.8 KB, 5/5 chunks, CRLF, joined 211 CJK soft breaks)"
+    ],
+    "soft_break_joins": 211,
+    "bytes": 68448,
+    "chunks": "5/5",
+    "newline": "CRLF",
+    "verify_rc": 0,
+    "lint_rc": 0
+  },
+  "viz": {
+    "assembled": true,
+    "messages": [
+      "wrote source/viz.md (75.7 KB, 5/5 chunks, CRLF, joined 115 CJK soft breaks)"
+    ],
+    "soft_break_joins": 115,
+    "bytes": 77528,
+    "chunks": "5/5",
+    "newline": "CRLF",
+    "verify_rc": 0,
+    "lint_rc": 0
+  },
+  "classification1": {
+    "assembled": true,
+    "messages": [
+      "wrote source/classification1.md (71.2 KB, 5/5 chunks, CRLF, joined 163 CJK soft breaks)"
+    ],
+    "soft_break_joins": 163,
+    "bytes": 72948,
+    "chunks": "5/5",
+    "newline": "CRLF",
+    "verify_rc": 0,
+    "lint_rc": 0
+  },
+  "classification2": {
+    "assembled": true,
+    "messages": [
+      "wrote source/classification2.md (81.6 KB, 6/6 chunks, CRLF, joined 45 CJK soft breaks)"
+    ],
+    "soft_break_joins": 45,
+    "bytes": 83595,
+    "chunks": "6/6",
+    "newline": "CRLF",
+    "verify_rc": 0,
+    "lint_rc": 0
+  },
+  "regression1": {
+    "assembled": true,
+    "messages": [
+      "wrote source/regression1.md (42.0 KB, 3/3 chunks, CRLF, joined 15 CJK soft breaks)"
+    ],
+    "soft_break_joins": 15,
+    "bytes": 43006,
+    "chunks": "3/3",
+    "newline": "CRLF",
+    "verify_rc": 0,
+    "lint_rc": 0
+  },
+  "regression2": {
+    "assembled": true,
+    "messages": [
+      "wrote source/regression2.md (46.1 KB, 4/4 chunks, CRLF, joined 89 CJK soft breaks)"
+    ],
+    "soft_break_joins": 89,
+    "bytes": 47246,
+    "chunks": "4/4",
+    "newline": "CRLF",
+    "verify_rc": 0,
+    "lint_rc": 1
+  },
+  "clustering": {
+    "assembled": true,
+    "messages": [
+      "wrote source/clustering.md (36.3 KB, 3/3 chunks, CRLF, joined 188 CJK soft breaks)"
+    ],
+    "soft_break_joins": 188,
+    "bytes": 37144,
+    "chunks": "3/3",
+    "newline": "CRLF",
+    "verify_rc": 0,
+    "lint_rc": 0
+  },
+  "inference": {
+    "assembled": true,
+    "messages": [
+      "wrote source/inference.md (46.4 KB, 3/3 chunks, CRLF, joined 157 CJK soft breaks)"
+    ],
+    "soft_break_joins": 157,
+    "bytes": 47477,
+    "chunks": "3/3",
+    "newline": "CRLF",
+    "verify_rc": 0,
+    "lint_rc": 0
+  },
+  "jupyter": {
+    "assembled": true,
+    "messages": [
+      "wrote source/jupyter.md (21.9 KB, 2/2 chunks, CRLF, joined 97 CJK soft breaks)"
+    ],
+    "soft_break_joins": 97,
+    "bytes": 22388,
+    "chunks": "2/2",
+    "newline": "CRLF",
+    "verify_rc": 0,
+    "lint_rc": 0
+  },
+  "version-control": {
+    "assembled": true,
+    "messages": [
+      "wrote source/version-control.md (40.1 KB, 3/3 chunks, CRLF, joined 0 CJK soft breaks)"
+    ],
+    "soft_break_joins": 0,
+    "bytes": 41060,
+    "chunks": "3/3",
+    "newline": "CRLF",
+    "verify_rc": 0,
+    "lint_rc": 1
+  },
+  "setup": {
+    "assembled": true,
+    "messages": [
+      "wrote source/setup.md (15.1 KB, 1/1 chunks, CRLF, joined 0 CJK soft breaks)"
+    ],
+    "soft_break_joins": 0,
+    "bytes": 15456,
+    "chunks": "1/1",
+    "newline": "CRLF",
+    "verify_rc": 0,
+    "lint_rc": 0
+  }
+}

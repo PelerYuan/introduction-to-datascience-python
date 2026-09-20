@@ -1,0 +1,12 @@
+{
+  "src": "source\\foreword-text.md",
+  "front_matter_bytes": 285,
+  "chunks": [
+    {
+      "index": 1,
+      "lines": 65,
+      "bytes": 4581,
+      "first_line": ""
+    }
+  ]
+}

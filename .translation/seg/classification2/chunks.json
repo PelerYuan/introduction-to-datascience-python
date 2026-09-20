@@ -1,0 +1,54 @@
+{
+  "src": "source\\classification2.md",
+  "front_matter_bytes": 256,
+  "chunks": [
+    {
+      "index": 1,
+      "lines": 230,
+      "bytes": 11275,
+      "first_line": ""
+    },
+    {
+      "index": 2,
+      "lines": 248,
+      "bytes": 9651,
+      "first_line": "## Randomness and seeds"
+    },
+    {
+      "index": 3,
+      "lines": 304,
+      "bytes": 11880,
+      "first_line": "+++"
+    },
+    {
+      "index": 4,
+      "lines": 228,
+      "bytes": 10520,
+      "first_line": "+++"
+    },
+    {
+      "index": 5,
+      "lines": 319,
+      "bytes": 12211,
+      "first_line": "+++"
+    },
+    {
+      "index": 6,
+      "lines": 319,
+      "bytes": 12059,
+      "first_line": "+++"
+    },
+    {
+      "index": 7,
+      "lines": 265,
+      "bytes": 10552,
+      "first_line": "## Summary"
+    },
+    {
+      "index": 8,
+      "lines": 295,
+      "bytes": 13884,
+      "first_line": "+++"
+    }
+  ]
+}

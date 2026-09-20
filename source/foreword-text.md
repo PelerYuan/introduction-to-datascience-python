@@ -13,67 +13,20 @@ kernelspec:
   name: python3
 ---
 
-# Foreword
+# 序言
 
 *Roger D. Peng*
 
-*Johns Hopkins Bloomberg School of Public Health*
+*约翰斯·霍普金斯大学布隆伯格公共卫生学院*
 
 *2023-11-30*
 
-The field of data science has expanded and grown significantly in recent years, 
-attracting excitement and interest from many different directions. The demand for introductory
-educational materials has grown concurrently with the growth of the field itself, leading to
-a proliferation of textbooks, courses, blog posts, and tutorials. This book is an important
-contribution to this fast-growing literature, but given the wide availability of materials, a
-reader should be inclined to ask, "What is the unique contribution of *this* book?" In order
-to answer that question it is useful to step back for a moment and consider the development
-of the field of data science over the past few years.
+近年来，数据科学领域迅速扩展、不断壮大，从四面八方吸引了人们的关注与热情。入门学习材料的需求与这一领域本身同步增长，于是教材、课程、博客文章和教程层出不穷。本书为这片快速生长的文献添上了重要的一笔；但资料如此丰富，不免让人想问：“*这*本书的独特贡献究竟在哪里？”要回答这个问题，不妨先退一步，回顾一下数据科学领域在过去几年中的发展。
 
-When thinking about data science, it is important to consider two questions: "What is
-data science?" and "How should one do data science?" The former question is under active
-discussion amongst a broad community of researchers and practitioners and there does
-not appear to be much consensus to date. However, there seems a general understanding
-that data science focuses on the more "active" elements&mdash;data wrangling, cleaning, and
-analysis&mdash;of answering questions with data. These elements are often highly
-problem-specific and may seem difficult to generalize across applications. Nevertheless, over time we
-have seen some core elements emerge that appear to repeat themselves as useful concepts
-across different problems. Given the lack of clear agreement over the definition of data
-science, there is a strong need for a book like this one to propose a vision for what the field
-is and what the implications are for the activities in which members of the field engage.
+谈到数据科学，有两个问题值得思考：“什么是数据科学？”以及“应当如何做数据科学？”前一个问题正被广大研究者与实践者热烈讨论，至今似乎仍未形成多少共识。不过，人们似乎普遍认为，数据科学侧重的是用数据回答问题过程中更“活跃”的环节——数据整理、数据清洗与分析。这些环节往往高度依赖具体问题，看起来很难推广到其他应用场景。尽管如此，随着时间推移，一些核心要素逐渐显现，它们在不同问题中反复出现，成为普遍适用的有用概念。既然对数据科学的定义尚无明确共识，就迫切需要一本像本书这样的著作，为这个领域提出一种设想：它究竟是什么，这对领域成员所从事的活动又意味着什么。
 
-The first important concept addressed by this book is tidy data, which is a format for
-tabular data formally introduced to the statistical community in a 2014 paper by Hadley
-Wickham. Although originally popularized within the R programming language community
-via the Tidyverse package collection, the tidy data format is a language-independent concept
-that facilitates the application of powerful generalized data cleaning and wrangling tools.
-The second key concept is the development of workflows
-for reproducible and auditable data analyses. Modern data analyses have only grown in
-complexity due to the availability of data and the ease with which we can implement complex
-data analysis procedures. Furthermore, these data analyses are often part of 
-decision-making processes that may have significant impacts on people and communities. Therefore,
-there is a critical need to build reproducible analyses that can be studied and repeated by
-others in a reliable manner. Statistical methods clearly represent an important element
-of data science for building prediction and classification models and for making inferences
-about unobserved populations. Finally, because a field can succeed only if it fosters an
-active and collaborative community, it has become clear that being fluent in the tools of
-collaboration is a core element of data science.
+本书讨论的第一个重要概念是整洁数据（tidy data），它是表格型数据（tabular data）的一种格式，由 Hadley Wickham 在 2014 年的一篇论文中正式介绍给统计学界。整洁数据格式最初借助 Tidyverse 包集合在 R 语言社区中流行开来，但它其实是一个与具体语言无关的概念，便于运用各种强大的通用数据清洗与整理工具。第二个关键概念，是为可复现、可审核的数据分析建立工作流。数据越来越容易获得，复杂的数据分析流程也越来越容易实现，现代数据分析的复杂程度因而只增不减。此外，这些分析常常是决策过程的一部分，而决策可能对个人和群体产生重大影响。因此，我们迫切需要建立可复现的分析，让他人能够以可靠的方式研究并重复这些分析。在构建预测模型和分类模型、对未观测的总体做出推断方面，统计方法无疑是数据科学的重要组成部分。最后，一个领域唯有培育出活跃、乐于协作的社群，才能成功；而现在已经很清楚，熟练掌握协作工具已成为数据科学的核心要素之一。
 
-This book takes these core concepts and focuses on how one can apply them to *do* data
-science in a rigorous manner. Students who learn from this book will be well-versed in
-the techniques and principles behind producing reliable evidence from data. This book is
-centered around the implementation of the tidy data framework within the Python programming language,
-and as such employs the most recent advances in data analysis coding. The use of Jupyter
-notebooks for exercises immediately places the student in an environment that encourages
-auditability and reproducibility of analyses. The integration of git and GitHub into the
-course is a key tool for teaching about collaboration and community, key concepts that are
-critical to data science.
+本书以这些核心概念为主线，着重说明如何用它们以严谨的方式*做*数据科学。跟着本书学习的学生将熟练掌握从数据中得出可靠证据所需的技术与原则。本书围绕在 Python 编程语言中实现整洁数据框架展开，因此采用了数据分析编程的最新进展。习题采用 Jupyter 笔记本，立刻就把学生带入一个鼓励分析可审核、可复现的环境。把 git 和 GitHub 融入课程，是讲授协作与社群的关键手段，而这两点对数据科学至关重要。
 
-The demand for training in data science continues to increase. The availability of large
-quantities of data to answer a variety of questions, the computational power available to
-many more people than ever before, and the public awareness of the importance of data for
-decision-making have all contributed to the need for high-quality data science work. This
-book provides a sophisticated first introduction to the field of data science and provides
-a balanced mix of practical skills along with generalizable principles. As we continue to
-introduce students to data science and train them to confront an expanding array of data
-science problems, they will be well-served by the ideas presented here.
+对数据科学培训的需求仍在持续增长。可用于回答各种问题的大量数据、比以往任何时候都有更多人能够使用的计算能力，以及公众对数据在决策中重要性的认识，共同催生了对高质量数据科学工作的需求。本书对数据科学领域做了一次有深度的入门介绍，把实用技能与可推广的原则均衡地结合起来。随着我们不断把学生引入数据科学，训练他们应对日益增多的数据科学问题，本书所呈现的思想将让他们受益良多。

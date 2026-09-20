@@ -1,0 +1,296 @@
+=== jupyter-book build source ===
+Running Jupyter-Book v0.15.1
+Source Folder: D:\Translation\Data Science A First Introduction with Python\source
+Config Path: D:\Translation\Data Science A First Introduction with Python\source\_config.yml
+Output Path: D:\Translation\Data Science A First Introduction with Python\source\_build\html
+[01mRunning Sphinx v5.0.2[39;49;00m
+[01mloading translations [zh_CN]... [39;49;00mdone
+[etoc] Excluded 2 extra file(s) not in toc
+checking bibtex cache... out of date
+parsing bibtex file D:\Translation\Data Science A First Introduction with Python\source\references.bib... parsed 66 entries
+[01mmyst v0.18.1:[39;49;00m MdParserConfig(commonmark_only=False, gfm_only=False, enable_extensions=['colon_fence', 'dollarmath', 'html_image', 'linkify', 'substitution'], disable_syntax=[], all_links_external=False, url_schemes=['mailto', 'http', 'https'], ref_domains=None, highlight_code_blocks=True, number_code_blocks=[], title_to_header=False, heading_anchors=None, heading_slug_func=None, footnote_transition=True, words_per_minute=200, sub_delimiters=('{', '}'), linkify_fuzzy_links=True, dmath_allow_labels=True, dmath_allow_space=True, dmath_allow_digits=True, dmath_double_inline=False, update_mathjax=True, mathjax_classes='tex2jax_process|mathjax_process|math|output_area')
+[01mmyst-nb v0.17.2:[39;49;00m NbParserConfig(custom_formats={}, metadata_key='mystnb', cell_metadata_key='mystnb', kernel_rgx_aliases={}, execution_mode='auto', execution_cache_path='', execution_excludepatterns=[], execution_timeout=180, execution_in_temp=False, execution_allow_errors=True, execution_raise_on_error=False, execution_show_tb=False, merge_streams=False, render_plugin='default', remove_code_source=False, remove_code_outputs=False, code_prompt_show='Show code cell {type}', code_prompt_hide='Hide code cell {type}', number_source_lines=False, output_stderr='show', render_text_lexer='myst-ansi', render_error_lexer='ipythontb', render_image_options={}, render_figure_options={}, render_markdown_format='commonmark', output_folder='build', append_css=True, metadata_to_fm=False)
+Using jupyter-cache at: D:\Translation\Data Science A First Introduction with Python\source\_build\.jupyter_cache
+[01mbuilding [mo]: [39;49;00mtargets for 0 po files that are out of date
+[01mbuilding [html]: [39;49;00mtargets for 18 source files that are out of date
+[01mupdating environment: [39;49;00m[new config] 18 added, 0 changed, 0 removed
+[01mreading sources... [39;49;00m[  5%] [35macknowledgements[39;49;00m                                     
+D:\Translation\Data Science A First Introduction with Python\source\acknowledgements.md: Skipped execution in 'auto' mode (all outputs present) [mystnb]
+[01mreading sources... [39;49;00m[ 11%] [35mauthors[39;49;00m                                              
+D:\Translation\Data Science A First Introduction with Python\source\authors.md: Skipped execution in 'auto' mode (all outputs present) [mystnb]
+[01mreading sources... [39;49;00m[ 16%] [35mclassification1[39;49;00m                                      
+D:\Translation\Data Science A First Introduction with Python\source\classification1.md: Executing notebook using local CWD [mystnb]
+D:\Translation\Data Science A First Introduction with Python\.venv-build\lib\site-packages\zmq\_future.py:718: RuntimeWarning: Proactor event loop does not implement add_reader family of methods required for zmq. Registering an additional selector thread for add_reader support via tornado. Use `asyncio.set_event_loop_policy(WindowsSelectorEventLoopPolicy())` to avoid this warning.
+  self._get_loop()
+[IPKernelApp] WARNING | Kernel is running over TCP without encryption. All communication (including code and outputs) is sent in plain text and is susceptible to eavesdropping. Use IPC transport or launch with kernel manager-provisioned CurveZMQ keys to enable transport encryption.
+D:\Translation\Data Science A First Introduction with Python\source\classification1.md: Executed notebook in 35.13 seconds [mystnb]
+[01mreading sources... [39;49;00m[ 22%] [35mclassification2[39;49;00m                                      
+D:\Translation\Data Science A First Introduction with Python\source\classification2.md: Executing notebook using local CWD [mystnb]
+[IPKernelApp] WARNING | Kernel is running over TCP without encryption. All communication (including code and outputs) is sent in plain text and is susceptible to eavesdropping. Use IPC transport or launch with kernel manager-provisioned CurveZMQ keys to enable transport encryption.
+Traceback (most recent call last):
+  File "D:\Translation\Data Science A First Introduction with Python\.venv-build\lib\site-packages\joblib\externals\loky\backend\resource_tracker.py", line 386, in main
+    del cache[rtype][name]
+KeyError: 'C:\\Users\\peler\\AppData\\Local\\Temp\\dsh-Xle6S8\\joblib_memmapping_folder_54168_aa7703d9b22a483fb5774ed94a7b8e15_3035287b20b24d858690c3be4a9d224d'
+D:\Translation\Data Science A First Introduction with Python\source\classification2.md: Executed notebook in 23.06 seconds [mystnb]
+[01mreading sources... [39;49;00m[ 27%] [35mclustering[39;49;00m                                           
+D:\Translation\Data Science A First Introduction with Python\source\clustering.md: Executing notebook using local CWD [mystnb]
+[IPKernelApp] WARNING | Kernel is running over TCP without encryption. All communication (including code and outputs) is sent in plain text and is susceptible to eavesdropping. Use IPC transport or launch with kernel manager-provisioned CurveZMQ keys to enable transport encryption.
+D:\Translation\Data Science A First Introduction with Python\source\clustering.md: Executed notebook in 7.27 seconds [mystnb]
+[01mreading sources... [39;49;00m[ 33%] [35mforeword-text[39;49;00m                                        
+D:\Translation\Data Science A First Introduction with Python\source\foreword-text.md: Skipped execution in 'auto' mode (all outputs present) [mystnb]
+[01mreading sources... [39;49;00m[ 38%] [35mindex[39;49;00m                                                
+D:\Translation\Data Science A First Introduction with Python\source\index.md: Skipped execution in 'auto' mode (all outputs present) [mystnb]
+[01mreading sources... [39;49;00m[ 44%] [35minference[39;49;00m                                            
+D:\Translation\Data Science A First Introduction with Python\source\inference.md: Executing notebook using local CWD [mystnb]
+[IPKernelApp] WARNING | Kernel is running over TCP without encryption. All communication (including code and outputs) is sent in plain text and is susceptible to eavesdropping. Use IPC transport or launch with kernel manager-provisioned CurveZMQ keys to enable transport encryption.
+D:\Translation\Data Science A First Introduction with Python\source\inference.md: Executed notebook in 72.76 seconds [mystnb]
+[01mreading sources... [39;49;00m[ 50%] [35mintro[39;49;00m                                                
+D:\Translation\Data Science A First Introduction with Python\source\intro.md: Executing notebook using local CWD [mystnb]
+[IPKernelApp] WARNING | Kernel is running over TCP without encryption. All communication (including code and outputs) is sent in plain text and is susceptible to eavesdropping. Use IPC transport or launch with kernel manager-provisioned CurveZMQ keys to enable transport encryption.
+D:\Translation\Data Science A First Introduction with Python\source\intro.md: Executed notebook in 4.54 seconds [mystnb]
+[01mreading sources... [39;49;00m[ 55%] [35mjupyter[39;49;00m                                              
+D:\Translation\Data Science A First Introduction with Python\source\jupyter.md: Skipped execution in 'auto' mode (all outputs present) [mystnb]
+[01mreading sources... [39;49;00m[ 61%] [35mpreface-text[39;49;00m                                         
+D:\Translation\Data Science A First Introduction with Python\source\preface-text.md: Skipped execution in 'auto' mode (all outputs present) [mystnb]
+[01mreading sources... [39;49;00m[ 66%] [35mreading[39;49;00m                                              
+D:\Translation\Data Science A First Introduction with Python\source\reading.md: Executing notebook using local CWD [mystnb]
+[IPKernelApp] WARNING | Kernel is running over TCP without encryption. All communication (including code and outputs) is sent in plain text and is susceptible to eavesdropping. Use IPC transport or launch with kernel manager-provisioned CurveZMQ keys to enable transport encryption.
+D:\Translation\Data Science A First Introduction with Python\source\reading.md: Executed notebook in 12.51 seconds [mystnb]
+[01mreading sources... [39;49;00m[ 72%] [35mregression1[39;49;00m                                          
+D:\Translation\Data Science A First Introduction with Python\source\regression1.md: Executing notebook using local CWD [mystnb]
+[IPKernelApp] WARNING | Kernel is running over TCP without encryption. All communication (including code and outputs) is sent in plain text and is susceptible to eavesdropping. Use IPC transport or launch with kernel manager-provisioned CurveZMQ keys to enable transport encryption.
+D:\Translation\Data Science A First Introduction with Python\source\regression1.md: Executed notebook in 12.10 seconds [mystnb]
+[01mreading sources... [39;49;00m[ 77%] [35mregression2[39;49;00m                                          
+D:\Translation\Data Science A First Introduction with Python\source\regression2.md: Executing notebook using local CWD [mystnb]
+[IPKernelApp] WARNING | Kernel is running over TCP without encryption. All communication (including code and outputs) is sent in plain text and is susceptible to eavesdropping. Use IPC transport or launch with kernel manager-provisioned CurveZMQ keys to enable transport encryption.
+D:\Translation\Data Science A First Introduction with Python\source\regression2.md: Executed notebook in 7.53 seconds [mystnb]
+[01mreading sources... [39;49;00m[ 83%] [35msetup[39;49;00m                                                
+D:\Translation\Data Science A First Introduction with Python\source\setup.md: Executing notebook using local CWD [mystnb]
+[IPKernelApp] WARNING | Kernel is running over TCP without encryption. All communication (including code and outputs) is sent in plain text and is susceptible to eavesdropping. Use IPC transport or launch with kernel manager-provisioned CurveZMQ keys to enable transport encryption.
+D:\Translation\Data Science A First Introduction with Python\source\setup.md: Executed notebook in 1.86 seconds [mystnb]
+[01mreading sources... [39;49;00m[ 88%] [35mversion-control[39;49;00m                                      
+D:\Translation\Data Science A First Introduction with Python\source\version-control.md: Skipped execution in 'auto' mode (all outputs present) [mystnb]
+[01mreading sources... [39;49;00m[ 94%] [35mviz[39;49;00m                                                  
+D:\Translation\Data Science A First Introduction with Python\source\viz.md: Executing notebook using local CWD [mystnb]
+[IPKernelApp] WARNING | Kernel is running over TCP without encryption. All communication (including code and outputs) is sent in plain text and is susceptible to eavesdropping. Use IPC transport or launch with kernel manager-provisioned CurveZMQ keys to enable transport encryption.
+D:\Translation\Data Science A First Introduction with Python\source\viz.md: Executed notebook in 7.19 seconds [mystnb]
+[01mreading sources... [39;49;00m[100%] [35mwrangling[39;49;00m                                            
+D:\Translation\Data Science A First Introduction with Python\source\wrangling.md: Executing notebook using local CWD [mystnb]
+[IPKernelApp] WARNING | Kernel is running over TCP without encryption. All communication (including code and outputs) is sent in plain text and is susceptible to eavesdropping. Use IPC transport or launch with kernel manager-provisioned CurveZMQ keys to enable transport encryption.
+D:\Translation\Data Science A First Introduction with Python\source\wrangling.md: Executed notebook in 4.84 seconds [mystnb]
+
+D:\Translation\Data Science A First Introduction with Python\source\classification1.md:654: WARNING: skipping unknown output mime type: application/vnd.plotly.v1+json [mystnb.unknown_mime_type]
+D:\Translation\Data Science A First Introduction with Python\source\classification2.md:1319: WARNING: No key 'fig:06-performance-irrelevant-features' found in glue data for this document. [mystnb.glue]
+D:\Translation\Data Science A First Introduction with Python\source\classification2.md:1344: WARNING: No key 'fig:06-neighbors-irrelevant-features' found in glue data for this document. [mystnb.glue]
+D:\Translation\Data Science A First Introduction with Python\source\classification2.md:1375: WARNING: No key 'fig:06-fixed-irrelevant-features' found in glue data for this document. [mystnb.glue]
+D:\Translation\Data Science A First Introduction with Python\source\regression1.md:771: WARNING: skipping unknown output mime type: application/vnd.plotly.v1+json [mystnb.unknown_mime_type]
+D:\Translation\Data Science A First Introduction with Python\source\regression2.md:637: WARNING: skipping unknown output mime type: application/vnd.plotly.v1+json [mystnb.unknown_mime_type]
+D:\Translation\Data Science A First Introduction with Python\source\classification2.md:1565: WARNING: duplicate citation for key "streetbreastcancer"
+D:\Translation\Data Science A First Introduction with Python\source\clustering.md:864: WARNING: duplicate citation for key "james2013introduction"
+D:\Translation\Data Science A First Introduction with Python\source\reading.md:1139: WARNING: duplicate citation for key "mckinney2012python"
+D:\Translation\Data Science A First Introduction with Python\source\regression1.md:859: WARNING: duplicate citation for key "knncover"
+D:\Translation\Data Science A First Introduction with Python\source\regression1.md:859: WARNING: duplicate citation for key "knnfix"
+D:\Translation\Data Science A First Introduction with Python\source\regression2.md:1134: WARNING: duplicate citation for key "james2013introduction"
+D:\Translation\Data Science A First Introduction with Python\source\viz.md:1398: WARNING: duplicate citation for key "mckinney2012python"
+D:\Translation\Data Science A First Introduction with Python\source\viz.md:1398: WARNING: duplicate citation for key "timbers2020canlang"
+D:\Translation\Data Science A First Introduction with Python\source\wrangling.md:1352: WARNING: duplicate citation for key "mckinney2012python"
+[01mlooking for now-outdated files... [39;49;00mnone found
+[01mpickling environment... [39;49;00mdone
+[01mchecking consistency... [39;49;00mdone
+[01mpreparing documents... [39;49;00mdone
+[01mwriting output... [39;49;00m[  5%] [32macknowledgements[39;49;00m                                      
+[01mwriting output... [39;49;00m[ 11%] [32mauthors[39;49;00m                                               
+[01mwriting output... [39;49;00m[ 16%] [32mclassification1[39;49;00m                                       
+[01mwriting output... [39;49;00m[ 22%] [32mclassification2[39;49;00m                                       
+[01mwriting output... [39;49;00m[ 27%] [32mclustering[39;49;00m                                            
+[01mwriting output... [39;49;00m[ 33%] [32mforeword-text[39;49;00m                                         
+[01mwriting output... [39;49;00m[ 38%] [32mindex[39;49;00m                                                 
+[01mwriting output... [39;49;00m[ 44%] [32minference[39;49;00m                                             
+[01mwriting output... [39;49;00m[ 50%] [32mintro[39;49;00m                                                 
+[01mwriting output... [39;49;00m[ 55%] [32mjupyter[39;49;00m                                               
+[01mwriting output... [39;49;00m[ 61%] [32mpreface-text[39;49;00m                                          
+[01mwriting output... [39;49;00m[ 66%] [32mreading[39;49;00m                                               
+[01mwriting output... [39;49;00m[ 72%] [32mregression1[39;49;00m                                           
+[01mwriting output... [39;49;00m[ 77%] [32mregression2[39;49;00m                                           
+[01mwriting output... [39;49;00m[ 83%] [32msetup[39;49;00m                                                 
+[01mwriting output... [39;49;00m[ 88%] [32mversion-control[39;49;00m                                       
+[01mwriting output... [39;49;00m[ 94%] [32mviz[39;49;00m                                                   
+[01mwriting output... [39;49;00m[100%] [32mwrangling[39;49;00m                                             
+
+D:\Translation\Data Science A First Introduction with Python\source\classification2.md:1244: WARNING: undefined label: fig:06-performance-irrelevant-features
+D:\Translation\Data Science A First Introduction with Python\source\classification2.md:1325: WARNING: undefined label: fig:06-performance-irrelevant-features
+D:\Translation\Data Science A First Introduction with Python\source\classification2.md:1325: WARNING: undefined label: fig:06-neighbors-irrelevant-features
+D:\Translation\Data Science A First Introduction with Python\source\classification2.md:1325: WARNING: undefined label: fig:06-fixed-irrelevant-features
+D:\Translation\Data Science A First Introduction with Python\source\setup.md:137: WARNING: Could not lex literal_block as "ipython3". Highlighting skipped.
+[01mgenerating indices... [39;49;00mgenindex done
+[01mwriting additional pages... [39;49;00msearch done
+[01mcopying images... [39;49;00m[  0%] [33mimg/classification2/training_test.png[39;49;00m                 
+[01mcopying images... [39;49;00m[  1%] [33mimg/classification2/ML-paradigm-test.png[39;49;00m              
+[01mcopying images... [39;49;00m[  2%] [33mimg/classification2/cv.png[39;49;00m                            
+[01mcopying images... [39;49;00m[  3%] [33mimg/classification2/train-test-overview.png[39;49;00m           
+[01mcopying images... [39;49;00m[  4%] [33mimg/clustering/gentoo.jpg[39;49;00m                             
+[01mcopying images... [39;49;00m[  4%] [33mimg/frontmatter/ds-a-first-intro-graphic.jpg[39;49;00m          
+[01mcopying images... [39;49;00m[  5%] [33mimg/frontmatter/ds-a-first-intro-cover.jpg[39;49;00m            
+[01mcopying images... [39;49;00m[  6%] [33mimg/inference/population_vs_sample.png[39;49;00m                
+[01mcopying images... [39;49;00m[  7%] [33mimg/inference/intro-bootstrap.jpeg[39;49;00m                    
+[01mcopying images... [39;49;00m[  8%] [33mimg/inference/11-bootstrapping7-1.png[39;49;00m                 
+[01mcopying images... [39;49;00m[  8%] [33mimg/intro/canada_map.png[39;49;00m                              
+[01mcopying images... [39;49;00m[  9%] [33mimg/intro/spreadsheet_vs_df.png[39;49;00m                       
+[01mcopying images... [39;49;00m[ 10%] [33mimg/intro/read_csv_function.png[39;49;00m                       
+[01mcopying images... [39;49;00m[ 11%] [33mimg/intro/filter_rows.png[39;49;00m                             
+[01mcopying images... [39;49;00m[ 12%] [33mimg/intro/select_columns.png[39;49;00m                          
+[01mcopying images... [39;49;00m[ 12%] [33mimg/intro/filter_rows_and_columns.png[39;49;00m                 
+[01mcopying images... [39;49;00m[ 13%] [33mimg/intro/sort_values.png[39;49;00m                             
+[01mcopying images... [39;49;00m[ 14%] [33mimg/intro/altair_syntax.png[39;49;00m                           
+[01mcopying images... [39;49;00m[ 15%] [33mimg/intro/help_read_csv.png[39;49;00m                           
+[01mcopying images... [39;49;00m[ 16%] [33mimg/intro/completion_menu.png[39;49;00m                         
+[01mcopying images... [39;49;00m[ 16%] [33mimg/intro/help_dialog.png[39;49;00m                             
+[01mcopying images... [39;49;00m[ 17%] [33mimg/jupyter/jupyter.png[39;49;00m                               
+[01mcopying images... [39;49;00m[ 18%] [33mimg/jupyter/code-cell-not-run.png[39;49;00m                     
+[01mcopying images... [39;49;00m[ 19%] [33mimg/jupyter/code-cell-run.png[39;49;00m                         
+[01mcopying images... [39;49;00m[ 20%] [33mimg/jupyter/activate-and-run-button-annotated.png[39;49;00m     
+[01mcopying images... [39;49;00m[ 20%] [33mimg/jupyter/restart-kernel-run-all.png[39;49;00m                
+[01mcopying images... [39;49;00m[ 21%] [33mimg/jupyter/create-new-code-cell.png[39;49;00m                  
+[01mcopying images... [39;49;00m[ 22%] [33mimg/jupyter/markdown-cell-not-run.png[39;49;00m                 
+[01mcopying images... [39;49;00m[ 23%] [33mimg/jupyter/markdown-cell-run.png[39;49;00m                     
+[01mcopying images... [39;49;00m[ 24%] [33mimg/jupyter/convert-to-markdown-cell.png[39;49;00m              
+[01mcopying images... [39;49;00m[ 24%] [33mimg/jupyter/out-of-order-1.png[39;49;00m                        
+[01mcopying images... [39;49;00m[ 25%] [33mimg/jupyter/out-of-order-2.png[39;49;00m                        
+[01mcopying images... [39;49;00m[ 26%] [33mimg/jupyter/out-of-order-3.png[39;49;00m                        
+[01mcopying images... [39;49;00m[ 27%] [33mimg/jupyter/open_data_w_editor_01.png[39;49;00m                 
+[01mcopying images... [39;49;00m[ 28%] [33mimg/jupyter/open_data_w_editor_02.png[39;49;00m                 
+[01mcopying images... [39;49;00m[ 28%] [33mimg/jupyter/launcher-annotated.png[39;49;00m                    
+[01mcopying images... [39;49;00m[ 29%] [33mimg/frontmatter/chapter_overview.png[39;49;00m                  
+[01mcopying images... [39;49;00m[ 30%] [33mimg/reading/filesystem.png[39;49;00m                            
+[01mcopying images... [39;49;00m[ 31%] [33mimg/reading/craigslist_human.png[39;49;00m                      
+[01mcopying images... [39;49;00m[ 32%] [33mimg/reading/sg1.png[39;49;00m                                   
+[01mcopying images... [39;49;00m[ 32%] [33mimg/reading/sg3.png[39;49;00m                                   
+[01mcopying images... [39;49;00m[ 33%] [33mimg/reading/sg2.png[39;49;00m                                   
+[01mcopying images... [39;49;00m[ 34%] [33mimg/reading/sg4.png[39;49;00m                                   
+[01mcopying images... [39;49;00m[ 35%] [33mimg/reading/NASA-API-Rho-Ophiuchi.png[39;49;00m                 
+[01mcopying images... [39;49;00m[ 36%] [33mimg/reading/NASA-API-signup.png[39;49;00m                       
+[01mcopying images... [39;49;00m[ 36%] [33mimg/reading/NASA-API-limits.png[39;49;00m                       
+[01mcopying images... [39;49;00m[ 37%] [33mimg/reading/NASA-API-parameters.png[39;49;00m                   
+[01mcopying images... [39;49;00m[ 38%] [33mimg/setup/docker-1.png[39;49;00m                                
+[01mcopying images... [39;49;00m[ 39%] [33mimg/setup/docker-2.png[39;49;00m                                
+[01mcopying images... [39;49;00m[ 40%] [33mimg/setup/docker-3.png[39;49;00m                                
+[01mcopying images... [39;49;00m[ 40%] [33mimg/setup/docker-4.png[39;49;00m                                
+[01mcopying images... [39;49;00m[ 41%] [33mimg/setup/ubuntu-docker.png[39;49;00m                           
+[01mcopying images... [39;49;00m[ 42%] [33mimg/setup/jlab-1.png[39;49;00m                                  
+[01mcopying images... [39;49;00m[ 43%] [33mimg/setup/jlab-2.png[39;49;00m                                  
+[01mcopying images... [39;49;00m[ 44%] [33mimg/version-control/vc1-no-changes.png[39;49;00m                
+[01mcopying images... [39;49;00m[ 44%] [33mimg/version-control/vc2-changes.png[39;49;00m                   
+[01mcopying images... [39;49;00m[ 45%] [33mimg/version-control/vc-ba2-add.png[39;49;00m                    
+[01mcopying images... [39;49;00m[ 46%] [33mimg/version-control/vc-ba3-commit.png[39;49;00m                 
+[01mcopying images... [39;49;00m[ 47%] [33mimg/version-control/vc5-push.png[39;49;00m                      
+[01mcopying images... [39;49;00m[ 48%] [33mimg/version-control/vc6-remote-changes.png[39;49;00m            
+[01mcopying images... [39;49;00m[ 48%] [33mimg/version-control/vc7-pull.png[39;49;00m                      
+[01mcopying images... [39;49;00m[ 49%] [33mimg/version-control/new_repository_01.png[39;49;00m             
+[01mcopying images... [39;49;00m[ 50%] [33mimg/version-control/new_repository_02.png[39;49;00m             
+[01mcopying images... [39;49;00m[ 51%] [33mimg/version-control/new_repository_03.png[39;49;00m             
+[01mcopying images... [39;49;00m[ 52%] [33mimg/version-control/pen-tool_01.png[39;49;00m                   
+[01mcopying images... [39;49;00m[ 52%] [33mimg/version-control/pen-tool_02.png[39;49;00m                   
+[01mcopying images... [39;49;00m[ 53%] [33mimg/version-control/pen-tool_03.png[39;49;00m                   
+[01mcopying images... [39;49;00m[ 54%] [33mimg/version-control/create-new-file_01.png[39;49;00m            
+[01mcopying images... [39;49;00m[ 55%] [33mimg/version-control/create-new-file_02.png[39;49;00m            
+[01mcopying images... [39;49;00m[ 56%] [33mimg/version-control/create-new-file_03.png[39;49;00m            
+[01mcopying images... [39;49;00m[ 56%] [33mimg/version-control/upload-files_01.png[39;49;00m               
+[01mcopying images... [39;49;00m[ 57%] [33mimg/version-control/upload-files_02.png[39;49;00m               
+[01mcopying images... [39;49;00m[ 58%] [33mimg/version-control/generate-pat_01.png[39;49;00m               
+[01mcopying images... [39;49;00m[ 59%] [33mimg/version-control/generate-pat_02.png[39;49;00m               
+[01mcopying images... [39;49;00m[ 60%] [33mimg/version-control/generate-pat_03.png[39;49;00m               
+[01mcopying images... [39;49;00m[ 60%] [33mimg/version-control/clone_02.png[39;49;00m                      
+[01mcopying images... [39;49;00m[ 61%] [33mimg/version-control/clone_01.png[39;49;00m                      
+[01mcopying images... [39;49;00m[ 62%] [33mimg/version-control/clone_03.png[39;49;00m                      
+[01mcopying images... [39;49;00m[ 63%] [33mimg/version-control/clone_04.png[39;49;00m                      
+[01mcopying images... [39;49;00m[ 64%] [33mimg/version-control/git_add_01.png[39;49;00m                    
+[01mcopying images... [39;49;00m[ 64%] [33mimg/version-control/git_add_02.png[39;49;00m                    
+[01mcopying images... [39;49;00m[ 65%] [33mimg/version-control/git_add_03.png[39;49;00m                    
+[01mcopying images... [39;49;00m[ 66%] [33mimg/version-control/git_commit_01.png[39;49;00m                 
+[01mcopying images... [39;49;00m[ 67%] [33mimg/version-control/git_commit_03.png[39;49;00m                 
+[01mcopying images... [39;49;00m[ 68%] [33mimg/version-control/git_push_01.png[39;49;00m                   
+[01mcopying images... [39;49;00m[ 68%] [33mimg/version-control/git_push_02.png[39;49;00m                   
+[01mcopying images... [39;49;00m[ 69%] [33mimg/version-control/git_push_03.png[39;49;00m                   
+[01mcopying images... [39;49;00m[ 70%] [33mimg/version-control/git_push_04.png[39;49;00m                   
+[01mcopying images... [39;49;00m[ 71%] [33mimg/version-control/add_collab_01.png[39;49;00m                 
+[01mcopying images... [39;49;00m[ 72%] [33mimg/version-control/add_collab_02.png[39;49;00m                 
+[01mcopying images... [39;49;00m[ 72%] [33mimg/version-control/add_collab_03.png[39;49;00m                 
+[01mcopying images... [39;49;00m[ 73%] [33mimg/version-control/add_collab_04.png[39;49;00m                 
+[01mcopying images... [39;49;00m[ 74%] [33mimg/version-control/add_collab_05.png[39;49;00m                 
+[01mcopying images... [39;49;00m[ 75%] [33mimg/version-control/git_pull_00.png[39;49;00m                   
+[01mcopying images... [39;49;00m[ 76%] [33mimg/version-control/git_pull_01.png[39;49;00m                   
+[01mcopying images... [39;49;00m[ 76%] [33mimg/version-control/git_pull_02.png[39;49;00m                   
+[01mcopying images... [39;49;00m[ 77%] [33mimg/version-control/git_pull_03.png[39;49;00m                   
+[01mcopying images... [39;49;00m[ 78%] [33mimg/version-control/git_pull_04.png[39;49;00m                   
+[01mcopying images... [39;49;00m[ 79%] [33mimg/version-control/merge_conflict_01.png[39;49;00m             
+[01mcopying images... [39;49;00m[ 80%] [33mimg/version-control/merge_conflict_03.png[39;49;00m             
+[01mcopying images... [39;49;00m[ 80%] [33mimg/version-control/merge_conflict_04.png[39;49;00m             
+[01mcopying images... [39;49;00m[ 81%] [33mimg/version-control/merge_conflict_05.png[39;49;00m             
+[01mcopying images... [39;49;00m[ 82%] [33mimg/version-control/merge_conflict_06.png[39;49;00m             
+[01mcopying images... [39;49;00m[ 83%] [33mimg/version-control/issue_01.png[39;49;00m                      
+[01mcopying images... [39;49;00m[ 84%] [33mimg/version-control/issue_02.png[39;49;00m                      
+[01mcopying images... [39;49;00m[ 84%] [33mimg/version-control/issue_03.png[39;49;00m                      
+[01mcopying images... [39;49;00m[ 85%] [33mimg/version-control/issue_04.png[39;49;00m                      
+[01mcopying images... [39;49;00m[ 86%] [33mimg/version-control/issue_06.png[39;49;00m                      
+[01mcopying images... [39;49;00m[ 87%] [33mimg/viz/plot-sketches-1.png[39;49;00m                           
+[01mcopying images... [39;49;00m[ 88%] [33mimg/viz/png-vs-svg.png[39;49;00m                                
+[01mcopying images... [39;49;00m[ 88%] [33mimg/wrangling/data_frame_slides_cdn.004.png[39;49;00m           
+[01mcopying images... [39;49;00m[ 89%] [33mimg/wrangling/pandas_dataframe_series.png[39;49;00m             
+[01mcopying images... [39;49;00m[ 90%] [33mimg/wrangling/pandas_dataframe_series-3.png[39;49;00m           
+[01mcopying images... [39;49;00m[ 91%] [33mimg/wrangling/tidy_data.001.png[39;49;00m                       
+[01mcopying images... [39;49;00m[ 92%] [33mimg/wrangling/pivot_functions.001.png[39;49;00m                 
+[01mcopying images... [39;49;00m[ 92%] [33mimg/wrangling/pandas_melt_wide-long.png[39;49;00m               
+[01mcopying images... [39;49;00m[ 93%] [33mimg/wrangling/pandas_melt_args_labels.png[39;49;00m             
+[01mcopying images... [39;49;00m[ 94%] [33mimg/wrangling/pivot_functions.002.png[39;49;00m                 
+[01mcopying images... [39;49;00m[ 95%] [33mimg/wrangling/pandas_pivot_long-wide.png[39;49;00m              
+[01mcopying images... [39;49;00m[ 96%] [33mimg/wrangling/pandas_pivot_args_labels.png[39;49;00m            
+[01mcopying images... [39;49;00m[ 96%] [33mimg/wrangling/str-split_args_labels.png[39;49;00m               
+[01mcopying images... [39;49;00m[ 97%] [33mimg/wrangling/summarize.001.png[39;49;00m                       
+[01mcopying images... [39;49;00m[ 98%] [33mimg/wrangling/summarize.002.png[39;49;00m                       
+[01mcopying images... [39;49;00m[ 99%] [33mimg/wrangling/summarize.005.png[39;49;00m                       
+[01mcopying images... [39;49;00m[100%] [33mimg/wrangling/summarize.004.png[39;49;00m                       
+
+[01mcopying static files... [39;49;00mdone
+[01mcopying extra files... [39;49;00mdone
+[01mdumping search index in Chinese (code: zh)... [39;49;00mdone
+[01mdumping object inventory... [39;49;00mdone
+[01mbuild succeeded, 20 warnings.[39;49;00m
+
+The HTML pages are in source\_build\html.
+
+[92m===============================================================================[0m
+
+Finished generating HTML for book.
+Your book's HTML pages are here:
+    source\_build\html\
+You can look at your book by opening this file in a browser:
+    source\_build\html\index.html
+Or paste this line directly into your browser bar:
+    file://D:\Translation\Data Science A First Introduction with Python\source\_build\html\index.html            
+
+[92m===============================================================================[0m
+
+=== build exit code: 0 ===
+=== add_canonical_links.py ===
+Updated: source\_build\html\acknowledgements.html
+Updated: source\_build\html\authors.html
+Updated: source\_build\html\classification1.html
+Updated: source\_build\html\classification2.html
+Updated: source\_build\html\clustering.html
+Updated: source\_build\html\foreword-text.html
+Updated: source\_build\html\genindex.html
+Updated: source\_build\html\index.html
+Updated: source\_build\html\inference.html
+Updated: source\_build\html\intro.html
+Updated: source\_build\html\jupyter.html
+Updated: source\_build\html\preface-text.html
+Updated: source\_build\html\reading.html
+Updated: source\_build\html\regression1.html
+Updated: source\_build\html\regression2.html
+Updated: source\_build\html\search.html
+Updated: source\_build\html\setup.html
+Updated: source\_build\html\version-control.html
+Updated: source\_build\html\viz.html
+Updated: source\_build\html\wrangling.html
+Skipping (no <head> found): source\_build\html\_static\sbt-webpack-macros.html
+Skipping (no <head> found): source\_build\html\_static\webpack-macros.html

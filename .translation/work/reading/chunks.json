@@ -1,0 +1,30 @@
+{
+  "src": "source\\reading.md",
+  "front_matter_bytes": 256,
+  "chunks": [
+    {
+      "index": 1,
+      "lines": 483,
+      "bytes": 21354,
+      "first_line": ""
+    },
+    {
+      "index": 2,
+      "lines": 474,
+      "bytes": 17612,
+      "first_line": "## Reading tabular data from a Microsoft Excel file"
+    },
+    {
+      "index": 3,
+      "lines": 446,
+      "bytes": 19889,
+      "first_line": "## Writing data from Python to a `.csv` file"
+    },
+    {
+      "index": 4,
+      "lines": 243,
+      "bytes": 11503,
+      "first_line": "+++"
+    }
+  ]
+}

@@ -1,0 +1,18 @@
+{
+  "src": "source\\setup.md",
+  "front_matter_bytes": 285,
+  "chunks": [
+    {
+      "index": 1,
+      "lines": 211,
+      "bytes": 10754,
+      "first_line": ""
+    },
+    {
+      "index": 2,
+      "lines": 125,
+      "bytes": 5758,
+      "first_line": "## Working with JupyterLab Desktop"
+    }
+  ]
+}

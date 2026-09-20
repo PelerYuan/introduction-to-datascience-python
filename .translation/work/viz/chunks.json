@@ -1,0 +1,36 @@
+{
+  "src": "source\\viz.md",
+  "front_matter_bytes": 256,
+  "chunks": [
+    {
+      "index": 1,
+      "lines": 572,
+      "bytes": 23505,
+      "first_line": ""
+    },
+    {
+      "index": 2,
+      "lines": 485,
+      "bytes": 20374,
+      "first_line": "+++"
+    },
+    {
+      "index": 3,
+      "lines": 490,
+      "bytes": 19003,
+      "first_line": ":::{glue:figure} can_lang_plot_theme"
+    },
+    {
+      "index": 4,
+      "lines": 478,
+      "bytes": 19516,
+      "first_line": "```{code-cell} ipython3"
+    },
+    {
+      "index": 5,
+      "lines": 33,
+      "bytes": 1657,
+      "first_line": "## Exercises"
+    }
+  ]
+}

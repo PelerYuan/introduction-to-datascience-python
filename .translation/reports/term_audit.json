@@ -1,0 +1,832 @@
+{
+  "k-means": {
+    "totals": {
+      "k-means": 13,
+      "k 均值聚类": 15,
+      "K-means": 13
+    },
+    "chapters": {
+      "clustering": {
+        "k-means": 13,
+        "k 均值聚类": 15,
+        "K-means": 13
+      }
+    }
+  },
+  "flipper length": {
+    "totals": {
+      "鳍肢长": 6
+    },
+    "chapters": {
+      "clustering": {
+        "鳍肢长": 6
+      }
+    }
+  },
+  "bill length": {
+    "totals": {
+      "喙长": 8
+    },
+    "chapters": {
+      "clustering": {
+        "喙长": 8
+      }
+    }
+  },
+  "concavity": {
+    "totals": {
+      "凹陷度": 10,
+      "凹度": 13
+    },
+    "chapters": {
+      "classification1": {
+        "凹陷度": 10,
+        "凹度": 10
+      },
+      "classification2": {
+        "凹度": 3
+      }
+    }
+  },
+  "smoothness": {
+    "totals": {
+      "光滑度": 3,
+      "平滑度": 2
+    },
+    "chapters": {
+      "classification1": {
+        "光滑度": 1,
+        "平滑度": 1
+      },
+      "classification2": {
+        "光滑度": 2,
+        "平滑度": 1
+      }
+    }
+  },
+  "symmetry": {
+    "totals": {
+      "对称性": 3
+    },
+    "chapters": {
+      "classification1": {
+        "对称性": 3
+      }
+    }
+  },
+  "scale": {
+    "totals": {
+      "标度": 18,
+      "尺度": 3
+    },
+    "chapters": {
+      "viz": {
+        "标度": 8
+      },
+      "classification1": {
+        "标度": 5
+      },
+      "classification2": {
+        "标度": 1
+      },
+      "regression1": {
+        "尺度": 3
+      },
+      "clustering": {
+        "标度": 4
+      }
+    }
+  },
+  "standardize": {
+    "totals": {
+      "标准化": 25
+    },
+    "chapters": {
+      "classification1": {
+        "标准化": 19
+      },
+      "classification2": {
+        "标准化": 3
+      },
+      "regression2": {
+        "标准化": 1
+      },
+      "clustering": {
+        "标准化": 2
+      }
+    }
+  },
+  "transformer": {
+    "totals": {
+      "转换器": 1,
+      "变换器": 3
+    },
+    "chapters": {
+      "classification1": {
+        "转换器": 1,
+        "变换器": 2
+      },
+      "regression1": {
+        "变换器": 1
+      }
+    }
+  },
+  "summary": {
+    "totals": {
+      "小结": 5,
+      "总结": 1,
+      "摘要": 1
+    },
+    "chapters": {
+      "wrangling": {
+        "小结": 1
+      },
+      "viz": {
+        "总结": 1
+      },
+      "classification1": {
+        "摘要": 1,
+        "小结": 1
+      },
+      "classification2": {
+        "小结": 1
+      },
+      "inference": {
+        "小结": 1
+      },
+      "jupyter": {
+        "小结": 1
+      }
+    }
+  },
+  "worksheet": {
+    "totals": {
+      "练习册": 75
+    },
+    "chapters": {
+      "preface-text": {
+        "练习册": 9
+      },
+      "intro": {
+        "练习册": 6
+      },
+      "reading": {
+        "练习册": 6
+      },
+      "wrangling": {
+        "练习册": 6
+      },
+      "viz": {
+        "练习册": 6
+      },
+      "classification1": {
+        "练习册": 6
+      },
+      "classification2": {
+        "练习册": 6
+      },
+      "regression1": {
+        "练习册": 6
+      },
+      "regression2": {
+        "练习册": 6
+      },
+      "clustering": {
+        "练习册": 6
+      },
+      "inference": {
+        "练习册": 6
+      },
+      "version-control": {
+        "练习册": 6
+      }
+    }
+  },
+  "primary language at home": {
+    "totals": {
+      "在家主要使用的语言": 2,
+      "在家主要语言": 3,
+      "家中主要语言": 5
+    },
+    "chapters": {
+      "wrangling": {
+        "在家主要使用的语言": 2,
+        "在家主要语言": 3
+      },
+      "viz": {
+        "家中主要语言": 5
+      }
+    }
+  },
+  "accuracy": {
+    "totals": {
+      "准确率": 102
+    },
+    "chapters": {
+      "classification1": {
+        "准确率": 1
+      },
+      "classification2": {
+        "准确率": 97
+      },
+      "regression1": {
+        "准确率": 3
+      },
+      "regression2": {
+        "准确率": 1
+      }
+    }
+  },
+  "precision": {
+    "totals": {
+      "精确率": 19
+    },
+    "chapters": {
+      "classification2": {
+        "精确率": 19
+      }
+    }
+  },
+  "recall": {
+    "totals": {
+      "召回率": 23
+    },
+    "chapters": {
+      "classification2": {
+        "召回率": 23
+      }
+    }
+  },
+  "predictor": {
+    "totals": {
+      "预测变量": 113
+    },
+    "chapters": {
+      "classification1": {
+        "预测变量": 16
+      },
+      "classification2": {
+        "预测变量": 38
+      },
+      "regression1": {
+        "预测变量": 21
+      },
+      "regression2": {
+        "预测变量": 38
+      }
+    }
+  },
+  "response variable": {
+    "totals": {
+      "响应变量": 31
+    },
+    "chapters": {
+      "classification1": {
+        "响应变量": 3
+      },
+      "classification2": {
+        "响应变量": 2
+      },
+      "regression1": {
+        "响应变量": 9
+      },
+      "regression2": {
+        "响应变量": 12
+      },
+      "clustering": {
+        "响应变量": 5
+      }
+    }
+  },
+  "tidy data": {
+    "totals": {
+      "整洁数据": 27
+    },
+    "chapters": {
+      "foreword-text": {
+        "整洁数据": 3
+      },
+      "intro": {
+        "整洁数据": 3
+      },
+      "wrangling": {
+        "整洁数据": 21
+      }
+    }
+  },
+  "data frame": {
+    "totals": {
+      "数据框": 220
+    },
+    "chapters": {
+      "intro": {
+        "数据框": 48
+      },
+      "reading": {
+        "数据框": 20
+      },
+      "wrangling": {
+        "数据框": 100
+      },
+      "viz": {
+        "数据框": 11
+      },
+      "classification1": {
+        "数据框": 16
+      },
+      "classification2": {
+        "数据框": 4
+      },
+      "regression1": {
+        "数据框": 7
+      },
+      "regression2": {
+        "数据框": 2
+      },
+      "clustering": {
+        "数据框": 6
+      },
+      "inference": {
+        "数据框": 6
+      }
+    }
+  },
+  "series": {
+    "totals": {
+      "序列": 27
+    },
+    "chapters": {
+      "wrangling": {
+        "序列": 16
+      },
+      "classification1": {
+        "序列": 2
+      },
+      "classification2": {
+        "序列": 4
+      },
+      "regression1": {
+        "序列": 3
+      },
+      "inference": {
+        "序列": 2
+      }
+    }
+  },
+  "wrangling": {
+    "totals": {
+      "数据清洗": 6,
+      "数据整理": 11
+    },
+    "chapters": {
+      "foreword-text": {
+        "数据清洗": 2,
+        "数据整理": 1
+      },
+      "reading": {
+        "数据整理": 1
+      },
+      "wrangling": {
+        "数据清洗": 4,
+        "数据整理": 7
+      },
+      "classification2": {
+        "数据整理": 1
+      },
+      "regression2": {
+        "数据整理": 1
+      }
+    }
+  },
+  "bootstrap": {
+    "totals": {
+      "自助法": 6
+    },
+    "chapters": {
+      "inference": {
+        "自助法": 6
+      }
+    }
+  },
+  "sampling distribution": {
+    "totals": {
+      "抽样分布": 41
+    },
+    "chapters": {
+      "inference": {
+        "抽样分布": 41
+      }
+    }
+  },
+  "sample distribution": {
+    "totals": {
+      "样本分布": 5
+    },
+    "chapters": {
+      "inference": {
+        "样本分布": 5
+      }
+    }
+  },
+  "confidence interval": {
+    "totals": {
+      "置信区间": 8
+    },
+    "chapters": {
+      "inference": {
+        "置信区间": 8
+      }
+    }
+  },
+  "elbow": {
+    "totals": {
+      "肘部": 10
+    },
+    "chapters": {
+      "classification2": {
+        "肘部": 3
+      },
+      "clustering": {
+        "肘部": 7
+      }
+    }
+  },
+  "overfitting": {
+    "totals": {
+      "过拟合": 10
+    },
+    "chapters": {
+      "classification2": {
+        "过拟合": 7
+      },
+      "regression1": {
+        "过拟合": 3
+      }
+    }
+  },
+  "underfitting": {
+    "totals": {
+      "欠拟合": 8
+    },
+    "chapters": {
+      "classification2": {
+        "欠拟合": 5
+      },
+      "regression1": {
+        "欠拟合": 3
+      }
+    }
+  },
+  "cross-validation": {
+    "totals": {
+      "交叉验证": 50
+    },
+    "chapters": {
+      "classification2": {
+        "交叉验证": 29
+      },
+      "regression1": {
+        "交叉验证": 16
+      },
+      "regression2": {
+        "交叉验证": 4
+      },
+      "clustering": {
+        "交叉验证": 1
+      }
+    }
+  },
+  "pipeline": {
+    "totals": {
+      "流水线": 14
+    },
+    "chapters": {
+      "classification1": {
+        "流水线": 3
+      },
+      "classification2": {
+        "流水线": 5
+      },
+      "regression1": {
+        "流水线": 3
+      },
+      "clustering": {
+        "流水线": 3
+      }
+    }
+  },
+  "random seed": {
+    "totals": {
+      "随机种子": 6
+    },
+    "chapters": {
+      "classification2": {
+        "随机种子": 3
+      },
+      "clustering": {
+        "随机种子": 2
+      },
+      "inference": {
+        "随机种子": 1
+      }
+    }
+  },
+  "point estimate": {
+    "totals": {
+      "点估计": 28
+    },
+    "chapters": {
+      "inference": {
+        "点估计": 28
+      }
+    }
+  },
+  "standard error": {
+    "totals": {
+      "标准误": 15
+    },
+    "chapters": {
+      "classification2": {
+        "标准误": 12
+      },
+      "regression1": {
+        "标准误": 3
+      }
+    }
+  },
+  "outlier": {
+    "totals": {
+      "离群值": 7
+    },
+    "chapters": {
+      "regression2": {
+        "离群值": 7
+      }
+    }
+  },
+  "multicollinearity": {
+    "totals": {
+      "多重共线性": 3,
+      "共线性": 3
+    },
+    "chapters": {
+      "regression2": {
+        "多重共线性": 3,
+        "共线性": 3
+      }
+    }
+  },
+  "domain": {
+    "totals": {
+      "取值范围": 2
+    },
+    "chapters": {
+      "viz": {
+        "取值范围": 2
+      }
+    }
+  },
+  "facet": {
+    "totals": {
+      "分面": 1
+    },
+    "chapters": {
+      "viz": {
+        "分面": 1
+      }
+    }
+  },
+  "layer": {
+    "totals": {
+      "图层": 2
+    },
+    "chapters": {
+      "viz": {
+        "图层": 2
+      }
+    }
+  },
+  "aesthetic": {
+    "totals": {
+      "图形属性": 1
+    },
+    "chapters": {
+      "viz": {
+        "图形属性": 1
+      }
+    }
+  },
+  "tick": {
+    "totals": {
+      "刻度": 6
+    },
+    "chapters": {
+      "viz": {
+        "刻度": 6
+      }
+    }
+  },
+  "legend": {
+    "totals": {
+      "图例": 7
+    },
+    "chapters": {
+      "viz": {
+        "图例": 7
+      }
+    }
+  },
+  "distribution": {
+    "totals": {
+      "分布": 98
+    },
+    "chapters": {
+      "viz": {
+        "分布": 6
+      },
+      "inference": {
+        "分布": 92
+      }
+    }
+  },
+  "histogram": {
+    "totals": {
+      "直方图": 33
+    },
+    "chapters": {
+      "viz": {
+        "直方图": 23
+      },
+      "inference": {
+        "直方图": 10
+      }
+    }
+  },
+  "bar chart": {
+    "totals": {
+      "条形图": 5
+    },
+    "chapters": {
+      "intro": {
+        "条形图": 1
+      },
+      "viz": {
+        "条形图": 4
+      }
+    }
+  },
+  "classification": {
+    "totals": {
+      "分类": 123
+    },
+    "chapters": {
+      "preface-text": {
+        "分类": 1
+      },
+      "foreword-text": {
+        "分类": 1
+      },
+      "intro": {
+        "分类": 4
+      },
+      "classification1": {
+        "分类": 38
+      },
+      "classification2": {
+        "分类": 43
+      },
+      "regression1": {
+        "分类": 23
+      },
+      "regression2": {
+        "分类": 3
+      },
+      "clustering": {
+        "分类": 10
+      }
+    }
+  },
+  "regression": {
+    "totals": {
+      "回归": 181
+    },
+    "chapters": {
+      "preface-text": {
+        "回归": 1
+      },
+      "acknowledgements": {
+        "回归": 2
+      },
+      "intro": {
+        "回归": 4
+      },
+      "classification1": {
+        "回归": 1
+      },
+      "classification2": {
+        "回归": 1
+      },
+      "regression1": {
+        "回归": 57
+      },
+      "regression2": {
+        "回归": 110
+      },
+      "clustering": {
+        "回归": 5
+      }
+    }
+  },
+  "cluster": {
+    "totals": {
+      "聚类": 30,
+      "簇": 58
+    },
+    "chapters": {
+      "clustering": {
+        "聚类": 30,
+        "簇": 58
+      }
+    }
+  },
+  "version control": {
+    "totals": {
+      "版本控制": 43
+    },
+    "chapters": {
+      "preface-text": {
+        "版本控制": 1
+      },
+      "version-control": {
+        "版本控制": 37
+      },
+      "setup": {
+        "版本控制": 5
+      }
+    }
+  },
+  "repository": {
+    "totals": {
+      "仓库": 115
+    },
+    "chapters": {
+      "preface-text": {
+        "仓库": 1
+      },
+      "intro": {
+        "仓库": 2
+      },
+      "reading": {
+        "仓库": 2
+      },
+      "wrangling": {
+        "仓库": 2
+      },
+      "viz": {
+        "仓库": 2
+      },
+      "classification1": {
+        "仓库": 2
+      },
+      "classification2": {
+        "仓库": 2
+      },
+      "regression1": {
+        "仓库": 2
+      },
+      "regression2": {
+        "仓库": 2
+      },
+      "clustering": {
+        "仓库": 2
+      },
+      "inference": {
+        "仓库": 2
+      },
+      "version-control": {
+        "仓库": 91
+      },
+      "setup": {
+        "仓库": 3
+      }
+    }
+  },
+  "notebook": {
+    "totals": {
+      "笔记本": 70,
+      "练习册": 3
+    },
+    "chapters": {
+      "jupyter": {
+        "笔记本": 67
+      },
+      "version-control": {
+        "笔记本": 1
+      },
+      "setup": {
+        "笔记本": 2,
+        "练习册": 3
+      }
+    }
+  }
+}

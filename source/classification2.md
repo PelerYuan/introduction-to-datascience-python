@@ -13,7 +13,7 @@ kernelspec:
 ---
 
 (classification2)=
-# Classification II: evaluation & tuning
+# 分类 II：评估与调优
 
 ```{code-cell} ipython3
 :tags: [remove-cell]
@@ -21,70 +21,43 @@ kernelspec:
 from chapter_preamble import *
 ```
 
-## Overview
-This chapter continues the introduction to predictive modeling through
-classification. While the previous chapter covered training and data
-preprocessing, this chapter focuses on how to evaluate the performance of
-a classifier, as well as how to improve the classifier (where possible)
-to maximize its accuracy.
+## 概述
+本章继续介绍用分类进行预测建模。上一章讲解了模型训练与数据预处理，本章则聚焦于如何评估分类器的性能，以及如何在可能时改进分类器，把它的准确率（accuracy）提到最高。
 
-## Chapter learning objectives
-By the end of the chapter, readers will be able to do the following:
+## 本章学习目标
+学完本章后，你将能够：
 
-- Describe what training, validation, and test data sets are and how they are used in classification.
-- Split data into training, validation, and test data sets.
-- Describe what a random seed is and its importance in reproducible data analysis.
-- Set the random seed in Python using the `numpy.random.seed` function.
-- Describe and interpret accuracy, precision, recall, and confusion matrices.
-- Evaluate classification accuracy, precision, and recall in Python using a test set, a single validation set, and cross-validation.
-- Produce a confusion matrix in Python.
-- Choose the number of neighbors in a K-nearest neighbors classifier by maximizing estimated cross-validation accuracy.
-- Describe underfitting and overfitting, and relate it to the number of neighbors in K-nearest neighbors classification.
-- Describe the advantages and disadvantages of the K-nearest neighbors classification algorithm.
+- 说明什么是训练集、验证集和测试集，以及它们在分类中如何使用。
+- 把数据划分为训练集、验证集和测试集。
+- 说明什么是随机种子，以及它在可复现的数据分析中有多重要。
+- 使用 `numpy.random.seed` 函数在 Python 中设置随机种子。
+- 说明并解读准确率、精确率（precision）、召回率（recall）和混淆矩阵。
+- 在 Python 中用测试集、单个验证集和交叉验证来评估分类的准确率、精确率和召回率。
+- 在 Python 中生成混淆矩阵。
+- 通过最大化交叉验证准确率估计值，选择 k 近邻分类器中的近邻个数。
+- 说明欠拟合与过拟合，并把它们与 k 近邻分类中的近邻个数联系起来。
+- 说明 k 近邻分类算法的优点和缺点。
 
 +++
 
-## Evaluating performance
+## 评估性能
 
-```{index} breast cancer
+```{index} 乳腺癌
 ```
 
-Sometimes our classifier might make the wrong prediction. A classifier does not
-need to be right 100\% of the time to be useful, though we don't want the
-classifier to make too many wrong predictions. How do we measure how "good" our
-classifier is? Let's revisit the
-[breast cancer images data](https://archive.ics.uci.edu/ml/datasets/Breast+Cancer+Wisconsin+%28Diagnostic%29) {cite:p}`streetbreastcancer`
-and think about how our classifier will be used in practice. A biopsy will be
-performed on a *new* patient's tumor, the resulting image will be analyzed,
-and the classifier will be asked to decide whether the tumor is benign or
-malignant. The key word here is *new*: our classifier is "good" if it provides
-accurate predictions on data *not seen during training*, as this implies that
-it has actually learned about the relationship between the predictor variables and response variable,
-as opposed to simply memorizing the labels of individual training data examples.
-But then, how can we evaluate our classifier without visiting the hospital to collect more
-tumor images?
+有时分类器会给出错误的预测。分类器不必 100\% 的时间都正确才算有用，不过我们也不希望它错得太多。那么，怎样衡量分类器有多“好”呢？我们回到[乳腺癌图像数据](https://archive.ics.uci.edu/ml/datasets/Breast+Cancer+Wisconsin+%28Diagnostic%29) {cite:p}`streetbreastcancer`，想一想分类器在实践中会怎样使用。医生会为一位*新*患者的肿瘤做活检，对得到的图像加以分析，再让分类器判断这个肿瘤是良性还是恶性。这里的关键词是*新*：如果分类器能对*训练期间未曾见过*的数据给出准确的预测，我们就认为它是“好”的，因为这说明它确实学到了预测变量与响应变量之间的关系，而不是简单地记住每一条训练数据的标签。可是，如果不跑一趟医院去收集更多肿瘤图像，我们又该怎么评估分类器呢？
 
 
-```{index} training set, test set
+```{index} 训练集, 测试集
 ```
 
-The trick is to split the data into a **training set** and **test set** ({numref}`fig:06-training-test`)
-and use only the **training set** when building the classifier.
-Then, to evaluate the performance of the classifier, we first set aside the labels from the **test set**,
-and then use the classifier to predict the labels in the **test set**. If our predictions match the actual
-labels for the observations in the **test set**, then we have some
-confidence that our classifier might also accurately predict the class
-labels for new observations without known class labels.
+办法是把数据划分为**训练集**和**测试集**（{numref}`fig:06-training-test`），并且只用**训练集**来构建分类器。接下来，为了评估分类器的性能，我们先把**测试集**的标签放到一边，再用分类器预测**测试集**中的标签。如果预测结果与**测试集**中观测的实际标签相符，我们就有了一些信心：这个分类器或许也能准确预测那些类别标签未知的新观测的类别标签。
 
-```{index} golden rule of machine learning
+```{index} 机器学习黄金法则
 ```
 
 ```{note}
-If there were a golden rule of machine learning, it might be this:
-*you cannot use the test data to build the model!* If you do, the model gets to
-"see" the test data in advance, making it look more accurate than it really
-is. Imagine how bad it would be to overestimate your classifier's accuracy
-when predicting whether a patient's tumor is malignant or benign!
+如果说机器学习有一条黄金法则，那大概就是：*不能拿测试数据来构建模型！*一旦这么做，模型就会提前“看到”测试数据，于是显得比实际更准确。想想看，在判断患者的肿瘤是恶性还是良性时高估了分类器的准确率，后果会有多糟！
 ```
 
 +++
@@ -92,24 +65,18 @@ when predicting whether a patient's tumor is malignant or benign!
 ```{figure} img/classification2/training_test.png
 :name: fig:06-training-test
 
-Splitting the data into training and testing sets.
+把数据划分为训练集和测试集。
 ```
 
 +++
 
-```{index} see: prediction accuracy; accuracy
+```{index} see: 预测准确率; 准确率
 ```
 
-```{index} accuracy
+```{index} 准确率
 ```
 
-How exactly can we assess how well our predictions match the actual labels for
-the observations in the test set? One way we can do this is to calculate the
-prediction **accuracy**. This is the fraction of examples for which the
-classifier made the correct prediction. To calculate this, we divide the number
-of correct predictions by the number of predictions made.
-The process for assessing if our predictions match the actual labels in the
-test set is illustrated in {numref}`fig:06-ML-paradigm-test`.
+那么，究竟怎样判断预测结果与测试集中观测的实际标签有多吻合呢？一种做法是计算预测**准确率**。它是指分类器给出正确预测的样本所占的比例：用预测正确的数量除以预测的总数即可。判断预测结果是否与测试集中的实际标签相符的过程，见{numref}`fig:06-ML-paradigm-test`。
 
 $$\mathrm{accuracy} = \frac{\mathrm{number \; of  \; correct  \; predictions}}{\mathrm{total \;  number \;  of  \; predictions}}$$
 
@@ -118,181 +85,91 @@ $$\mathrm{accuracy} = \frac{\mathrm{number \; of  \; correct  \; predictions}}{\
 ```{figure} img/classification2/ML-paradigm-test.png
 :name: fig:06-ML-paradigm-test
 
-Process for splitting the data and finding the prediction accuracy.
+划分数据并计算预测准确率的过程。
 ```
 
-```{index} confusion matrix
+```{index} 混淆矩阵
 ```
 
-Accuracy is a convenient, general-purpose way to summarize the performance of a classifier with
-a single number.  But prediction accuracy by itself does not tell the whole
-story.  In particular, accuracy alone only tells us how often the classifier
-makes mistakes in general, but does not tell us anything about the *kinds* of
-mistakes the classifier makes.  A more comprehensive view of performance can be
-obtained by additionally examining the **confusion matrix**. The confusion
-matrix shows how many test set labels of each type are predicted correctly and
-incorrectly, which gives us more detail about the kinds of mistakes the
-classifier tends to make.  {numref}`confusion-matrix-table` shows an example
-of what a confusion matrix might look like for the tumor image data with
-a test set of 65 observations.
+准确率能用单个数字概括分类器的性能，方便且通用。但预测准确率本身说明不了全部问题。准确率只反映分类器总体上出错的频率，却不涉及它犯的是*哪一类*错误。要想更全面地了解性能，还可以进一步考察**混淆矩阵**。混淆矩阵列出测试集中每一类标签有多少条预测正确、多少条预测错误，从而更清楚地看出分类器容易犯哪种错误。{numref}`confusion-matrix-table` 给出了肿瘤图像数据的一个混淆矩阵示例，其中测试集包含 65 条观测。
 
-```{list-table} An example confusion matrix for the tumor image data.
+```{list-table} 肿瘤图像数据的混淆矩阵示例。
 :header-rows: 1
 :name: confusion-matrix-table
 
 * -
-  - Predicted Malignant
-  - Predicted Benign
-* - **Actually Malignant**
+  - 预测为恶性
+  - 预测为良性
+* - **实际为恶性**
   - 1
   - 3
-* - **Actually Benign**
+* - **实际为良性**
   - 4
   - 57
 ```
 
-In the example in {numref}`confusion-matrix-table`, we see that there was
-1 malignant observation that was correctly classified as malignant (top left corner),
-and 57 benign observations that were correctly classified as benign (bottom right corner).
-However, we can also see that the classifier made some mistakes:
-it classified 3 malignant observations as benign, and 4 benign observations as
-malignant. The accuracy of this classifier is roughly
-89%, given by the formula
+在{numref}`confusion-matrix-table` 的例子中，有 1 条恶性观测被正确判为恶性（左上角），57 条良性观测被正确判为良性（右下角）。不过也能看出分类器犯了一些错误：它把 3 条恶性观测判成了良性，把 4 条良性观测判成了恶性。由下面的公式可以算出，这个分类器的准确率约为 89%：
 
 $$\mathrm{accuracy} = \frac{\mathrm{number \; of  \; correct  \; predictions}}{\mathrm{total \;  number \;  of  \; predictions}} = \frac{1+57}{1+57+4+3} = 0.892.$$
 
-But we can also see that the classifier only identified 1 out of 4 total malignant
-tumors; in other words, it misclassified 75% of the malignant cases present in the
-data set! In this example, misclassifying a malignant tumor is a potentially
-disastrous error, since it may lead to a patient who requires treatment not receiving it.
-Since we are particularly interested in identifying malignant cases, this
-classifier would likely be unacceptable even with an accuracy of 89%.
+但我们还会发现，数据集中共有 4 个恶性肿瘤，分类器只识别出其中 1 个；换句话说，它把 75% 的恶性病例判错了！在这个例子里，把恶性肿瘤误判可能造成灾难性后果，因为需要治疗的患者可能因此得不到治疗。既然我们特别关心能否找出恶性病例，那么即便准确率达到 89%，这个分类器恐怕也难以接受。
 
-```{index} positive label, negative label, true positive, true negative, false positive, false negative
+```{index} 正类标签, 负类标签, 真阳性, 真阴性, 假阳性, 假阴性
 ```
 
-Focusing more on one label than the other is
-common in classification problems. In such cases, we typically refer to the label we are more
-interested in identifying as the *positive* label, and the other as the
-*negative* label. In the tumor example, we would refer to malignant
-observations as *positive*, and benign observations as *negative*.  We can then
-use the following terms to talk about the four kinds of prediction that the
-classifier can make, corresponding to the four entries in the confusion matrix:
+在分类问题中，人们常常更关注某一类标签，而不是另一类。这时，我们通常把更想识别出来的那一类标签称为*正类*标签，另一类称为*负类*标签。在肿瘤这个例子里，恶性观测就是*正类*，良性观测则是*负类*。分类器能做出的四种预测，正好对应混淆矩阵中的四个单元格，可以用以下术语来称呼：
 
-- **True Positive:** A malignant observation that was classified as malignant (top left in {numref}`confusion-matrix-table`).
-- **False Positive:** A benign observation that was classified as malignant (bottom left in {numref}`confusion-matrix-table`).
-- **True Negative:** A benign observation that was classified as benign (bottom right in {numref}`confusion-matrix-table`).
-- **False Negative:** A malignant observation that was classified as benign (top right in {numref}`confusion-matrix-table`).
+- **真阳性（True Positive）：**恶性观测被判为恶性（{numref}`confusion-matrix-table` 左上角）。
+- **假阳性（False Positive）：**良性观测被判为恶性（{numref}`confusion-matrix-table` 左下角）。
+- **真阴性（True Negative）：**良性观测被判为良性（{numref}`confusion-matrix-table` 右下角）。
+- **假阴性（False Negative）：**恶性观测被判为良性（{numref}`confusion-matrix-table` 右上角）。
 
-```{index} precision, recall
+```{index} 精确率, 召回率
 ```
 
-A perfect classifier would have zero false negatives and false positives (and
-therefore, 100% accuracy). However, classifiers in practice will almost always
-make some errors. So you should think about which kinds of error are most
-important in your application, and use the confusion matrix to quantify and
-report them. Two commonly used metrics that we can compute using the confusion
-matrix are the **precision** and **recall** of the classifier. These are often
-reported together with accuracy.  *Precision* quantifies how many of the
-positive predictions the classifier made were actually positive. Intuitively,
-we would like a classifier to have a *high* precision: for a classifier with
-high precision, if the classifier reports that a new observation is positive,
-we can trust that the new observation is indeed positive. We can compute the
-precision of a classifier using the entries in the confusion matrix, with the
-formula
+完美分类器不会有假阴性，也不会有假阳性（因此准确率为 100%）。然而，实际中的分类器几乎总会犯一些错误。所以，你应当想清楚在自己的应用里哪种错误最要紧，并用混淆矩阵把它们量化、报告出来。利用混淆矩阵可以算出两个常用指标：分类器的**精确率**和**召回率**，它们常与准确率一起报告。*精确率*衡量分类器判为正类的预测中有多少确实是正类。直观地说，我们希望分类器的精确率*高*：精确率高的分类器如果报告某个新观测为正类，我们就可以相信这个新观测确实是正类。用混淆矩阵中的各项，可以按下面的公式计算分类器的精确率：
 
 $$\mathrm{precision} = \frac{\mathrm{number \; of  \; correct \; positive \; predictions}}{\mathrm{total \;  number \;  of \; positive  \; predictions}}.$$
 
-*Recall* quantifies how many of the positive observations in the test set were
-identified as positive. Intuitively, we would like a classifier to have a
-*high* recall: for a classifier with high recall, if there is a positive
-observation in the test data, we can trust that the classifier will find it.
-We can also compute the recall of the classifier using the entries in the
-confusion matrix, with the formula
+*召回率*衡量测试集中的正类观测有多少被识别为正类。直观地说，我们希望分类器的召回率*高*：召回率高的分类器只要测试数据中存在正类观测，我们就可以相信它能找出来。同样用混淆矩阵中的各项，可以按下面的公式计算分类器的召回率：
 
 $$\mathrm{recall} = \frac{\mathrm{number \; of  \; correct  \; positive \; predictions}}{\mathrm{total \;  number \;  of  \; positive \; test \; set \; observations}}.$$
 
-In the example presented in {numref}`confusion-matrix-table`, we have that the precision and recall are
+在{numref}`confusion-matrix-table` 给出的例子里，精确率和召回率分别是
 
 $$\mathrm{precision} = \frac{1}{1+4} = 0.20, \quad \mathrm{recall} = \frac{1}{1+3} = 0.25.$$
 
-So even with an accuracy of 89%, the precision and recall of the classifier
-were both relatively low. For this data analysis context, recall is
-particularly important: if someone has a malignant tumor, we certainly want to
-identify it.  A recall of just 25% would likely be unacceptable!
+可见，即使准确率达到 89%，这个分类器的精确率和召回率都相当低。就这项数据分析而言，召回率尤其重要：如果有人患了恶性肿瘤，我们当然希望能把它识别出来。召回率只有 25% 恐怕是不能接受的！
 
 ```{note}
-It is difficult to achieve both high precision and high recall at
-the same time; models with high precision tend to have low recall and vice
-versa.  As an example, we can easily make a classifier that has *perfect
-recall*: just *always* guess positive! This classifier will of course find
-every positive observation in the test set, but it will make lots of false
-positive predictions along the way  and have low precision. Similarly, we can
-easily make a classifier that has *perfect precision*: *never* guess
-positive! This classifier will never incorrectly identify an obsevation as
-positive, but it will make a lot of false negative predictions along the way.
-In fact, this classifier will have 0% recall! Of course, most real
-classifiers fall somewhere in between these two extremes. But these examples
-serve to show that in settings where one of the classes is of interest (i.e.,
-there is a *positive* label), there is a trade-off between precision and recall that one has to
-make when designing a classifier.
+要让精确率和召回率同时都很高是很难的：精确率高的模型往往召回率低，反之亦然。举个例子，我们可以轻松做出一个*召回率完美*的分类器：*一律*猜正类就行了！它当然能找出测试集中的每一个正类观测，但一路上会产生大量假阳性预测，精确率很低。同样，我们也可以轻松做出一个*精确率完美*的分类器：*从不*猜正类！它绝不会把观测错判为正类，但一路上会产生大量假阴性预测。事实上，这个分类器的召回率为 0%！当然，大多数真实分类器都落在这两个极端之间。但这些例子说明，当某一类正是我们关心的类别时（也就是说，存在*正类*标签），设计分类器就必须在精确率与召回率之间做出权衡取舍。
 ```
 
 +++
 
 (randomseeds)=
-## Randomness and seeds
+## 随机性与种子
 
-```{index} random
+```{index} 随机
 ```
 
-Beginning in this chapter, our data analyses will often involve the use
-of *randomness*. We use randomness any time we need to make a decision in our
-analysis that needs to be fair, unbiased, and not influenced by human input.
-For example, in this chapter, we need to split
-a data set into a training set and test set to evaluate our classifier. We
-certainly do not want to choose how to split
-the data ourselves by hand, as we want to avoid accidentally influencing the result
-of the evaluation. So instead, we let Python *randomly* split the data.
-In future chapters we will use randomness
-in many other ways, e.g., to help us select a small subset of data from a larger data set,
-to pick groupings of data, and more.
+从本章开始，我们的数据分析会经常用到*随机性*。只要分析中需要做出一项公平、无偏、不受人为影响的决定，我们就会借助随机性。例如，本章需要把数据集划分为训练集和测试集，以便评估分类器。我们当然不想亲手决定怎样划分数据，因为要避免无意中影响评估结果。于是，我们让 Python *随机*划分数据。后续各章还会以许多其他方式使用随机性，例如从较大的数据集中选出一小部分数据、抽取数据的分组，等等。
 
-```{index} reproducible, seed
+```{index} 可复现, 种子
 ```
 
-```{index} see: random seed; seed
+```{index} see: 随机种子; 种子
 ```
 
-```{index} seed; numpy.random.seed
+```{index} 种子; numpy.random.seed
 ```
 
-However, the use of randomness runs counter to one of the main
-tenets of good data analysis practice: *reproducibility*. Recall that a reproducible
-analysis produces the same result each time it is run; if we include randomness
-in the analysis, would we not get a different result each time?
-The trick is that in Python&mdash;and other programming languages&mdash;randomness
-is not actually random! Instead, Python uses a *random number generator* that
-produces a sequence of numbers that
-are completely determined by a
- *seed value*. Once you set the seed value, everything after that point may *look* random,
-but is actually totally reproducible. As long as you pick the same seed
-value, you get the same result!
+不过，使用随机性与良好数据分析实践的一条主要原则相抵触：*可复现性*。回想一下，可复现的分析每次运行都会产生相同的结果；如果分析中包含随机性，岂不是每次结果都不一样？窍门在于，在 Python——以及其他编程语言——里，随机性其实并不随机！Python 使用的是一个*随机数生成器*，它产生的一串数字完全由一个*种子值*决定。一旦设定种子值，此后的一切也许*看起来*随机，实际上完全可复现。只要选取同一个种子值，你得到的结果就完全相同！
 
 ```{index} sample, to_list
 ```
 
-Let's use an example to investigate how randomness works in Python. Say we
-have a series object containing the integers from 0 to 9. We want
-to randomly pick 10 numbers from that list, but we want it to be reproducible.
-Before randomly picking the 10 numbers,
-we call the `seed` function from the `numpy` package, and pass it any integer as the argument.
-Below we use the seed number `1`. At
-that point, Python will keep track of the randomness that occurs throughout the code.
-For example, we can call the `sample` method
-on the series of numbers, passing the argument `n=10` to indicate that we want 10 samples.
-The `to_list` method converts the resulting series into a basic Python list to make
-the output easier to read.
+我们用一个例子来看看随机性在 Python 中是怎样起作用的。假设有一个序列（series），其中包含从 0 到 9 的整数。我们想从里面随机抽出 10 个数，同时希望这个过程可复现。在抽取这 10 个数之前，先调用 `numpy` 包中的 `seed` 函数，把任意一个整数作为参数传给它。下面用到的种子数是 `1`。这样设置之后，Python 会跟踪此后代码中出现的随机性。例如，我们可以对数字序列调用 `sample` 方法，传入参数 `n=10`，表示想要 10 个样本。`to_list` 方法会把结果序列转换成基本的 Python 列表，让输出更容易阅读。
 
 ```{code-cell} ipython3
 import numpy as np
@@ -305,19 +182,14 @@ nums_0_to_9 = pd.Series([0, 1, 2, 3, 4, 5, 6, 7, 8, 9])
 random_numbers1 = nums_0_to_9.sample(n=10).to_list()
 random_numbers1
 ```
-You can see that `random_numbers1` is a list of 10 numbers
-from 0 to 9 that, from all appearances, looks random. If
-we run the `sample` method again,
-we will get a fresh batch of 10 numbers that also look random.
+可以看到，`random_numbers1` 是由 0 到 9 这 10 个数组成的一个列表，从表面上看完全是随机的。如果再次运行 `sample` 方法，我们会得到新的一批 10 个数，看起来同样随机。
 
 ```{code-cell} ipython3
 random_numbers2 = nums_0_to_9.sample(n=10).to_list()
 random_numbers2
 ```
 
-If we want to force Python to produce the same sequences of random numbers,
-we can simply call the `np.random.seed` function with the seed value `1`---the same
-as before---and then call the `sample` method again.
+如果想让 Python 生成相同的随机数序列，只要再次调用 `np.random.seed` 函数，传入与前面一样的种子值 `1`，然后再调用一次 `sample` 方法即可。
 
 ```{code-cell} ipython3
 np.random.seed(1)
@@ -330,11 +202,7 @@ random_numbers2_again = nums_0_to_9.sample(n=10).to_list()
 random_numbers2_again
 ```
 
-Notice that after calling `np.random.seed`, we get the same
-two sequences of numbers in the same order. `random_numbers1` and `random_numbers1_again`
-produce the same sequence of numbers, and the same can be said about `random_numbers2` and
-`random_numbers2_again`. And if we choose a different value for the seed---say, 4235---we
-obtain a different sequence of random numbers.
+注意，调用 `np.random.seed` 之后，我们得到的两串数字完全相同，顺序也一样。`random_numbers1` 与 `random_numbers1_again` 得到的是同一串数字，`random_numbers2` 与 `random_numbers2_again` 也是如此。而如果换一个种子值——比如 4235——得到的随机数序列就不同了。
 
 ```{code-cell} ipython3
 np.random.seed(4235)
@@ -347,54 +215,22 @@ random_numbers2_different = nums_0_to_9.sample(n=10).to_list()
 random_numbers2_different
 ```
 
-In other words, even though the sequences of numbers that Python is generating *look*
-random, they are totally determined when we set a seed value!
+换句话说，尽管 Python 生成的数字序列*看起来*是随机的，但只要设定了种子值，它们就完全确定了！
 
-So what does this mean for data analysis? Well, `sample` is certainly not the
-only place where randomness is used in Python. Many of the functions
-that we use in `scikit-learn` and beyond use randomness&mdash;some
-of them without even telling you about it.  Also note that when Python starts
-up, it creates its own seed to use. So if you do not explicitly
-call the `np.random.seed` function, your results
-will likely not be reproducible. Finally, be careful to set the seed *only once* at
-the beginning of a data analysis. Each time you set the seed, you are inserting
-your own human input, thereby influencing the analysis. For example, if you use
-the `sample` many times throughout your analysis but set the seed each time, the
-randomness that Python uses will not look as random as it should.
+那么，这对数据分析意味着什么呢？`sample` 当然不是 Python 中唯一用到随机性的地方。我们在 `scikit-learn` 乃至其他包中用到的许多函数都会用到随机性——有些甚至不会告诉你。还要注意，Python 启动时会自己创建一个种子。因此，如果你没有显式调用 `np.random.seed` 函数，结果很可能不可复现。最后要注意，种子只应在数据分析开始时设置*一次*。每设置一次种子，你就注入了一分人为输入，从而影响分析结果。例如，如果分析中多次使用 `sample`，却每次都设置种子，那么 Python 所用的随机性就不会像它应有的那样随机。
 
-In summary: if you want your analysis to be reproducible, i.e., produce *the same result*
-each time you run it, make sure to use `np.random.seed` exactly once
-at the beginning of the analysis. Different argument values
-in `np.random.seed` will lead to different patterns of randomness, but as long as you pick the same
-value your analysis results will be the same. In the remainder of the textbook,
-we will set the seed once at the beginning of each chapter.
+总之，如果你希望分析可复现，也就是每次运行都产生*相同的结果*，务必在分析开始时只调用 `np.random.seed` 一次。`np.random.seed` 的参数取值不同，随机性的模式也会不同；但只要选取同一个值，分析结果就相同。在本书余下的部分，我们会在每章开头设置一次种子。
 
 ```{index} RandomState
 ```
 
-```{index} see: RandomState; seed
+```{index} see: RandomState; 种子
 ```
 
 ````{note}
-When you use `np.random.seed`, you are really setting the seed for the `numpy`
-package's *default random number generator*. Using the global default random
-number generator is easier than other methods, but has some potential drawbacks. For example,
-other code that you may not notice (e.g., code buried inside some
-other package) could potentially *also* call `np.random.seed`, thus modifying
-your analysis in an undesirable way. Furthermore, not *all* functions use
-`numpy`'s random number generator; some may use another one entirely.
-In that case, setting `np.random.seed` may not actually make your whole analysis
-reproducible.
+使用 `np.random.seed` 时，你设置的其实是 `numpy` 包的*默认随机数生成器*的种子。使用全局默认随机数生成器比其他方法更简单，但也有一些潜在缺点。例如，你可能没有注意到的其他代码（比如藏在某个包内部的代码）有可能*也*调用 `np.random.seed`，从而以你不希望的方式改变分析结果。此外，并非*所有*函数都使用 `numpy` 的随机数生成器，有些可能用的是完全不同的生成器。这种情况下，设置 `np.random.seed` 也许并不能让整个分析可复现。
 
-In this book, we will generally only use packages that play nicely with `numpy`'s
-default random number generator, so we will stick with `np.random.seed`.
-You can achieve more careful control over randomness in your analysis
-by creating a `numpy` [`Generator` object](https://numpy.org/doc/stable/reference/random/generator.html)
-once at the beginning of your analysis, and passing it to
-the `random_state` argument that is available in many `pandas` and `scikit-learn`
-functions. Those functions will then use your `Generator` to generate random numbers instead of
-`numpy`'s default generator. For example, we can reproduce our earlier example by using a `Generator`
-object with the `seed` value set to 1; we get the same lists of numbers once again.
+在本书中，我们一般只使用能与 `numpy` 默认随机数生成器很好配合的包，所以沿用 `np.random.seed` 即可。如果你希望对分析中的随机性有更精细的控制，可以在分析开始时创建一个 `numpy` 的 [`Generator` 对象](https://numpy.org/doc/stable/reference/random/generator.html)，再把它传给许多 `pandas` 和 `scikit-learn` 函数都提供的 `random_state` 参数。这些函数会用你的 `Generator` 生成随机数，而不用 `numpy` 的默认生成器。例如，用一个 `seed` 值设为 1 的 `Generator` 对象就能重现前面的例子，我们再次得到相同的数字列表。
 ```python
 from numpy.random import Generator, PCG64
 rng = Generator(PCG64(seed=1))
@@ -414,22 +250,12 @@ array([9, 5, 3, 0, 8, 4, 2, 1, 6, 7])
 
 ````
 
-## Evaluating performance with `scikit-learn`
+## 使用 `scikit-learn` 评估性能
 
-```{index} scikit-learn, visualization; scatter
+```{index} scikit-learn, 可视化; 散点图
 ```
 
-Back to evaluating classifiers now!
-In Python, we can use the `scikit-learn` package not only to perform K-nearest neighbors
-classification, but also to assess how well our classification worked.
-Let's work through an example of how to use tools from `scikit-learn` to evaluate a classifier
- using the breast cancer data set from the previous chapter.
-We begin the analysis by loading the packages we require,
-reading in the breast cancer data,
-and then making a quick scatter plot visualization of
-tumor cell concavity versus smoothness colored by diagnosis in {numref}`fig:06-precode`.
-You will also notice that we set the random seed using the `np.random.seed` function,
-as described in {numref}`randomseeds`.
+现在回到评估分类器上来！在 Python 中，`scikit-learn` 包既能做 k 近邻分类，也能评估分类结果的好坏。我们用一个例子来看看，如何借助 `scikit-learn` 中的工具、使用上一章的乳腺癌数据集来评估分类器。分析从加载所需的包、读入乳腺癌数据开始，然后快速画一张肿瘤细胞凹度（Concavity）与光滑度（Smoothness）的散点图，颜色表示诊断结果，如{numref}`fig:06-precode` 所示。你还会注意到，我们按照{numref}`randomseeds`中的说明，用 `np.random.seed` 函数设置了随机种子。
 
 ```{code-cell} ipython3
 :tags: ["remove-output"]
@@ -471,50 +297,25 @@ glue("fig:06-precode", perim_concav)
 :::{glue:figure} fig:06-precode
 :name: fig:06-precode
 
-Scatter plot of tumor cell concavity versus smoothness colored by diagnosis label.
+肿瘤细胞凹度与光滑度的散点图，颜色表示诊断标签。
 :::
 
 
 
 +++
 
-### Create the train / test split
+### 划分训练集与测试集
 
-Once we have decided on a predictive question to answer and done some
-preliminary exploration, the very next thing to do is to split the data into
-the training and test sets. Typically, the training set is between 50% and 95% of
-the data, while the test set is the remaining 5% to 50%; the intuition is that
-you want to trade off between training an accurate model (by using a larger
-training data set) and getting an accurate evaluation of its performance (by
-using a larger test data set). Here, we will use 75% of the data for training,
-and 25% for testing.
+一旦确定了要回答的预测性问题，并做了一些初步探索，接下来就要把数据划分为训练集和测试集。通常训练集占数据的 50% 到 95%，测试集则是剩下的 5% 到 50%；这样做的道理是，你需要在训练出准确的模型（使用更大的训练集）与获得准确的性能评估（使用更大的测试集）之间做出权衡取舍。这里我们用 75% 的数据训练，25% 的数据测试。
 
 +++
 
-```{index} scikit-learn; train_test_split, shuffling, stratification
+```{index} scikit-learn; train_test_split, 打乱, 分层
 ```
 
-The `train_test_split` function from `scikit-learn` handles the procedure of splitting
-the data for us. We can specify two very important parameters when using `train_test_split` to ensure
-that the accuracy estimates from the test data are reasonable. First,
-setting `shuffle=True` (which is the default) means the data will be shuffled before splitting,
-which ensures that any ordering present
-in the data does not influence the data that ends up in the training and testing sets.
-Second, by specifying the `stratify` parameter to be the response variable in the training set,
-it **stratifies** the data by the class label, to ensure that roughly
-the same proportion of each class ends up in both the training and testing sets. For example,
-in our data set, roughly 63% of the
-observations are from the benign class (`Benign`), and 37% are from the malignant class (`Malignant`),
-so specifying `stratify` as the class column ensures that roughly 63% of the training data are benign,
-37% of the training data are malignant,
-and the same proportions exist in the testing data.
+`scikit-learn` 的 `train_test_split` 函数会替我们完成划分数据的过程。使用 `train_test_split` 时，我们可以指定两个很重要的参数，以确保由测试数据得到的准确率估计值合理。第一，设置 `shuffle=True`（这是默认值）表示划分之前会先打乱数据，这样数据中存在的任何顺序都不会影响最终进入训练集和测试集的数据。第二，把 `stratify` 参数指定为训练集中的响应变量，函数就会按类别标签对数据**分层**，以保证各个类别进入训练集和测试集的比例大致相同。例如，在我们的数据集中，约 63% 的观测来自良性类别（`Benign`），37% 来自恶性类别（`Malignant`）；因此把 `stratify` 指定为类别列，就能保证训练数据中约 63% 是良性的、37% 是恶性的，测试数据中也存在同样的比例。
 
-Let's use the `train_test_split` function to create the training and testing sets.
-We first need to import the function from the `sklearn` package. Then
-we will specify that `train_size=0.75` so that 75% of our original data set ends up
-in the training set. We will also set the `stratify` argument to the categorical label variable
-(here, `cancer["Class"]`) to ensure that the training and testing subsets contain the
-right proportions of each category of observation.
+下面我们用 `train_test_split` 函数来创建训练集和测试集。首先需要从 `sklearn` 包中导入这个函数。然后指定 `train_size=0.75`，让原始数据集的 75% 进入训练集。我们还会把 `stratify` 参数设为分类标签变量（这里就是 `cancer["Class"]`），以保证训练子集和测试子集中每一类观测的比例都正确。
 
 ```{code-cell} ipython3
 :tags: [remove-cell]
@@ -545,20 +346,12 @@ glue("cancer_test_nrow", "{:d}".format(len(cancer_test)))
 ```{index} DataFrame; info
 ```
 
-We can see from the `info` method above that the training set contains {glue:text}`cancer_train_nrow` observations,
-while the test set contains {glue:text}`cancer_test_nrow` observations. This corresponds to
-a train / test split of 75% / 25%, as desired. Recall from {numref}`Chapter %s <classification1>`
-that we use the `info` method to preview the number of rows, the variable names, their data types, and
-missing entries of a data frame.
+从上方的 `info` 方法可以看出，训练集包含 {glue:text}`cancer_train_nrow` 条观测，而测试集包含 {glue:text}`cancer_test_nrow` 条观测。这对应 75% / 25% 的训练/测试划分，正是我们想要的。回忆{numref}`第 %s 章 <classification1>`可知，我们用 `info` 方法来预览数据框的行数、变量名、数据类型以及缺失项。
 
 ```{index} Series; value_counts
 ```
 
-We can use the `value_counts` method with the `normalize` argument set to `True`
-to find the percentage of malignant and benign classes
-in `cancer_train`. We see about {glue:text}`cancer_train_b_prop`% of the training
-data are benign and {glue:text}`cancer_train_m_prop`%
-are malignant, indicating that our class proportions were roughly preserved when we split the data.
+把 `value_counts` 方法的 `normalize` 参数设为 `True`，就能求出 `cancer_train` 中恶性和良性类别所占的百分比。可以看到，训练数据中约有 {glue:text}`cancer_train_b_prop`% 是良性的，{glue:text}`cancer_train_m_prop`% 是恶性的，这说明划分数据时各类别的比例大致得到了保留。
 
 ```{code-cell} ipython3
 cancer_train["Class"].value_counts(normalize=True)
@@ -571,25 +364,16 @@ glue("cancer_train_b_prop", "{:0.0f}".format(cancer_train["Class"].value_counts(
 glue("cancer_train_m_prop", "{:0.0f}".format(cancer_train["Class"].value_counts(normalize=True)["Malignant"]*100))
 ```
 
-### Preprocess the data
+### 预处理数据
 
-As we mentioned in the last chapter, K-nearest neighbors is sensitive to the scale of the predictors,
-so we should perform some preprocessing to standardize them. An
-additional consideration we need to take when doing this is that we should
-create the standardization preprocessor using **only the training data**. This ensures that
-our test data does not influence any aspect of our model training. Once we have
-created the standardization preprocessor, we can then apply it separately to both the
-training and test data sets.
+正如上一章所说，k 近邻对预测变量的标度很敏感，所以我们应该先做一些预处理，把它们标准化。此外还要注意一点：构建标准化预处理器时**只能使用训练数据**。这样就能保证测试数据不会影响模型训练的任何环节。标准化预处理器建好之后，我们再把它分别应用到训练数据集和测试数据集上。
 
 +++
 
 ```{index} scikit-learn; Pipeline, scikit-learn; make_column_transformer, scikit-learn; StandardScaler
 ```
 
-Fortunately, `scikit-learn` helps us handle this properly as long as we wrap our
-analysis steps in a `Pipeline`, as in {numref}`Chapter %s <classification1>`.
-So below we construct and prepare
-the preprocessor using `make_column_transformer` just as before.
+好在只要把各个分析步骤包进 `Pipeline`，`scikit-learn` 就会帮我们正确处理这件事，就像{numref}`第 %s 章 <classification1>`中那样。所以下面我们和之前一样，用 `make_column_transformer` 来构造并准备好预处理器。
 
 ```{code-cell} ipython3
 from sklearn.preprocessing import StandardScaler
@@ -600,17 +384,9 @@ cancer_preprocessor = make_column_transformer(
 )
 ```
 
-### Train the classifier
+### 训练分类器
 
-Now that we have split our original data set into training and test sets, we
-can create our K-nearest neighbors classifier with only the training set using
-the technique we learned in the previous chapter. For now, we will just choose
-the number $K$ of neighbors to be 3, and use only the concavity and smoothness predictors by
-selecting them from the `cancer_train` data frame.
-We will first import the `KNeighborsClassifier` model and `make_pipeline` from `sklearn`.
-Then as before we will create a model object, combine
-the model object and preprocessor into a `Pipeline` using the `make_pipeline` function, and then finally
-use the `fit` method to build the classifier.
+现在我们已经把原始数据集划分成训练集和测试集，可以借助上一章学到的技术，只用训练集来构建 k 近邻分类器。这里先把近邻个数 $K$ 取为 3，并且只从 `cancer_train` 数据框中选取凹度和光滑度这两个预测变量。首先从 `sklearn` 中导入 `KNeighborsClassifier` 模型和 `make_pipeline`。然后和之前一样创建模型对象，用 `make_pipeline` 函数把模型对象和预处理器组合成 `Pipeline`，最后用 `fit` 方法构建分类器。
 
 ```{code-cell} ipython3
 from sklearn.neighbors import KNeighborsClassifier
@@ -627,18 +403,12 @@ knn_pipeline.fit(X, y)
 knn_pipeline
 ```
 
-### Predict the labels in the test set
+### 预测测试集中的标签
 
 ```{index} scikit-learn; predict
 ```
 
-Now that we have a K-nearest neighbors classifier object, we can use it to
-predict the class labels for our test set and
-augment the original test data with a column of predictions.
-The `Class` variable contains the actual
-diagnoses, while the `predicted` contains the predicted diagnoses from the
-classifier. Note that below we print out just the `ID`, `Class`, and `predicted`
-variables in the output data frame.
+现在我们已经有了 k 近邻分类器对象，可以用它来预测测试集的类别标签，并在原始测试数据中添加一列预测结果。`Class` 变量存放的是实际诊断结果，而 `predicted` 存放的是分类器给出的预测诊断结果。请注意，下面输出的数据框中只打印了 `ID`、`Class` 和 `predicted` 这三个变量。
 
 ```{code-cell} ipython3
 cancer_test["predicted"] = knn_pipeline.predict(cancer_test[["Smoothness", "Concavity"]])
@@ -646,16 +416,12 @@ cancer_test[["ID", "Class", "predicted"]]
 ```
 
 (eval-performance-clasfcn2)=
-### Evaluate performance
+### 评估性能
 
 ```{index} scikit-learn; score, scikit-learn; precision_score, scikit-learn; recall_score
 ```
 
-Finally, we can assess our classifier's performance. First, we will examine accuracy.
-To do this we will use the `score` method, specifying two arguments:
-predictors and the actual labels. We pass the same test data
-for the predictors that we originally passed into `predict` when making predictions,
-and we provide the actual labels via the `cancer_test["Class"]` series.
+最后，我们来评估分类器的性能。首先看准确率。为此要使用 `score` 方法，并指定两个参数：预测变量和实际标签。预测变量传入我们之前调用 `predict` 做预测时所用的同一份测试数据，实际标签则用 `cancer_test["Class"]` 序列给出。
 
 ```{code-cell} ipython3
 knn_pipeline.score(
@@ -690,12 +456,7 @@ glue("cancer_rec_1", "{:0.0f}".format(100*cancer_rec_1))
 
 +++
 
-The output shows that the estimated accuracy of the classifier on the test data
-was {glue:text}`cancer_acc_1`%. To compute the precision and recall, we can use the
-`precision_score` and `recall_score` functions from `scikit-learn`. We specify
-the true labels from the `Class` variable as the `y_true` argument, the predicted
-labels from the `predicted` variable as the `y_pred` argument,
-and which label should be considered to be positive via the `pos_label` argument.
+输出显示，分类器在测试数据上的估计准确率为 {glue:text}`cancer_acc_1`%。要计算精确率和召回率，可以使用 `scikit-learn` 的 `precision_score` 和 `recall_score` 函数。我们把 `Class` 变量中的真实标签作为 `y_true` 参数，把 `predicted` 变量中的预测标签作为 `y_pred` 参数，再用 `pos_label` 参数指定应把哪个标签视为正类。
 ```{code-cell} ipython3
 from sklearn.metrics import recall_score, precision_score
 
@@ -713,13 +474,7 @@ recall_score(
     pos_label="Malignant"
 )
 ```
-The output shows that the estimated precision and recall of the classifier on the test
-data was {glue:text}`cancer_prec_1`% and {glue:text}`cancer_rec_1`%, respectively.
-Finally, we can look at the *confusion matrix* for the classifier
-using the `crosstab` function from `pandas`. The `crosstab` function takes two
-arguments: the actual labels first, then the predicted labels second. Note that
-`crosstab` orders its columns alphabetically, but the positive label is still `Malignant`,
-even if it is not in the top left corner as in the example confusion matrix earlier in this chapter.
+输出显示，分类器在测试数据上的估计精确率和召回率分别为 {glue:text}`cancer_prec_1`% 和 {glue:text}`cancer_rec_1`%。最后，我们可以用 `pandas` 的 `crosstab` 函数查看分类器的*混淆矩阵*。`crosstab` 函数接收两个参数：先是实际标签，然后是预测标签。请注意，`crosstab` 会按字母顺序排列各列，但正类标签仍然是 `Malignant`，即使它并不像本章前面那个示例混淆矩阵那样位于左上角。
 
 ```{index} crosstab
 ```
@@ -756,12 +511,7 @@ glue("confu_precision_0", "{:0.0f}".format(100*c11/(c11+c01)))
 glue("confu_recall_0", "{:0.0f}".format(100*c11/(c11+c10)))
 ```
 
-The confusion matrix shows {glue:text}`confu11` observations were correctly predicted
-as malignant, and {glue:text}`confu00` were correctly predicted as benign.
-It also shows that the classifier made some mistakes; in particular,
-it classified {glue:text}`confu10` observations as benign when they were actually malignant,
-and {glue:text}`confu01` observations as malignant when they were actually benign.
-Using our formulas from earlier, we see that the accuracy, precision, and recall agree with what Python reported.
+混淆矩阵显示，有 {glue:text}`confu11` 条观测被正确预测为恶性，{glue:text}`confu00` 条被正确预测为良性。矩阵还显示分类器犯了一些错误：它把 {glue:text}`confu10` 条实际为恶性的观测判成了良性，把 {glue:text}`confu01` 条实际为良性的观测判成了恶性。用前面给出的公式可以算出，准确率、精确率和召回率的数值与 Python 报告的结果一致。
 
 ```{code-cell} ipython3
 :tags: [remove-cell]
@@ -795,139 +545,56 @@ glue("rec_eq_math_glued", rec_eq_math)
 
 +++
 
-### Critically analyze performance
+### 批判性地分析性能
 
-We now know that the classifier was {glue:text}`cancer_acc_1`% accurate
-on the test data set, and had a precision of {glue:text}`cancer_prec_1`% and
-a recall of {glue:text}`cancer_rec_1`%.
-That sounds pretty good! Wait, *is* it good?
-Or do we need something higher?
+现在我们知道，分类器在测试数据集上的准确率为 {glue:text}`cancer_acc_1`%，精确率为 {glue:text}`cancer_prec_1`%，召回率为 {glue:text}`cancer_rec_1`%。听起来相当不错！等等，这*真的*好吗？还是说我们需要更高的数值？
 
-```{index} accuracy;assessment, precision;assessment, recall;assessment
+```{index} 准确率; 评估, 精确率; 评估, 召回率; 评估
 ```
 
-In general, a *good* value for accuracy (as well as precision and recall, if applicable)
-depends on the application; you must critically analyze your accuracy in the context of the problem
-you are solving. For example, if we were building a classifier for a kind of tumor that is benign 99%
-of the time, a classifier with 99% accuracy is not terribly impressive (just always guess benign!).
-And beyond just accuracy, we need to consider the precision and recall: as mentioned
-earlier, the *kind* of mistake the classifier makes is
-important in many applications as well. In the previous example with 99% benign observations, it might be very bad for the
-classifier to predict "benign" when the actual class is "malignant" (a false negative), as this
-might result in a patient not receiving appropriate medical attention. In other
-words, in this context, we need the classifier to have a *high recall*. On the
-other hand, it might be less bad for the classifier to guess "malignant" when
-the actual class is "benign" (a false positive), as the patient will then likely see a doctor who
-can provide an expert diagnosis. In other words, we are fine with sacrificing
-some precision in the interest of achieving high recall. This is why it is
-important not only to look at accuracy, but also the confusion matrix.
+一般来说，准确率（以及适用时的精确率和召回率）多高才算*好*，取决于具体应用；你必须结合自己正在解决的问题，批判性地分析准确率。举例来说，假如我们要为一种 99% 的时间都是良性的肿瘤构建分类器，那么准确率为 99% 的分类器也算不上多惊人（一直猜良性就行了！）。除了准确率，我们还要考虑精确率和召回率：前面提到过，分类器所犯错误的*种类*在许多应用中同样重要。在前面那个 99% 的观测都是良性的例子里，实际类别是“恶性”时分类器却预测“良性”（假阴性），后果可能非常严重，因为病人可能因此得不到应有的医疗照护。反过来，实际类别是“良性”时分类器却猜“恶性”（假阳性），后果可能没那么严重，因为病人接下来很可能会去看医生，由医生给出专业诊断。换句话说，为了获得高召回率，我们愿意牺牲一些精确率。这就是为什么除了准确率，还要看混淆矩阵。
 
-
-```{index} classification; majority
+```{index} 分类; 多数类
 ```
 
-However, there is always an easy baseline that you can compare to for any
-classification problem: the *majority classifier*. The majority classifier
-*always* guesses the majority class label from the training data, regardless of
-the predictor variables' values.  It helps to give you a sense of
-scale when considering accuracies. If the majority classifier obtains a 90%
-accuracy on a problem, then you might hope for your K-nearest neighbors
-classifier to do better than that. If your classifier provides a significant
-improvement upon the majority classifier, this means that at least your method
-is extracting some useful information from your predictor variables.  Be
-careful though: improving on the majority classifier does not *necessarily*
-mean the classifier is working well enough for your application.
+不过，任何分类问题都有一个方便的基准可供比较：*多数类分类器*。多数类分类器*总是*猜测训练数据中的多数类标签，完全不看预测变量的取值。在考虑准确率时，它能帮你对数值规模有个大致概念。如果多数类分类器在某个问题上得到 90% 的准确率，那你就会希望自己的 k 近邻分类器做得比这更好。如果你的分类器比多数类分类器有明显提升，这就说明至少你的方法从预测变量中提取出了一些有用的信息。不过要小心：比多数类分类器表现更好，并不*必然*意味着这个分类器对你的应用来说已经足够好。
 
-As an example, in the breast cancer data, recall the proportions of benign and malignant
-observations in the training data are as follows:
+举个例子，在乳腺癌数据中，回忆一下训练数据里良性和恶性观测的比例：
 
 ```{code-cell} ipython3
 cancer_train["Class"].value_counts(normalize=True)
 ```
 
-Since the benign class represents the majority of the training data,
-the majority classifier would *always* predict that a new observation
-is benign. The estimated accuracy of the majority classifier is usually
-fairly close to the majority class proportion in the training data.
-In this case, we would suspect that the majority classifier will have
-an accuracy of around {glue:text}`cancer_train_b_prop`%.
-The K-nearest neighbors classifier we built does quite a bit better than this,
-with an accuracy of {glue:text}`cancer_acc_1`%.
-This means that from the perspective of accuracy,
-the K-nearest neighbors classifier improved quite a bit on the basic
-majority classifier. Hooray! But we still need to be cautious; in
-this application, it is likely very important not to misdiagnose any malignant tumors to avoid missing
-patients who actually need medical care. The confusion matrix above shows
-that the classifier does, indeed, misdiagnose a significant number of
-malignant tumors as benign ({glue:text}`confu10` out of {glue:text}`confu10_11` malignant tumors, or {glue:text}`confu_fal_neg`%!).
-Therefore, even though the accuracy improved upon the majority classifier,
-our critical analysis suggests that this classifier may not have appropriate performance
-for the application.
+由于良性类别占训练数据的大多数，多数类分类器会*总是*预测新观测为良性。多数类分类器的估计准确率通常与训练数据中多数类的比例相当接近。在这个例子里，我们会猜测多数类分类器的准确率大约为 {glue:text}`cancer_train_b_prop`%。而我们构建的 k 近邻分类器比它好不少，准确率为 {glue:text}`cancer_acc_1`%。这意味着从准确率的角度看，k 近邻分类器比基本的多数类分类器提升了很多。太棒了！但我们仍要谨慎：在这个应用中，不让任何恶性肿瘤被误诊很可能至关重要，以免漏掉真正需要治疗的病人。上面的混淆矩阵显示，这个分类器确实把相当多的恶性肿瘤误诊成了良性（{glue:text}`confu10_11` 个恶性肿瘤中有 {glue:text}`confu10` 个，也就是 {glue:text}`confu_fal_neg`%！）。所以，尽管准确率比多数类分类器有所提升，我们的批判性分析表明，这个分类器在这个应用中的性能可能并不合适。
 
 +++
 
-## Tuning the classifier
+## 调优分类器
 
-```{index} parameter
+```{index} 参数
 ```
 
-```{index} see: tuning parameter; parameter
+```{index} see: 调优参数; 参数
 ```
 
-The vast majority of predictive models in statistics and machine learning have
-*parameters*. A *parameter*
-is a number you have to pick in advance that determines
-some aspect of how the model behaves. For example, in the K-nearest neighbors
-classification algorithm, $K$ is a parameter that we have to pick
-that determines how many neighbors participate in the class vote.
-By picking different values of $K$, we create different classifiers
-that make different predictions.
+统计学和机器学习中的绝大多数预测模型都有*参数*。*参数*是必须事先选定、并决定模型某方面行为方式的数值。例如，在 k 近邻分类算法中，$K$ 就是我们必须选定的参数，它决定有多少个近邻参与类别投票。选取不同的 $K$ 值，就会得到做出不同预测的不同分类器。
 
-So then, how do we pick the *best* value of $K$, i.e., *tune* the model?
-And is it possible to make this selection in a principled way?  In this book,
-we will focus on maximizing the accuracy of the classifier. Ideally,
-we want somehow to maximize the accuracy of our classifier on data *it
-hasn't seen yet*. But we cannot use our test data set in the process of building
-our model. So we will play the same trick we did before when evaluating
-our classifier: we'll split our *training data itself* into two subsets,
-use one to train the model, and then use the other to evaluate it.
-In this section, we will cover the details of this procedure, as well as
-how to use it to help you pick a good parameter value for your classifier.
+那么，我们该如何选取 $K$ 的*最佳*取值，也就是*调优*模型呢？能不能用一套有章可循的方法来完成这个选择？本书将专注于最大化分类器的准确率。理想情况下，我们希望设法让分类器在*它尚未见过*的数据上取得最高准确率。但在构建模型的过程中，我们不能使用测试数据集。所以我们会沿用之前评估分类器时的同一个技巧：把*训练数据本身*拆成两个子集，用其中一个训练模型，再用另一个评估模型。本节将介绍这一过程的细节，以及如何借助它为自己的分类器挑选一个好的参数取值。
 
-**And remember:** don't touch the test set during the tuning process. Tuning is a part of model training!
+**还要记住：**在调优过程中不要碰测试集。调优是模型训练的一部分！
 
 +++
 
-### Cross-validation
+### 交叉验证
 
-```{index} validation set
+```{index} 验证集
 ```
 
-The first step in choosing the parameter $K$ is to be able to evaluate the
-classifier using only the training data. If this is possible, then we can compare
-the classifier's performance for different values of $K$&mdash;and pick the best&mdash;using
-only the training data. As suggested at the beginning of this section, we will
-accomplish this by splitting the training data, training on one subset, and evaluating
-on the other. The subset of training data used for evaluation is often called the **validation set**.
+选择参数 $K$ 的第一步，是能够只用训练数据就评估分类器。如果这一点做得到，我们就能仅凭训练数据比较分类器在不同 $K$ 取值下的性能，并挑出最好的那一个。正如本节开头所说，做法是把训练数据划分开，用其中一部分训练，用另一部分评估。用来评估的那部分训练数据，通常称为**验证集（validation set）**。
 
-There is, however, one key difference from the train/test split
-that we performed earlier. In particular, we were forced to make only a *single split*
-of the data. This is because at the end of the day, we have to produce a single classifier.
-If we had multiple different splits of the data into training and testing data,
-we would produce multiple different classifiers.
-But while we are tuning the classifier, we are free to create multiple classifiers
-based on multiple splits of the training data, evaluate them, and then choose a parameter
-value based on __*all*__ of the different results. If we just split our overall training
-data *once*, our best parameter choice will depend strongly on whatever data
-was lucky enough to end up in the validation set. Perhaps using multiple
-different train/validation splits, we'll get a better estimate of accuracy,
-which will lead to a better choice of the number of neighbors $K$ for the
-overall set of training data.
+不过，它与前面做过的训练/测试划分有一个关键区别。具体来说，那时我们只能对数据做*一次划分*。因为归根到底，我们要产出的只是一个分类器；要是我们对数据做了多种不同的训练/测试划分，就会造出多个不同的分类器。而在调优分类器的过程中，我们完全可以基于训练数据的多种划分造出多个分类器，逐一评估，再根据__*全部*__结果选择一个参数取值。如果只对整体训练数据划分*一次*，那么选出的最佳参数就会严重依赖哪些数据碰巧落进了验证集。改用多种不同的训练/验证划分，也许能得到更准确的准确率估计值，从而为整体训练数据选出更好的近邻个数 $K$。
 
-Let's investigate this idea in Python! In particular, we will generate five different train/validation
-splits of our overall training data, train five different K-nearest neighbors
-models, and evaluate their accuracy. We will start with just a single
-split.
+我们用 Python 来试试这个想法！具体来说，对整体训练数据生成五组不同的训练/验证划分，训练五个不同的 k 近邻模型，并评估它们的准确率。先从只划分一次开始。
 
 ```{code-cell} ipython3
 # create the 25/75 split of the *training data* into sub-training and validation
@@ -986,55 +653,28 @@ glue("accuracies", "[" + "%, ".join(["{:0.1f}".format(acc) for acc in accuracies
 
 ```
 
-The accuracy estimate using this split is {glue:text}`acc_seed1`%.
-Now we repeat the above code 4 more times, which generates 4 more splits.
-Therefore we get five different shuffles of the data, and therefore five different values for
-accuracy: {glue:text}`accuracies`. None of these values are
-necessarily "more correct" than any other; they're
-just five estimates of the true, underlying accuracy of our classifier built
-using our overall training data. We can combine the estimates by taking their
-average (here {glue:text}`avg_5_splits`%) to try to get a single assessment of our
-classifier's accuracy; this has the effect of reducing the influence of any one
-(un)lucky validation set on the estimate.
+用这次划分得到的准确率估计值是 {glue:text}`acc_seed1`%。下面把上面的代码再重复 4 次，就又得到 4 组划分。于是我们有了五种不同的数据打乱方式，也就有了五个不同的准确率取值：{glue:text}`accuracies`。这些取值未必有哪一个比别的“更正确”；它们只是用整体训练数据构建的分类器真实内在准确率的五个估计值。把这些估计值取平均（这里是 {glue:text}`avg_5_splits`%），就能对分类器的准确率得到一个总的判断；这样做可以削弱某一个（不）走运的验证集对估计值的影响。
 
-```{index} cross-validation
+```{index} 交叉验证
 ```
 
-In practice, we don't use random splits, but rather use a more structured
-splitting procedure so that each observation in the data set is used in a
-validation set only a single time. The name for this strategy is
-**cross-validation**.  In **cross-validation**, we split our **overall training
-data** into $C$ evenly sized chunks. Then, iteratively use $1$ chunk as the
-**validation set** and combine the remaining $C-1$ chunks
-as the **training set**.
-This procedure is shown in {numref}`fig:06-cv-image`.
-Here, $C=5$ different chunks of the data set are used,
-resulting in 5 different choices for the **validation set**; we call this
-*5-fold* cross-validation.
+实践中我们并不用随机划分，而是采用更讲章法的划分流程，让数据集中的每条观测只在验证集中出现一次。这种策略叫作**交叉验证（cross-validation）**。在**交叉验证**中，我们把**整体训练数据**均分成 $C$ 个等份。接着依次把 $1$ 个等份用作**验证集**，把剩下的 $C-1$ 个等份合起来作**训练集**。该流程见{numref}`fig:06-cv-image`。这里用了数据集里 $C=5$ 个不同的等份，于是**验证集**有 5 种不同的取法；我们称之为 *5 折*交叉验证。
 
 +++
 
 ```{figure} img/classification2/cv.png
 :name: fig:06-cv-image
 
-5-fold cross-validation.
+5 折交叉验证。
 ```
 
 
 +++
 
-```{index} cross-validation; cross_validate, scikit-learn; cross_validate
+```{index} 交叉验证; cross_validate, scikit-learn; cross_validate
 ```
 
-To perform 5-fold cross-validation in Python with `scikit-learn`, we use another
-function: `cross_validate`. This function requires that we specify
-a modelling `Pipeline` as the `estimator` argument,
-the number of folds as the `cv` argument,
-and the training data predictors and labels as the `X` and `y` arguments.
-Since the `cross_validate` function outputs a dictionary, we use `pd.DataFrame` to convert it to a `pandas`
-dataframe for better visualization.
-Note that the `cross_validate` function handles stratifying the classes in
-each train and validate fold automatically.
+要在 Python 中用 `scikit-learn` 做 5 折交叉验证，得用另一个函数：`cross_validate`。这个函数要求我们把建模用的 `Pipeline` 作为 `estimator` 参数传入，把折数作为 `cv` 参数传入，把训练数据的预测变量和标签作为 `X` 和 `y` 参数传入。`cross_validate` 的输出是一个字典，所以我们用 `pd.DataFrame` 把它转成 `pandas` 数据框，以便查看得更清楚。请注意，`cross_validate` 会自动对每个训练折和验证折中的类别做分层。
 
 ```{code-cell} ipython3
 from sklearn.model_selection import cross_validate
@@ -1055,21 +695,13 @@ cv_5_df = pd.DataFrame(
 cv_5_df
 ```
 
-```{index} see: sem;standard error
+```{index} see: sem;标准误
 ```
 
-```{index} standard error, DataFrame;agg
+```{index} 标准误, DataFrame;agg
 ```
 
-The validation scores we are interested in are contained in the `test_score` column.
-We can then aggregate the *mean* and *standard error*
-of the classifier's validation accuracy across the folds.
-You should consider the mean (`mean`) to be the estimated accuracy, while the standard
-error (`sem`) is a measure of how uncertain we are in that mean value. A detailed treatment of this
-is beyond the scope of this chapter; but roughly, if your estimated mean is {glue:text}`cv_5_mean` and standard
-error is {glue:text}`cv_5_std`, you can expect the *true* average accuracy of the
-classifier to be somewhere roughly between {glue:text}`cv_5_lower`% and {glue:text}`cv_5_upper`% (although it may
-fall outside this range). You may ignore the other columns in the metrics data frame.
+我们关心的验证得分在 `test_score` 列里。接着可以对各折上分类器的验证准确率聚合出*均值*和*标准误（standard error）*。把均值（`mean`）看作准确率的估计值，标准误（`sem`）则衡量这个均值有多不确定。详细讨论超出本章范围；大致说来，如果估计均值为 {glue:text}`cv_5_mean`、标准误为 {glue:text}`cv_5_std`，就可以指望分类器的*真实*平均准确率大致落在 {glue:text}`cv_5_lower`% 到 {glue:text}`cv_5_upper`% 之间（当然也可能落在这个范围之外）。指标数据框中的其他列可以忽略。
 
 ```{code-cell} ipython3
 cv_5_metrics = cv_5_df.agg(["mean", "sem"])
@@ -1101,15 +733,7 @@ glue("cv_5_lower",
 )
 ```
 
-We can choose any number of folds, and typically the more we use the better our
-accuracy estimate will be (lower standard error). However, we are limited
-by computational power: the
-more folds we choose, the  more computation it takes, and hence the more time
-it takes to run the analysis. So when you do cross-validation, you need to
-consider the size of the data, the speed of the algorithm (e.g., K-nearest
-neighbors), and the speed of your computer. In practice, this is a
-trial-and-error process, but typically $C$ is chosen to be either 5 or 10. Here
-we will try 10-fold cross-validation to see if we get a lower standard error.
+折数可以任选，通常用得越多，准确率估计值就越好（标准误越小）。不过我们受算力限制：折数越多，计算量越大，跑完分析也就越费时间。所以做交叉验证时，需要权衡数据规模、算法的速度（例如 k 近邻）以及你电脑的速度。实践中这是个反复试错的过程，不过通常把 $C$ 取成 5 或 10。下面我们试试 10 折交叉验证，看标准误会不会小一些。
 
 ```{code-cell} ipython3
 :tags: [remove-output]
@@ -1133,16 +757,10 @@ cv_10_metrics["test_score"]["sem"] = cv_5_metrics["test_score"]["sem"] / np.sqrt
 cv_10_metrics
 ```
 
-```{index} cross-validation; folds
+```{index} 交叉验证; 折
 ```
 
-In this case, using 10-fold instead of 5-fold cross validation did
-reduce the standard error very slightly. In fact, due to the randomness in how the data are split, sometimes
-you might even end up with a *higher* standard error when increasing the number of folds!
-We can make the reduction in standard error more dramatic by increasing the number of folds
-by a large amount. In the following code we show the result when $C = 50$;
-picking such a large number of folds can take a long time to run in practice,
-so we usually stick to 5 or 10.
+在这个例子里，用 10 折代替 5 折交叉验证，标准误确实略微下降了。其实由于数据划分的随机性，增加折数时标准误有时反而会*升高*！把折数大幅增加，可以让标准误的下降更明显。下面的代码展示了 $C = 50$ 时的结果；选这么大的折数，实际运行可能要很久，所以我们一般还是用 5 或 10。
 
 ```{code-cell} ipython3
 :tags: [remove-output]
@@ -1171,25 +789,11 @@ cv_50_metrics
 glue("cv_10_mean", "{:0.0f}".format(100 * cv_10_metrics.loc["mean", "test_score"]))
 ```
 
-### Parameter value selection
+### 参数取值选择
 
-Using 5- and 10-fold cross-validation, we have estimated that the prediction
-accuracy of our classifier is somewhere around {glue:text}`cv_10_mean`%.
-Whether that is good or not
-depends entirely on the downstream application of the data analysis. In the
-present situation, we are trying to predict a tumor diagnosis, with expensive,
-damaging chemo/radiation therapy or patient death as potential consequences of
-misprediction. Hence, we might like to
-do better than {glue:text}`cv_10_mean`% for this application.
+用 5 折和 10 折交叉验证，我们估计出分类器的预测准确率大约在 {glue:text}`cv_10_mean`% 上下。这个结果好不好，完全取决于数据分析的下游应用。就当前情形而言，我们要预测的是肿瘤诊断，一旦误判，代价可能是昂贵且有伤害性的化疗/放疗，甚至患者死亡。所以在这个应用里，我们希望能做得比 {glue:text}`cv_10_mean`% 更好。
 
-In order to improve our classifier, we have one choice of parameter: the number of
-neighbors, $K$. Since cross-validation helps us evaluate the accuracy of our
-classifier, we can use cross-validation to calculate an accuracy for each value
-of $K$ in a reasonable range, and then pick the value of $K$ that gives us the
-best accuracy. The `scikit-learn` package collection provides built-in
-functionality, named `GridSearchCV`, to automatically handle the details for us.
-Before we use `GridSearchCV`, we need to create a new pipeline
-with a `KNeighborsClassifier` that has the number of neighbors left unspecified.
+要改进分类器，我们有一个参数可选：近邻个数 $K$。既然交叉验证能帮我们评估分类器的准确率，就可以用它在一个合理范围内为每个 $K$ 取值算出准确率，再挑出准确率最高的那个 $K$。`scikit-learn` 包集合提供了名为 `GridSearchCV` 的内置功能，能自动帮我们处理这些细节。使用 `GridSearchCV` 之前，需要新建一条流水线，其中的 `KNeighborsClassifier` 不指定近邻个数。
 
 ```{index} see: make_pipeline; scikit-learn
 ```
@@ -1203,51 +807,22 @@ cancer_tune_pipe = make_pipeline(cancer_preprocessor, knn)
 
 +++
 
-Next we specify the grid of parameter values that we want to try for
-each tunable parameter. We do this in a Python dictionary: the key is
-the identifier of the parameter to tune, and the value is a list of parameter values
-to try when tuning. We can find the "identifier" of a parameter by using
-the `get_params` method on the pipeline.
+接下来指定要为每个可调参数尝试的参数取值网格。这用一个 Python 字典来做：键是待调优参数的标识符，值是调优时要尝试的参数取值列表。用流水线上的 `get_params` 方法可以查出参数的“标识符”。
 ```{code-cell} ipython3
 cancer_tune_pipe.get_params()
 ```
-Wow, there's quite a bit of *stuff* there! If you sift through the muck
-a little bit, you will see one parameter identifier that stands out:
-`"kneighborsclassifier__n_neighbors"`. This identifier combines the name
-of the K nearest neighbors classification step in our pipeline, `kneighborsclassifier`,
-with the name of the parameter, `n_neighbors`.
-We now construct the `parameter_grid` dictionary that will tell `GridSearchCV`
-what parameter values to try.
-Note that you can specify multiple tunable parameters
-by creating a dictionary with multiple key-value pairs, but
-here we just have to tune the number of neighbors.
+哇，这里面的东西*真不少*！稍微翻一翻这堆东西，会看到一个格外显眼的参数标识符：`"kneighborsclassifier__n_neighbors"`。这个标识符把流水线中 k 近邻分类步骤的名字 `kneighborsclassifier` 与参数名 `n_neighbors` 拼在一起。现在我们构造 `parameter_grid` 字典，由它来告诉 `GridSearchCV` 该尝试哪些参数取值。注意，想要指定多个可调参数，只要在字典里写多个键值对；不过这里只需调优近邻个数。
 ```{code-cell} ipython3
 parameter_grid = {
     "kneighborsclassifier__n_neighbors": range(1, 100, 5),
 }
 ```
-The `range` function in Python that we used above allows us to specify a sequence of values.
-The first argument is the starting number (here, `1`),
-the second argument is *one greater than* the final number (here, `100`),
-and the third argument is the number to values to skip between steps in the sequence (here, `5`).
-So in this case we generate the sequence 1, 6, 11, 16, ..., 96.
-If we instead specified `range(0, 100, 5)`, we would get the sequence 0, 5, 10, 15, ..., 90, 95.
-The number 100 is not included because the third argument is *one greater than* the final possible
-number in the sequence. There are two additional useful ways to employ `range`.
-If we call `range` with just one argument, Python counts
-up to that number starting at 0. So `range(4)` is the same as `range(0, 4, 1)` and generates the sequence 0, 1, 2, 3.
-If we call `range` with two arguments, Python counts starting at the first number up to the second number.
-So `range(1, 4)` is the same as `range(1, 4, 1)` and generates the sequence `1, 2, 3`.
+前面用到的 Python `range` 函数可以用来指定一串取值。第一个参数是起始数字（这里是 `1`），第二个参数*比最后一个数字大 1*（这里为 `100`），第三个参数是序列中相邻两项之间要跳过的数字个数（这里是 `5`）。所以这里生成的序列是 1, 6, 11, 16, ..., 96。如果改成 `range(0, 100, 5)`，得到的序列是 0, 5, 10, 15, ..., 90, 95。100 不包含在序列内，因为第三个参数*比序列中最后一个可能的数字大 1*。`range` 还有两种有用的用法。只给 `range` 传一个参数时，Python 从 0 开始数到这个数字。所以 `range(4)` 等同于 `range(0, 4, 1)`，生成的序列是 0, 1, 2, 3。给 `range` 传两个参数时，Python 从第一个数字开始数到第二个数字。所以 `range(1, 4)` 等同于 `range(1, 4, 1)`，生成的序列是 `1, 2, 3`。
 
-```{index} cross-validation; GridSearchCV, scikit-learn; GridSearchCV, scikit-learn; RandomizedSearchCV
+```{index} 交叉验证; GridSearchCV, scikit-learn; GridSearchCV, scikit-learn; RandomizedSearchCV
 ```
 
-Okay! We are finally ready to create the `GridSearchCV` object.
-First we import it from the `sklearn` package.
-Then we pass it the `cancer_tune_pipe` pipeline in the `estimator` argument,
-the `parameter_grid` in the `param_grid` argument,
-and specify `cv=10` folds. Note that this does not actually run
-the tuning yet; just as before, we will have to use the `fit` method.
+好了！终于可以创建 `GridSearchCV` 对象了。先从 `sklearn` 包导入它。然后把 `cancer_tune_pipe` 流水线传给 `estimator` 参数，把 `parameter_grid` 传给 `param_grid` 参数，并指定 `cv=10` 折。注意此时还不会真正开始调优；和前面一样，我们还得调用 `fit` 方法。
 
 ```{code-cell} ipython3
 from sklearn.model_selection import GridSearchCV
@@ -1259,12 +834,7 @@ cancer_tune_grid = GridSearchCV(
 )
 ```
 
-Now we use the `fit` method on the `GridSearchCV` object to begin the tuning process.
-We pass the training data predictors and labels as the two arguments to `fit` as usual.
-The `cv_results_` attribute of the output contains the resulting cross-validation
-accuracy estimate for each choice of `n_neighbors`, but it isn't in an easily used
-format. We will wrap it in a `pd.DataFrame` to make it easier to understand,
-and print the `info` of the result.
+现在对 `GridSearchCV` 对象调用 `fit` 方法，开始调优。照例把训练数据的预测变量和标签作为两个参数传给 `fit`。输出的 `cv_results_` 属性里，有每个 `n_neighbors` 取值对应的交叉验证准确率估计值，但格式不便使用。我们用 `pd.DataFrame` 把它包起来，让结果更容易看懂，然后打印结果的 `info`。
 
 ```{code-cell} ipython3
 cancer_tune_grid.fit(
@@ -1275,19 +845,11 @@ accuracies_grid = pd.DataFrame(cancer_tune_grid.cv_results_)
 accuracies_grid.info()
 ```
 
-There is a lot of information to look at here, but we are most interested
-in three quantities: the number of neighbors (`param_kneighbors_classifier__n_neighbors`),
-the cross-validation accuracy estimate (`mean_test_score`),
-and the standard error of the accuracy estimate. Unfortunately `GridSearchCV` does
-not directly output the standard error for each cross-validation accuracy; but
-it *does* output the standard *deviation* (`std_test_score`). We can compute
-the standard error from the standard deviation by dividing it by the square
-root of the number of folds, i.e.,
+这里的信息很多，不过我们最关心三个量：近邻个数（`param_kneighbors_classifier__n_neighbors`）、交叉验证准确率估计值（`mean_test_score`）以及准确率估计值的标准误。遗憾的是，`GridSearchCV` 并不直接输出每个交叉验证准确率的标准误；但它*确实*会输出标准*差*（`std_test_score`）。把标准差除以折数的平方根，就得到标准误，即
 
 $$\text{Standard Error} = \frac{\text{Standard Deviation}}{\sqrt{\text{Number of Folds}}}.$$
 
-We will also rename the parameter name column to be a bit more readable,
-and drop the now unused `std_test_score` column.
+我们还会把参数名列重命名得更易读，并删掉已不再使用的 `std_test_score` 列。
 
 ```{code-cell} ipython3
 accuracies_grid["sem_test_score"] = accuracies_grid["std_test_score"] / 10**(1/2)
@@ -1302,9 +864,7 @@ accuracies_grid = (
 accuracies_grid
 ```
 
-We can decide which number of neighbors is best by plotting the accuracy versus $K$,
-as shown in {numref}`fig:06-find-k`.
-Here we are using the shortcut `point=True` to layer a point and line chart.
+画出准确率随 $K$ 变化的图，就能判断哪个近邻个数最好，如{numref}`fig:06-find-k` 所示。这里用简写 `point=True`，把散点与折线叠加在同一张图里。
 
 ```{code-cell} ipython3
 :tags: [remove-output]
@@ -1330,51 +890,29 @@ glue("best_acc", "{:.1f}".format(accuracies_grid["mean_test_score"].max()*100))
 :::{glue:figure} fig:06-find-k
 :name: fig:06-find-k
 
-Plot of estimated accuracy versus the number of neighbors.
+估计准确率随近邻个数变化的图。
 :::
 
-We can also obtain the number of neighbours with the highest accuracy programmatically by accessing
-the `best_params_` attribute of the fit `GridSearchCV` object. Note that it is still useful to visualize
-the results as we did above since this provides additional information on how the model performance varies.
+也可以通过访问拟合后的 `GridSearchCV` 对象的 `best_params_` 属性，用代码取出准确率最高的近邻个数。注意，像上面那样把结果画出来仍然有用，因为这能额外提供模型性能如何变化的信息。
 ```{code-cell} ipython3
 cancer_tune_grid.best_params_
 ```
 
 +++
 
-Setting the number of
-neighbors to $K =$ {glue:text}`best_k_unique`
-provides the highest cross-validation accuracy estimate ({glue:text}`best_acc`%). But there is no exact or perfect answer here;
-any selection from $K = 30$ to $80$ or so would be reasonably justified, as all
-of these differ in classifier accuracy by a small amount. Remember: the
-values you see on this plot are *estimates* of the true accuracy of our
-classifier. Although the
-$K =$ {glue:text}`best_k_unique` value is
-higher than the others on this plot,
-that doesn't mean the classifier is actually more accurate with this parameter
-value! Generally, when selecting $K$ (and other parameters for other predictive
-models), we are looking for a value where:
+把近邻个数设为 $K =$ {glue:text}`best_k_unique`，得到的交叉验证准确率估计值最高（{glue:text}`best_acc`%）。但这里并没有精确或完美的答案；从 $K = 30$ 到 $80$ 左右，选哪个都还说得过去，因为这些取值下分类器准确率的差异很小。记住：你在图上看到的取值都只是分类器真实准确率的*估计值*。虽然 $K =$ {glue:text}`best_k_unique` 在图上的确比别的取值高，但这并不意味着分类器在这个参数取值下确实更准确！一般来说，选择 $K$（以及其他预测模型的其他参数）时，我们要找的取值应当满足：
 
-- we get roughly optimal accuracy, so that our model will likely be accurate;
-- changing the value to a nearby one (e.g., adding or subtracting a small number) doesn't decrease accuracy too much, so that our choice is reliable in the presence of uncertainty;
-- the cost of training the model is not prohibitive (e.g., in our situation, if $K$ is too large, predicting becomes expensive!).
+- 准确率大致达到最优，这样模型大概率是准的；
+- 把取值换成邻近的某个值（例如加上或减去一个很小的数），准确率不会下降太多，这样即便存在不确定性，我们的选择依然可靠；
+- 模型训练的成本不至于高得无法承受（例如在我们的情形里，$K$ 太大时预测会变得很昂贵！）。
 
-We know that $K =$ {glue:text}`best_k_unique`
-provides the highest estimated accuracy. Further, {numref}`fig:06-find-k` shows that the estimated accuracy
-changes by only a small amount if we increase or decrease $K$ near $K =$ {glue:text}`best_k_unique`.
-And finally, $K =$ {glue:text}`best_k_unique` does not create a prohibitively expensive
-computational cost of training. Considering these three points, we would indeed select
-$K =$ {glue:text}`best_k_unique` for the classifier.
+我们知道，$K =$ {glue:text}`best_k_unique` 给出的估计准确率最高。而且{numref}`fig:06-find-k` 显示，在 $K =$ {glue:text}`best_k_unique` 附近增大或减小 $K$，估计准确率的变化都很小。最后，$K =$ {glue:text}`best_k_unique` 带来的训练计算成本也不至于高得无法承受。综合这三点，我们确实会为分类器选择 $K =$ {glue:text}`best_k_unique`。
 
 +++
 
-### Under/Overfitting
+### 欠拟合与过拟合
 
-To build a bit more intuition, what happens if we keep increasing the number of
-neighbors $K$? In fact, the cross-validation accuracy estimate actually starts to decrease!
-Let's specify a much larger range of values of $K$ to try in the `param_grid`
-argument of `GridSearchCV`. {numref}`fig:06-lots-of-ks` shows a plot of estimated accuracy as
-we vary $K$ from 1 to almost the number of observations in the data set.
+为了再多建立一点直觉：如果我们不断增大近邻个数 $K$，会发生什么？事实上，交叉验证准确率估计值反而会开始下降！我们不妨在 `GridSearchCV` 的 `param_grid` 参数中指定大得多的 $K$ 取值范围来试。{numref}`fig:06-lots-of-ks` 展示了 $K$ 从 1 一直变到接近数据集观测个数时，估计准确率变化的图形。
 
 ```{code-cell} ipython3
 :tags: [remove-output]
@@ -1415,39 +953,20 @@ glue("fig:06-lots-of-ks", large_accuracy_vs_k)
 :::{glue:figure} fig:06-lots-of-ks
 :name: fig:06-lots-of-ks
 
-Plot of accuracy estimate versus number of neighbors for many K values.
+许多 K 取值下，准确率估计值随近邻个数变化的图形。
 :::
 
 +++
 
-```{index} underfitting; classification
+```{index} 欠拟合; 分类
 ```
 
-**Underfitting:** What is actually happening to our classifier that causes
-this? As we increase the number of neighbors, more and more of the training
-observations (and those that are farther and farther away from the point) get a
-"say" in what the class of a new observation is. This causes a sort of
-"averaging effect" to take place, making the boundary between where our
-classifier would predict a tumor to be malignant versus benign to smooth out
-and become *simpler.* If you take this to the extreme, setting $K$ to the total
-training data set size, then the classifier will always predict the same label
-regardless of what the new observation looks like. In general, if the model
-*isn't influenced enough* by the training data, it is said to **underfit** the
-data.
+**欠拟合（underfitting）：**分类器到底发生了什么，才导致这种结果？随着近邻个数增大，越来越多的训练观测（以及离目标点越来越远的那些观测）都能对新观测的类别“发表意见”。这就产生了一种“平均效应”，使分类器判别肿瘤为恶性还是良性的边界变得平滑，也*更简单*。如果走极端，把 $K$ 设为整个训练集的大小，那么无论新观测长什么样，分类器都会预测同一个标签。一般来说，如果模型*受到训练数据的影响不够*，就说它对数据**欠拟合**。
 
-```{index} overfitting; classification
+```{index} 过拟合; 分类
 ```
 
-**Overfitting:** In contrast, when we decrease the number of neighbors, each
-individual data point has a stronger and stronger vote regarding nearby points.
-Since the data themselves are noisy, this causes a more "jagged" boundary
-corresponding to a *less simple* model.  If you take this case to the extreme,
-setting $K = 1$, then the classifier is essentially just matching each new
-observation to its closest neighbor in the training data set. This is just as
-problematic as the large $K$ case, because the classifier becomes unreliable on
-new data: if we had a different training set, the predictions would be
-completely different.  In general, if the model *is influenced too much* by the
-training data, it is said to **overfit** the data.
+**过拟合（overfitting）：**反过来，减小近邻个数时，每个数据点对附近点的表决权都越来越强。由于数据本身带有噪声，判别边界会变得更加“锯齿状”，对应着一个*不那么简单*的模型。如果走极端，令 $K = 1$，那么分类器实际上就是把每个新观测匹配到训练数据集中离它最近的邻居。这和 $K$ 很大的情形一样成问题，因为分类器在新数据上变得不可靠：如果换一个训练集，预测结果会完全不同。一般来说，如果模型*受到训练数据的影响过多*，就说它对数据**过拟合**。
 
 ```{code-cell} ipython3
 :tags: [remove-cell]
@@ -1552,30 +1071,18 @@ glue(
 :::{glue:figure} fig:06-decision-grid-K
 :name: fig:06-decision-grid-K
 
-Effect of K in overfitting and underfitting.
+K 取值对过拟合与欠拟合的影响。
 :::
 
 +++
 
-Both overfitting and underfitting are problematic and will lead to a model that
-does not generalize well to new data. When fitting a model, we need to strike a
-balance between the two. You can see these two effects in
-{numref}`fig:06-decision-grid-K`, which shows how the classifier changes as we
-set the number of neighbors $K$ to 1, 7, 20, and 300.
+过拟合和欠拟合都有问题，都会使模型难以很好地泛化到新数据。拟合模型时，我们需要在两者之间取得平衡。这两个效应可以在{numref}`fig:06-decision-grid-K` 中看到，图中展示了把近邻个数 $K$ 分别设为 1、7、20 和 300 时分类器的变化。
 
 +++
 
-### Evaluating on the test set
+### 在测试集上评估
 
-Now that we have tuned the K-NN classifier and set $K =$ {glue:text}`best_k_unique`,
-we are done building the model and it is time to evaluate the quality of its predictions on the held out 
-test data, as we did earlier in {numref}`eval-performance-clasfcn2`.
-We first need to retrain the K-NN classifier
-on the entire training data set using the selected number of neighbors.
-Fortunately we do not have to do this ourselves manually; `scikit-learn` does it for
-us automatically. To make predictions and assess the estimated accuracy of the best model on the test data, we can use the
-`score` and `predict` methods of the fit `GridSearchCV` object. We can then pass those predictions to
-the `precision`, `recall`, and `crosstab` functions to assess the estimated precision and recall, and print a confusion matrix.
+现在 K 近邻分类器已经调好，并设 $K =$ {glue:text}`best_k_unique`，模型构建到此结束，接下来要评估它在留出的测试数据上预测的质量，就像前面在{numref}`eval-performance-clasfcn2`中做的那样。我们首先要用选定的近邻个数，在整个训练数据集上重新训练 K 近邻分类器。好在不必手动完成，`scikit-learn` 会自动帮我们做。要在测试数据上做出预测并评估最优模型的估计准确率，可以用拟合好的 `GridSearchCV` 对象的 `score` 和 `predict` 方法。然后把这些预测传给 `precision`、`recall` 和 `crosstab` 函数，评估估计的精确率与召回率，并打印混淆矩阵。
 
 ```{index} scikit-learn;predict, scikit-learn;score, scikit-learn;precision_score, scikit-learn;recall_score, crosstab
 ```
@@ -1639,114 +1146,68 @@ glue("n_neighbors_max", "{:0.0f}".format(accuracies_grid["n_neighbors"].max()))
 glue("n_neighbors_min", "{:0.0f}".format(accuracies_grid["n_neighbors"].min()))
 ```
 
-At first glance, this is a bit surprising: the accuracy of the classifier
-has not changed much despite tuning the number of neighbors! Our first model
-with $K =$ 3 (before we knew how to tune) had an estimated accuracy of {glue:text}`cancer_acc_1`%, 
-while the tuned model with $K =$ {glue:text}`best_k_unique` had an estimated accuracy
-of {glue:text}`cancer_acc_tuned`%. Upon examining {numref}`fig:06-find-k` again to see the
-cross validation accuracy estimates for a range of neighbors, this result
-becomes much less surprising. From {glue:text}`n_neighbors_min` to around {glue:text}`n_neighbors_max` neighbors, the cross
-validation accuracy estimate varies only by around {glue:text}`std3_acc_ks`%, with
-each estimate having a standard error around {glue:text}`mean_sem_acc_ks`%.
-Since the cross-validation accuracy estimates the test set accuracy,
-the fact that the test set accuracy also doesn't change much is expected.
-Also note that the $K =$ 3 model had a precision 
-of {glue:text}`cancer_prec_1`% and recall of {glue:text}`cancer_rec_1`%,
-while the tuned model had
-a precision of {glue:text}`cancer_prec_tuned`% and recall of {glue:text}`cancer_rec_tuned`%.
-Given that the recall decreased&mdash;remember, in this application, recall
-is critical to making sure we find all the patients with malignant tumors&mdash;the tuned model may actually be *less* preferred
-in this setting. In any case, it is important to think critically about the result of tuning. Models tuned to
-maximize accuracy are not necessarily better for a given application.
+乍看之下这有点出人意料：尽管调了近邻个数，分类器的准确率并没有太大变化！我们最初那个 $K =$ 3 的模型（那时我们还不会调优）估计准确率是 {glue:text}`cancer_acc_1`%，而调优后的模型 $K =$ {glue:text}`best_k_unique` 的估计准确率是 {glue:text}`cancer_acc_tuned`%。再看一眼{numref}`fig:06-find-k` 中一系列近邻个数对应的交叉验证准确率估计值，这个结果就不那么让人意外了。从 {glue:text}`n_neighbors_min` 个近邻到大约 {glue:text}`n_neighbors_max` 个近邻，交叉验证准确率估计值的变化只有约 {glue:text}`std3_acc_ks`%，而每个估计值的标准误约为 {glue:text}`mean_sem_acc_ks`%。既然交叉验证准确率估计的是测试集准确率，测试集准确率同样变化不大就是意料之中的事。还要注意，$K =$ 3 的模型精确率为 {glue:text}`cancer_prec_1`%、召回率为 {glue:text}`cancer_rec_1`%，而调优后的模型精确率为 {glue:text}`cancer_prec_tuned`%、召回率为 {glue:text}`cancer_rec_tuned`%。考虑到召回率下降了——请记住，在这个应用里，召回率对于确保找出所有恶性肿瘤患者至关重要——调优后的模型在这种情形下其实可能*更不*受青睐。无论如何，都要对调优结果做批判性分析。为最大化准确率而调优的模型，对某个具体应用来说未必更好。
 
-## Summary
+## 小结
 
-Classification algorithms use one or more quantitative variables to predict the
-value of another categorical variable. In particular, the K-nearest neighbors
-algorithm does this by first finding the $K$ points in the training data
-nearest to the new observation, and then returning the majority class vote from
-those training observations. We can tune and evaluate a classifier by splitting
-the data randomly into a training and test data set. The training set is used
-to build the classifier, and we can tune the classifier (e.g., select the number
-of neighbors in K-nearest neighbors) by maximizing estimated accuracy via
-cross-validation. After we have tuned the model, we can use the test set to
-estimate its accuracy.  The overall process is summarized in
-{numref}`fig:06-overview`.
+分类算法用一个或多个定量变量来预测另一个分类变量的取值。具体来说，K 近邻算法先找出训练数据中离新观测最近的 $K$ 个点，再返回这些训练观测的多数类投票结果。把数据随机划分为训练集和测试集，就能对分类器进行调优和评估。训练集用来构建分类器；我们可以通过交叉验证最大化估计准确率，从而对分类器调优（例如选择 K 近邻中的近邻个数）。模型调好之后，再用测试集估计它的准确率。{numref}`fig:06-overview` 总结了整个流程。
 
 +++
 
 ```{figure} img/classification2/train-test-overview.png
 :name: fig:06-overview
 
-Overview of K-NN classification.
+K 近邻分类概述。
 ```
 
 +++
 
-```{index} scikit-learn;Pipeline, cross-validation, K-nearest neighbors; classification, classification
+```{index} scikit-learn;Pipeline, 交叉验证, K 近邻; 分类, 分类
 ```
 
-The overall workflow for performing K-nearest neighbors classification using `scikit-learn` is as follows:
+使用 `scikit-learn` 完成 K 近邻分类的整体工作流如下：
 
-1. Use the `train_test_split` function to split the data into a training and test set. Set the `stratify` argument to the class label column of the dataframe. Put the test set aside for now.
-2. Create a `Pipeline` that specifies the preprocessing steps and the classifier.
-3. Define the parameter grid by passing the set of $K$ values that you would like to tune.
-4. Use `GridSearchCV` to estimate the classifier accuracy for a range of $K$ values. Pass the pipeline and parameter grid defined in steps 2. and 3. as the `param_grid` argument and the `estimator` argument, respectively.
-5. Execute the grid search by passing the training data to the `fit` method on the `GridSearchCV` instance created in step 4.
-6. Pick a value of $K$ that yields a high cross-validation accuracy estimate that doesn't change much if you change $K$ to a nearby value.
-7. Create a new model object for the best parameter value (i.e., $K$), and retrain the classifier by calling the `fit` method.
-8. Evaluate the estimated accuracy of the classifier on the test set using the `score` method.
+1. 用 `train_test_split` 函数把数据划分为训练集和测试集。把 `stratify` 参数设为数据框的类别标签列。暂时把测试集放到一边。
+2. 创建一个 `Pipeline`，指明预处理步骤和分类器。
+3. 给出你想要调优的一组 $K$ 取值，定义参数网格。
+4. 用 `GridSearchCV` 估计一系列 $K$ 取值下分类器的准确率。把第 2 步和第 3 步定义的流水线和参数网格分别作为 `param_grid` 参数和 `estimator` 参数传入。
+5. 把训练数据传给第 4 步创建的 `GridSearchCV` 实例的 `fit` 方法，执行网格搜索。
+6. 选一个 $K$，使交叉验证准确率估计值较高，且把 $K$ 换成邻近取值时该估计值变化不大。
+7. 针对最优参数取值（即 $K$）新建一个模型对象，并调用 `fit` 方法重新训练分类器。
+8. 用 `score` 方法在测试集上评估分类器的估计准确率。
 
-In these last two chapters, we focused on the K-nearest neighbors algorithm,
-but there are many other methods we could have used to predict a categorical label.
-All algorithms have their strengths and weaknesses, and we summarize these for
-the K-NN here.
+最近两章我们一直围绕 K 近邻算法展开，但可以用来预测类别标签的方法还有很多。每种算法都各有长短，下面把 k 近邻的这些优缺点总结一下。
 
-**Strengths:** K-nearest neighbors classification
+**优点：** K 近邻分类
 
-1. is a simple, intuitive algorithm,
-2. requires few assumptions about what the data must look like, and
-3. works for binary (two-class) and multi-class (more than 2 classes) classification problems.
+1. 算法简单、直观；
+2. 对数据形态几乎没有假设；
+3. 既适用于二分类（binary classification，即两类）问题，也适用于多分类（multiclass classification，即类别多于 2 类）问题。
 
-**Weaknesses:** K-nearest neighbors classification
+**缺点：** K 近邻分类
 
-1. becomes very slow as the training data gets larger,
-2. may not perform well with a large number of predictors, and
-3. may not perform well when classes are imbalanced.
+1. 训练数据变大时速度会变得很慢；
+2. 预测变量很多时可能表现不好；
+3. 类别不平衡时可能表现不好。
 
 +++
 
-## Predictor variable selection
+## 预测变量选择
 
 ```{note}
-This section is not required reading for the remainder of the textbook. It is included for those readers
-interested in learning how irrelevant variables can influence the performance of a classifier, and how to
-pick a subset of useful variables to include as predictors.
+本节不是后续章节的必读内容。收录在此，是给那些有兴趣了解无关变量会如何影响分类器性能、以及如何挑选一部分有用变量充当预测变量的读者。
 ```
 
-```{index} irrelevant predictors
+```{index} 无关预测变量
 ```
 
-Another potentially important part of tuning your classifier is to choose which
-variables from your data will be treated as predictor variables. Technically, you can choose
-anything from using a single predictor variable to using every variable in your
-data; the K-nearest neighbors algorithm accepts any number of
-predictors. However, it is **not** the case that using more predictors always
-yields better predictions! In fact, sometimes including irrelevant predictors can
-actually negatively affect classifier performance.
+调优分类器时，另一个可能很重要的环节，是决定数据中的哪些变量用作预测变量。从只用一个预测变量，到用上数据中的每一个变量，技术上都可以选；k 近邻算法接受任意个数的预测变量。不过，**并非**预测变量越多，预测效果就一定越好！事实上，有时把无关变量也算进来，反而会拉低分类器的性能。
 
 +++ {"toc-hr-collapsed": true}
 
-### The effect of irrelevant predictors
+### 无关预测变量的影响
 
-Let's take a look at an example where K-nearest neighbors performs
-worse when given more predictors to work with. In this example, we modified
-the breast cancer data to have only the `Smoothness`, `Concavity`, and
-`Perimeter` variables from the original data. Then, we added irrelevant
-variables that we created ourselves using a random number generator.
-The irrelevant variables each take a value of 0 or 1 with equal probability for each observation, regardless
-of what the value `Class` variable takes. In other words, the irrelevant variables have
-no meaningful relationship with the `Class` variable.
+我们来看一个例子：给 k 近邻算法提供更多预测变量，它的表现反而更差。在这个例子中，我们修改了乳腺癌数据，只保留原始数据里的 `Smoothness`、`Concavity` 和 `Perimeter` 三个变量。随后又用随机数生成器自己造了一些无关变量。对每条观测来说，这些无关变量都以相同的概率取 0 或 1，与 `Class` 变量的取值无关。换句话说，无关变量与 `Class` 变量之间没有任何实质关系。
 
 ```{code-cell} ipython3
 :tags: [remove-cell]
@@ -1768,18 +1229,7 @@ cancer_irrelevant[
 ]
 ```
 
-Next, we build a sequence of K-NN classifiers that include `Smoothness`,
-`Concavity`, and `Perimeter` as predictor variables, but also increasingly many irrelevant
-variables. In particular, we create 6 data sets with 0, 5, 10, 15, 20, and 40 irrelevant predictors.
-Then we build a model, tuned via 5-fold cross-validation, for each data set.
-{numref}`fig:06-performance-irrelevant-features` shows
-the estimated cross-validation accuracy versus the number of irrelevant predictors.  As
-we add more irrelevant predictor variables, the estimated accuracy of our
-classifier decreases. This is because the irrelevant variables add a random
-amount to the distance between each pair of observations; the more irrelevant
-variables there are, the more (random) influence they have, and the more they
-corrupt the set of nearest neighbors that vote on the class of the new
-observation to predict.
+接下来我们构建一系列 k 近邻分类器，它们的预测变量除了 `Smoothness`、`Concavity` 和 `Perimeter`，还包含越来越多的无关变量。具体来说，我们创建 6 个数据集，其中的无关预测变量分别为 0、5、10、15、20 和 40 个。然后为每个数据集构建一个模型，并用 5 折交叉验证调优。{numref}`fig:06-performance-irrelevant-features` 给出了交叉验证准确率估计值随无关预测变量个数的变化。随着无关预测变量增多，分类器的估计准确率不断下降。原因在于，无关变量会为每两条观测之间的距离增加一个随机的量；无关变量越多，这种（随机）影响就越大，也就越会破坏为待预测新观测的类别投票的那组最近邻。
 
 ```{code-cell} ipython3
 :tags: [remove-cell]
@@ -1857,18 +1307,10 @@ glue("fig:06-performance-irrelevant-features", plt_irrelevant_accuracies)
 :::{glue:figure} fig:06-performance-irrelevant-features
 :name: fig:06-performance-irrelevant-features
 
-Effect of inclusion of irrelevant predictors.
+纳入无关预测变量的影响。
 :::
 
-Although the accuracy decreases as expected, one surprising thing about
-{numref}`fig:06-performance-irrelevant-features` is that it shows that the method
-still outperforms the baseline majority classifier (with about {glue:text}`cancer_train_b_prop`% accuracy)
-even with 40 irrelevant variables.
-How could that be? {numref}`fig:06-neighbors-irrelevant-features` provides the answer:
-the tuning procedure for the K-nearest neighbors classifier combats the extra randomness from the irrelevant variables
-by increasing the number of neighbors. Of course, because of all the extra noise in the data from the irrelevant
-variables, the number of neighbors does not increase smoothly; but the general trend is increasing. {numref}`fig:06-fixed-irrelevant-features` corroborates
-this evidence; if we fix the number of neighbors to $K=3$, the accuracy falls off more quickly.
+准确率确实如预期那样下降了，但{numref}`fig:06-performance-irrelevant-features` 有一点出人意料：即使有 40 个无关变量，这个方法仍然优于基准的多数类分类器（准确率约为 {glue:text}`cancer_train_b_prop`%）。这怎么可能？{numref}`fig:06-neighbors-irrelevant-features` 给出了答案：k 近邻分类器的调优过程会靠增加近邻个数，来抵消无关变量带来的额外随机性。当然，由于无关变量给数据带来了大量额外噪声，近邻个数并不会平滑地增加，但总体趋势是上升的。{numref}`fig:06-fixed-irrelevant-features` 印证了这一证据：如果把近邻个数固定为 $K=3$，准确率下降得更快。
 
 ```{code-cell} ipython3
 :tags: [remove-cell]
@@ -1890,7 +1332,7 @@ glue("fig:06-neighbors-irrelevant-features", plt_irrelevant_nghbrs)
 :::{glue:figure} fig:06-neighbors-irrelevant-features
 :name: fig:06-neighbors-irrelevant-features
 
-Tuned number of neighbors for varying number of irrelevant predictors.
+无关预测变量个数不同时调优得到的近邻个数。
 :::
 
 ```{code-cell} ipython3
@@ -1921,108 +1363,55 @@ glue("fig:06-fixed-irrelevant-features", plt_irrelevant_nghbrs_fixed)
 :::{glue:figure} fig:06-fixed-irrelevant-features
 :name: fig:06-fixed-irrelevant-features
 
-Accuracy versus number of irrelevant predictors for tuned and untuned number of neighbors.
+近邻个数调优与未调优时，准确率随无关预测变量个数的变化。
 :::
 
 +++
 
-### Finding a good subset of predictors
+### 寻找好的预测变量子集
 
-So then, if it is not ideal to use all of our variables as predictors without consideration, how
-do we choose which variables we *should* use?  A simple method is to rely on your scientific understanding
-of the data to tell you which variables are not likely to be useful predictors. For example, in the cancer
-data that we have been studying, the `ID` variable is just a unique identifier for the observation.
-As it is not related to any measured property of the cells, the `ID` variable should therefore not be used
-as a predictor. That is, of course, a very clear-cut case. But the decision for the remaining variables
-is less obvious, as all seem like reasonable candidates. It
-is not clear which subset of them will create the best classifier. One could use visualizations and
-other exploratory analyses to try to help understand which variables are potentially relevant, but
-this process is both time-consuming and error-prone when there are many variables to consider.
-Therefore we need a more systematic and programmatic way of choosing variables.
-This is a very difficult problem to solve in
-general, and there are a number of methods that have been developed that apply
-in particular cases of interest. Here we will discuss two basic
-selection methods as an introduction to the topic. See the additional resources at the end of
-this chapter to find out where you can learn more about variable selection, including more advanced methods.
+那么，既然不加考虑地把所有变量都当作预测变量并不理想，我们该怎样挑选*应该*使用的变量呢？一个简单办法是依靠你对数据的专业理解，判断哪些变量不太可能是有用的预测变量。例如，我们一直在研究的这份癌症数据中，`ID` 变量只是观测的唯一标识符。它与细胞的任何测量属性都无关，因此不应把 `ID` 变量当作预测变量。当然，这是非常明确的情形。但其余变量就没那么好判断了，它们看起来都是合理的候选。究竟哪个子集能造出最好的分类器，并不清楚。你可以借助可视化和其他探索性分析，帮助判断哪些变量可能有用，但要考虑的变量一多，这个过程既费时又容易出错。因此我们需要一种更系统、更程序化的变量选择方法。总的来说，这个问题很难解决，人们已经针对一些特定的应用场景提出了不少方法。这里我们讨论两种基本的选择方法，作为这一主题的入门。想进一步了解变量选择（包括更高级的方法），可以查看本章末尾的拓展资源。
 
-```{index} variable selection; best subset
+```{index} 变量选择; 最优子集
 ```
 
-```{index} see: predictor selection; variable selection
+```{index} see: 预测变量选择; 变量选择
 ```
 
-The first idea you might think of for a systematic way to select predictors
-is to try all possible subsets of predictors and then pick the set that results in the "best" classifier.
-This procedure is indeed a well-known variable selection method referred to
-as *best subset selection* {cite:p}`bealesubset,hockingsubset`.
-In particular, you
+要系统地选择预测变量，你首先想到的办法可能是：把所有可能的预测变量子集都试一遍，然后挑出能得到“最好”分类器的那个集合。这个做法确实是一种著名的变量选择方法，叫作*最优子集选择*（best subset selection）{cite:p}`bealesubset,hockingsubset`。具体来说，你要
 
-1. create a separate model for every possible subset of predictors,
-2. tune each one using cross-validation, and
-3. pick the subset of predictors that gives you the highest cross-validation accuracy.
+1. 为预测变量的每一个可能子集分别建立一个模型，
+2. 用交叉验证对每个模型调优，
+3. 选出交叉验证准确率最高的那个预测变量子集。
 
-Best subset selection is applicable to any classification method (K-NN or otherwise).
-However, it becomes very slow when you have even a moderate
-number of predictors to choose from (say, around 10). This is because the number of possible predictor subsets
-grows very quickly with the number of predictors, and you have to train the model (itself
-a slow process!) for each one. For example, if we have 2 predictors&mdash;let's call
-them A and B&mdash;then we have 3 variable sets to try: A alone, B alone, and finally A
-and B together. If we have 3 predictors&mdash;A, B, and C&mdash;then we have 7
-to try: A, B, C, AB, BC, AC, and ABC. In general, the number of models
-we have to train for $m$ predictors is $2^m-1$; in other words, when we
-get to 10 predictors we have over *one thousand* models to train, and
-at 20 predictors we have over *one million* models to train!
-So although it is a simple method, best subset selection is usually too computationally
-expensive to use in practice.
+最优子集选择适用于任何分类方法（k 近邻或其它方法）。不过，只要可供选择的预测变量稍微多一点（比如 10 个左右），它就会变得非常慢。原因在于，可能的预测变量子集个数随预测变量个数增长得极快，而每个子集都得训练一次模型（训练本身就很慢！）。例如，如果只有 2 个预测变量——把它们叫作 A 和 B——那么有 3 种变量组合可试：只用 A、只用 B，以及 A 和 B 一起用。如果有 3 个预测变量——A、B 和 C——那么有 7 种可试：A、B、C、AB、BC、AC 和 ABC。一般来说，$m$ 个预测变量需要训练的模型个数是 $2^m-1$；换句话说，到了 10 个预测变量，要训练的模型就超过*一千*个，而到了 20 个预测变量，要训练的模型超过*一百万*个！所以，最优子集选择虽然方法简单，但在实践中往往计算成本太高，用不起来。
 
-```{index} variable selection; forward
+```{index} 变量选择; 前向
 ```
 
-Another idea is to iteratively build up a model by adding one predictor variable
-at a time. This method&mdash;known as *forward selection* {cite:p}`forwardefroymson,forwarddraper`&mdash;is also widely
-applicable and fairly straightforward. It involves the following steps:
+另一种思路是每次加入一个预测变量，逐步把模型搭建起来。这种方法叫作*前向选择*（forward selection）{cite:p}`forwardefroymson,forwarddraper`，同样适用范围很广，而且相当直观。它包含以下步骤：
 
-1. Start with a model having no predictors.
-2. Run the following 3 steps until you run out of predictors:
-    1. For each unused predictor, add it to the model to form a *candidate model*.
-    2. Tune all of the candidate models.
-    3. Update the model to be the candidate model with the highest cross-validation accuracy.
-3. Select the model that provides the best trade-off between accuracy and simplicity.
+1. 从一个不含任何预测变量的模型开始。
+2. 重复以下 3 个步骤，直到没有预测变量可用：
+    1. 对每个尚未使用的预测变量，把它加入模型，组成一个*候选模型*。
+    2. 调优所有候选模型。
+    3. 把交叉验证准确率最高的候选模型更新为当前模型。
+3. 选出在准确率与简洁性之间权衡取舍最佳的模型。
 
-Say you have $m$ total predictors to work with. In the first iteration, you have to make
-$m$ candidate models, each with 1 predictor. Then in the second iteration, you have
-to make $m-1$ candidate models, each with 2 predictors (the one you chose before and a new one).
-This pattern continues for as many iterations as you want. If you run the method
-all the way until you run out of predictors to choose, you will end up training
-$\frac{1}{2}m(m+1)$ separate models. This is a *big* improvement from the $2^m-1$
-models that best subset selection requires you to train! For example, while best subset selection requires
-training over 1000 candidate models with 10 predictors, forward selection requires training only 55 candidate models.
-Therefore we will continue the rest of this section using forward selection.
+假设总共有 $m$ 个预测变量可用。第一轮迭代要建立 $m$ 个候选模型，每个含 1 个预测变量。第二轮迭代要建立 $m-1$ 个候选模型，每个含 2 个预测变量（一个是上一轮选中的，另一个是新增的）。你想迭代多少轮，这个规律就延续多少轮。如果一直做到没有预测变量可选，最终要训练的模型个数是 $\frac{1}{2}m(m+1)$。相比最优子集选择所需的 $2^m-1$ 个模型，这是*很大*的改进！例如，10 个预测变量时，最优子集选择要训练 1000 多个候选模型，而前向选择只需训练 55 个候选模型。因此本节余下的部分都用前向选择。
 
 ```{note}
-One word of caution before we move on. Every additional model that you train
-increases the likelihood that you will get unlucky and stumble
-on a model that has a high cross-validation accuracy estimate, but a low true
-accuracy on the test data and other future observations.
-Since forward selection involves training a lot of models, you run a fairly
-high risk of this happening. To keep this risk low, only use forward selection
-when you have a large amount of data and a relatively small total number of
-predictors. More advanced methods do not suffer from this
-problem as much; see the additional resources at the end of this chapter for
-where to learn more about advanced predictor selection methods.
+继续之前先提醒一句。你每多训练一个模型，就越可能运气不好，撞上一个模型：它的交叉验证准确率估计值很高，但在测试数据和其他未来观测上的真实准确率却很低。前向选择要训练大量模型，所以出现这种情况的风险相当高。要把风险压下来，只有在数据量很大、预测变量总数相对较少时才使用前向选择。更高级的方法受这个问题的影响要小得多；想进一步了解高级的预测变量选择方法，可以查看本章末尾的拓展资源。
 ```
 
 +++
 
-### Forward selection in Python
+### 用 Python 实现前向选择
 
-```{index} variable selection; implementation
+```{index} 变量选择; 实现
 ```
 
-We now turn to implementing forward selection in Python.
-First we will extract a smaller set of predictors to work with in this illustrative example&mdash;`Smoothness`,
-`Concavity`, `Perimeter`, `Irrelevant1`, `Irrelevant2`, and `Irrelevant3`&mdash;as well as the `Class` variable as the label.
-We will also extract the column names for the full set of predictors.
+下面我们动手用 Python 实现前向选择。先在这个示例中取出较小的一组预测变量——`Smoothness`、`Concavity`、`Perimeter`、`Irrelevant1`、`Irrelevant2` 和 `Irrelevant3`——以及作为标签的 `Class` 变量。我们还会取出全部预测变量的列名。
 
 ```{code-cell} ipython3
 cancer_subset = cancer_irrelevant[
@@ -2044,24 +1433,7 @@ names = list(cancer_subset.drop(
 cancer_subset
 ```
 
-To perform forward selection, we could use the
-[`SequentialFeatureSelector`](https://scikit-learn.org/stable/modules/generated/sklearn.feature_selection.SequentialFeatureSelector.html)
-from `scikit-learn`; but it is difficult to combine this approach with parameter tuning to find a good number of neighbors
-for each set of features. Instead we will code the forward selection algorithm manually.
-In particular, we need code that tries adding each available predictor to a model, finding the best, and iterating.
-If you recall the end of the wrangling chapter, we mentioned
-that sometimes one needs more flexible forms of iteration than what
-we have used earlier, and in these cases one typically resorts to
-a *for loop*; see
-the [control flow section](https://wesmckinney.com/book/python-basics.html#control_for) in
-*Python for Data Analysis* {cite:p}`mckinney2012python`.
-Here we will use two for loops: one over increasing predictor set sizes
-(where you see `for i in range(1, n_total + 1):` below),
-and another to check which predictor to add in each round (where you see `for j in range(len(names))` below).
-For each set of predictors to try, we extract the subset of predictors,
-pass it into a preprocessor, build a `Pipeline` that tunes
-a K-NN classifier using 10-fold cross-validation,
-and finally records the estimated accuracy.
+要实现前向选择，本可以使用 `scikit-learn` 的 [`SequentialFeatureSelector`](https://scikit-learn.org/stable/modules/generated/sklearn.feature_selection.SequentialFeatureSelector.html)，但很难把这个做法与参数调优结合起来，为每一组特征找到合适的近邻个数。所以我们改为手写前向选择算法。具体来说，我们需要这样的代码：尝试把每个可用的预测变量加入模型，找出其中最好的，然后继续迭代。如果你还记得数据整理那一章的末尾，我们提过有时需要比前面用过的更灵活的迭代形式，这时通常要借助 *for 循环*；参见《Python for Data Analysis》{cite:p}`mckinney2012python` 中的[控制流一节](https://wesmckinney.com/book/python-basics.html#control_for)。这里我们会用两个 for 循环：一个遍历不断增大的预测变量集合规模（就是下面 `for i in range(1, n_total + 1):` 那一行），另一个检查每一轮该加入哪个预测变量（就是下面 `for j in range(len(names))` 那一行）。对每一组待尝试的预测变量，我们取出对应的预测变量子集，把它送入预处理器，构建一个用 10 折交叉验证调优 k 近邻分类器的 `Pipeline`，最后记录估计准确率。
 
 ```{code-cell} ipython3
 from sklearn.compose import make_column_selector
@@ -2121,24 +1493,10 @@ accuracies = pd.DataFrame(accuracy_dict)
 accuracies
 ```
 
-```{index} variable selection; elbow method
+```{index} 变量选择; 肘部法则
 ```
 
-Interesting! The forward selection procedure first added the three meaningful variables `Perimeter`,
-`Concavity`, and `Smoothness`, followed by the irrelevant variables. {numref}`fig:06-fwdsel-3`
-visualizes the accuracy versus the number of predictors in the model. You can see that
-as meaningful predictors are added, the estimated accuracy increases substantially; and as you add irrelevant
-variables, the accuracy either exhibits small fluctuations or decreases as the model attempts to tune the number
-of neighbors to account for the extra noise. In order to pick the right model from the sequence, you have
-to balance high accuracy and model simplicity (i.e., having fewer predictors and a lower chance of overfitting).
-The way to find that balance is to look for the *elbow*
-in {numref}`fig:06-fwdsel-3`, i.e., the place on the plot where the accuracy stops increasing dramatically and
-levels off or begins to decrease. The elbow in {numref}`fig:06-fwdsel-3` appears to occur at the model with
-3 predictors; after that point the accuracy levels off. So here the right trade-off of accuracy and number of predictors
-occurs with 3 variables: `Perimeter, Concavity, Smoothness`. In other words, we have successfully removed irrelevant
-predictors from the model! It is always worth remembering, however, that what cross-validation gives you
-is an *estimate* of the true accuracy; you have to use your judgement when looking at this plot to decide
-where the elbow occurs, and whether adding a variable provides a meaningful increase in accuracy.
+有意思！前向选择过程首先加入了三个有意义的变量 `Perimeter`、`Concavity` 和 `Smoothness`，随后才轮到无关变量。{numref}`fig:06-fwdsel-3` 把准确率随模型中预测变量个数的变化画了出来。可以看到，随着有意义的预测变量被加入，估计准确率大幅上升；而加入无关变量时，准确率要么小幅波动，要么因为模型试图调整近邻个数以应对额外噪声而下降。要从这一串模型中挑出合适的那个，你得在准确率高与模型简洁（即预测变量更少、过拟合机会更小）之间取得平衡。找到这种平衡的办法，是在{numref}`fig:06-fwdsel-3` 中寻找*肘部*（elbow），也就是图上准确率不再急剧上升、趋于平稳或开始下降的位置。{numref}`fig:06-fwdsel-3` 里的肘部看起来出现在含 3 个预测变量的模型处；过了这一点，准确率就趋于平稳。所以在这里，准确率与预测变量个数之间的最佳权衡出现在 3 个变量上：`Perimeter, Concavity, Smoothness`。换句话说，我们成功地把无关预测变量从模型中剔除了！不过，永远要记得：交叉验证给出的是真实准确率的*估计值*；看图判断肘部落在哪里、判断加入某个变量是否带来准确率的实质性提升，都要靠你自己拿主意。
 
 ```{code-cell} ipython3
 :tags: [remove-cell]
@@ -2161,60 +1519,34 @@ glue("fig:06-fwdsel-3", fwd_sel_accuracies_plot)
 :::{glue:figure} fig:06-fwdsel-3
 :name: fig:06-fwdsel-3
 
-Estimated accuracy versus the number of predictors for the sequence of models built using forward selection.
+用前向选择构建的模型序列中，估计准确率随预测变量个数的变化。
 :::
 
 +++
 
 ```{note}
-Since the choice of which variables to include as predictors is
-part of tuning your classifier, you *cannot use your test data* for this
-process!
+选择哪些变量作为预测变量，本身就属于分类器调优的一部分，所以你*不能在这个过程里使用测试数据*！
 ```
 
-## Exercises
+## 习题
 
-Practice exercises for the material covered in this chapter can be found in the
-accompanying [worksheets repository](https://worksheets.python.datasciencebook.ca) in
-the "Classification II: evaluation and tuning" row. You can preview a
-non-interactive version of the worksheet for this chapter by clicking "view
-worksheet." To work on the exercises interactively, follow the instructions in
-the worksheets repository to download all worksheets, and follow the
-instructions for computer setup found in {numref}`Chapter %s <move-to-your-own-machine>`. This will ensure
-that the automated feedback and guidance that the worksheets provide will
-function as intended.
+本章内容的练习题见配套的[练习册仓库](https://worksheets.python.datasciencebook.ca)，在“Classification II: evaluation and tuning”这一行。点击“查看练习册（view worksheet）”可以预览本章练习册的非交互版本。如果想交互式地做这些习题，请按练习册仓库中的说明下载全部练习册，并按{numref}`第 %s 章 <move-to-your-own-machine>`中的说明配置计算机环境。这样才能保证练习册提供的自动反馈与指导按预期工作。
 
 +++
 
-## Additional resources
+## 拓展资源
 
 +++
 
-- The [`scikit-learn` website](https://scikit-learn.org/stable/) is an excellent
-  reference for more details on, and advanced usage of, the functions and
-  packages in the past two chapters. Aside from that, it also offers many
-  useful [tutorials](https://scikit-learn.org/stable/tutorial/index.html)
-  to get you started. It's worth noting that the `scikit-learn` package
-  does a lot more than just classification, and so the
-  examples on the website similarly go beyond classification as well. In the next
-  two chapters, you'll learn about another kind of predictive modeling setting,
-  so it might be worth visiting the website only after reading through those
-  chapters.
-- [*An Introduction to Statistical Learning*](https://www.statlearning.com/) {cite:p}`james2013introduction` provides
-  a great next stop in the process of
-  learning about classification. Chapter 4 discusses additional basic techniques
-  for classification that we do not cover, such as logistic regression, linear
-  discriminant analysis, and naive Bayes. Chapter 5 goes into much more detail
-  about cross-validation. Chapters 8 and 9 cover decision trees and support
-  vector machines, two very popular but more advanced classification methods.
-  Finally, Chapter 6 covers a number of methods for selecting predictor
-  variables. Note that while this book is still a very accessible introductory
-  text, it requires a bit more mathematical background than we require.
+- [`scikit-learn` 网站](https://scikit-learn.org/stable/)是查阅前两章各项函数与包的更多细节
+  以及进阶用法时极好的参考资料。除此之外，网站还提供了许多实用的[教程](https://scikit-learn.org/stable/tutorial/index.html)，帮助你快速上手。值得注意的是，`scikit-learn` 包能做的事情远不止分类，因此网站上的示例同样不局限于分类。接下来两章你会学到另一种预测性建模场景，所以不妨先读完那两章，再来访问这个网站。
+- [《An Introduction to Statistical Learning》](https://www.statlearning.com/) {cite:p}`james2013introduction`
+  是学习分类过程中极好的下一站。第 4 章还讨论了本书没有涉及的一些基础分类方法，例如逻辑回归、线性判别分析和朴素贝叶斯。第 5 章对交叉验证的讲解要详细得多。第 8 章和第 9 章介绍决策树与支持向量机，这两种分类方法很流行，但更为进阶。最后，第 6 章介绍了若干种选择预测变量的方法。需要注意的是，该书虽然仍是一本很易读的入门教材，但它对数学基础的要求比本书稍高一些。
 
 
 +++
 
-## References
+## 参考文献
 
 ```{bibliography}
 :filter: docname in docnames

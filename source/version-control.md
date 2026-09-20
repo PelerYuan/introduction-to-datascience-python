@@ -14,409 +14,234 @@ kernelspec:
 ---
 
 (getting-started-with-version-control)=
-# Collaboration with version control
+# 借助版本控制协作
 
-> *You mostly collaborate with yourself,
-> and me-from-two-months-ago never responds to email.*
+> *你多半只是在与自己协作，而两个月前的我从来不回邮件。*
 >
-> --Mark T. Holder
+> ——Mark T. Holder
 
 +++
 
-## Overview
+## 概述
 
 ```{index} git, GitHub
 ```
 
-This chapter will introduce the concept of using version control systems
-to track changes to a project over its lifespan, to share
-and edit code in a collaborative team,
-and to distribute the finished project to its intended audience.
-This chapter will also introduce how to use
-the two most common version control tools: Git for local version control,
-and GitHub for remote version control.
-We will focus on the most common version control operations
-used day-to-day in a standard data science project.
-There are many user interfaces for Git; in this chapter
-we will cover the Jupyter Git interface.
+本章将介绍如何用版本控制系统跟踪项目在其生命周期内的更改、在协作团队中共享和编辑代码，以及把完成后的项目分发给目标受众。本章还会介绍两种最常见的版本控制工具：用于本地版本控制的 Git，以及用于远程版本控制的 GitHub。我们重点讲解标准数据科学项目中日常用到的最常见版本控制操作。Git 有很多种用户界面，本章介绍的是 Jupyter Git 界面。
 
-## Chapter learning objectives
+## 本章学习目标
 
-By the end of the chapter, readers will be able to do the following:
+学完本章后，你将能够：
 
-- Describe what version control is and why data analysis projects can benefit from it.
-- Create a remote version control repository on GitHub.
-- Use Jupyter's Git version control tools for project versioning and collaboration:
-  - Clone a remote version control repository to create a local repository.
-  - Commit changes to a local version control repository.
-  - Push local changes to a remote version control repository.
-  - Pull changes from a remote version control repository to a local version control repository.
-  - Resolve merge conflicts.
-- Give collaborators access to a remote GitHub repository.
-- Communicate with collaborators using GitHub issues.
-- Use best practices when collaborating on a project with others.
+- 说明什么是版本控制，以及数据分析项目为什么能从中受益。
+- 在 GitHub 上创建远程版本控制仓库。
+- 使用 Jupyter 的 Git 版本控制工具管理项目版本、开展协作：
+  - 克隆远程版本控制仓库，建立本地仓库。
+  - 把更改提交到本地版本控制仓库。
+  - 把本地更改推送到远程版本控制仓库。
+  - 从远程版本控制仓库把更改拉取到本地版本控制仓库。
+  - 解决合并冲突。
+- 让协作者能够访问 GitHub 上的远程仓库。
+- 使用 GitHub 议题与协作者沟通。
+- 与他人协作开展项目时遵循最佳实践。
 
-## What is version control, and why should I use it?
+## 什么是版本控制，为什么要用它？
 
-Data analysis projects often require iteration
-and revision to move from an initial idea to a finished product
-ready for the intended audience.
-Without deliberate and conscious effort towards tracking changes
-made to the analysis, projects tend to become messy.
-This mess can have serious, negative repercussions on an analysis project,
-including results that your code cannot reproduce,
-temporary files with snippets of ideas that are forgotten or
-not easy to find, mind-boggling file names that make it unclear which is
-the current working version of the file (e.g., `document_final_draft_final.txt`,
-`to_hand_in_final_v2.txt`, etc.), and more.
+数据分析项目往往要经过反复迭代和修改，才能从最初的想法变成可以交付给目标受众的成品。如果不刻意、自觉地跟踪分析过程中所做的更改，项目很容易变得一团乱。这种混乱会给分析项目带来严重的负面影响，包括：你的代码无法复现结果，临时文件里记着的零散想法被遗忘或很难找到，文件名让人摸不着头脑、搞不清哪个才是当前的工作版本（如 `document_final_draft_final.txt`、`to_hand_in_final_v2.txt` 等），如此种种。
 
-Additionally, the iterative nature of data analysis projects
-means that most of the time, the final version of the analysis that is
-shared with the audience is only a fraction of what was explored during
-the development of that analysis.
-Changes in data visualizations and modeling approaches,
-as well as some negative results, are often not observable from
-reviewing only the final, polished analysis.
-The lack of observability of these parts of the analysis development
-can lead to others repeating things that did not work well,
-instead of seeing what did not work well,
-and using that as a springboard to new, more fruitful approaches.
+此外，数据分析项目本身具有迭代性，这意味着多数时候，与受众分享的最终版本只是分析开发过程中探索过的一小部分。数据可视化和建模方法上的改动，以及一些负面结果，往往只看最终打磨好的分析是看不出来的。分析开发过程中这些部分不可见，会导致别人重复那些效果不佳的做法，而不是看清哪些做法效果不佳，并以此为跳板去尝试更新、更有成效的方法。
 
-Finally, data analyses are typically completed by a team of people
-rather than a single person.
-This means that files need to be shared across multiple computers,
-and multiple people often end up editing the project simultaneously.
-In such a situation, determining who has the latest version of the
-project&mdash;and how to resolve conflicting edits&mdash;can be a real challenge.
+最后，数据分析通常由一个团队而不是一个人完成。这意味着文件需要在多台计算机之间共享，而且常常有多个人同时在编辑同一个项目。这时，要确定谁手上有项目的最新版本——以及如何解决相互冲突的修改——可能真的很有挑战。
 
-```{index} version control
+```{index} 版本控制
 ```
 
-*Version control* helps solve these challenges. Version control is the process
-of keeping a record of changes to documents, including when the changes were
-made and who made them, throughout the history of their development.  It also
-provides the means both to view earlier versions of the project and to revert
-changes.  Version control is most commonly used in software development, but
-can be used for any electronic files for any type of project, including data
-analyses.  Being able to record and view the history of a data analysis project
-is important for understanding how and why decisions to use one method or
-another were made, among other things.  Version control also facilitates
-collaboration via tools to share edits with others and resolve conflicting
-edits.  But even if you're working on a project alone, you should still use
-version control.  It helps you keep track of what you've done, when you did it,
-and what you're planning to do next!
+*版本控制*有助于解决这些难题。版本控制就是在文档的整个发展历程中记录更改的过程，记录的内容包括更改发生的时间以及是谁做的更改。它还提供了查看项目早期版本和回退更改的手段。版本控制最常用于软件开发，但任何类型的项目、任何电子文件都能用，包括数据分析。能够记录和查看数据分析项目的历史，对于理解当初是如何以及为何决定采用某一种方法而不是另一种方法等问题很重要。此外，版本控制还提供与他人共享改动、解决冲突的工具，从而促进协作。不过，即使你独自做一个项目，也应该使用版本控制。它能帮你跟踪自己做过什么、什么时候做的，以及接下来打算做什么！
 
 +++
 
-```{index} version control;system, version control;repository hosting
+```{index} 版本控制;系统, 版本控制;仓库托管
 ```
 
-To version control a project, you generally need two things:
-a *version control system* and a *repository hosting service*.
-The version control system is the software responsible
-for tracking changes, sharing changes you make with others,
-obtaining changes from others, and resolving conflicting edits.
-The repository hosting service is responsible for storing a copy
-of the version-controlled project online (a *repository*),
-where you and your collaborators can access it remotely,
-discuss issues and bugs, and distribute your final product.
-For both of these items, there is a wide variety of choices.
-In this textbook we'll use Git for version control,
-and GitHub for repository hosting,
-because both are currently the most widely used platforms.
-In the
-additional resources section at the end of the chapter,
-we list many of the common version control systems
-and repository hosting services in use today.
+要对项目做版本控制，通常需要两样东西：*版本控制系统*和*仓库托管平台*。版本控制系统是负责跟踪更改、与他人共享你的更改、获取他人的更改以及解决冲突的软件。仓库托管平台负责把受版本控制的项目副本保存在网上（即*仓库*），你和协作者可以远程访问它、讨论议题和缺陷（bug），并分发最终成品。这两样东西都有很多可选方案。本教材用 Git 做版本控制、用 GitHub 做仓库托管，因为二者是目前使用最广的平台。在本章末尾的拓展资源一节，我们列出了当今常用的许多版本控制系统和仓库托管平台。
 
 ```{note}
-Technically you don't *have to* use a repository hosting service.
-You can, for example, version control a project
-that is stored only in a folder on your computer&mdash;never
-sharing it on a repository hosting service.
-But using a repository hosting service provides a few big benefits,
-including managing collaborator access permissions,
-tools to discuss and track bugs,
-and the ability to have external collaborators contribute work,
-not to mention the safety of having your work backed up in the cloud.
-Since most repository hosting services now offer free accounts,
-there are not many situations in which you wouldn't
-want to use one for your project.
+严格来说，你*并不一定*要使用仓库托管平台。比如，你可以对只保存在自己电脑某个文件夹里的项目做版本控制——从不把它共享到任何仓库托管平台上。但使用仓库托管平台有几点明显的好处：可以管理协作者的访问权限，有讨论和跟踪缺陷的工具，还能让外部协作者贡献工作成果，更不用说把成果备份在云端带来的那份安心。既然现在大多数仓库托管平台都提供免费账号，很少有哪种情形会让你不想用它。
 ```
 
-## Version control repositories
+## 版本控制仓库
 
-```{index} repository, repository;local, repository;remote
+```{index} 仓库, 仓库;本地, 仓库;远程
 ```
 
-```{index} see: repository; version control
+```{index} see: 仓库; 版本控制
 ```
 
-Typically, when we put a data analysis project under version control,
-we create two copies of the repository ({numref}`vc1-no-changes`).
-One copy we use as our primary workspace where we create, edit, and delete files.
-This copy is commonly referred to as the **local repository**. The local
-repository most commonly exists on our computer or laptop, but can also exist within
-a workspace on a server (e.g., JupyterHub).
-The other copy is typically stored in a repository hosting service (e.g., GitHub), where
-we can easily share it with our collaborators.
-This copy is commonly referred to as the **remote repository**.
+通常，当我们把数据分析项目纳入版本控制时，会创建仓库的两份副本（{numref}`vc1-no-changes`）。其中一份是我们的主要工作区，用来创建、编辑和删除文件，通常称为**本地仓库**。本地仓库最常见的位置是我们自己的电脑或笔记本电脑，也可以位于服务器上的工作区（如 JupyterHub）。另一份通常存放在仓库托管平台（如 GitHub）上，方便我们与协作者共享，通常称为**远程仓库**。
 
 ```{figure} img/version-control/vc1-no-changes.png
 ---
 name: vc1-no-changes
 ---
-Schematic of local and remote version control repositories.
+本地与远程版本控制仓库示意图。
 ```
 
-```{index} working directory, git;commit
+```{index} 工作目录, git;提交
 ```
 
-Both copies of the repository have a **working directory**
-where you can create, store, edit, and delete
-files (e.g., `analysis.ipynb` in {numref}`vc1-no-changes`).
-Both copies of the repository also maintain a full project history
-({numref}`vc1-no-changes`).  This history is a record of all versions of the
-project files that have been created.  The repository history is not
-automatically generated; Git must be explicitly told when to record
-a version of the project.  These records are called **commits**. They
-are a snapshot of the file contents as well
-metadata about the repository at that time the record was created (who made the
-commit, when it was made, etc.). In the local and remote repositories shown in
-{numref}`vc1-no-changes`, there are two commits represented as rectangles
-inside the "Repository History" sections. The white rectangle represents the most
-recent commit, while faded rectangles represent previous commits.
-Each commit can be identified by a
-human-readable **message**, which you write when you make a commit, and a
-**commit hash** that Git automatically adds for you.
+仓库的两份副本都有一个**工作目录**，你可以在其中创建、保存、编辑和删除文件（如{numref}`vc1-no-changes` 中的 `analysis.ipynb`）。两份副本还各自维护着完整的项目历史（{numref}`vc1-no-changes`）。这份历史记录了项目文件曾经出现过的所有版本。仓库历史不是自动生成的；必须明确告诉 Git 何时记录项目的一个版本。这些记录称为**提交**。它们既是文件内容的快照（snapshot），也是创建记录那一刻仓库的元数据（谁做了这次提交、什么时候提交等）。在{numref}`vc1-no-changes` 所示的本地仓库和远程仓库中，“仓库历史（Repository History）”部分有两个用矩形表示的提交。白色矩形表示最近的提交，颜色变淡的矩形表示更早的提交。每次提交都可以通过两项标识来辨认：你自己写下的、人类可读的**提交信息**，以及 Git 自动为你添加的**提交哈希值**。
 
-The purpose of the message is to contain a brief, rich description
-of what work was done since the last commit.
-Messages act as a very useful narrative
-of the changes to a project over its lifespan.
-If you ever want to view or revert to an earlier version of the project,
-the message can help you identify which commit to view or revert to.
-In {numref}`vc1-no-changes`, you can see two such messages,
-one for each commit: `Created README.md` and `Added analysis draft`.
+提交信息的用途是简要而丰富地描述自上次提交以来完成了哪些工作。这些信息像一段很有用的叙述，讲出项目在其生命周期中的变化。如果你想查看或回退到项目的某个早期版本，提交信息能帮你判断该查看或回退到哪次提交。在{numref}`vc1-no-changes` 中可以看到两条这样的信息，每次提交各一条：`Created README.md` 和 `Added analysis draft`。
 
-```{index} hash
+```{index} 哈希值
 ```
 
-The hash is a string of characters consisting of about 40 letters and numbers.
-The purpose of the hash is to serve as a unique identifier for the commit,
-and is used by Git to index project history. Although hashes are quite long&mdash;imagine
-having to type out 40 precise characters to view an old project version!&mdash;Git is able
-to work with shorter versions of hashes. In {numref}`vc1-no-changes`, you can see
-two of these shortened hashes, one for each commit: `Daa29d6` and `884c7ce`.
+哈希值是一串由大约 40 个字母和数字组成的字符。哈希值的用途是充当这次提交的唯一标识，Git 用它来索引项目历史。虽然哈希值相当长——想想看，为了查看项目的旧版本得准确敲出 40 个字符！——但 Git 也能使用更短的哈希值。在{numref}`vc1-no-changes` 中可以看到两个这样的缩写哈希值，每次提交各一个：`Daa29d6` 和 `884c7ce`。
 
-## Version control workflows
+## 版本控制工作流
 
-When you work in a local version-controlled repository, there are generally three additional
-steps you must take as part of your regular workflow. In addition to
-just working on files&mdash;creating,
-editing, and deleting files as you normally would&mdash;you must:
+在本地受版本控制的仓库中工作时，日常流程通常还要多做三步。除了照常处理文件——像平时那样创建、编辑和删除文件——你还必须：
 
-1. Tell Git when to make a commit of your own changes in the local repository.
-2. Tell Git when to send your new commits to the remote GitHub repository.
-3. Tell Git when to retrieve any new changes (that others made) from the remote GitHub repository.
+1. 告诉 Git 什么时候把你自己的更改提交到本地仓库。
+2. 告诉 Git 什么时候把新的提交发送到远程 GitHub 仓库。
+3. 告诉 Git 什么时候从远程 GitHub 仓库取回别人做的新更改。
 
-In this section we will discuss all three of these steps in detail.
+本节将详细讨论这三步。
 
 (commit-changes)=
-### Committing changes to a local repository
+### 把更改提交到本地仓库
 
-When working on files in your local version control
-repository (e.g., using Jupyter) and saving your work, these changes will only initially exist in the
-working directory of the local repository ({numref}`vc2-changes`).
+在本地版本控制仓库中处理文件（例如用 Jupyter）并保存工作时，这些更改最初只存在于本地仓库的工作目录中（{numref}`vc2-changes`）。
 
 ```{figure} img/version-control/vc2-changes.png
 ---
 name: vc2-changes
 ---
-Local repository with changes to files.
+本地仓库中出现文件更改。
 ```
 
-```{index} git;add, staging area, git;commit
+```{index} git;添加, 暂存区, git;提交
 ```
 
-```{index} see: staging area; git
+```{index} see: 暂存区; git
 ```
 
-Once you reach a point that you want Git to keep a record
-of the current version of your work, you need to **commit**
-(i.e., snapshot) your changes. A prerequisite to this is telling Git which
-files should be included in that snapshot. We call this step **adding** the
-files to the **staging area**.
-Note that the staging area is not a real physical location on your computer;
-it is instead a conceptual placeholder for these files until they are committed.
-The benefit of the Git version control system using a staging area is that you
-can choose to commit changes in only certain files. For example,
-in {numref}`vc-ba2-add`, we add only the two files
-that are important to the analysis project (`analysis.ipynb` and `README.md`)
-and not our personal scratch notes for the project (`notes.txt`).
+当你觉得该让 Git 记录当前版本的工作时，就需要**提交**（即生成快照）你的更改。这样做的前提是告诉 Git 哪些文件应该包含在这份快照里。我们把这个步骤称为**添加**，也就是把这些文件放进**暂存区**。请注意，暂存区并不是你电脑上真实的物理位置，而是一个概念上的存放处，这些文件在被提交之前先放在这里。Git 版本控制系统使用暂存区的好处在于，你可以只提交某些文件里的更改。例如在{numref}`vc-ba2-add` 中，我们只添加对分析项目重要的两个文件（`analysis.ipynb` 和 `README.md`），而不添加自己为项目随手记的草稿（`notes.txt`）。
 
 ```{figure} img/version-control/vc-ba2-add.png
 ---
 name: vc-ba2-add
 ---
-Adding modified files to the staging area in the local repository.
+把修改过的文件添加到本地仓库的暂存区。
 ```
 
-Once the files we wish to commit have been added
-to the staging area, we can then commit those files to the repository history ({numref}`vc-ba3-commit`).
-When we do this, we are required to include a helpful *commit message* to tell
-collaborators (which often includes future you!) about the changes that were
-made. In {numref}`vc-ba3-commit`, the message is `Message about changes...`; in
-your work you should make sure to replace this with an
-informative message about what changed. It is also important to note here that
-these changes are only being committed to the local repository's history.  The
-remote repository on GitHub has not changed, and collaborators would not yet be
-able to see your new changes.
+把想提交的文件添加到暂存区之后，就可以把它们提交到仓库历史中（{numref}`vc-ba3-commit`）。提交时，你必须写一条有用的*提交信息*，告诉协作者（很多时候也包括未来的你！）做了哪些更改。在{numref}`vc-ba3-commit` 中，信息是 `Message about changes...`；你在自己的工作中务必把它换成一条说明改了什么的信息。这里还要注意，这些更改只提交到了本地仓库的历史中。GitHub 上的远程仓库并没有变化，协作者还看不到你的新更改。
 
 ```{figure} img/version-control/vc-ba3-commit.png
 ---
 name: vc-ba3-commit
 ---
-Committing the modified files in the staging area to the local repository history, with an informative message about what changed.
+把暂存区中修改过的文件提交到本地仓库历史，并附上说明更改内容的信息。
 ```
 
 
-### Pushing changes to a remote repository
+### 把更改推送到远程仓库
 
-```{index} git;push
+```{index} git;推送
 ```
 
-Once you have made one or more commits that you want to share with your collaborators,
-you need to **push** (i.e., send) those commits back to GitHub ({numref}`vc5-push`). This updates
-the history in the remote repository (i.e., GitHub) to match what you have in your
-local repository. Now when collaborators interact with the remote repository, they will be able
-to see the changes you made. And you can also take comfort in the fact that your work is now backed
-up in the cloud!
+当你做好一个或多个想与协作者分享的提交后，就需要把这些提交**推送**（即发送）回 GitHub（{numref}`vc5-push`）。这会把远程仓库（即 GitHub）中的历史更新成与本地仓库一致。这样，协作者与远程仓库打交道时就能看到你的更改。而且你还可以放心：你的工作现在已经备份到云端了！
 
 ```{figure} img/version-control/vc5-push.png
 ---
 name: vc5-push
 ---
-Pushing the commit to send the changes to the remote repository on GitHub.
+推送提交，把更改发送到 GitHub 上的远程仓库。
 ```
 
-### Pulling changes from a remote repository
+### 从远程仓库拉取更改
 
-If you are working on a project with collaborators, they will also be making changes to files
-(e.g., to the analysis code in a Jupyter notebook and the project's README file),
-committing them to their own local repository, and pushing their commits to the remote GitHub repository
-to share them with you. When they push their changes, those changes will only initially exist in
-the remote GitHub repository and not in your local repository ({numref}`vc6-remote-changes`).
+如果你和协作者一起做项目，他们也会修改文件（比如 Jupyter 笔记本里的分析代码和项目的 README 文件），把更改提交到自己的本地仓库，再把提交推送到远程 GitHub 仓库与你分享。他们推送更改后，这些更改最初只存在于远程 GitHub 仓库，而不在你的本地仓库中（{numref}`vc6-remote-changes`）。
 
 ```{figure} img/version-control/vc6-remote-changes.png
 ---
 name: vc6-remote-changes
 ---
-Changes pushed by collaborators, or created directly on GitHub will not be automatically sent to your local repository.
+协作者推送的更改，或直接在 GitHub 上创建的更改，都不会自动发送到你的本地仓库。
 ```
 
-```{index} git;pull
+```{index} git;拉取
 ```
 
-To obtain the new changes from the remote repository on GitHub, you will need
-to **pull** those changes to your own local repository.  By pulling changes,
-you synchronize your local repository to what is present on GitHub ({numref}`vc7-pull`).
-Additionally, until you pull changes from the remote repository, you will not
-be able to push any more changes yourself (though you will still be able to
-work and make commits in your own local repository).
+要把 GitHub 远程仓库中的新更改取回来，你需要把这些更改**拉取**到自己的本地仓库。拉取更改就是把本地仓库同步成 GitHub 上的状态（{numref}`vc7-pull`）。此外，在从远程仓库拉取更改之前，你自己无法再推送任何更改（不过你仍然可以在自己的本地仓库里工作和提交）。
 
 ```{figure} img/version-control/vc7-pull.png
 ---
 name: vc7-pull
 ---
-Pulling changes from the remote GitHub repository to synchronize your local repository.
+从 GitHub 远程仓库拉取更改，让本地仓库保持同步。
 ```
 
-## Working with remote repositories using GitHub
+## 使用 GitHub 操作远程仓库
 
-```{index} repository;remote, GitHub, git;clone
+```{index} 仓库;远程, GitHub, git;克隆
 ```
 
-Now that you have been introduced to some of the key general concepts
-and workflows of Git version control, we will walk through the practical steps.
-There are several different ways to start using version control
-with a new project. For simplicity and ease of setup,
-we recommend creating a remote repository first.
-This section covers how to both create and edit a remote repository on GitHub.
-Once you have a remote repository set up, we recommend **cloning** (or copying) that
-repository to create a local repository in which you primarily work.
-You can clone the repository either
-on your own computer or in a workspace on a server (e.g., a JupyterHub server).
-{numref}`local-repo-jupyter` below will cover this second step in detail.
+了解了 Git 版本控制的一些关键概念和工作流之后，我们来看看具体怎么操作。给新项目启用版本控制有几种不同的方式。为了简单、便于配置，我们建议先创建远程仓库。本节介绍如何在 GitHub 上创建和编辑远程仓库。远程仓库建好之后，我们建议把该仓库**克隆**（即复制）一份，建立你主要在其中工作的本地仓库。你可以在自己的电脑上克隆，也可以在服务器上的工作区（如 JupyterHub 服务器）中克隆。下文{numref}`local-repo-jupyter`会详细介绍第二步。
 
-### Creating a remote repository on GitHub
+### 在 GitHub 上创建远程仓库
 
-Before you can create remote repositories on GitHub,
-you will need a GitHub account; you can sign up for a free account
-at [github.com](https://github.com/).
-Once you have logged into your account, you can create a new repository to host
-your project by clicking on the "+" icon in the upper right-hand
-corner, and then on "New Repository," as shown in
-{numref}`new-repository-01`.
+要在 GitHub 上创建远程仓库，你需要一个 GitHub 账号；可以在 [github.com](https://github.com/) 免费注册。登录账号后，点击右上角的“+”图标，再点击“新建仓库（New Repository）”，就能创建托管项目的新仓库，如{numref}`new-repository-01` 所示。
 
 ```{figure} img/version-control/new_repository_01.png
 ---
 name: new-repository-01
 ---
-New repositories on GitHub can be created by clicking on "New Repository" from the + menu.
+在 GitHub 上，点击 + 菜单中的“新建仓库”即可创建新仓库。
 ```
 
-```{index} repository;public, repository;private
+```{index} 仓库;公开, 仓库;私有
 ```
 
-Repositories can be set up with a variety of configurations, including a name,
-optional description,  and the inclusion (or not) of several template files.
-One of the most important configuration items to choose is the visibility to the outside world,
-either public or private. *Public* repositories  can be viewed by anyone.
-*Private* repositories can be viewed by only you. Both public and private repositories
-are only editable by you, but you can change that by giving access to other collaborators.
+仓库可以有多种配置，包括名称、可选的描述，以及是否包含若干模板文件。最重要的配置项之一是仓库对外的可见性：公开还是私有。*公开*仓库任何人都能查看，*私有*仓库只有你能查看。无论公开还是私有，仓库都只有你能编辑，不过你可以给其他协作者授予访问权限来改变这一点。
 
-To get started with a *public* repository having a template `README.md` file, take the
-following steps shown in {numref}`new-repository-02`:
+要创建一个带模板 `README.md` 文件的*公开*仓库，请按{numref}`new-repository-02` 所示的步骤操作：
 
-1. Enter the name of your project repository. In the example below, we use `canadian_languages`. Most repositories follow a similar naming convention involving only lowercase letter words separated by either underscores or hyphens.
-2. Choose an option for the privacy of your repository.
-3. Select "Add a README file." This creates a template `README.md` file in your repository's root folder.
-4. When you are happy with your repository name and configuration, click on the green "Create Repository" button.
+1. 输入项目仓库的名称。下面的示例中用的是 `canadian_languages`。大多数仓库都遵循类似的命名惯例：只包含小写字母单词，单词之间用下划线或连字符分隔。
+2. 选择仓库的隐私设置。
+3. 勾选“添加 README 文件（Add a README file）”。这会在仓库的根文件夹中创建 `README.md` 模板文件。
+4. 仓库名称和配置都满意之后，点击绿色的“创建仓库（Create Repository）”按钮。
 
 ```{figure} img/version-control/new_repository_02.png
 ---
 name: new-repository-02
 ---
-Repository configuration for a project that is public and initialized with a README.md template file.
+公开项目并已用 README.md 模板文件初始化的仓库配置。
 ```
 
-A newly created public repository with a `README.md` template file should look something
-like what is shown in {numref}`new-repository-03`.
+新建的公开仓库如果带有 `README.md` 模板文件，看起来应该与{numref}`new-repository-03` 所示类似。
 
 ```{figure} img/version-control/new_repository_03.png
 ---
 name: new-repository-03
 ---
-Respository configuration for a project that is public and initialized with a README.md template file.
+公开项目并已用 README.md 模板文件初始化的仓库配置。
 ```
 
 +++
 
-### Editing files on GitHub with the pen tool
+### 用铅笔工具（pen tool）在 GitHub 上编辑文件
 
-```{index} GitHub; pen tool
+```{index} GitHub; 铅笔工具
 ```
 
-The pen tool can be used to edit existing plain text files. When you click on
-the pen tool, the file will be opened in a text box where you can use your
-keyboard to make changes ({numref}`pen-tool-01` and {numref}`pen-tool-02`).
+铅笔工具可以用来编辑已有的纯文本文件。点击铅笔工具，文件会打开在一个文本框中，你可以用键盘修改其中的内容（{numref}`pen-tool-01` 和{numref}`pen-tool-02`）。
 
 ```{figure} img/version-control/pen-tool_01.png
 ---
 name: pen-tool-01
 ---
-Clicking on the pen tool opens a text box for editing plain text files.
+点击铅笔工具会打开一个文本框，用来编辑纯文本文件。
 ```
 
 
@@ -424,713 +249,495 @@ Clicking on the pen tool opens a text box for editing plain text files.
 ---
 name: pen-tool-02
 ---
-The text box where edits can be made after clicking on the pen tool.
+点击铅笔工具后可以修改内容的文本框。
 ```
 
-```{index} GitHub; commit
+```{index} GitHub; 提交
 ```
 
-After you are done with your edits, they can be "saved" by *committing* your
-changes. When you *commit a file* in a repository, the version control system
-takes a snapshot of what the file looks like. As you continue working on the
-project, over time you will possibly make many commits to a single file; this
-generates a useful version history for that file. On GitHub, if you click the
-green "Commit changes" button, it will save the file and then make a commit
-({numref}`pen-tool-03`).
+修改完成后，可以通过*提交*更改把它们“保存”下来。在仓库中*提交文件*时，版本控制系统会为这个文件当时的样子拍一张快照。随着项目不断推进，你可能会对同一个文件做出许多次提交，这就为该文件生成了一份有用的版本历史。在 GitHub 上，点击绿色的“提交更改（Commit changes）”按钮，就会保存文件并完成一次提交（{numref}`pen-tool-03`）。
 
-Recall from {numref}`commit-changes` that you normally have to add files
-to the staging area before committing them. Why don't we have to do that when
-we work directly on GitHub? Behind the scenes, when you click the green "Commit changes"
-button, GitHub *is* adding that one file to the staging area prior to committing it.
-But note that on GitHub you are limited to committing changes to only one file at a time.
-When you work in your own local repository, you can commit
-changes to multiple files simultaneously. This is especially useful when one
-"improvement" to the project involves modifying multiple files.
-You can also do things like run code when working in a local repository, which you cannot
-do on GitHub. In general, editing on GitHub is reserved for small edits to plain text files.
+回想{numref}`commit-changes`讲过的内容：通常必须先把文件加入暂存区，然后才能提交。那么直接在 GitHub 上操作时，为什么不必这么做呢？因为在幕后，你点击绿色的“提交更改”按钮时，GitHub 确实在提交之前把这个文件加入了暂存区。不过请注意，在 GitHub 上一次只能提交一个文件的更改。而在自己的本地仓库中工作时，你可以同时提交多个文件的更改。如果项目的一次“改进”要改动多个文件，这一点尤其有用。在本地仓库中工作时，你还能运行代码，这在 GitHub 上是做不到的。一般来说，在 GitHub 上编辑只适合对纯文本文件做小幅修改。
 
 ```{figure} img/version-control/pen-tool_03.png
 ---
 name: pen-tool-03
 ---
-Saving changes using the pen tool requires committing those changes, and an associated commit message.
+用铅笔工具保存更改时，必须提交这些更改并附上相应的提交信息。
 ```
 
-### Creating files on GitHub with the "Add file" menu
+### 用“添加文件（Add file）”菜单在 GitHub 上创建文件
 
-```{index} GitHub; add file
+```{index} GitHub; 添加文件
 ```
 
-The "Add file" menu can be used to create new plain text files and upload files
-from your computer. To create a new plain text file, click the "Add file"
-drop-down menu and select the "Create new file" option
-({numref}`create-new-file-01`).
+“添加文件”菜单可以用来创建新的纯文本文件，也可以从你的电脑上传文件。要新建纯文本文件，请点击“添加文件”下拉菜单，选择“新建文件（Create new file）”选项（{numref}`create-new-file-01`）。
 
 ```{figure} img/version-control/create-new-file_01.png
 ---
 name: create-new-file-01
 ---
-New plain text files can be created directly on GitHub.
+新的纯文本文件可以直接在 GitHub 上创建。
 ```
 
 ```{index} markdown
 ```
 
-A page will open with a small text box for the file name to be entered, and a
-larger text box where the desired file content text can be entered. Note the two
-tabs, "Edit new file" and "Preview". Toggling between them lets you enter and
-edit text and view what the text will look like when rendered, respectively
-({numref}`create-new-file-02`).
-Note that GitHub understands and renders `.md` files using a
-markdown syntax very similar to Jupyter notebooks, so the "Preview" tab is especially helpful
-for checking markdown code correctness.
+页面打开后，会有一个填写文件名的小文本框，还有一个填写文件内容的大文本框。注意“编辑新文件（Edit new file）”和“预览（Preview）”这两个标签页。在两者之间切换，就能分别输入、编辑文本，以及查看文本渲染后的样子（{numref}`create-new-file-02`）。GitHub 能够识别并渲染 `.md` 文件，它使用的 markdown 语法与 Jupyter 笔记本非常相似，所以“预览”标签页对检查 markdown 代码是否正确特别有帮助。
 
 ```{figure} img/version-control/create-new-file_02.png
 ---
 name: create-new-file-02
 ---
-New plain text files require a file name in the text box circled in red, and file content entered in the larger text box (red arrow).
+新建纯文本文件时，需要在红圈标出的文本框中填写文件名，并在较大的文本框中填写文件内容（红色箭头）。
 ```
 
-Save and commit your changes by clicking the green "Commit changes" button at the
-bottom of the page ({numref}`create-new-file-03`).
+点击页面底部绿色的“提交更改”按钮，即可保存并提交你的更改（{numref}`create-new-file-03`）。
 
 ```{figure} img/version-control/create-new-file_03.png
 ---
 name: create-new-file-03
 ---
-To be saved, newly created files are required to be committed along with an associated commit message.
+新建的文件必须连同相应的提交信息一起提交，才能保存下来。
 ```
 
-You can also upload files that you have created on your local machine by using
-the "Add file" drop-down menu and selecting "Upload files"
-({numref}`upload-files-01`).
-To select the files from your local computer to upload, you can either drag and
-drop them into the gray box area shown in {numref}`upload-files-02`, or click the "choose your files"
-link to access a file browser dialog. Once the files you want to upload have
-been selected, click the green "Commit changes" button at the bottom of the
-page ({numref}`upload-files-02`).
+你也可以用“添加文件”下拉菜单，选择“上传文件（Upload files）”，把在本地电脑上创建的文件上传上去（{numref}`upload-files-01`）。要从本地电脑选择要上传的文件，你可以把它们拖放到{numref}`upload-files-02` 所示的灰色方框区域，也可以点击“选择文件（choose your files）”链接，打开文件浏览对话框。选好要上传的文件后，点击页面底部绿色的“提交更改”按钮（{numref}`upload-files-02`）。
 
 ```{figure} img/version-control/upload-files_01.png
 ---
 name: upload-files-01
 ---
-New files of any type can be uploaded to GitHub.
+任何类型的新文件都可以上传到 GitHub。
 ```
 
 ```{figure} img/version-control/upload-files_02.png
 ---
 name: upload-files-02
 ---
-Specify files to upload by dragging them into the GitHub website (red circle)
-or by clicking on "choose your files." Uploaded files are also required to be
-committed along with an associated commit message.
+将要上传的文件拖入 GitHub 网站（红圈处），或者点击“选择文件”，即可指定要上传的文件。上传的文件同样必须连同相应的提交信息一起提交。
 ```
 
 
-Note that Git and GitHub are designed to track changes in individual files.
-**Do not** upload your whole project in an archive file (e.g., `.zip`). If you do,
-then Git can only keep track of changes to the entire `.zip` file, which will not
-be human-readable. Committing one big archive defeats the whole purpose of using
-version control: you won't be able to see, interpret, or find changes in the history
-of any of the actual content of your project!
+请注意，Git 和 GitHub 的设计目标是跟踪单个文件的变化。**不要**把整个项目打包成一个归档文件（例如 `.zip`）上传。如果这样做，Git 就只能跟踪整个 `.zip` 文件的变化，而这样的变化是人无法阅读的。提交一个大归档文件，会让版本控制完全失去意义：你将无法查看、解读或找到项目任何实际内容在历史中的变化！
 
 (local-repo-jupyter)=
-## Working with local repositories using Jupyter
+## 使用 Jupyter 处理本地仓库
 
-```{index} git;Jupyter extension
+```{index} git;Jupyter 扩展
 ```
 
-Although there are several ways to create and edit files on GitHub, they are
-not quite powerful enough for efficiently creating and editing complex files,
-or files that need to be executed to assess whether they work (e.g., files
-containing code).  For example, you wouldn't be able to run an analysis written
-with Python code directly on GitHub.  Thus, it is useful to be able to connect the
-remote repository that was created on GitHub to a local coding environment.  This
-can be done by creating and working in a local copy of the repository.
-In this chapter, we focus on interacting with Git via Jupyter using
-the Jupyter Git extension. The Jupyter Git extension
-can be run by Jupyter on your local computer, or on a JupyterHub server.
-We recommend reading {numref}`Chapter %s <getting-started-with-jupyter>`
-to learn how to use Jupyter before reading this chapter.
+虽然在 GitHub 上有好几种创建和编辑文件的方式，但它们的能力都不足以高效地创建和编辑复杂文件，也不足以处理那些需要运行之后才能判断是否可用的文件（例如包含代码的文件）。比如，你没法直接在 GitHub 上运行用 Python 代码写的分析。因此，把在 GitHub 上创建的远程仓库连接到本地的编程环境会很有用。做法就是创建这份仓库的本地副本，并在其中工作。本章我们重点讲如何借助 Jupyter Git 扩展在 Jupyter 中使用 Git。这个扩展既可以由你本地电脑上的 Jupyter 运行，也可以在 JupyterHub 服务器上运行。建议你先阅读{numref}`第 %s 章 <getting-started-with-jupyter>`，学会使用 Jupyter 之后再读本章。
 
-### Generating a GitHub personal access token
+### 生成 GitHub 个人访问令牌（personal access token）
 
-```{index} GitHub; personal access token
+```{index} GitHub; 个人访问令牌
 ```
 
-To send and retrieve work between your local repository
-and the remote repository on GitHub,
-you will frequently need to authenticate with GitHub
-to prove you have the required permission.
-There are several methods to do this,
-but for beginners we recommend using the HTTPS method
-because it is easier and requires less setup.
-In order to use the HTTPS method,
-GitHub requires you to provide a *personal access token*.
-A personal access token is like a password&mdash;so keep it a secret!&mdash;but it gives
-you more fine-grained control over what parts of your account
-the token can be used to access, and lets you set an expiry date for the authentication.
-To generate a personal access token,
-you must first visit [https://github.com/settings/tokens](https://github.com/settings/tokens),
-which will take you to the "Personal access tokens" page in your account settings.
-Once there, click "Generate new token" ({numref}`generate-pat-01`).
-Note that you may be asked to re-authenticate with your username
-and password to proceed.
+要在本地仓库与 GitHub 上的远程仓库之间发送和取回工作内容，你需要经常向 GitHub 进行身份验证，以证明自己拥有所需权限。做法有好几种，但对初学者，我们推荐使用 HTTPS 方式，因为它更简单，需要做的配置也更少。要使用 HTTPS 方式，GitHub 要求你提供一个*个人访问令牌*。个人访问令牌就像密码一样——所以要保密！——不过它能让你更精细地控制令牌可以访问账户的哪些部分，还能为身份验证设置到期日期。要生成个人访问令牌，首先必须访问 [https://github.com/settings/tokens](https://github.com/settings/tokens)，它会带你进入账户设置中的“个人访问令牌（Personal access tokens）”页面。进入该页面后，点击“生成新令牌（Generate new token）”（{numref}`generate-pat-01`）。注意，接下来可能会要求你用用户名和密码重新进行身份验证，才能继续。
 
 
 ```{figure} img/version-control/generate-pat_01.png
 ---
 name: generate-pat-01
 ---
-The "Generate new token" button used to initiate the creation of a new personal
-access token. It is found in the "Personal access tokens" section of the
-"Developer settings" page in your account settings.
+用于发起创建新个人访问令牌的“生成新令牌”按钮。它位于账户设置的“开发者设置（Developer settings）”页面中的“个人访问令牌”部分。
 ```
 
 
-You will be asked to add a note to describe the purpose for your personal access token.
-Next, you need to select permissions for the token; this is where
-you can control what parts of your account the token can be used to access.
-Make sure to choose only those permissions that you absolutely require. In
-{numref}`generate-pat-02`, we tick only the "repo" box, which gives the
-token access to our repositories (so that we can push and pull) but none of our other GitHub
-account features. Finally, to generate the token, scroll to the bottom of that page
-and click the green "Generate token" button ({numref}`generate-pat-02`).
+系统会要求你添加一段说明，描述这个个人访问令牌的用途。接下来，你需要为令牌选择权限；在这里你可以控制令牌能访问账户的哪些部分。请务必只勾选你确实需要的权限。在{numref}`generate-pat-02` 中，我们只勾选了“repo”方框，这样令牌就能访问我们的仓库（以便推送和拉取），而无法访问 GitHub 账户的其他任何功能。最后，把页面滚动到底部，点击绿色的“生成令牌（Generate token）”按钮，即可生成令牌（{numref}`generate-pat-02`）。
 
 ```{figure} img/version-control/generate-pat_02.png
 ---
 name: generate-pat-02
 ---
-Webpage for creating a new personal access token.
+创建新个人访问令牌的网页。
 ```
 
 
-Finally, you will be taken to a page where you will be able to see
-and copy the personal access token you just generated ({numref}`generate-pat-03`).
-Since it provides access to certain parts of your account, you should
-treat this token like a password; for example, you should consider
-securely storing it (and your other passwords and tokens, too!) using a password manager.
-Note that this page will only display the token to you once,
-so make sure you store it in a safe place right away. If you accidentally forget to
-store it, though, do not fret&mdash;you can delete that token by clicking the
-"Delete" button next to your token, and generate a new one from scratch.
-To learn more about GitHub authentication,
-see the additional resources section at the end of this chapter.
+最后，你会进入一个页面，可以在这里查看并复制刚刚生成的个人访问令牌（{numref}`generate-pat-03`）。由于令牌能访问你账户的某些部分，你应该把它当作密码来对待；例如，可以考虑用密码管理器把它（以及你的其他密码和令牌！）安全地保存起来。请注意，这个页面只会向你显示一次令牌，所以务必马上把它存到安全的地方。万一你不小心忘了保存，也不用着急——点击令牌旁边的“删除（Delete）”按钮就能删掉它，然后重新生成一个。想进一步了解 GitHub 身份验证，请参阅本章末尾的拓展资源部分。
 
 ```{figure} img/version-control/generate-pat_03.png
 ---
 name: generate-pat-03
 ---
-Display of the newly generated personal access token.
+刚刚生成的个人访问令牌的显示界面。
 ```
 
-### Cloning a repository using Jupyter
+### 使用 Jupyter 克隆仓库
 
-```{index} git;clone
+```{index} git;克隆
 ```
 
-*Cloning* a remote repository from GitHub
-to create a local repository results in a
-copy that knows where it was obtained from so that it knows where to send/receive
-new committed edits. In order to do this, first copy the URL from the HTTPS tab
-of the Code drop-down menu on GitHub ({numref}`clone-02`).
+从 GitHub *克隆*远程仓库、建立本地副本之后，这份副本知道自己是从哪里来的，因此也知道该把新提交的修改发送到哪里、从哪里接收。为此，先在 GitHub 上打开“代码（Code）”下拉菜单，从 HTTPS 标签页复制 URL（{numref}`clone-02`）。
 
 ```{figure} img/version-control/clone_02.png
 ---
 name: clone-02
 ---
-The green "Code" drop-down menu contains the remote address (URL) corresponding to the location of the remote GitHub repository.
+绿色的“代码”下拉菜单中包含与 GitHub 远程仓库位置对应的远程地址（URL）。
 ```
 
-Open Jupyter, and click the Git+ icon on the file browser tab
-({numref}`clone-01`).
+打开 Jupyter，点击文件浏览器标签页上的 Git+ 图标（{numref}`clone-01`）。
 
 ```{figure} img/version-control/clone_01.png
 ---
 name: clone-01
 ---
-The Jupyter Git Clone icon (red circle).
+Jupyter Git 克隆图标（红圈处）。
 ```
 
 
 
-Paste the URL of the GitHub project repository you
-created and click the blue "CLONE" button ({numref}`clone-03`).
+粘贴你创建的 GitHub 项目仓库的 URL，然后点击蓝色的“克隆（CLONE）”按钮（{numref}`clone-03`）。
 
 ```{figure} img/version-control/clone_03.png
 ---
 name: clone-03
 ---
-Prompt where the remote address (URL) corresponding to the location of the GitHub repository needs to be input in Jupyter.
+Jupyter 中要求输入 GitHub 仓库远程地址（URL）的提示框。
 ```
 
-On the file browser tab, you will now see a folder for the repository.
-Inside this folder  will be all the files that existed on GitHub ({numref}`clone-04`).
+现在，文件浏览器标签页上会出现该仓库的文件夹。文件夹里放着 GitHub 上原有的所有文件（{numref}`clone-04`）。
 
 ```{figure} img/version-control/clone_04.png
 ---
 name: clone-04
 ---
-Cloned GitHub repositories can been seen and accessed via the Jupyter file browser.
+克隆得到的 GitHub 仓库可以在 Jupyter 文件浏览器中查看和访问。
 ```
 
 
-### Specifying files to commit
-Now that you have cloned the remote repository from GitHub to create a local repository,
-you can get to work editing, creating, and deleting files.
-For example, suppose you created and saved a new file (named `eda.ipynb`) that you would
-like to send back to the project repository on GitHub ({numref}`git-add-01`).
-To "add" this modified file to the staging area (i.e., flag that this is a
-file whose changes we would like to commit), click the Jupyter Git extension
-icon on the far left-hand side of Jupyter ({numref}`git-add-01`).
+### 指定要提交的文件
+现在你已经把 GitHub 上的远程仓库克隆成了本地仓库，接下来就可以编辑、创建和删除文件了。例如，假设你新建并保存了一个文件（名为 `eda.ipynb`），想把它送回 GitHub 上的项目仓库（{numref}`git-add-01`）。要把这个改动过的文件“添加”到暂存区（也就是标记出这个文件的更改是我们想要提交的），请点击 Jupyter 最左侧的 Jupyter Git 扩展图标（{numref}`git-add-01`）。
 
 ```{figure} img/version-control/git_add_01.png
 ---
 name: git-add-01
 ---
-Jupyter Git extension icon (circled in red).
+Jupyter Git 扩展图标（红圈标出）。
 ```
 
-```{index} git;add
+```{index} git;添加
 ```
 
 
-This opens the Jupyter Git graphical user interface pane. Next,
-click the plus sign (+) beside the file(s) that you want to "add"
-({numref}`git-add-02`). Note that because this is the
-first change for this file, it falls under the "Untracked" heading.
-However, next time you edit this file  and want to add the changes,
-you will find it under the "Changed" heading.
+这会打开 Jupyter Git 图形用户界面面板。接下来，点击想要“添加”的文件旁边的加号（+）（{numref}`git-add-02`）。注意，由于这是该文件的第一次改动，它出现在“未跟踪（Untracked）”分组下。不过下次你再编辑这个文件并想添加更改时，会在“已修改（Changed）”分组下找到它。
 
-You will also see an `eda-checkpoint.ipynb` file under the "Untracked" heading.
-This is a temporary "checkpoint file" created by Jupyter when you work on `eda.ipynb`.
-You generally do not want to add auto-generated files to Git repositories;
-only add the files you directly create and edit.
+你还会在“未跟踪”分组下看到一个 `eda-checkpoint.ipynb` 文件。这是你在编辑 `eda.ipynb` 时由 Jupyter 创建的临时“检查点文件（checkpoint file）”。一般来说，不要把自动生成的文件添加到 Git 仓库中；只添加你自己直接创建和编辑的文件。
 
 ```{figure} img/version-control/git_add_02.png
 ---
 name: git-add-02
 ---
-`eda.ipynb` is added to the staging area via the plus sign (+).
+用加号（+）把 `eda.ipynb` 加入暂存区。
 ```
 
-Clicking the plus sign (+) moves the file from the "Untracked" heading to the "Staged" heading,
-so that Git knows you want a snapshot of its current state
-as a commit ({numref}`git-add-03`). Now you are ready to "commit" the changes.
-Make sure to include a (clear and helpful!) message about what was changed
-so that your collaborators (and future you) know what happened in this commit.
+点击加号（+）会把文件从“未跟踪”分组移到“已暂存（Staged）”分组，这样 Git 就知道你想把文件当前的状态拍成快照，作为一次提交（{numref}`git-add-03`）。现在你可以“提交”这些更改了。记得写一句（清楚、有用的！）说明，讲清改动了什么，好让你的协作者（以及未来的你）了解这次提交做了什么。
 
 
 ```{figure} img/version-control/git_add_03.png
 ---
 name: git-add-03
 ---
-Adding `eda.ipynb` makes it visible in the staging area.
+把 `eda.ipynb` 添加进去之后，它就会出现在暂存区中。
 ```
 
 
-### Making the commit
+### 完成提交
 
-```{index} git;commit
+```{index} git;提交
 ```
 
-To snapshot the changes with an associated commit message,
-you must put a message in the text box at the bottom of the Git pane
-and click on the blue "Commit" button ({numref}`git-commit-01`).
-It is highly recommended to write useful and meaningful messages about what
-was changed. These commit messages, and the datetime stamp for a given
-commit, are the primary means to navigate through the project's history in the
-event that you need to view or retrieve a past version of a file, or
-revert your project to an earlier state.
-When you click the "Commit" button for the first time, you will be prompted to
-enter your name and email. This only needs to be done once for each machine
-you use Git on.
+要把更改连同相应的提交信息保存为快照，你必须在 Git 面板底部的文本框中填写一条信息，然后点击蓝色的“提交（Commit）”按钮（{numref}`git-commit-01`）。强烈建议写下有用、有意义的信息，说明改动了什么。今后如果需要查看或取回文件的某个历史版本，或者把项目回退到更早的状态，这些提交信息以及每次提交的日期时间戳就是浏览项目历史的主要依据。第一次点击“提交”按钮时，系统会提示你输入姓名和电子邮件。每台使用 Git 的机器只需设置一次。
 
 ```{figure} img/version-control/git_commit_01.png
 ---
 name: git-commit-01
 ---
-A commit message must be added into the Jupyter Git extension commit text box before the blue Commit button can be used to record the commit.
+必须先在 Jupyter Git 扩展的提交文本框中填写提交信息，才能用蓝色的提交按钮记录这次提交。
 ```
 
-After "committing" the file(s), you will see there are 0 "Staged" files.
-You are now ready to push your changes
-to the remote repository on GitHub ({numref}`git-commit-03`).
+“提交”文件之后，你会看到“已暂存”文件的数目是 0。现在你可以把更改推送到 GitHub 上的远程仓库了（{numref}`git-commit-03`）。
 
 ```{figure} img/version-control/git_commit_03.png
 ---
 name: git-commit-03
 ---
-After recording a commit, the staging area should be empty.
+记录一次提交之后，暂存区应该是空的。
 ```
 
-### Pushing the commits to GitHub
+### 把提交推送到 GitHub
 
-```{index} git;push
+```{index} git;推送
 ```
 
-To send the committed changes back to the remote repository on
-GitHub, you need to *push* them. To do this,
-click on the cloud icon with the up arrow on the Jupyter Git tab
-({numref}`git-push-01`).
+要把已提交的更改送回 GitHub 上的远程仓库，你需要*推送*它们。做法是点击 Jupyter Git 标签页上带向上箭头的云朵图标（{numref}`git-push-01`）。
 
 ```{figure} img/version-control/git_push_01.png
 ---
 name: git-push-01
 ---
-The Jupyter Git extension "push" button (circled in red).
+Jupyter Git 扩展的“推送”按钮（红圈处）。
 ```
 
-You will then be prompted to enter your GitHub username
-and the personal access token that you generated
-earlier (not your account password!). Click
-the blue "OK" button to initiate the push ({numref}`git-push-02`).
+然后系统会提示你输入 GitHub 用户名，以及你之前生成的个人访问令牌（不是你的账户密码！）。点击蓝色的“确定（OK）”按钮，开始推送（{numref}`git-push-02`）。
 
 ```{figure} img/version-control/git_push_02.png
 ---
 name: git-push-02
 ---
-Enter your Git credentials to authorize the push to the remote repository.
+输入你的 Git 凭据，以授权向远程仓库推送。
 ```
 
-If the files were successfully pushed to the project repository on
-GitHub, you will be shown a success message ({numref}`git-push-03`).
-Click "Dismiss" to continue working in Jupyter.
+如果文件成功推送到了 GitHub 上的项目仓库，你会看到一条成功提示（{numref}`git-push-03`）。点击“忽略（Dismiss）”即可继续在 Jupyter 中工作。
 
 ```{figure} img/version-control/git_push_03.png
 ---
 name: git-push-03
 ---
-The prompt that the push was successful.
+提示推送成功的信息。
 ```
 
-If you visit the remote repository on GitHub,
-you will see that the changes now exist there too
-({numref}`git-push-04`)!
+如果你访问 GitHub 上的远程仓库，会看到这些更改现在也出现在那里了（{numref}`git-push-04`）！
 
 ```{figure} img/version-control/git_push_04.png
 ---
 name: git-push-04
 ---
-The GitHub web interface shows a preview of the commit message, and the time of the most recently pushed commit for each file.
+GitHub 网页界面会显示提交信息的预览，以及每个文件最近一次推送的提交时间。
 ```
 
-## Collaboration
+## 协作
 
-### Giving collaborators access to your project
+### 为协作者授予项目访问权限
 
-```{index} GitHub; collaborator access
+```{index} GitHub; 协作者访问权限
 ```
 
-As mentioned earlier, GitHub allows you to control who has access to your
-project. The default of both public and private projects are that only the
-person who created the GitHub repository has permissions to create, edit and
-delete files (*write access*). To give your collaborators write access to the
-projects, navigate to the "Settings" tab ({numref}`add-collab-01`).
+如前所述，GitHub 让你可以控制谁有权访问你的项目。无论公开项目还是私有项目，默认设置都是：只有创建该 GitHub 仓库的人才有创建、编辑和删除文件的权限，也就是*写权限*（write access）。要让协作者获得项目的写权限，请进入“设置（Settings）”选项卡（{numref}`add-collab-01`）。
 
 ```{figure} img/version-control/add_collab_01.png
 ---
 name: add-collab-01
 ---
-The "Settings" tab on the GitHub web interface.
+GitHub 网页界面上的“设置”选项卡。
 ```
 
-Then click "Manage access" ({numref}`add-collab-02`).
+然后点击“管理访问权限（Manage access）”（{numref}`add-collab-02`）。
 
 ```{figure} img/version-control/add_collab_02.png
 ---
 name: add-collab-02
 ---
-The "Manage access" tab on the GitHub web interface.
+GitHub 网页界面上的“管理访问权限”选项卡。
 ```
 
-Then click the green "Invite a collaborator" button ({numref}`add-collab-03`).
+然后点击绿色的“邀请协作者（Invite a collaborator）”按钮（{numref}`add-collab-03`）。
 
 ```{figure} img/version-control/add_collab_03.png
 ---
 name: add-collab-03
 ---
-The "Invite a collaborator" button on the GitHub web interface.
+GitHub 网页界面上的“邀请协作者”按钮。
 ```
 
-Type in the collaborator's GitHub username or email,
-and select their name when it appears ({numref}`add-collab-04`).
+输入协作者的 GitHub 用户名或邮箱，名字出现时选中它（{numref}`add-collab-04`）。
 
 ```{figure} img/version-control/add_collab_04.png
 ---
 name: add-collab-04
 ---
-The text box where a collaborator's GitHub username or email can be entered.
+用于输入协作者 GitHub 用户名或邮箱的文本框。
 ```
 
-Finally, click the green "Add <COLLABORATORS_GITHUB_USER_NAME> to this repository" button ({numref}`add-collab-05`).
+最后，点击绿色的“添加 <COLLABORATORS_GITHUB_USER_NAME> 到本仓库（Add <COLLABORATORS_GITHUB_USER_NAME> to this repository）”按钮（{numref}`add-collab-05`）。
 
 ```{figure} img/version-control/add_collab_05.png
 ---
 name: add-collab-05
 ---
-The confirmation button for adding a collaborator to a repository on the GitHub web interface.
+GitHub 网页界面上把协作者添加到仓库的确认按钮。
 ```
 
-After this, you should see your newly added collaborator listed under the
-"Manage access" tab. They should receive an email invitation to join the
-GitHub repository as a collaborator. They need to accept this invitation
-to enable write access.
+完成之后，你应该能在“管理访问权限”选项卡下看到刚添加的协作者。他们应该会收到一封电子邮件邀请，邀请他们作为协作者加入该 GitHub 仓库。他们需要接受邀请，写权限才会生效。
 
-### Pulling changes from GitHub using Jupyter
+### 用 Jupyter 从 GitHub 拉取更改
 
-We will now walk through how to use the Jupyter Git extension tool to pull changes
-to our `eda.ipynb` analysis file that were made by a collaborator
-({numref}`git-pull-00`).
+下面我们来看看如何用 Jupyter Git 扩展，把协作者对我们的分析文件 `eda.ipynb` 所做的更改拉取过来（{numref}`git-pull-00`）。
 
 ```{figure} img/version-control/git_pull_00.png
 ---
 name: git-pull-00
 ---
-The GitHub interface indicates the name of the last person to push a commit to the remote repository, a preview of the associated commit message, the unique commit identifier, and how long ago the commit was snapshotted.
+GitHub 界面会显示最后向远程仓库推送提交的人的名字、对应提交信息的预览、唯一的提交标识符，以及该提交是多久以前拍下的快照。
 ```
 
-```{index} git;pull
+```{index} git; 拉取
 ```
 
-You can tell Git to "pull" by clicking on the cloud icon with
-the down arrow in Jupyter ({numref}`git-pull-01`).
+在 Jupyter 中点击带向下箭头的云朵图标，就能让 Git 执行拉取（{numref}`git-pull-01`）。
 
 ```{figure} img/version-control/git_pull_01.png
 ---
 name: git-pull-01
 ---
-The Jupyter Git extension clone button.
+Jupyter Git 扩展的克隆按钮。
 ```
 
-Once the files are successfully pulled from GitHub, you need to click "Dismiss"
-to keep working ({numref}`git-pull-02`).
+文件成功地从 GitHub 拉取之后，你需要点击“忽略”才能继续工作（{numref}`git-pull-02`）。
 
 ```{figure} img/version-control/git_pull_02.png
 ---
 name: git-pull-02
 ---
-The prompt after changes have been successfully pulled from a remote repository.
+更改成功地从远程仓库拉取后出现的提示。
 ```
 
-And then when you open (or refresh) the files whose changes you just pulled,
-you should be able to see them ({numref}`git-pull-03`).
+之后，打开（或刷新）刚刚拉取了更改的文件，就能看到这些更改（{numref}`git-pull-03`）。
 
 ```{figure} img/version-control/git_pull_03.png
 ---
 name: git-pull-03
 ---
-Changes made by the collaborator to `eda.ipynb` (code highlighted by red arrows).
+协作者对 `eda.ipynb` 所做的更改（代码处用红色箭头标出）。
 ```
 
-It can be very useful to review the history of the changes to your project. You
-can do this directly in Jupyter by clicking "History" in the Git tab
-({numref}`git-pull-04`).
+查看项目更改的历史记录往往很有用。在 Jupyter 里，点击 Git 面板中的“历史（History）”，就能直接查看（{numref}`git-pull-04`）。
 
 ```{figure} img/version-control/git_pull_04.png
 ---
 name: git-pull-04
 ---
-Version control repository history viewed using the Jupyter Git extension.
+用 Jupyter Git 扩展查看版本控制仓库历史。
 ```
 
 
-It is good practice to pull any changes at the start of *every* work session
-before you start working on your local copy.
-If you do not do this,
-and your collaborators have pushed some changes to the project to GitHub,
-then you will be unable to push your changes to GitHub until you pull.
-This situation can be recognized by the error message
-shown in {numref}`merge-conflict-01`.
+在*每次*开始工作、动手修改本地副本之前，都先拉取更改，这是良好实践。如果没有这样做，而协作者已经把一些更改推送到 GitHub 上的项目里，那么在你拉取之前，就无法把自己的更改推送到 GitHub。出现这种情况时，可以通过{numref}`merge-conflict-01` 中所示的报错信息来判断。
 
 ```{figure} img/version-control/merge_conflict_01.png
 ---
 name: merge-conflict-01
 ---
-Error message that indicates that there are changes on the remote repository that you do not have locally.
+该报错信息表示远程仓库上存在你本地没有的更改。
 ```
 
-Usually, getting out of this situation is not too troublesome. First you need
-to pull the changes that exist on GitHub that you do not yet have in the local
-repository.  Usually when this happens, Git can automatically merge the changes
-for you, even if you and your collaborators were working on different parts of
-the same file!
+一般来说，摆脱这种局面并不太麻烦。首先，你需要拉取 GitHub 上已经存在、而本地仓库中还没有的更改。通常出现这种情况时，Git 能自动帮你合并更改，即使你和协作者改动的是同一个文件的不同位置！
 
-If, however, you and your collaborators made changes to the same line of the
-same file, Git will not be able to automatically merge the changes&mdash;it will
-not know whether to keep your version of the line(s), your collaborators
-version of the line(s), or some blend of the two. When this happens, Git will
-tell you that you have a merge conflict in certain file(s) ({numref}`merge-conflict-03`).
+但是，如果你和协作者修改了同一个文件的同一行，Git 就无法自动合并这些更改——它不知道该保留你那一（几）行、协作者那一（几）行，还是两者的某种混合。这时 Git 会提示某些文件存在合并冲突（{numref}`merge-conflict-03`）。
 
 ```{figure} img/version-control/merge_conflict_03.png
 ---
 name: merge-conflict-03
 ---
-Error message that indicates you and your collaborators made changes to the
-same line of the same file and that Git will not be able to automatically merge
-the changes.
+该报错信息表示你和协作者修改了同一个文件的同一行，Git 无法自动合并这些更改。
 ```
 
-### Handling merge conflicts
+### 处理合并冲突
 
-```{index} git;merge conflict
+```{index} git; 合并冲突
 ```
 
-To fix the merge conflict, you need to open the offending file
-in a plain text editor and look for special marks that Git puts in the file to
-tell you where the merge conflict occurred ({numref}`merge-conflict-04`).
+要解决合并冲突，你需要用纯文本编辑器打开出问题的文件，找出 Git 写在文件中的特殊标记，这些标记会告诉你合并冲突发生在哪里（{numref}`merge-conflict-04`）。
 
 
 ```{figure} img/version-control/merge_conflict_04.png
 ---
 name: merge-conflict-04
 ---
-How to open a Jupyter notebook as a plain text file view in Jupyter.
+在 Jupyter 中把笔记本以纯文本文件视图打开的方法。
 ```
 
-The beginning of the merge
-conflict is preceded by `<<<<<<< HEAD` and the end of the merge conflict is
-marked by `>>>>>>>`. Between these markings, Git also inserts a separator
-(`=======`). The version of the change before the separator is your change, and
-the version that follows the separator was the change that existed on GitHub.
-In {numref}`merge-conflict-05`, you can see that in your local repository
-there is a line of code that sets the axis scaling to `"sqrt"`.
-It looks like your collaborator made an edit to that line too, except with axis scaling `"log"`!
+合并冲突的起始处前面有 `<<<<<<< HEAD`，结束处则由 `>>>>>>>` 标出。在这些标记之间，Git 还插入一个分隔符（`=======`）。分隔符之前的那个版本是你的更改，分隔符之后的版本则是 GitHub 上原有的更改。在{numref}`merge-conflict-05` 中可以看到，你的本地仓库里有一行代码把坐标轴标度设为 `"sqrt"`。看来协作者也修改了这一行，只不过把坐标轴标度设成了 `"log"`！
 
 ```{figure} img/version-control/merge_conflict_05.png
 ---
 name: merge-conflict-05
 ---
-Merge conflict identifiers (highlighted in red).
+合并冲突标记（用红色标出）。
 ```
 
-Once you have decided which version of the change (or what combination!) to
-keep, you need to use the plain text editor to remove the special marks that
-Git added ({numref}`merge-conflict-06`).
+决定保留哪个版本的更改（或者怎样的组合！）之后，你需要用纯文本编辑器删掉 Git 添加的特殊标记（{numref}`merge-conflict-06`）。
 
 ```{figure} img/version-control/merge_conflict_06.png
 ---
 name: merge-conflict-06
 ---
-File where a merge conflict has been resolved.
+合并冲突已解决的文件。
 ```
 
-The file must be saved, added to the staging area, and then committed before you will be able to
-push your changes to GitHub.
+必须先保存该文件、把它添加到暂存区并提交，然后才能把更改推送到 GitHub。
 
-### Communicating using GitHub issues
+### 用 GitHub 议题沟通
 
-When working on a project in a team, you don't just want a historical record of who changed
-what file and when in the project&mdash;you also want a record of decisions that were made,
-ideas that were floated, problems that were identified and addressed, and all other
-communication surrounding the project. Email and messaging apps are both very popular for general communication, but are not
-designed for project-specific communication: they both generally do not have facilities for organizing conversations by project subtopics,
-searching for conversations related to particular bugs or software versions, etc.
+在团队中做项目时，你想要的并不只是“谁在什么时候改了项目中的哪个文件”这样的历史记录——你还想要把做过的决定、提出过的想法、发现并解决的问题，以及围绕项目的其他所有沟通都记录下来。电子邮件和即时通讯应用在日常沟通中都很常用，但它们并不是为针对具体项目的沟通而设计的：两者通常都没有按项目子话题组织对话、搜索与某个缺陷或软件版本有关的对话等功能。
 
-```{index} GitHub;issues
+```{index} GitHub; 议题
 ```
 
-GitHub *issues* are an alternative written communication medium to email and
-messaging apps, and were designed specifically to facilitate project-specific
-communication. Issues are *opened* from the "Issues" tab on the project's
-GitHub page, and they persist there even after the conversation is over and the issue is *closed* (in
-contrast to email, issues are not usually deleted). One issue thread is usually created
-per topic, and they are easily searchable using GitHub's search tools. All
-issues are accessible to all project collaborators, so no one is left out of
-the conversation. Finally, issues can be set up so that team members get email
-notifications when a new issue is created or a new post is made in an issue
-thread. Replying to issues from email is also possible. Given all of these advantages,
- we highly recommend the use of issues for project-related communication.
+GitHub 的*议题*是电子邮件和即时通讯应用之外的另一种书面沟通媒介，专门为方便项目内的沟通而设计。议题从项目 GitHub 页面上的“议题（Issues）”选项卡*发起*，即使对话结束、议题被*关闭*，它们也会留在那里（与电子邮件不同，议题通常不会被删除）。通常每个话题建一个议题讨论串，用 GitHub 的搜索工具很容易找到它们。所有议题对所有协作者都可见，因此没有人会被排除在对话之外。最后，议题还可以设置成让团队成员在有人创建新议题或在议题讨论串中发帖时收到电子邮件通知。也可以直接从电子邮件回复议题。既然有这么多好处，我们强烈建议在项目沟通中使用议题。
 
-To open a GitHub issue,
-first click on the "Issues" tab ({numref}`issue-01`).
+要发起 GitHub 议题，先点击“议题”选项卡（{numref}`issue-01`）。
 
 ```{figure} img/version-control/issue_01.png
 ---
 name: issue-01
 ---
-The "Issues" tab on the GitHub web interface.
+GitHub 网页界面上的“议题”选项卡。
 ```
 
-Next click the "New issue" button ({numref}`issue-02`).
+接着点击“新建议题（New issue）”按钮（{numref}`issue-02`）。
 
 ```{figure} img/version-control/issue_02.png
 ---
 name: issue-02
 ---
-The "New issues" button on the GitHub web interface.
+GitHub 网页界面上的“新建议题”按钮。
 ```
 
-Add an issue title (which acts like an email subject line), and then put the
-body of the message in the larger text box. Finally, click "Submit new issue"
-to post the issue to share with others ({numref}`issue-03`).
+填写议题标题（作用类似电子邮件的主题行），然后在较大的文本框中填写正文。最后点击“提交新议题（Submit new issue）”发布议题，与其他人分享（{numref}`issue-03`）。
 
 ```{figure} img/version-control/issue_03.png
 ---
 name: issue-03
 ---
-Dialog boxes and submission button for creating new GitHub issues.
+创建 GitHub 议题的对话框与提交按钮。
 ```
 
-You can reply to an issue that someone opened by adding your written response to
-the large text box and clicking comment ({numref}`issue-04`).
+要回复别人发起的议题，可以在大文本框中写下你的回应，然后点击“评论（Comment）”（{numref}`issue-04`）。
 
 ```{figure} img/version-control/issue_04.png
 ---
 name: issue-04
 ---
-Dialog box for replying to GitHub issues.
+回复 GitHub 议题的对话框。
 ```
 
 
-When a conversation is resolved, you can click "Close issue".
-The closed issue can be later viewed by clicking the "Closed" header link
-in the "Issue" tab ({numref}`issue-06`).
+对话结束后，可以点击“关闭议题（Close issue）”。已关闭的议题以后可以通过“议题”选项卡中的“已关闭（Closed）”标题链接查看（{numref}`issue-06`）。
 
 ```{figure} img/version-control/issue_06.png
 ---
 name: issue-06
 ---
-The "Closed" issues tab on the GitHub web interface.
+GitHub 网页界面上的“已关闭”议题选项卡。
 ```
 
-## Exercises
+## 习题
 
-Practice exercises for the material covered in this chapter can be found in the
-accompanying [worksheets repository](https://worksheets.python.datasciencebook.ca) in
-the "Collaboration with version control" row. You can preview a
-non-interactive version of the worksheet for this chapter by clicking "view
-worksheet." To work on the exercises interactively, follow the instructions in
-the worksheets repository to download all worksheets, and follow the
-instructions for computer setup found in {numref}`Chapter %s <move-to-your-own-machine>`. This will ensure
-that the automated feedback and guidance that the worksheets provide will
-function as intended.
+本章所讲内容的练习题，可以在配套的[练习册仓库](https://worksheets.python.datasciencebook.ca)中“借助版本控制协作（Collaboration with version control）”一行找到。点击“查看练习册（view worksheet）”，可以预览本章练习册的非交互版本。要交互式地完成这些习题，请按照练习册仓库中的说明下载全部练习册，并按照{numref}`第 %s 章 <move-to-your-own-machine>`中给出的计算机配置说明操作。这样才能确保练习册提供的自动反馈和指导按预期工作。
 
-## Additional resources
+## 拓展资源
 
-Now that you've picked up the basics of version control with Git and GitHub,
-you can expand your knowledge through the resources listed below:
+现在你已经掌握了 Git 和 GitHub 版本控制的基础知识，可以借助下面列出的资源进一步拓展：
 
-- GitHub's [guides website](https://docs.github.com/) is a great resource for
-  learning more about Git and GitHub.
-- [Good enough practices in scientific
-  computing](https://journals.plos.org/ploscompbiol/article?id=10.1371/journal.pcbi.1005510#sec014)
-  {cite:p}`wilson2014best` provides more advice on useful workflows and "good enough"
-  practices in data analysis projects.
-- In addition to [GitHub](https://github.com), there are other popular Git
-  repository hosting services such as [GitLab](https://gitlab.com) and
-  [BitBucket](https://bitbucket.org). Comparing all of these options is beyond
-  the scope of this book, and until you become a more advanced user, you are
-  perfectly fine to just stick with GitHub. Just be aware that you have options!
-- GitHub's [documentation on creating a personal access
-  token](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token)
-  is an excellent additional resource to consult if you need help
-  generating and using personal access tokens.
+- GitHub 的[指南网站](https://docs.github.com/)是深入学习 Git 和 GitHub 的绝佳资源。
+- [《Good enough practices in scientific computing》](https://journals.plos.org/ploscompbiol/article?id=10.1371/journal.pcbi.1005510#sec014) {cite:p}`wilson2014best` 就数据分析项目中有用的工作流和“够用就好”的实践给出了更多建议。
+- 除了 [GitHub](https://github.com)，还有 [GitLab](https://gitlab.com) 和 [BitBucket](https://bitbucket.org) 等其他流行的 Git 仓库托管平台。比较这些选项超出了本书的范围；在你成为更进阶的用户之前，一直用 GitHub 就完全没问题。只要知道你有别的选择就好！
+- GitHub 关于创建个人访问令牌的[文档](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token)是很好的补充资源，如果你在生成和使用个人访问令牌时需要帮助，可以查阅它。
 
 +++
 
-## References
+## 参考文献
 
 ```{bibliography}
 :filter: docname in docnames
