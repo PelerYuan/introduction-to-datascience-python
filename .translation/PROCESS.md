@@ -222,3 +222,25 @@ $env:UV_CACHE_DIR="$PWD\.uv-cache"; $env:UV_LINK_MODE="copy"
       install_build_env.ps1 安装构建依赖
   reports/                  状态、审计与构建日志
 ```
+
+## 8. 发布（GitHub Pages）
+
+在线地址：**https://page.peler.top/introduction-to-datascience-python/**
+
+| 事项 | 现状与理由 |
+|---|---|
+| Pages 来源 | 分支 `gh-pages-zh` 的 `/`（`build_type: legacy`）。**故意不用 `gh-pages`**：这个 fork 从上游继承了原作者的 `gh-pages` 分支（英文版部署，含 `CNAME` 指向他们的自定义域名），那是别人的产物，不该覆盖 |
+| 访问地址 | 仓库所属账号配置了 Pages 自定义域名 `page.peler.top`，项目站点因此挂在它的子路径下。`https://peleryuan.github.io/introduction-to-datascience-python/` 会自动跳转到该地址 |
+| `.nojekyll` | **必需**。Pages 默认走 Jekyll，而 Jekyll 会忽略所有以 `_` 开头的目录 —— 正好是 `_static`（样式/脚本）、`_sources`（页面源文件）、`_images`（全部插图）。没有这个标记，样式和图片会全部 404。已由 `build_book.ps1` 自动生成 |
+| canonical 链接 | `add_canonical_links.py` 原先**硬编码** `https://python.datasciencebook.ca/`。这对原作者是对的，对译本则有害：canonical 指向另一语言的页面，等于告诉搜索引擎「本文的权威版本在英文站」，中文页会被当成重复内容而不再收录（跨语言对应关系应该用 `hreflang` 表达）。现在基准 URL 由 `--base-url` / `$env:DOCS_BASE_URL` 显式给出，**不给就一律移除 canonical**，保证 fork 不会静默误声明 |
+| 部署方式 | 发布的是**已验收的构建产物**，而不是让 CI 重新构建。理由：本书对版本敏感（jupyter-book 0.15.1 / sphinx 5.0.2 / myst-nb 0.17.2），且 `execute_notebooks: auto` 会在构建时执行部分代码；CI 里重建等于引入一套未经验证的环境。产物与本地验收的完全一致 |
+
+重新发布的完整流程：
+
+```powershell
+$env:DOCS_BASE_URL = "https://page.peler.top/introduction-to-datascience-python"
+pwsh -NoProfile -File .translation\tools\build_book.ps1     # 构建 + canonical + .nojekyll
+# 然后把 source/_build/html 的内容推到 gh-pages-zh（见 PROCESS.md 的发布步骤）
+```
+
+**改动正文后必须重新发布**，否则线上仍是旧版：`source/*.md` 是唯一权威源，Pages 上的是它的产物。

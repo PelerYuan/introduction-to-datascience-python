@@ -22,3 +22,4 @@ source/__pycache__
 .translation/seg/_mut.md
 .translation/seg/_lint.json
 .translation/review/
+.pages-deploy/

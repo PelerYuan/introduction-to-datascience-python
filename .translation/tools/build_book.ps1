@@ -58,7 +58,21 @@ Write-Host "=== build exit code: $code ===" -ForegroundColor $(if ($code -eq 0) 
 $canonical = Join-Path $root "add_canonical_links.py"
 if ($code -eq 0 -and (Test-Path $canonical)) {
     Write-Host "=== add_canonical_links.py ===" -ForegroundColor Cyan
-    & $py $canonical
+    # Point canonical links at wherever this edition is actually published. Without a
+    # base URL the script strips them, so a fork never silently declares the English
+    # upstream site to be the canonical copy of its own pages.
+    if ($env:DOCS_BASE_URL) { & $py $canonical --base-url $env:DOCS_BASE_URL }
+    else { & $py $canonical }
+}
+
+# GitHub Pages serves through Jekyll unless told otherwise, and Jekyll ignores every
+# directory whose name starts with an underscore — which is exactly _static, _sources and
+# _images, i.e. the stylesheets, the page sources and the figures. A .nojekyll marker at
+# the site root disables that and is required for the published book to work at all.
+$docsHtml = Join-Path $root "source\_build\html"
+if ($code -eq 0 -and (Test-Path $docsHtml)) {
+    New-Item -ItemType File -Path (Join-Path $docsHtml ".nojekyll") -Force | Out-Null
+    Write-Host "=== wrote .nojekyll ===" -ForegroundColor Cyan
 }
 
 exit $code
