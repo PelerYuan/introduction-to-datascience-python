@@ -81,6 +81,7 @@
 | 段落对齐 | `align_paragraphs.py` | 段落数一致，且按**角色目标**比较无缺失/无多余 | ✅ 0/18 不一致，`no content lost` |
 | 排版（渲染层） | `html_qa.py` | 读 `source/_build/html`：无未解析 `{numref}`、无缺失中西文空格、无中文间多余空格 | ✅ `OK rendered book is clean`（初测 503 → 0） |
 | 构建 | `build_book.ps1` | 退出码 0，20 个 HTML 页面全部生成，9 条警告（全部为上游原文固有，见 §5） | ✅ |
+| 发布 | `deploy_check.py` | 从已发布页面抓出全部本地引用并逐个请求，必须全部 200 | ✅ 20 页 / 187 个引用全部 200（`_images` 125、`_static` 23、`_sources` 18、页间链接 21） |
 
 ### 3.2 审校门禁（STYLE_GUIDE §8 八项）
 
@@ -212,6 +213,7 @@ $env:UV_CACHE_DIR="$PWD\.uv-cache"; $env:UV_LINK_MODE="copy"
       align_paragraphs.py   内容零丢失证明（段落数 + 角色目标多重集，按整本书）
       blocked_joins.py      诊断：哪些该合并的散文行被 classify() 判成了结构行
       trace_findings.py     诊断：把 html_qa 的渲染层发现反查回源文件行
+      deploy_check.py        发布校验：抓取已发布页面的全部本地引用并逐个请求
       status.py             全书状态看板
       term_audit.py         跨章术语审计（按段对齐）
       term_fix.py           定点术语统一（跳过代码/角色/公式）
