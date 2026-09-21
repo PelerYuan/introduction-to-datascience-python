@@ -1,0 +1,1509 @@
+
+
+<!DOCTYPE html>
+
+
+<html lang="zh-CN" data-content_root="" >
+
+  <head>
+<link rel="canonical" href="https://peleryuan.github.io/introduction-to-datascience-python/regression1.html" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>7. 回归 I：k 近邻回归 &#8212; 数据科学：Python 入门</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" href="_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="_static/style.css" />
+    <link rel="stylesheet" type="text/css" href="_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/clipboard.min.js"></script>
+    <script src="_static/copybutton.js"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="_static/togglebutton.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="_static/translations.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="_static/design-tabs.js"></script>
+    <script async="async" src="https://www.googletagmanager.com/gtag/js?id=G-7XBFF4RSN2"></script>
+    <script>
+                window.dataLayer = window.dataLayer || [];
+                function gtag(){ dataLayer.push(arguments); }
+                gtag('js', new Date());
+                gtag('config', 'G-7XBFF4RSN2');
+            </script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="_static/sphinx-thebe.js"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'regression1';</script>
+    <link rel="index" title="索引" href="genindex.html" />
+    <link rel="search" title="搜索" href="search.html" />
+    <link rel="next" title="8. 回归 II：线性回归" href="regression2.html" />
+    <link rel="prev" title="6. 分类 II：评估与调优" href="classification2.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="zh-CN"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="index.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">数据科学：Python 入门</p>
+  
+</a></div>
+        <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">前言</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="preface-text.html">前言</a></li>
+<li class="toctree-l1"><a class="reference internal" href="foreword-text.html">序言</a></li>
+<li class="toctree-l1"><a class="reference internal" href="acknowledgements.html">致谢</a></li>
+<li class="toctree-l1"><a class="reference internal" href="authors.html">作者简介</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">正文章节</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="intro.html">1. Python 与 Pandas</a></li>
+<li class="toctree-l1"><a class="reference internal" href="reading.html">2. 从本地和网络读取数据</a></li>
+<li class="toctree-l1"><a class="reference internal" href="wrangling.html">3. 数据清洗与整理</a></li>
+<li class="toctree-l1"><a class="reference internal" href="viz.html">4. 有效的数据可视化</a></li>
+<li class="toctree-l1"><a class="reference internal" href="classification1.html">5. 分类 I：训练与预测</a></li>
+<li class="toctree-l1"><a class="reference internal" href="classification2.html">6. 分类 II：评估与调优</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">7. 回归 I：k 近邻回归</a></li>
+<li class="toctree-l1"><a class="reference internal" href="regression2.html">8. 回归 II：线性回归</a></li>
+<li class="toctree-l1"><a class="reference internal" href="clustering.html">9. 聚类</a></li>
+<li class="toctree-l1"><a class="reference internal" href="inference.html">10. 统计推断</a></li>
+<li class="toctree-l1"><a class="reference internal" href="jupyter.html">11. 用 Jupyter 结合代码和文本</a></li>
+<li class="toctree-l1"><a class="reference internal" href="version-control.html">12. 借助版本控制协作</a></li>
+<li class="toctree-l1"><a class="reference internal" href="setup.html">13. 配置你的计算机</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="下载此页面">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="_sources/regression1.md" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="下载源文件"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.md</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="列印成 PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="全屏模式"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="搜索" aria-label="搜索" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>回归 I：k 近邻回归</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> 目录 </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">7.1. 概述</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">7.2. 本章学习目标</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">7.3. 回归问题</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id5">7.4. 探索数据集</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#k">7.5. k 近邻回归</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id6">7.6. 训练、评估与调优模型</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id7">7.7. 欠拟合与过拟合</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id8">7.8. 在测试集上评估</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id9">7.9. 多元 k 近邻回归</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id10">7.10. k 近邻回归的优势与局限</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id11">7.11. 习题</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id12">7.12. 参考文献</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="i-k">
+<span id="regression1"></span><h1><span class="section-number">7. </span>回归 I：k 近邻回归<a class="headerlink" href="#i-k" title="Permalink to this heading">#</a></h1>
+<section id="id1">
+<h2><span class="section-number">7.1. </span>概述<a class="headerlink" href="#id1" title="Permalink to this heading">#</a></h2>
+<p>本章继续探讨如何回答预测性问题。这里要预测的是<em>数值</em>变量，所用的方法是<em>回归</em>。前两章与此不同，它们用分类来预测类别型变量。不过，回归与分类有许多相似之处：例如，和分类一样，我们会把数据划分为训练集、验证集和测试集，会使用 <code class="docutils literal notranslate"><span class="pre">scikit-learn</span></code> 工作流，会用 k 近邻（K-NN）方法做出预测，也会用交叉验证来选择 K。正因为这些步骤十分相似，读本章之前请务必先读<a class="reference internal" href="classification1.html#classification1"><span class="std std-numref">第 5 章</span></a>和 <a class="reference internal" href="classification2.html#classification2"><span class="std std-numref">6</span></a>——已经讲过的概念，这里会讲得快一些。本章主要讨论只有一个预测变量的情形，章末则展示如何用多个预测变量做回归，也就是<em>多元回归</em>（multivariable regression）。请注意，回归也可以用来回答推断性问题和因果问题，不过这超出了本书的范围。</p>
+</section>
+<section id="id2">
+<h2><span class="section-number">7.2. </span>本章学习目标<a class="headerlink" href="#id2" title="Permalink to this heading">#</a></h2>
+<p>学完本章后，你将能够：</p>
+<ul class="simple">
+<li><p>识别适合用回归分析做出预测的情形。</p></li>
+<li><p>解释 k 近邻（K-NN）回归算法，并说明它与 k 近邻分类的区别。</p></li>
+<li><p>解读 k 近邻回归的输出。</p></li>
+<li><p>在含两个及以上变量的数据集中，用 Python 完成 k 近邻回归。</p></li>
+<li><p>在 Python 中用均方根预测误差（root mean squared prediction error，RMSPE）评估 k 近邻回归的预测质量。</p></li>
+<li><p>在 Python 中用交叉验证或测试集估计 RMSPE。</p></li>
+<li><p>以最小化交叉验证 RMSPE 估计值为准则，选择 k 近邻回归中的近邻个数。</p></li>
+<li><p>说明欠拟合与过拟合，并解释它们与 k 近邻回归中近邻个数的关系。</p></li>
+<li><p>说明 k 近邻回归的优缺点。</p></li>
+</ul>
+</section>
+<section id="id3">
+<h2><span class="section-number">7.3. </span>回归问题<a class="headerlink" href="#id3" title="Permalink to this heading">#</a></h2>
+<p id="index-0">回归和分类一样，都属于预测性问题：我们希望用过去的信息预测未来的观测。不过就回归而言，目标是预测<em>数值</em>而不是<em>类别型</em>取值。你想要预测的变量通常称为<em>响应变量</em>。例如，我们可以用一个人每周锻炼的小时数，来预测他参加一年一度波士顿马拉松的比赛用时；也可以用房子的面积来预测它的售价。这两个响应变量——比赛用时和售价——都是数值，因此根据过去的数据预测它们属于回归问题。</p>
+<span class="target" id="index-1"></span><p id="index-2">和分类的情形一样，可以用来预测数值响应变量的方法有很多。本章重点介绍 <strong>k 近邻</strong>（K-nearest neighbors）算法 <span id="id4">[<a class="reference internal" href="#id16" title="Thomas Cover and Peter Hart. Nearest neighbor pattern classification. IEEE Transactions on Information Theory, 13(1):21–27, 1967.">Cover and Hart, 1967</a>, <a class="reference internal" href="#id15" title="Evelyn Fix and Joseph Hodges. Discriminatory analysis. nonparametric discrimination: consistency properties. Technical Report, USAF School of Aviation Medicine, Randolph Field, Texas, 1951.">Fix and Hodges, 1951</a>]</span>，下一章则学习<strong>线性回归</strong>。以后的学习中，你可能会遇到回归树、样条以及一般的局部回归方法；要从哪里开始了解这些方法，可以看下一章末尾的“拓展资源”一节。</p>
+<p>分类中的许多概念都可以套用到回归上。例如，回归模型根据过去观测的数据集中相似观测的响应变量，来预测新观测的响应变量。建立回归模型时，我们先把数据划分为训练集和测试集，以确保在训练时未见过的观测上评估方法的性能。最后，我们可以用交叉验证来评价模型参数的不同取值（例如 k 近邻模型中的 K）。最大的区别在于，我们现在预测的是数值变量，而不是分类变量。</p>
+<div class="admonition note" id="index-3">
+<p class="admonition-title">备注</p>
+<p>通常你可以判断一个变量是数值还是类别型——从而判断自己需要做回归还是分类——方法是取出数据中两个观测 X 和 Y 的响应变量，然后问：“响应变量 X 是否<em>大于</em>响应变量 Y？”如果变量是类别型，这个问题毫无意义。（蓝色比红色更大吗？良性比恶性更大吗？）如果变量是数值，问题就有意义。（1.5 小时比 2.25 小时更长吗？$500,000 比 $400,000 更多吗？）不过使用这个经验法则时要小心：有时数据中的分类变量会被编码成数字（例如用“1”表示“benign”，用“0”表示“malignant”）。这时你要问的是标签的<em>含义</em>（“benign”与“malignant”），而不是它们的取值（“1”与“0”）。</p>
+</div>
+</section>
+<section id="id5">
+<h2><span class="section-number">7.4. </span>探索数据集<a class="headerlink" href="#id5" title="Permalink to this heading">#</a></h2>
+<p id="index-4">本章和下一章要研究的数据集，包含<a class="reference external" href="https://support.spatialkey.com/spatialkey-sample-csv-data/">加利福尼亚州萨克拉门托的 932 笔房地产交易</a>，最初由《Sacramento Bee》报道。我们首先要把自己想回答的问题表述清楚。这个例子中的问题仍然是预测性问题：能否用加利福尼亚州萨克拉门托地区一所房子的面积来预测它的售价？对这个问题给出严谨的定量答案，也许能帮助房地产经纪人告诉客户某套房源的挂牌价是否合理，或者帮他确定新挂牌房源的定价。我们先读取并查看数据，同时设定种子值。</p>
+<div class="cell docutils container" id="index-5">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">altair</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">alt</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.model_selection</span><span class="w"> </span><span class="kn">import</span> <span class="n">GridSearchCV</span><span class="p">,</span> <span class="n">train_test_split</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.compose</span><span class="w"> </span><span class="kn">import</span> <span class="n">make_column_transformer</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.pipeline</span><span class="w"> </span><span class="kn">import</span> <span class="n">make_pipeline</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.preprocessing</span><span class="w"> </span><span class="kn">import</span> <span class="n">StandardScaler</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn</span><span class="w"> </span><span class="kn">import</span> <span class="n">set_config</span>
+
+<span class="c1"># Output dataframes instead of arrays</span>
+<span class="n">set_config</span><span class="p">(</span><span class="n">transform_output</span><span class="o">=</span><span class="s2">"pandas"</span><span class="p">)</span>
+
+<span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+
+<span class="n">sacramento</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">"data/sacramento.csv"</span><span class="p">)</span>
+<span class="n">sacramento</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>city</th>
+      <th>zip</th>
+      <th>beds</th>
+      <th>baths</th>
+      <th>sqft</th>
+      <th>type</th>
+      <th>price</th>
+      <th>latitude</th>
+      <th>longitude</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>SACRAMENTO</td>
+      <td>z95838</td>
+      <td>2</td>
+      <td>1.0</td>
+      <td>836</td>
+      <td>Residential</td>
+      <td>59222</td>
+      <td>38.631913</td>
+      <td>-121.434879</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>SACRAMENTO</td>
+      <td>z95823</td>
+      <td>3</td>
+      <td>1.0</td>
+      <td>1167</td>
+      <td>Residential</td>
+      <td>68212</td>
+      <td>38.478902</td>
+      <td>-121.431028</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>SACRAMENTO</td>
+      <td>z95815</td>
+      <td>2</td>
+      <td>1.0</td>
+      <td>796</td>
+      <td>Residential</td>
+      <td>68880</td>
+      <td>38.618305</td>
+      <td>-121.443839</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>SACRAMENTO</td>
+      <td>z95815</td>
+      <td>2</td>
+      <td>1.0</td>
+      <td>852</td>
+      <td>Residential</td>
+      <td>69307</td>
+      <td>38.616835</td>
+      <td>-121.439146</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>SACRAMENTO</td>
+      <td>z95824</td>
+      <td>2</td>
+      <td>1.0</td>
+      <td>797</td>
+      <td>Residential</td>
+      <td>81900</td>
+      <td>38.519470</td>
+      <td>-121.435768</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>927</th>
+      <td>SACRAMENTO</td>
+      <td>z95829</td>
+      <td>4</td>
+      <td>3.0</td>
+      <td>2280</td>
+      <td>Residential</td>
+      <td>232425</td>
+      <td>38.457679</td>
+      <td>-121.359620</td>
+    </tr>
+    <tr>
+      <th>928</th>
+      <td>SACRAMENTO</td>
+      <td>z95823</td>
+      <td>3</td>
+      <td>2.0</td>
+      <td>1477</td>
+      <td>Residential</td>
+      <td>234000</td>
+      <td>38.499893</td>
+      <td>-121.458890</td>
+    </tr>
+    <tr>
+      <th>929</th>
+      <td>CITRUS_HEIGHTS</td>
+      <td>z95610</td>
+      <td>3</td>
+      <td>2.0</td>
+      <td>1216</td>
+      <td>Residential</td>
+      <td>235000</td>
+      <td>38.708824</td>
+      <td>-121.256803</td>
+    </tr>
+    <tr>
+      <th>930</th>
+      <td>ELK_GROVE</td>
+      <td>z95758</td>
+      <td>4</td>
+      <td>2.0</td>
+      <td>1685</td>
+      <td>Residential</td>
+      <td>235301</td>
+      <td>38.417000</td>
+      <td>-121.397424</td>
+    </tr>
+    <tr>
+      <th>931</th>
+      <td>EL_DORADO_HILLS</td>
+      <td>z95762</td>
+      <td>3</td>
+      <td>2.0</td>
+      <td>1362</td>
+      <td>Residential</td>
+      <td>235738</td>
+      <td>38.655245</td>
+      <td>-121.075915</td>
+    </tr>
+  </tbody>
+</table>
+<p>932 rows × 9 columns</p>
+</div></div></div>
+</div>
+<p id="index-6">科学问题指引我们做最初的探索：我们关心的数据列是 <code class="docutils literal notranslate"><span class="pre">sqft</span></code>（房屋面积，以可居住的平方英尺计）和 <code class="docutils literal notranslate"><span class="pre">price</span></code>（房屋售价，以美元（USD）计）。第一步是把数据画成散点图，预测变量（房屋面积）放在 x 轴，想要预测的响应变量（售价）放在 y 轴。</p>
+<div class="admonition note">
+<p class="admonition-title">备注</p>
+<p>由于<a class="reference internal" href="#fig-07-edaregr"><span class="std std-numref">图 7.1</span></a> 中 y 轴的单位是美元，我们把坐标轴标签的格式设为：在房价前面加上美元符号，并用逗号分隔，让较大的数字更易读。在 <code class="docutils literal notranslate"><span class="pre">altair</span></code> 中，只要在 <code class="docutils literal notranslate"><span class="pre">y</span></code> 编码通道上使用 <code class="docutils literal notranslate"><span class="pre">.axis(format=&quot;$,.0f&quot;)</span></code> 就能做到。</p>
+</div>
+<div class="cell tag_remove-output docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">scatter</span> <span class="o">=</span> <span class="n">alt</span><span class="o">.</span><span class="n">Chart</span><span class="p">(</span><span class="n">sacramento</span><span class="p">)</span><span class="o">.</span><span class="n">mark_circle</span><span class="p">()</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span>
+    <span class="n">x</span><span class="o">=</span><span class="n">alt</span><span class="o">.</span><span class="n">X</span><span class="p">(</span><span class="s2">"sqft"</span><span class="p">)</span>
+        <span class="o">.</span><span class="n">scale</span><span class="p">(</span><span class="n">zero</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">"House size (square feet)"</span><span class="p">),</span>
+    <span class="n">y</span><span class="o">=</span><span class="n">alt</span><span class="o">.</span><span class="n">Y</span><span class="p">(</span><span class="s2">"price"</span><span class="p">)</span>
+        <span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="nb">format</span><span class="o">=</span><span class="s2">"$,.0f"</span><span class="p">)</span>
+        <span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">"Price (USD)"</span><span class="p">)</span>
+<span class="p">)</span>
+
+<span class="n">scatter</span>
+</pre></div>
+</div>
+</div>
+</div>
+<figure class="align-default" id="fig-07-edaregr">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>alt.Chart(...)
+</pre></div>
+</div>
+<figcaption>
+<p><span class="caption-number">图 7.1 </span><span class="caption-text">售价（美元）与房屋面积（平方英尺）的散点图。</span><a class="headerlink" href="#fig-07-edaregr" title="永久链接至图片">#</a></p>
+</figcaption>
+</figure>
+<p>绘图结果见<a class="reference internal" href="#fig-07-edaregr"><span class="std std-numref">图 7.1</span></a>。可以看出，在加利福尼亚州萨克拉门托，房子面积越大，售价也越高。因此我们有理由认为，可以用一套尚未售出的房子（我们还不知道它的售价）的面积，来预测它最终的售价。这里并不是说面积大<em>导致</em>了售价高，只是说房价往往随面积增大而上升，而且我们也许能用后者预测前者。</p>
+</section>
+<section id="k">
+<h2><span class="section-number">7.5. </span>k 近邻回归<a class="headerlink" href="#k" title="Permalink to this heading">#</a></h2>
+<p id="index-7">和分类一样，在回归中我们也可以用基于 k 近邻的方法做出预测。在动手建立模型、评估它预测房价的效果之前，我们先从<a class="reference internal" href="#fig-07-edaregr"><span class="std std-numref">图 7.1</span></a> 的数据中抽取一个小样本，看看 k 近邻在回归语境下是如何工作的。抽取这个子样本，是为了用少量数据点说明 k 近邻回归的机制；本章后面会使用全部数据。</p>
+<p id="index-8">要抽取一个大小为 30 的小随机样本，我们在 <code class="docutils literal notranslate"><span class="pre">sacramento</span></code> 数据框上使用 <code class="docutils literal notranslate"><span class="pre">sample</span></code> 方法，并指定选取 <code class="docutils literal notranslate"><span class="pre">n=30</span></code> 行。</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">small_sacramento</span> <span class="o">=</span> <span class="n">sacramento</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="n">n</span><span class="o">=</span><span class="mi">30</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>接下来假设我们在萨克拉门托遇到一套 2,000 平方英尺的房子，有意购买，挂牌价为 $350,000。我们该按要价买下它，还是认为它定价偏高、应该压价？没有其他信息时，我们可以用手头的数据，根据已经观测到的售价来预测这套房子的售价，从而对合理的答案有个大致判断。但在<a class="reference internal" href="#fig-07-small-eda-regr"><span class="std std-numref">图 7.2</span></a> 中可以看到，我们并没有面积<em>恰好</em>为 2,000 平方英尺的房子的观测。那该怎么预测它的售价呢？</p>
+<div class="cell tag_remove-output docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">small_plot</span> <span class="o">=</span> <span class="n">alt</span><span class="o">.</span><span class="n">Chart</span><span class="p">(</span><span class="n">small_sacramento</span><span class="p">)</span><span class="o">.</span><span class="n">mark_circle</span><span class="p">(</span><span class="n">opacity</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span>
+    <span class="n">x</span><span class="o">=</span><span class="n">alt</span><span class="o">.</span><span class="n">X</span><span class="p">(</span><span class="s2">"sqft"</span><span class="p">)</span>
+        <span class="o">.</span><span class="n">scale</span><span class="p">(</span><span class="n">zero</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">"House size (square feet)"</span><span class="p">),</span>
+    <span class="n">y</span><span class="o">=</span><span class="n">alt</span><span class="o">.</span><span class="n">Y</span><span class="p">(</span><span class="s2">"price"</span><span class="p">)</span>
+        <span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="nb">format</span><span class="o">=</span><span class="s2">"$,.0f"</span><span class="p">)</span>
+        <span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">"Price (USD)"</span><span class="p">)</span>
+<span class="p">)</span>
+
+<span class="c1"># add an overlay to the base plot</span>
+<span class="n">line_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s2">"x"</span><span class="p">:</span> <span class="p">[</span><span class="mi">2000</span><span class="p">]})</span>
+<span class="n">rule</span> <span class="o">=</span> <span class="n">alt</span><span class="o">.</span><span class="n">Chart</span><span class="p">(</span><span class="n">line_df</span><span class="p">)</span><span class="o">.</span><span class="n">mark_rule</span><span class="p">(</span><span class="n">strokeDash</span><span class="o">=</span><span class="p">[</span><span class="mi">6</span><span class="p">],</span> <span class="n">size</span><span class="o">=</span><span class="mf">1.5</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">"black"</span><span class="p">)</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s2">"x"</span><span class="p">)</span>
+
+<span class="n">small_plot</span> <span class="o">+</span> <span class="n">rule</span>
+</pre></div>
+</div>
+</div>
+</div>
+<figure class="align-default" id="fig-07-small-eda-regr">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>alt.LayerChart(...)
+</pre></div>
+</div>
+<figcaption>
+<p><span class="caption-number">图 7.2 </span><span class="caption-text">售价（美元）与房屋面积（平方英尺）的散点图，其中竖线在 x 轴上标出 2,000 平方英尺的位置。</span><a class="headerlink" href="#fig-07-small-eda-regr" title="永久链接至图片">#</a></p>
+</figcaption>
+</figure>
+<p id="index-9">我们会沿用<a class="reference internal" href="classification1.html#classification1"><span class="std std-numref">第 5 章</span></a>和 <a class="reference internal" href="classification2.html#classification2"><span class="std std-numref">6</span></a> 中的思路，用与感兴趣的新数据点相邻的点，来推测、预测它可能的售价。在<a class="reference internal" href="#fig-07-small-eda-regr"><span class="std std-numref">图 7.2</span></a> 所示的例子里，我们找出距离那套 2,000 平方英尺的房子最近的 5 个近邻，并加以标注。</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">small_sacramento</span><span class="p">[</span><span class="s2">"dist"</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="mi">2000</span> <span class="o">-</span> <span class="n">small_sacramento</span><span class="p">[</span><span class="s2">"sqft"</span><span class="p">])</span><span class="o">.</span><span class="n">abs</span><span class="p">()</span>
+<span class="n">nearest_neighbors</span> <span class="o">=</span> <span class="n">small_sacramento</span><span class="o">.</span><span class="n">nsmallest</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="s2">"dist"</span><span class="p">)</span>
+<span class="n">nearest_neighbors</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>city</th>
+      <th>zip</th>
+      <th>beds</th>
+      <th>baths</th>
+      <th>sqft</th>
+      <th>type</th>
+      <th>price</th>
+      <th>latitude</th>
+      <th>longitude</th>
+      <th>dist</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>298</th>
+      <td>SACRAMENTO</td>
+      <td>z95823</td>
+      <td>4</td>
+      <td>2.0</td>
+      <td>1900</td>
+      <td>Residential</td>
+      <td>361745</td>
+      <td>38.487409</td>
+      <td>-121.461413</td>
+      <td>100</td>
+    </tr>
+    <tr>
+      <th>718</th>
+      <td>ANTELOPE</td>
+      <td>z95843</td>
+      <td>4</td>
+      <td>2.0</td>
+      <td>2160</td>
+      <td>Residential</td>
+      <td>290000</td>
+      <td>38.704554</td>
+      <td>-121.354753</td>
+      <td>160</td>
+    </tr>
+    <tr>
+      <th>748</th>
+      <td>ROSEVILLE</td>
+      <td>z95678</td>
+      <td>3</td>
+      <td>2.0</td>
+      <td>1744</td>
+      <td>Residential</td>
+      <td>326951</td>
+      <td>38.771917</td>
+      <td>-121.304439</td>
+      <td>256</td>
+    </tr>
+    <tr>
+      <th>252</th>
+      <td>SACRAMENTO</td>
+      <td>z95835</td>
+      <td>3</td>
+      <td>2.5</td>
+      <td>1718</td>
+      <td>Residential</td>
+      <td>250000</td>
+      <td>38.676658</td>
+      <td>-121.528128</td>
+      <td>282</td>
+    </tr>
+    <tr>
+      <th>211</th>
+      <td>RANCHO_CORDOVA</td>
+      <td>z95670</td>
+      <td>3</td>
+      <td>2.0</td>
+      <td>1671</td>
+      <td>Residential</td>
+      <td>175000</td>
+      <td>38.591477</td>
+      <td>-121.315340</td>
+      <td>329</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<figure class="align-default" id="fig-07-knn5-example">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>alt.LayerChart(...)
+</pre></div>
+</div>
+<figcaption>
+<p><span class="caption-number">图 7.3 </span><span class="caption-text">售价（美元）与房屋面积（平方英尺）的散点图，并用线段连接到 5 个最近的近邻（用橙色标出）。</span><a class="headerlink" href="#fig-07-knn5-example" title="永久链接至图片">#</a></p>
+</figcaption>
+</figure>
+<p><a class="reference internal" href="#fig-07-knn5-example"><span class="std std-numref">图 7.3</span></a> 展示了与我们关注的那套 2,000 平方英尺新房最接近的 5 个近邻（就房屋面积而言）的面积与这套新房的差别。得到这些近邻之后，我们就可以用它们的取值来预测新房子的售价。具体来说，可以取这 5 个取值的均值（也就是平均数）作为预测值，<a class="reference internal" href="#fig-07-predictedviz-knn"><span class="std std-numref">图 7.4</span></a> 中的红点就是它。</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">prediction</span> <span class="o">=</span> <span class="n">nearest_neighbors</span><span class="p">[</span><span class="s2">"price"</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+<span class="n">prediction</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>np.float64(280739.2)
+</pre></div>
+</div>
+</div>
+</div>
+<figure class="align-default" id="fig-07-predictedviz-knn">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>alt.LayerChart(...)
+</pre></div>
+</div>
+<figcaption>
+<p><span class="caption-number">图 7.4 </span><span class="caption-text">售价（美元）与房屋面积（平方英尺）的散点图，其中根据 5 个近邻对一套 2,000 平方英尺房子给出的预测价格用红点表示。</span><a class="headerlink" href="#fig-07-predictedviz-knn" title="永久链接至图片">#</a></p>
+</figcaption>
+</figure>
+<p>我们的预测价格是 $<span class="pasted-text">280,739</span>（见<a class="reference internal" href="#fig-07-predictedviz-knn"><span class="std std-numref">图 7.4</span></a> 中的红点），它远低于 $350,000；也许我们应该出价比挂牌价低一些。不过故事才刚刚开始。在 k 近邻回归中，我们仍然面临当初做 k 近邻分类时那些没有答案的问题：<span class="math notranslate nohighlight">\(K\)</span> 该取多少？模型的预测够不够好？接下来几节会在 k 近邻回归的语境下回答这些问题。</p>
+<p>这里要特别提一下 k 近邻回归算法的一个优点：它能很好地处理非线性关系（也就是说，关系不是一条直线）。这源于它用近邻来预测取值的做法。这个算法对数据必须呈现什么样子，只提出很少的假设。</p>
+</section>
+<section id="id6">
+<h2><span class="section-number">7.6. </span>训练、评估与调优模型<a class="headerlink" href="#id6" title="Permalink to this heading">#</a></h2>
+<p id="index-10">和往常一样，我们必须先把一部分测试数据放进保险箱锁起来，等选定最终模型之后再回头使用。现在就来做这件事。请注意，本章余下的部分都会使用完整的萨克拉门托数据集，而不是前面用过的那个 30 个数据点的小样本（<a class="reference internal" href="#fig-07-small-eda-regr"><span class="std std-numref">图 7.2</span></a>）。</p>
+<div class="admonition note">
+<p class="admonition-title">备注</p>
+<p>这里没有像<a class="reference internal" href="classification2.html#classification2"><span class="std std-numref">第 6 章</span></a>那样指定 <code class="docutils literal notranslate"><span class="pre">stratify</span></code> 参数，因为 <code class="docutils literal notranslate"><span class="pre">train_test_split</span></code> 函数无法按定量变量分层。</p>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sacramento_train</span><span class="p">,</span> <span class="n">sacramento_test</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span>
+    <span class="n">sacramento</span><span class="p">,</span> <span class="n">train_size</span><span class="o">=</span><span class="mf">0.75</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<span class="target" id="index-11"></span><p id="index-12">接下来，我们用交叉验证来选择 <span class="math notranslate nohighlight">\(K\)</span>。在 k 近邻分类中，我们用准确率来衡量预测结果与真实标签的吻合程度；在回归的场景下则不能沿用同一个指标，因为我们的预测几乎不可能与响应变量的真实取值<em>完全</em>一致。因此在 k 近邻回归中，我们改用均方根预测误差（root mean square prediction error，RMSPE）。计算 RMSPE 的数学公式为：</p>
+<div class="math notranslate nohighlight">
+\[\text{RMSPE} = \sqrt{\frac{1}{n}\sum\limits_{i=1}^{n}(y_i - \hat{y}_i)^2}\]</div>
+<p>其中：</p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(n\)</span> 是观测个数，</p></li>
+<li><p><span class="math notranslate nohighlight">\(y_i\)</span> 是第 <span class="math notranslate nohighlight">\(i^\text{th}\)</span> 个观测的观测值，</p></li>
+<li><p><span class="math notranslate nohighlight">\(\hat{y}_i\)</span> 是第 <span class="math notranslate nohighlight">\(i^\text{th}\)</span> 个观测的预测值。</p></li>
+</ul>
+<p>换句话说，对测试集（或验证集）中的每个观测，我们计算预测值与响应变量真实值之差的<em>平方</em>，再求平均，最后取平方根。之所以用<em>平方</em>差（而不是只用差），是因为差值可正可负，也就是说，我们的预测可能高估、也可能低估响应变量的真实值。<a class="reference internal" href="#fig-07-verticalerrors"><span class="std std-numref">图 7.5</span></a> 展示了预测值与真实响应值之间正向和负向的差。因此，如果要衡量误差——也就是预测值与真实响应值之间的距离——我们就要确保只把正值累加起来，而且正值越大代表错误越大。如果预测值与真实值非常接近，RMSPE 就很小；反过来，如果预测值与真实值相差很大，RMSPE 就相当大。使用交叉验证时，我们会选择让 RMSPE 最小的 <span class="math notranslate nohighlight">\(K\)</span>。</p>
+<figure class="align-default" id="fig-07-verticalerrors">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>alt.LayerChart(...)
+</pre></div>
+</div>
+<figcaption>
+<p><span class="caption-number">图 7.5 </span><span class="caption-text">售价（美元）与房屋面积（平方英尺）的散点图，其中包含示例预测值（橙色线条），以及这些预测值与真实响应值相比的误差（竖线）。</span><a class="headerlink" href="#fig-07-verticalerrors" title="永久链接至图片">#</a></p>
+</figcaption>
+</figure>
+<div class="admonition note" id="index-13">
+<p class="admonition-title">备注</p>
+<p>在使用许多代码包时，用来评估 k 近邻回归模型预测质量的输出会被标注为“RMSE”，也就是“均方根误差”（root mean squared error）。为什么会这样，而不是 RMSPE 呢？在统计学中，我们尽量把话说得精确，以表明所计算的预测误差来自训练数据（<em>样本内</em>预测）还是测试数据（<em>样本外</em>预测）。在训练数据上做预测并评估预测质量时，我们说 RMSE；相比之下，在测试数据或验证数据上做预测并评估预测质量时，我们说 RMSPE。RMSE 与 RMSPE 的计算式完全相同，唯一的区别在于其中的 <span class="math notranslate nohighlight">\(y\)</span> 取自训练数据还是测试数据。不过很多人对两者都直接用 RMSE，靠上下文来表明均方根误差是基于哪一份数据计算的。</p>
+</div>
+<p id="index-14">现在我们知道了如何评估模型对数值的预测效果，接下来就用 Python 做交叉验证，选出最优的 <span class="math notranslate nohighlight">\(K\)</span>。首先创建一个列变换器（column transformer）来预处理数据。请注意，我们在预处理中加入了标准化，是为了养成良好习惯；但由于只有一个预测变量，技术上并不需要这一步：不存在比较两个标度不同的预测变量的风险。接着我们为 k 近邻回归创建模型流水线。注意这里改用 <code class="docutils literal notranslate"><span class="pre">KNeighborsRegressor</span></code> 模型对象，以表示这是一个回归问题，而不是前几章讨论的分类问题。使用 <code class="docutils literal notranslate"><span class="pre">KNeighborsRegressor</span></code> 实际上是在告诉 <code class="docutils literal notranslate"><span class="pre">scikit-learn</span></code>：调优和评估需要使用不同的指标（而不是准确率）。随后我们指定一个参数网格，其中近邻个数从 1 到 200。然后创建一个 5 折 <code class="docutils literal notranslate"><span class="pre">GridSearchCV</span></code> 对象，并传入流水线和参数网格。这里还有一点小麻烦：与 <code class="docutils literal notranslate"><span class="pre">scikit-learn</span></code> 中的分类模型不同——分类模型默认就用准确率来调优，正合我们的需要——<code class="docutils literal notranslate"><span class="pre">scikit-learn</span></code> 中的回归模型默认不用 RMSPE 来调优。因此，我们需要把 <code class="docutils literal notranslate"><span class="pre">scoring</span></code> 参数设为 <code class="docutils literal notranslate"><span class="pre">&quot;neg_root_mean_squared_error&quot;</span></code>，以指明调优时要使用 RMSPE。</p>
+<div class="admonition note">
+<p class="admonition-title">备注</p>
+<p>表示近邻个数的参数标识符 <code class="docutils literal notranslate"><span class="pre">&quot;kneighborsregressor__n_neighbors&quot;</span></code>，是我们查看 <code class="docutils literal notranslate"><span class="pre">sacr_pipeline.get_params()</span></code> 的输出得到的，做法与<a class="reference internal" href="classification1.html#classification1"><span class="std std-numref">第 5 章</span></a>中一样。</p>
+</div>
+<div class="cell docutils container" id="index-15">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># import the K-NN regression model</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.neighbors</span><span class="w"> </span><span class="kn">import</span> <span class="n">KNeighborsRegressor</span>
+
+<span class="c1"># preprocess the data, make the pipeline</span>
+<span class="n">sacr_preprocessor</span> <span class="o">=</span> <span class="n">make_column_transformer</span><span class="p">((</span><span class="n">StandardScaler</span><span class="p">(),</span> <span class="p">[</span><span class="s2">"sqft"</span><span class="p">]))</span>
+<span class="n">sacr_pipeline</span> <span class="o">=</span> <span class="n">make_pipeline</span><span class="p">(</span><span class="n">sacr_preprocessor</span><span class="p">,</span> <span class="n">KNeighborsRegressor</span><span class="p">())</span>
+
+<span class="c1"># create the 5-fold GridSearchCV object</span>
+<span class="n">param_grid</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">"kneighborsregressor__n_neighbors"</span><span class="p">:</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">201</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span>
+<span class="p">}</span>
+<span class="n">sacr_gridsearch</span> <span class="o">=</span> <span class="n">GridSearchCV</span><span class="p">(</span>
+    <span class="n">estimator</span><span class="o">=</span><span class="n">sacr_pipeline</span><span class="p">,</span>
+    <span class="n">param_grid</span><span class="o">=</span><span class="n">param_grid</span><span class="p">,</span>
+    <span class="n">cv</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>
+    <span class="n">scoring</span><span class="o">=</span><span class="s2">"neg_root_mean_squared_error"</span><span class="p">,</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>接下来，我们调用 <code class="docutils literal notranslate"><span class="pre">sacr_gridsearch</span></code> 的 <code class="docutils literal notranslate"><span class="pre">fit</span></code> 方法来运行交叉验证。请注意，输入特征用了两层方括号（<code class="docutils literal notranslate"><span class="pre">sacramento_train[[&quot;sqft&quot;]]</span></code>），这样得到的是只含一列的数据框。正如我们在<a class="reference internal" href="wrangling.html#wrangling"><span class="std std-numref">第 3 章</span></a>中学到的，传入列名列表就能得到包含部分列的数据框；<code class="docutils literal notranslate"><span class="pre">[&quot;sqft&quot;]</span></code> 是只含一个元素的列表，所以得到的数据框只有一列。如果只用一层方括号（<code class="docutils literal notranslate"><span class="pre">sacramento_train[&quot;sqft&quot;]</span></code>），得到的则是一个序列。在 <code class="docutils literal notranslate"><span class="pre">scikit-learn</span></code> 中，把输入特征当作数据框处理比当作序列更方便，因此这里我们选择两层方括号。而在响应变量那边，用序列就可以了，所以只用一层方括号（<code class="docutils literal notranslate"><span class="pre">sacramento_train[&quot;price&quot;]</span></code>）。</p>
+<p>与<a class="reference internal" href="classification2.html#classification2"><span class="std std-numref">第 6 章</span></a>一样，模型拟合完成后，我们会把 <code class="docutils literal notranslate"><span class="pre">cv_results_</span></code> 的输出放进数据框，只提取需要的列，按 5 折计算标准误，并把参数列重命名，使其更易读。</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># fit the GridSearchCV object</span>
+<span class="n">sacr_gridsearch</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span>
+    <span class="n">sacramento_train</span><span class="p">[[</span><span class="s2">"sqft"</span><span class="p">]],</span>  <span class="c1"># A single-column data frame</span>
+    <span class="n">sacramento_train</span><span class="p">[</span><span class="s2">"price"</span><span class="p">]</span>  <span class="c1"># A series</span>
+<span class="p">)</span>
+
+<span class="c1"># Retrieve the CV scores</span>
+<span class="n">sacr_results</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">sacr_gridsearch</span><span class="o">.</span><span class="n">cv_results_</span><span class="p">)</span>
+<span class="n">sacr_results</span><span class="p">[</span><span class="s2">"sem_test_score"</span><span class="p">]</span> <span class="o">=</span> <span class="n">sacr_results</span><span class="p">[</span><span class="s2">"std_test_score"</span><span class="p">]</span> <span class="o">/</span> <span class="mi">5</span><span class="o">**</span><span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">sacr_results</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="n">sacr_results</span><span class="p">[[</span>
+        <span class="s2">"param_kneighborsregressor__n_neighbors"</span><span class="p">,</span>
+        <span class="s2">"mean_test_score"</span><span class="p">,</span>
+        <span class="s2">"sem_test_score"</span>
+    <span class="p">]]</span>
+    <span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">{</span><span class="s2">"param_kneighborsregressor__n_neighbors"</span><span class="p">:</span> <span class="s2">"n_neighbors"</span><span class="p">})</span>
+<span class="p">)</span>
+<span class="n">sacr_results</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>n_neighbors</th>
+      <th>mean_test_score</th>
+      <th>sem_test_score</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>1</td>
+      <td>-114708.011723</td>
+      <td>2598.167936</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>4</td>
+      <td>-93707.011055</td>
+      <td>2383.635076</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>7</td>
+      <td>-89955.928050</td>
+      <td>2636.826322</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>10</td>
+      <td>-87949.824705</td>
+      <td>2956.453486</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>13</td>
+      <td>-86562.539690</td>
+      <td>3344.784331</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>62</th>
+      <td>187</td>
+      <td>-92905.033526</td>
+      <td>2559.340165</td>
+    </tr>
+    <tr>
+      <th>63</th>
+      <td>190</td>
+      <td>-93128.013269</td>
+      <td>2512.755780</td>
+    </tr>
+    <tr>
+      <th>64</th>
+      <td>193</td>
+      <td>-93394.117752</td>
+      <td>2491.694793</td>
+    </tr>
+    <tr>
+      <th>65</th>
+      <td>196</td>
+      <td>-93658.442142</td>
+      <td>2478.178402</td>
+    </tr>
+    <tr>
+      <th>66</th>
+      <td>199</td>
+      <td>-93989.842954</td>
+      <td>2471.449058</td>
+    </tr>
+  </tbody>
+</table>
+<p>67 rows × 3 columns</p>
+</div></div></div>
+</div>
+<p>在结果数据框 <code class="docutils literal notranslate"><span class="pre">sacr_results</span></code> 中可以看到，<code class="docutils literal notranslate"><span class="pre">n_neighbors</span></code> 变量存放的是 <span class="math notranslate nohighlight">\(K\)</span> 的各项取值，<code class="docutils literal notranslate"><span class="pre">mean_test_score</span></code> 变量存放的是交叉验证估计出的 RMSPE……等一下！RMSPE 不是应该非负吗？回想一下，我们在 <code class="docutils literal notranslate"><span class="pre">GridSearchCV</span></code> 对象中指定 <code class="docutils literal notranslate"><span class="pre">scoring</span></code> 参数时，用的值是 <code class="docutils literal notranslate"><span class="pre">&quot;neg_root_mean_squared_error&quot;</span></code>。看到开头的 <code class="docutils literal notranslate"><span class="pre">neg_</span></code> 了吗？它表示<em>负</em>（negative）！原来，<code class="docutils literal notranslate"><span class="pre">scikit-learn</span></code> 调优模型时总是设法<em>最大化</em>得分，而调优回归模型时我们要<em>最小化</em> RMSPE。于是 <code class="docutils literal notranslate"><span class="pre">scikit-learn</span></code> 改用<em>负的</em> RMSPE 来绕开这个矛盾。这确实有点绕，但我们还需要再多做一步，把负的 RMSPE 换算回普通的 RMSPE。</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sacr_results</span><span class="p">[</span><span class="s2">"mean_test_score"</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="n">sacr_results</span><span class="p">[</span><span class="s2">"mean_test_score"</span><span class="p">]</span>
+<span class="n">sacr_results</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>n_neighbors</th>
+      <th>mean_test_score</th>
+      <th>sem_test_score</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>1</td>
+      <td>114708.011723</td>
+      <td>2598.167936</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>4</td>
+      <td>93707.011055</td>
+      <td>2383.635076</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>7</td>
+      <td>89955.928050</td>
+      <td>2636.826322</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>10</td>
+      <td>87949.824705</td>
+      <td>2956.453486</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>13</td>
+      <td>86562.539690</td>
+      <td>3344.784331</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>62</th>
+      <td>187</td>
+      <td>92905.033526</td>
+      <td>2559.340165</td>
+    </tr>
+    <tr>
+      <th>63</th>
+      <td>190</td>
+      <td>93128.013269</td>
+      <td>2512.755780</td>
+    </tr>
+    <tr>
+      <th>64</th>
+      <td>193</td>
+      <td>93394.117752</td>
+      <td>2491.694793</td>
+    </tr>
+    <tr>
+      <th>65</th>
+      <td>196</td>
+      <td>93658.442142</td>
+      <td>2478.178402</td>
+    </tr>
+    <tr>
+      <th>66</th>
+      <td>199</td>
+      <td>93989.842954</td>
+      <td>2471.449058</td>
+    </tr>
+  </tbody>
+</table>
+<p>67 rows × 3 columns</p>
+</div></div></div>
+</div>
+<p>好了，现在 <code class="docutils literal notranslate"><span class="pre">mean_test_score</span></code> 变量存放的确实是不同近邻个数下的 RMSPE 取值。最后，<code class="docutils literal notranslate"><span class="pre">sem_test_score</span></code> 变量存放的是交叉验证 RMSPE 估计值的标准误，它衡量我们对这个均值有多不确定。粗略地说，如果估计出的平均 RMSPE 是 $100,000，标准误是 $1,000，那么可以预期<em>真实</em>的 RMSPE 大致落在 $99,000 到 $101,000 之间（不过也可能落在这个范围之外）。</p>
+<p><a class="reference internal" href="#fig-07-choose-k-knn-plot"><span class="std std-numref">图 7.6</span></a> 展示了 RMSPE 如何随近邻个数 <span class="math notranslate nohighlight">\(K\)</span> 变化。我们取 RMSPE 的<em>最小值</em>来确定近邻个数的最佳设置。RMSPE 最小时，<span class="math notranslate nohighlight">\(K\)</span> 的取值为 <span class="pasted-text">49</span>。</p>
+<figure class="align-default" id="fig-07-choose-k-knn-plot">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>alt.Chart(...)
+</pre></div>
+</div>
+<figcaption>
+<p><span class="caption-number">图 7.6 </span><span class="caption-text">近邻个数对 RMSPE 的影响。</span><a class="headerlink" href="#fig-07-choose-k-knn-plot" title="永久链接至图片">#</a></p>
+</figcaption>
+</figure>
+<p>要想知道哪个参数取值对应最小的 RMSPE，我们也可以访问最初拟合的 <code class="docutils literal notranslate"><span class="pre">GridSearchCV</span></code> 对象的 <code class="docutils literal notranslate"><span class="pre">best_params_</span></code> 属性。请注意，像上面那样把结果可视化仍然很有用，因为它能额外说明模型性能是怎样变化的。</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sacr_gridsearch</span><span class="o">.</span><span class="n">best_params_</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>{'kneighborsregressor__n_neighbors': 49}
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="id7">
+<h2><span class="section-number">7.7. </span>欠拟合与过拟合<a class="headerlink" href="#id7" title="Permalink to this heading">#</a></h2>
+<p>与分类的情形类似，把近邻个数设得太小或太大，都会使 RMSPE 增大，如<a class="reference internal" href="#fig-07-choose-k-knn-plot"><span class="std std-numref">图 7.6</span></a> 所示。这里发生了什么？</p>
+<p><a class="reference internal" href="#fig-07-howk"><span class="std std-numref">图 7.7</span></a> 展示了 <span class="math notranslate nohighlight">\(K\)</span> 取不同值时回归模型的表现。每张图都给出了我们的 k 近邻回归模型在 6 个不同的 <span class="math notranslate nohighlight">\(K\)</span> 值下预测的房屋售价：1、3、25、<span class="pasted-text">49</span>、250 和 699（也就是全部训练数据）。对每个模型，我们都预测数据集中出现过的各种房屋面积（这里是 500 到 5,000 平方英尺）对应的价格，并把预测价格画成橙色线条。</p>
+<figure class="align-default" id="fig-07-howk">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>alt.VConcatChart(...)
+</pre></div>
+</div>
+<figcaption>
+<p><span class="caption-number">图 7.7 </span><span class="caption-text">取六个不同 <span class="math notranslate nohighlight">\(K\)</span> 值时 k 近邻回归模型预测的房屋价格（用橙色线条表示）。</span><a class="headerlink" href="#fig-07-howk" title="永久链接至图片">#</a></p>
+</figcaption>
+</figure>
+<p id="index-16"><a class="reference internal" href="#fig-07-howk"><span class="std std-numref">图 7.7</span></a> 表明，当 <span class="math notranslate nohighlight">\(K\)</span> = 1 时，橙色线条完美地穿过了我们几乎所有的训练观测。这是因为某个区域的预测值（通常）只取决于单个观测。一般来说，<span class="math notranslate nohighlight">\(K\)</span> 太小时，线条会相当贴近训练数据，即使不能与之完全吻合。如果我们换一份来自萨克拉门托房地产市场、包含房屋价格和面积的训练数据集，最终会得到完全不同的预测。换句话说，模型受数据的<em>影响太大</em>。由于模型紧紧跟随训练数据，它对新的观测就做不出准确预测，而新观测通常不会带有与原训练数据相同的波动。回忆分类各章的内容可知，这种模型受有噪声数据影响过大的行为称为<em>过拟合</em>；在回归的语境中我们也用同一个术语。</p>
+<p id="index-17"><a class="reference internal" href="#fig-07-howk"><span class="std std-numref">图 7.7</span></a> 中 <span class="math notranslate nohighlight">\(K\)</span> 相当大的那几张图，比如 <span class="math notranslate nohighlight">\(K\)</span> = 250 或 699，又是什么情况呢？这时橙色线条变得极其平滑，而当 <span class="math notranslate nohighlight">\(K\)</span> 等于整个数据集中的数据点个数时，它实际上变成了一条水平线。这是因为，对于某个 x 取值（这里是房屋面积），我们的预测值取决于许多近邻观测；如果 <span class="math notranslate nohighlight">\(K\)</span> 等于数据集的大小，预测值就只是数据集中房屋价格的均值（完全忽略了房屋面积）。与 <span class="math notranslate nohighlight">\(K=1\)</span> 的例子相比，这条平滑、不灵活的橙色线条并不怎么贴近训练观测。换句话说，模型受训练数据的<em>影响不够</em>。回忆分类各章的内容可知，这种行为称为<em>欠拟合</em>；在回归的语境中我们同样使用这个术语。</p>
+<p>理想情况下，上面讨论的两种情况都不是我们想要的。我们希望模型既能（1）跟随训练数据整体的“趋势”，真正利用训练数据学到有用的东西，又能（2）不跟随有噪声的波动，这样我们才有把握说模型能很好地迁移/泛化到其他新数据。如果我们再看看 <span class="math notranslate nohighlight">\(K\)</span> 的其他取值，特别是 <span class="math notranslate nohighlight">\(K\)</span> = <span class="pasted-text">49</span>（正如交叉验证所建议的），就会发现它达到了这个目标：它跟随房屋价格随房屋面积上升的趋势，又不会受价格中那些个别波动的影响。这一切都与 <span class="math notranslate nohighlight">\(K\)</span> 的取值如何影响 k 近邻分类类似，上一章已经讨论过。</p>
+</section>
+<section id="id8">
+<h2><span class="section-number">7.8. </span>在测试集上评估<a class="headerlink" href="#id8" title="Permalink to this heading">#</a></h2>
+<p>要评估模型在未见过的数据上预测得怎么样，我们来看它在测试数据上的 RMSPE。为此，首先要用 <span class="math notranslate nohighlight">\(K =\)</span> <span class="pasted-text">49</span> 个近邻在整个训练数据集上重新训练 k 近邻回归模型。正如我们在<a class="reference internal" href="classification2.html#classification2"><span class="std std-numref">第 6 章</span></a>中所见，这一步不必自己手动完成，<code class="docutils literal notranslate"><span class="pre">scikit-learn</span></code> 会自动替我们做好。要用最佳模型在测试数据上做预测，我们可以调用已拟合的 <code class="docutils literal notranslate"><span class="pre">GridSearchCV</span></code> 对象的 <code class="docutils literal notranslate"><span class="pre">predict</span></code> 方法。接着用 <code class="docutils literal notranslate"><span class="pre">mean_squared_error</span></code> 函数（传入 <code class="docutils literal notranslate"><span class="pre">y_true</span></code> 和 <code class="docutils literal notranslate"><span class="pre">y_pred</span></code> 参数）计算均方预测误差，最后开平方得到 RMSPE。我们不直接使用 <code class="docutils literal notranslate"><span class="pre">score</span></code> 方法——如<a class="reference internal" href="classification2.html#classification2"><span class="std std-numref">第 6 章</span></a>中那样——是因为 <code class="docutils literal notranslate"><span class="pre">KNeighborsRegressor</span></code> 模型默认使用的评分指标与 RMSPE 不同。</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.metrics</span><span class="w"> </span><span class="kn">import</span> <span class="n">mean_squared_error</span>
+
+<span class="n">sacramento_test</span><span class="p">[</span><span class="s2">"predicted"</span><span class="p">]</span> <span class="o">=</span> <span class="n">sacr_gridsearch</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">sacramento_test</span><span class="p">)</span>
+<span class="n">RMSPE</span> <span class="o">=</span> <span class="n">mean_squared_error</span><span class="p">(</span>
+    <span class="n">y_true</span><span class="o">=</span><span class="n">sacramento_test</span><span class="p">[</span><span class="s2">"price"</span><span class="p">],</span>
+    <span class="n">y_pred</span><span class="o">=</span><span class="n">sacramento_test</span><span class="p">[</span><span class="s2">"predicted"</span><span class="p">]</span>
+<span class="p">)</span><span class="o">**</span><span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">RMSPE</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>87196.43427158643
+</pre></div>
+</div>
+</div>
+</div>
+<p>以 RMSPE 衡量，我们最终模型的测试误差为 $<span class="pasted-text">87,196</span>。请注意，RMSPE 的度量单位与响应变量相同。换句话说，对于新观测，我们预计预测误差<em>大致</em>为 $<span class="pasted-text">87,196</span>。从一个角度看，这是好消息：这个值和调优后模型的交叉验证 RMSPE 估计值差不多（该估计值为 $<span class="pasted-text">85,601</span>），因此可以说，该模型看上去能很好地泛化到从未见过的新数据。不过，与 k 近邻分类的情形很像，这个 RMSPE 值算不算<em>好</em>——也就是说，大约 $<span class="pasted-text">87,196</span> 的误差是否可以接受——完全取决于具体应用。在这个应用里，这个误差不算大得无法承受，但也绝不可忽略；$<span class="pasted-text">87,196</span> 可能占购房者预算的相当大一部分，甚至决定他们到底买不买得起、能不能给房子出价。</p>
+<p>最后，<a class="reference internal" href="#fig-07-predict-all"><span class="std std-numref">图 7.8</span></a> 展示了我们最终的模型在萨克拉门托地区可能遇到的各种房屋面积上给出的预测。请注意，我们并不是只对数据中恰好出现的那些房屋面积预测房价，而是对数据集中最小值与最大值之间等间距的取值（大约 500 到 5000 平方英尺）逐一预测。我们把这条预测线叠加在原始房价数据的散点图上，这样就能定性地判断模型是否很好地拟合了数据。本章前面你已经见过几张这样的图，不过这里我们也把生成它的代码提供出来，当作一次学习机会。</p>
+<div class="cell tag_remove-output docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Create a grid of evenly spaced values along the range of the sqft data</span>
+<span class="n">sqft_prediction_grid</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span>
+    <span class="s2">"sqft"</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">sacramento</span><span class="p">[</span><span class="s2">"sqft"</span><span class="p">]</span><span class="o">.</span><span class="n">min</span><span class="p">(),</span> <span class="n">sacramento</span><span class="p">[</span><span class="s2">"sqft"</span><span class="p">]</span><span class="o">.</span><span class="n">max</span><span class="p">(),</span> <span class="mi">10</span><span class="p">)</span>
+<span class="p">})</span>
+<span class="c1"># Predict the price for each of the sqft values in the grid</span>
+<span class="n">sqft_prediction_grid</span><span class="p">[</span><span class="s2">"predicted"</span><span class="p">]</span> <span class="o">=</span> <span class="n">sacr_gridsearch</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">sqft_prediction_grid</span><span class="p">)</span>
+
+<span class="c1"># Plot all the houses</span>
+<span class="n">base_plot</span> <span class="o">=</span> <span class="n">alt</span><span class="o">.</span><span class="n">Chart</span><span class="p">(</span><span class="n">sacramento</span><span class="p">)</span><span class="o">.</span><span class="n">mark_circle</span><span class="p">(</span><span class="n">opacity</span><span class="o">=</span><span class="mf">0.4</span><span class="p">)</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span>
+    <span class="n">x</span><span class="o">=</span><span class="n">alt</span><span class="o">.</span><span class="n">X</span><span class="p">(</span><span class="s2">"sqft"</span><span class="p">)</span>
+        <span class="o">.</span><span class="n">scale</span><span class="p">(</span><span class="n">zero</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">"House size (square feet)"</span><span class="p">),</span>
+    <span class="n">y</span><span class="o">=</span><span class="n">alt</span><span class="o">.</span><span class="n">Y</span><span class="p">(</span><span class="s2">"price"</span><span class="p">)</span>
+        <span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="nb">format</span><span class="o">=</span><span class="s2">"$,.0f"</span><span class="p">)</span>
+        <span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">"Price (USD)"</span><span class="p">)</span>
+<span class="p">)</span>
+
+<span class="c1"># Add the predictions as a line</span>
+<span class="n">sacr_preds_plot</span> <span class="o">=</span> <span class="n">base_plot</span> <span class="o">+</span> <span class="n">alt</span><span class="o">.</span><span class="n">Chart</span><span class="p">(</span>
+    <span class="n">sqft_prediction_grid</span><span class="p">,</span>
+    <span class="n">title</span><span class="o">=</span><span class="sa">f</span><span class="s2">"K = </span><span class="si">{</span><span class="n">best_k_sacr</span><span class="si">}</span><span class="s2">"</span>
+<span class="p">)</span><span class="o">.</span><span class="n">mark_line</span><span class="p">(</span>
+    <span class="n">color</span><span class="o">=</span><span class="s2">"#ff7f0e"</span>
+<span class="p">)</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span>
+    <span class="n">x</span><span class="o">=</span><span class="s2">"sqft"</span><span class="p">,</span>
+    <span class="n">y</span><span class="o">=</span><span class="s2">"predicted"</span>
+<span class="p">)</span>
+
+<span class="n">sacr_preds_plot</span>
+</pre></div>
+</div>
+</div>
+</div>
+<figure class="align-default" id="fig-07-predict-all">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>alt.LayerChart(...)
+</pre></div>
+</div>
+<figcaption>
+<p><span class="caption-number">图 7.8 </span><span class="caption-text">最终 k 近邻回归模型预测的房价（橙色线）。</span><a class="headerlink" href="#fig-07-predict-all" title="永久链接至图片">#</a></p>
+</figcaption>
+</figure>
+</section>
+<section id="id9">
+<h2><span class="section-number">7.9. </span>多元 k 近邻回归<a class="headerlink" href="#id9" title="Permalink to this heading">#</a></h2>
+<p>与 k 近邻分类一样，k 近邻回归也可以使用多个预测变量。此时预测变量的标度会带来同样的顾虑。同样，做预测时要先找出与待预测的新点最接近的 <span class="math notranslate nohighlight">\(K\)</span> 个观测；标度大的变量所起的作用会远大于标度小的变量。因此，我们应当重新定义流水线中的预处理器（preprocessor），把所有预测变量都纳入进来。</p>
+<p>还要注意，k 近邻回归中预测变量的选择与 k 近邻分类有同样的顾虑：预测变量更多<strong>并不</strong>总是更好，而且选用哪些预测变量对预测质量可能有很大影响。好在 k 近邻回归同样可以使用<a class="reference internal" href="classification2.html#classification2"><span class="std std-numref">第 6 章</span></a>中的预测变量选择算法。算法是同一个，本章不再重复介绍。</p>
+<p id="index-18">下面我们用 <code class="docutils literal notranslate"><span class="pre">scikit-learn</span></code> 对萨克拉门托房地产数据做一次多元 k 近邻回归分析。这一次，我们用房屋面积（以平方英尺计）和卧室数量作为预测变量，并继续用房屋售价作为我们要预测的响应变量。在开始建模之前先做探索性数据分析（例如把数据可视化），始终是良好实践。<a class="reference internal" href="#fig-07-bedscatter"><span class="std std-numref">图 7.9</span></a> 表明，卧室数量也许能提供有助于预测房屋售价的有用信息。</p>
+<div class="cell tag_remove-output docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plot_beds</span> <span class="o">=</span> <span class="n">alt</span><span class="o">.</span><span class="n">Chart</span><span class="p">(</span><span class="n">sacramento</span><span class="p">)</span><span class="o">.</span><span class="n">mark_circle</span><span class="p">()</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span>
+    <span class="n">x</span><span class="o">=</span><span class="n">alt</span><span class="o">.</span><span class="n">X</span><span class="p">(</span><span class="s2">"beds"</span><span class="p">)</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">"Number of Bedrooms"</span><span class="p">),</span>
+    <span class="n">y</span><span class="o">=</span><span class="n">alt</span><span class="o">.</span><span class="n">Y</span><span class="p">(</span><span class="s2">"price"</span><span class="p">)</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">"Price (USD)"</span><span class="p">)</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="nb">format</span><span class="o">=</span><span class="s2">"$,.0f"</span><span class="p">),</span>
+<span class="p">)</span>
+
+<span class="n">plot_beds</span>
+</pre></div>
+</div>
+</div>
+</div>
+<figure class="align-default" id="fig-07-bedscatter">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>alt.Chart(...)
+</pre></div>
+</div>
+<figcaption>
+<p><span class="caption-number">图 7.9 </span><span class="caption-text">房屋售价与卧室数量的散点图。</span><a class="headerlink" href="#fig-07-bedscatter" title="永久链接至图片">#</a></p>
+</figcaption>
+</figure>
+<p><a class="reference internal" href="#fig-07-bedscatter"><span class="std std-numref">图 7.9</span></a> 表明，卧室数量增加时，房屋售价往往也随之上升，但两者关系相当弱。把卧室数量加入模型，能否提高我们预测价格的能力？要回答这个问题，我们需要新建一个使用房屋面积和卧室数量的 k 近邻回归模型，再把它与之前只用房屋面积的模型比较。我们现在就动手！</p>
+<p>首先，我们为这次分析构建新的模型对象和预处理器。注意，我们把列表 <code class="docutils literal notranslate"><span class="pre">[&quot;sqft&quot;,</span> <span class="pre">&quot;beds&quot;]</span></code> 传给 <code class="docutils literal notranslate"><span class="pre">make_column_transformer</span></code> 函数，以表明有两个预测变量。此外，我们没有在 <code class="docutils literal notranslate"><span class="pre">KNeighborsRegressor</span></code> 中指定 <code class="docutils literal notranslate"><span class="pre">n_neighbors</span></code>，说明希望这个参数由 <code class="docutils literal notranslate"><span class="pre">GridSearchCV</span></code> 来调优。</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sacr_preprocessor</span> <span class="o">=</span> <span class="n">make_column_transformer</span><span class="p">((</span><span class="n">StandardScaler</span><span class="p">(),</span> <span class="p">[</span><span class="s2">"sqft"</span><span class="p">,</span> <span class="s2">"beds"</span><span class="p">]))</span>
+<span class="n">sacr_pipeline</span> <span class="o">=</span> <span class="n">make_pipeline</span><span class="p">(</span><span class="n">sacr_preprocessor</span><span class="p">,</span> <span class="n">KNeighborsRegressor</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>接下来，我们用 5 折交叉验证配合 <code class="docutils literal notranslate"><span class="pre">GridSearchCV</span></code> 对象，按照 RMSPE 最小来选取近邻个数：</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># create the 5-fold GridSearchCV object</span>
+<span class="n">param_grid</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">"kneighborsregressor__n_neighbors"</span><span class="p">:</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">50</span><span class="p">),</span>
+<span class="p">}</span>
+
+<span class="n">sacr_gridsearch</span> <span class="o">=</span> <span class="n">GridSearchCV</span><span class="p">(</span>
+    <span class="n">estimator</span><span class="o">=</span><span class="n">sacr_pipeline</span><span class="p">,</span>
+    <span class="n">param_grid</span><span class="o">=</span><span class="n">param_grid</span><span class="p">,</span>
+    <span class="n">cv</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>
+    <span class="n">scoring</span><span class="o">=</span><span class="s2">"neg_root_mean_squared_error"</span>
+<span class="p">)</span>
+
+<span class="n">sacr_gridsearch</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span>
+  <span class="n">sacramento_train</span><span class="p">[[</span><span class="s2">"sqft"</span><span class="p">,</span> <span class="s2">"beds"</span><span class="p">]],</span>
+  <span class="n">sacramento_train</span><span class="p">[</span><span class="s2">"price"</span><span class="p">]</span>
+<span class="p">)</span>
+
+<span class="c1"># retrieve the CV scores</span>
+<span class="n">sacr_results</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">sacr_gridsearch</span><span class="o">.</span><span class="n">cv_results_</span><span class="p">)</span>
+<span class="n">sacr_results</span><span class="p">[</span><span class="s2">"sem_test_score"</span><span class="p">]</span> <span class="o">=</span> <span class="n">sacr_results</span><span class="p">[</span><span class="s2">"std_test_score"</span><span class="p">]</span> <span class="o">/</span> <span class="mi">5</span><span class="o">**</span><span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">sacr_results</span><span class="p">[</span><span class="s2">"mean_test_score"</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="n">sacr_results</span><span class="p">[</span><span class="s2">"mean_test_score"</span><span class="p">]</span>
+<span class="n">sacr_results</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="n">sacr_results</span><span class="p">[[</span>
+        <span class="s2">"param_kneighborsregressor__n_neighbors"</span><span class="p">,</span>
+        <span class="s2">"mean_test_score"</span><span class="p">,</span>
+        <span class="s2">"sem_test_score"</span>
+    <span class="p">]]</span>
+    <span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">{</span><span class="s2">"param_kneighborsregressor__n_neighbors"</span> <span class="p">:</span> <span class="s2">"n_neighbors"</span><span class="p">})</span>
+<span class="p">)</span>
+
+<span class="c1"># show only the row of minimum RMSPE</span>
+<span class="n">sacr_results</span><span class="o">.</span><span class="n">nsmallest</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="s2">"mean_test_score"</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>n_neighbors</th>
+      <th>mean_test_score</th>
+      <th>sem_test_score</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>28</th>
+      <td>29</td>
+      <td>85156.447905</td>
+      <td>3350.341469</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>这里我们看到，交叉验证给出的最小 RMSPE 估计值出现在 <span class="math notranslate nohighlight">\(K =\)</span> <span class="pasted-text">29</span> 时。如果要在<em>模型调优过程中</em>把这个多元 k 近邻回归模型与只有单个预测变量的模型作比较（例如，我们正在做前向选择（forward selection），具体做法见讲解分类模型评估与调优的那一章），那就必须比较仅用训练数据通过交叉验证估计出的 RMSPE。回头看，单预测变量模型的交叉验证 RMSPE 估计值为 $<span class="pasted-text">85,601</span>。多元模型的交叉验证 RMSPE 估计值为 $<span class="pasted-text">85,156</span>。因此在这个例子里，加入这个额外的预测变量并没有让模型提升多少。</p>
+<p>不管怎样，我们继续分析，看看如何用多元 k 近邻回归模型做预测，并在测试数据上评估它的性能。和前面一样，我们用最佳模型对测试数据做预测，也就是调用已拟合的 <code class="docutils literal notranslate"><span class="pre">GridSearchCV</span></code> 对象的 <code class="docutils literal notranslate"><span class="pre">predict</span></code> 方法。最后，我们用 <code class="docutils literal notranslate"><span class="pre">mean_squared_error</span></code> 函数计算 RMSPE。</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sacramento_test</span><span class="p">[</span><span class="s2">"predicted"</span><span class="p">]</span> <span class="o">=</span> <span class="n">sacr_gridsearch</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">sacramento_test</span><span class="p">)</span>
+<span class="n">RMSPE_mult</span> <span class="o">=</span> <span class="n">mean_squared_error</span><span class="p">(</span>
+    <span class="n">y_true</span><span class="o">=</span><span class="n">sacramento_test</span><span class="p">[</span><span class="s2">"price"</span><span class="p">],</span>
+    <span class="n">y_pred</span><span class="o">=</span><span class="n">sacramento_test</span><span class="p">[</span><span class="s2">"predicted"</span><span class="p">]</span>
+<span class="p">)</span><span class="o">**</span><span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">RMSPE_mult</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>85055.1541359763
+</pre></div>
+</div>
+</div>
+</div>
+<p>这一次，我们在同一个数据集上做 k 近邻回归，但把卧室数量也作为预测变量，得到的 RMSPE 测试误差为 $<span class="pasted-text">85,055</span>。<a class="reference internal" href="#fig-07-knn-mult-viz"><span class="std std-numref">图 7.10</span></a> 把模型的预测叠加在数据之上做了可视化。这次有 2 个预测变量而不是 1 个，所以预测不再是二维空间中的一条直线，而是三维空间中的一个曲面。</p>
+<div class="cell tag_remove-input docutils container">
+<div class="cell_output docutils container">
+</div>
+</div>
+<figure class="caption-hack align-default" id="fig-07-knn-mult-viz">
+<img alt="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" />
+<figcaption>
+<p><span class="caption-number">图 7.10 </span><span class="caption-text">k 近邻回归模型的预测以三维空间中的曲面表示，叠加在使用三个预测变量（价格、房屋面积和卧室数量）的数据之上。一般我们并不推荐使用三维可视化；这里只是为了教学演示，才用三维可视化展示预测曲面是什么样子。</span><a class="headerlink" href="#fig-07-knn-mult-viz" title="永久链接至图片">#</a></p>
+</figcaption>
+</figure>
+<p>可以看到，在有 2 个预测变量时，预测形成的是曲面而不是直线。新加入的预测变量（卧室数量）与价格有关（价格变化时，卧室数量也随之变化），并且不完全由房屋面积（我们的另一个预测变量）决定，因此它为我们做预测带来了额外而有用的信息。例如，在这个模型中，我们会预测面积为 2,500 平方英尺的房屋，其价格通常随卧室数量增加而略有上升。如果没有卧室数量这个额外的预测变量，我们对这两栋房子会给出相同的预测价格。</p>
+</section>
+<section id="id10">
+<h2><span class="section-number">7.10. </span>k 近邻回归的优势与局限<a class="headerlink" href="#id10" title="Permalink to this heading">#</a></h2>
+<p>与 k 近邻分类（其实任何预测算法都是如此）一样，k 近邻回归既有优势也有不足。这里列出其中一些：</p>
+<p><strong>优势：</strong> k 近邻回归</p>
+<ol class="arabic simple">
+<li><p>是一种简单、直观的算法，</p></li>
+<li><p>对数据必须呈现什么样子只提出很少的假设，</p></li>
+<li><p>能很好地处理非线性关系（即关系不是一条直线）。</p></li>
+</ol>
+<p><strong>不足：</strong> k 近邻回归</p>
+<ol class="arabic simple">
+<li><p>训练数据变大时会变得非常慢，</p></li>
+<li><p>预测变量很多时可能表现不佳，</p></li>
+<li><p>在你的训练数据取值范围之外可能预测得不好。</p></li>
+</ol>
+</section>
+<section id="id11">
+<h2><span class="section-number">7.11. </span>习题<a class="headerlink" href="#id11" title="Permalink to this heading">#</a></h2>
+<p>本章所讲内容对应的练习题，可以在配套的<a class="reference external" href="https://worksheets.python.datasciencebook.ca">练习册仓库</a>中“Regression I: K-nearest neighbors”那一行找到。点击“查看练习册（view worksheet）”，你就能预览本章练习册的非交互版本。要交互式地做这些习题，请按练习册仓库中的说明下载全部练习册，并按<a class="reference internal" href="setup.html#move-to-your-own-machine"><span class="std std-numref">第 13 章</span></a>中给出的计算机环境配置说明操作。这样才能保证练习册提供的自动反馈和指导按预期正常工作。</p>
+</section>
+<section id="id12">
+<h2><span class="section-number">7.12. </span>参考文献<a class="headerlink" href="#id12" title="Permalink to this heading">#</a></h2>
+<div class="docutils container" id="id13">
+<dl class="citation">
+<dt class="label" id="id16"><span class="brackets"><a class="fn-backref" href="#id4">CH67</a></span></dt>
+<dd><p>Thomas Cover and Peter Hart. Nearest neighbor pattern classification. <em>IEEE Transactions on Information Theory</em>, 13(1):21–27, 1967.</p>
+</dd>
+<dt class="label" id="id15"><span class="brackets"><a class="fn-backref" href="#id4">FH51</a></span></dt>
+<dd><p>Evelyn Fix and Joseph Hodges. Discriminatory analysis. nonparametric discrimination: consistency properties. Technical Report, USAF School of Aviation Medicine, Randolph Field, Texas, 1951.</p>
+</dd>
+</dl>
+</div>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="classification2.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">上一页</p>
+        <p class="prev-next-title"><span class="section-number">6. </span>分类 II：评估与调优</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="regression2.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">下一页</p>
+        <p class="prev-next-title"><span class="section-number">8. </span>回归 II：线性回归</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> 目录
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">7.1. 概述</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">7.2. 本章学习目标</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">7.3. 回归问题</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id5">7.4. 探索数据集</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#k">7.5. k 近邻回归</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id6">7.6. 训练、评估与调优模型</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id7">7.7. 欠拟合与过拟合</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id8">7.8. 在测试集上评估</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id9">7.9. 多元 k 近邻回归</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id10">7.10. k 近邻回归的优势与局限</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id11">7.11. 习题</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id12">7.12. 参考文献</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+作者： Tiffany Timbers, Trevor Campbell, Melissa Lee, Joel Ostblom, and Lindsey Heagy
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2022.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

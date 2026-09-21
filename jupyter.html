@@ -1,0 +1,766 @@
+
+
+<!DOCTYPE html>
+
+
+<html lang="zh-CN" data-content_root="" >
+
+  <head>
+<link rel="canonical" href="https://peleryuan.github.io/introduction-to-datascience-python/jupyter.html" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>11. 用 Jupyter 结合代码和文本 &#8212; 数据科学：Python 入门</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" href="_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="_static/style.css" />
+    <link rel="stylesheet" type="text/css" href="_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/clipboard.min.js"></script>
+    <script src="_static/copybutton.js"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="_static/togglebutton.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="_static/translations.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="_static/design-tabs.js"></script>
+    <script async="async" src="https://www.googletagmanager.com/gtag/js?id=G-7XBFF4RSN2"></script>
+    <script>
+                window.dataLayer = window.dataLayer || [];
+                function gtag(){ dataLayer.push(arguments); }
+                gtag('js', new Date());
+                gtag('config', 'G-7XBFF4RSN2');
+            </script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="_static/sphinx-thebe.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'jupyter';</script>
+    <link rel="index" title="索引" href="genindex.html" />
+    <link rel="search" title="搜索" href="search.html" />
+    <link rel="next" title="12. 借助版本控制协作" href="version-control.html" />
+    <link rel="prev" title="10. 统计推断" href="inference.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="zh-CN"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="index.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">数据科学：Python 入门</p>
+  
+</a></div>
+        <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">前言</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="preface-text.html">前言</a></li>
+<li class="toctree-l1"><a class="reference internal" href="foreword-text.html">序言</a></li>
+<li class="toctree-l1"><a class="reference internal" href="acknowledgements.html">致谢</a></li>
+<li class="toctree-l1"><a class="reference internal" href="authors.html">作者简介</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">正文章节</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="intro.html">1. Python 与 Pandas</a></li>
+<li class="toctree-l1"><a class="reference internal" href="reading.html">2. 从本地和网络读取数据</a></li>
+<li class="toctree-l1"><a class="reference internal" href="wrangling.html">3. 数据清洗与整理</a></li>
+<li class="toctree-l1"><a class="reference internal" href="viz.html">4. 有效的数据可视化</a></li>
+<li class="toctree-l1"><a class="reference internal" href="classification1.html">5. 分类 I：训练与预测</a></li>
+<li class="toctree-l1"><a class="reference internal" href="classification2.html">6. 分类 II：评估与调优</a></li>
+<li class="toctree-l1"><a class="reference internal" href="regression1.html">7. 回归 I：k 近邻回归</a></li>
+<li class="toctree-l1"><a class="reference internal" href="regression2.html">8. 回归 II：线性回归</a></li>
+<li class="toctree-l1"><a class="reference internal" href="clustering.html">9. 聚类</a></li>
+<li class="toctree-l1"><a class="reference internal" href="inference.html">10. 统计推断</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">11. 用 Jupyter 结合代码和文本</a></li>
+<li class="toctree-l1"><a class="reference internal" href="version-control.html">12. 借助版本控制协作</a></li>
+<li class="toctree-l1"><a class="reference internal" href="setup.html">13. 配置你的计算机</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="下载此页面">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="_sources/jupyter.md" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="下载源文件"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.md</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="列印成 PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="全屏模式"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="搜索" aria-label="搜索" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>用 Jupyter 结合代码和文本</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> 目录 </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">11.1. 概述</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">11.2. 本章学习目标</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">11.3. Jupyter</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id5">11.3.1. 访问 Jupyter</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id6">11.4. 代码单元格</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id7">11.4.1. 运行代码单元格</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id8">11.4.2. 内核</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id9">11.4.3. 新建代码单元格</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#markdown">11.5. Markdown 单元格</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id10">11.5.1. 编辑 Markdown 单元格</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id11">11.5.2. 新建 Markdown 单元格</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id12">11.6. 保存你的工作</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id13">11.7. 运行笔记本的最佳实践</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id14">11.7.1. 运行代码单元格的最佳实践</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#python">11.7.2. 在笔记本中引入 Python 包的最佳实践</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id15">11.7.3. 运行笔记本的最佳实践小结</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id16">11.8. 查看数据文件</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id17">11.9. 导出为其他文件格式</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#html">11.9.1. 导出为 HTML</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pdf">11.9.2. 导出为 PDF</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id18">11.10. 新建 Jupyter 笔记本</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id19">11.11. 拓展资源</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id20">11.12. 参考文献</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="jupyter">
+<span id="getting-started-with-jupyter"></span><h1><span class="section-number">11. </span>用 Jupyter 结合代码和文本<a class="headerlink" href="#jupyter" title="Permalink to this heading">#</a></h1>
+<section id="id1">
+<h2><span class="section-number">11.1. </span>概述<a class="headerlink" href="#id1" title="Permalink to this heading">#</a></h2>
+<p>典型的数据分析不仅要编写和运行代码，还要撰写文字、展示图片，帮助把分析的来龙去脉讲清楚。事实上，最理想的做法是把这三种媒介<em>交替穿插</em>在一起，让文字和图片为代码及其输出充当解说。本章将介绍如何用 Jupyter 笔记本（notebook）做到这一点，它是数据科学中常用的编程平台。Jupyter 笔记本正好满足我们的需要：它让你把文字、图片和（可执行的！）代码放进同一份文档里。本章的重点是<em>使用</em> Jupyter 笔记本，通过网页界面编写 Python 程序和撰写文本。这些技能是让分析顺利跑起来的基本功；不妨把它想成早上穿衣！注意，我们假定你已经装好 Jupyter，可以直接使用。如果没有，请先阅读<a class="reference internal" href="setup.html#move-to-your-own-machine"><span class="std std-numref">第 13 章</span></a>，了解如何在自己的电脑上安装和配置 Jupyter。</p>
+</section>
+<section id="id2">
+<h2><span class="section-number">11.2. </span>本章学习目标<a class="headerlink" href="#id2" title="Permalink to this heading">#</a></h2>
+<p>学完本章后，你将能够：</p>
+<ul class="simple">
+<li><p>新建 Jupyter 笔记本。</p></li>
+<li><p>在 Jupyter 笔记本中编写、编辑和运行 Python 代码。</p></li>
+<li><p>在 Jupyter 笔记本中编写、编辑和查看文本。</p></li>
+<li><p>在 Jupyter 中打开并查看纯文本数据文件。</p></li>
+<li><p>把 Jupyter 笔记本导出为其他标准文件类型（如 <code class="docutils literal notranslate"><span class="pre">.html</span></code>、<code class="docutils literal notranslate"><span class="pre">.pdf</span></code>）。</p></li>
+</ul>
+</section>
+<section id="id3">
+<h2><span class="section-number">11.3. </span>Jupyter<a class="headerlink" href="#id3" title="Permalink to this heading">#</a></h2>
+<p id="index-0">Jupyter <span id="id4">[<a class="reference internal" href="#id65" title="Thomas Kluyver, Benjamin Ragan-Kelley, Fernando Pérez, Brian Granger, Matthias Bussonnier, Jonathan Frederic, Kyle Kelley, Jessica Hamrick, Jason Grout, Sylvain Corlay, Paul Ivanov, Damián Avila, Safia Abdalla, Carol Willing, and Jupyter Development Team. Jupyter notebooks: a publishing format for reproducible computational workflows. In Positioning and Power in Academic Publishing: Players, Agents and Agendas: Proceedings of the 20th international conference on electronic publishing, volume 87. Amsterdam, 2016. IOS Press.">Kluyver <em>et al.</em>, 2016</a>]</span> 是一个基于网页的交互式开发环境，用来创建、编辑和运行名为 Jupyter 笔记本的文档。Jupyter 笔记本是同时包含计算机代码（及其输出）与可格式化文本的文档。笔记本把这两样分析产物放进同一份文档——代码不再与输出或书面报告分离——因而是创建可复现数据分析的首要工具之一。可复现的数据分析是指：分析同一份数据时，你能够可靠、轻松地再次得到相同的结果。这听起来像是任何数据分析都本该如此，可现实中往往并非如此；你得有意识地下功夫，才能让数据分析真正做到可复现。Jupyter 笔记本的外观示例见<a class="reference internal" href="#img-jupyter"><span class="std std-numref">图 11.1</span></a>。</p>
+<figure class="align-default" id="img-jupyter">
+<img alt="_images/jupyter.png" src="_images/jupyter.png" />
+<figcaption>
+<p><span class="caption-number">图 11.1 </span><span class="caption-text">Jupyter Notebook 的界面截图。</span><a class="headerlink" href="#img-jupyter" title="永久链接至图片">#</a></p>
+</figcaption>
+</figure>
+<section id="id5">
+<h3><span class="section-number">11.3.1. </span>访问 Jupyter<a class="headerlink" href="#id5" title="Permalink to this heading">#</a></h3>
+<p id="index-1">开始使用 Jupyter 最简单的办法之一，是使用名为 JupyterHub 的网页平台。JupyterHub 通常已经装好 Jupyter、Python、一批 Python 包和协作工具，配置完毕，可直接使用。JupyterHub 一般由机构创建和配置，访问时需要身份验证。例如，如果你是跟着课程读这本书，授课教师可能已经为你搭好了一个 JupyterHub！</p>
+<!--- 如果能获得访问许可，就在这里插入公开 JupyterHub 的链接（可以是 2i2c 协作项目，或 https://notebooks.gesis.org/hub/home） --> Jupyter 也可以安装在自己的电脑上；安装说明见{numref}`第 %s 章 <move-to-your-own-machine>`。
+</section>
+</section>
+<section id="id6">
+<h2><span class="section-number">11.4. </span>代码单元格<a class="headerlink" href="#id6" title="Permalink to this heading">#</a></h2>
+<p id="index-2">Jupyter 笔记本中存放代码的部分称为代码单元格。尚未运行过的代码单元格，左侧方括号内没有编号（<a class="reference internal" href="#code-cell-not-run"><span class="std std-numref">图 11.2</span></a>）。运行代码单元格会执行其中的全部代码，输出（如果有的话）就显示在生成它的代码正下方。输出可以包括打印出来的文本或数字、数据框（data frame）和数据可视化图形。已经运行过的单元格，左侧方括号内也会有一个编号。这个编号表示单元格的运行顺序（<a class="reference internal" href="#code-cell-run"><span class="std std-numref">图 11.3</span></a>）。</p>
+<figure class="align-default" id="code-cell-not-run">
+<img alt="_images/code-cell-not-run.png" src="_images/code-cell-not-run.png" />
+<figcaption>
+<p><span class="caption-number">图 11.2 </span><span class="caption-text">Jupyter 中尚未运行的代码单元格。</span><a class="headerlink" href="#code-cell-not-run" title="永久链接至图片">#</a></p>
+</figcaption>
+</figure>
+<figure class="align-default" id="code-cell-run">
+<img alt="_images/code-cell-run.png" src="_images/code-cell-run.png" />
+<figcaption>
+<p><span class="caption-number">图 11.3 </span><span class="caption-text">Jupyter 中已经运行过的代码单元格。</span><a class="headerlink" href="#code-cell-run" title="永久链接至图片">#</a></p>
+</figcaption>
+</figure>
+<section id="id7">
+<h3><span class="section-number">11.4.1. </span>运行代码单元格<a class="headerlink" href="#id7" title="Permalink to this heading">#</a></h3>
+<p id="index-3">代码单元格既可以单独运行，也可以作为运行整个笔记本的一部分来执行——后者要用到 Jupyter 的**运行（Run）<strong>菜单或</strong>内核（Kernel）**菜单里的“<strong>运行全部单元格（Run All Cells）</strong>”命令。单独运行一个代码单元格，通常是在编辑或编写自己的 Python 代码时采用的做法。运行整个笔记本，通常是为了在把分析分享给别人之前确认它能完整运行，另外也用于把笔记本纳入自动化流程的场合。</p>
+<p>要单独运行某个代码单元格，先要激活它：用光标点击该单元格即可。Jupyter 会在单元格左侧用一个蓝色矩形框把它高亮出来，表示已经激活。单元格激活后（<a class="reference internal" href="#activate-and-run-button"><span class="std std-numref">图 11.4</span></a>），既可以按工具栏上的<strong>运行</strong>（⏵）按钮来运行，也可以使用键盘快捷键 <code class="docutils literal notranslate"><span class="pre">Shift</span> <span class="pre">+</span> <span class="pre">Enter</span></code>。</p>
+<figure class="align-default" id="activate-and-run-button">
+<img alt="_images/activate-and-run-button-annotated.png" src="_images/activate-and-run-button-annotated.png" />
+<figcaption>
+<p><span class="caption-number">图 11.4 </span><span class="caption-text">一个已激活、可以运行的单元格。红色箭头指向单元格左侧的蓝色矩形框。蓝色矩形框表示这个单元格可以运行了。点击运行按钮（用红圈标出）即可运行。</span><a class="headerlink" href="#activate-and-run-button" title="永久链接至图片">#</a></p>
+</figcaption>
+</figure>
+<p>要运行整个笔记本中的全部代码单元格，有三种办法：</p>
+<ol class="arabic simple">
+<li><p>在菜单中选择<strong>运行</strong> &gt;&gt; <strong>运行全部单元格</strong>。</p></li>
+<li><p>在菜单中选择<strong>内核</strong> &gt;&gt; <strong>重启内核并运行全部单元格（Restart Kernel and Run All Cells…）</strong>（<a class="reference internal" href="#restart-kernel-run-all"><span class="std std-numref">图 11.5</span></a>）。</p></li>
+<li><p>点击工具栏上的（⏭）按钮。</p></li>
+</ol>
+<p>这些命令都会运行笔记本中的全部代码单元格。不过它们之间有一点细微差别：只有上面第 2 种和第 3 种办法会在运行所有单元格之前重启 Python 会话，第 1 种不会重启会话。重启 Python 会话意味着，在这条命令执行之前由运行单元格创建的所有对象都会被删除。换句话说，先重启会话再运行所有单元格（第 2 种或第 3 种办法），相当于在运行整个笔记本之前把 Jupyter 完全重启了一遍。</p>
+<figure class="align-default" id="restart-kernel-run-all">
+<img alt="_images/restart-kernel-run-all.png" src="_images/restart-kernel-run-all.png" />
+<figcaption>
+<p><span class="caption-number">图 11.5 </span><span class="caption-text">点击重启内核并运行全部单元格……即可重启 Python 会话。</span><a class="headerlink" href="#restart-kernel-run-all" title="永久链接至图片">#</a></p>
+</figcaption>
+</figure>
+</section>
+<section id="id8">
+<h3><span class="section-number">11.4.2. </span>内核<a class="headerlink" href="#id8" title="Permalink to this heading">#</a></h3>
+<p id="index-4">内核是执行笔记本里的代码并输出结果的程序。Jupyter 已经为许多不同的编程语言提供了内核，因此它能解释并执行多种编程语言的代码。要运行 Python 代码，你的笔记本需要有 Python 内核。在窗口右上角可以看到一个圆圈，它表示内核的状态。如果圆圈是空心的（◯），说明内核空闲，随时可以执行代码。如果圆圈是实心的（⬤），说明内核正忙于运行代码。</p>
+<p id="index-5">你可能遇到这样的问题：内核长时间卡住不动、笔记本变得很慢且没有响应，或者内核失去连接。如果出现这种情况，可以按下面的步骤试试：</p>
+<ol class="arabic simple">
+<li><p>点击屏幕顶部的<strong>内核</strong>菜单，再点击<strong>中断内核（Interrupt Kernel）</strong>。</p></li>
+<li><p>如果还是不行，点击<strong>内核</strong>菜单，再点击<strong>重启内核（Restart Kernel…）</strong>。这样做之后，你必须从笔记本开头开始，把代码单元格一直运行到你上次停下的位置。</p></li>
+<li><p>如果仍然不行，就重启 Jupyter。先点击屏幕左上角的<strong>文件（File）<strong>菜单，再点击</strong>保存笔记本（Save Notebook）</strong>，保存好你的工作。接下来，如果你是通过 JupyterHub 服务器访问 Jupyter，就在<strong>文件</strong>菜单中点击 <strong>Hub 控制面板（Hub Control Panel）</strong>。选择<strong>停止我的服务器（Stop My Server）<strong>把它关掉，再点击</strong>我的服务器（My Server）<strong>按钮重新启动。如果你是在自己的电脑上运行 Jupyter，就在</strong>文件</strong>菜单中点击<strong>关闭（Shut Down）</strong>，然后重新启动 Jupyter。最后，回到你刚才在用的笔记本。</p></li>
+</ol>
+</section>
+<section id="id9">
+<h3><span class="section-number">11.4.3. </span>新建代码单元格<a class="headerlink" href="#id9" title="Permalink to this heading">#</a></h3>
+<p>要在 Jupyter 中新建代码单元格（<a class="reference internal" href="#create-new-code-cell"><span class="std std-numref">图 11.6</span></a>），点击工具栏上的 <code class="docutils literal notranslate"><span class="pre">+</span></code> 按钮。Jupyter 中所有新建的单元格默认都是代码单元格，所以你接下来只需在刚建好的单元格里写 Python 代码就行了！</p>
+<figure class="align-default" id="create-new-code-cell">
+<img alt="_images/create-new-code-cell.png" src="_images/create-new-code-cell.png" />
+<figcaption>
+<p><span class="caption-number">图 11.6 </span><span class="caption-text">点击 + 按钮即可新建单元格，新建的单元格默认是代码单元格。</span><a class="headerlink" href="#create-new-code-cell" title="永久链接至图片">#</a></p>
+</figcaption>
+</figure>
+</section>
+</section>
+<section id="markdown">
+<h2><span class="section-number">11.5. </span>Markdown 单元格<a class="headerlink" href="#markdown" title="Permalink to this heading">#</a></h2>
+<p id="index-6">Jupyter 笔记本中存放文本的单元格称为 Markdown 单元格。Markdown 单元格是富文本（rich text）单元格，也就是说，你可以把文字<strong>加粗</strong>、<em>设为斜体</em>，创建各级标题，创建项目符号列表和编号列表，等等。这些单元格之所以叫“Markdown”，是因为它们用 <em>Markdown 语言</em>来指定富文本格式。在 Jupyter 的 Markdown 单元格里写文字，并不需要先学会 Markdown；直接用纯文本也完全没问题。不过，你以后可能还是想了解一点 Markdown，这样才能做出格式美观的分析文档。从哪里开始学 Markdown，可以看本章末尾的拓展资源。</p>
+<section id="id10">
+<h3><span class="section-number">11.5.1. </span>编辑 Markdown 单元格<a class="headerlink" href="#id10" title="Permalink to this heading">#</a></h3>
+<p>要编辑 Jupyter 中的 Markdown 单元格，需要双击该单元格。双击之后，会显示未格式化的文本，也就是<em>未渲染</em>（unrendered）的版本（<a class="reference internal" href="#markdown-cell-not-run"><span class="std std-numref">图 11.7</span></a>）。然后就可以用键盘编辑文本了。要查看格式化（即<em>已渲染</em>）后的文本（<a class="reference internal" href="#markdown-cell-run"><span class="std std-numref">图 11.8</span></a>），点击工具栏上的<strong>运行</strong>（⏵）按钮，或使用 <code class="docutils literal notranslate"><span class="pre">Shift</span> <span class="pre">+</span> <span class="pre">Enter</span></code> 快捷键。</p>
+<figure class="align-default" id="markdown-cell-not-run">
+<img alt="_images/markdown-cell-not-run.png" src="_images/markdown-cell-not-run.png" />
+<figcaption>
+<p><span class="caption-number">图 11.7 </span><span class="caption-text">Jupyter 中尚未渲染、可以编辑的 Markdown 单元格。</span><a class="headerlink" href="#markdown-cell-not-run" title="永久链接至图片">#</a></p>
+</figcaption>
+</figure>
+<figure class="align-default" id="markdown-cell-run">
+<img alt="_images/markdown-cell-run.png" src="_images/markdown-cell-run.png" />
+<figcaption>
+<p><span class="caption-number">图 11.8 </span><span class="caption-text">Jupyter 中已经渲染、呈现出富文本格式的 Markdown 单元格。</span><a class="headerlink" href="#markdown-cell-run" title="永久链接至图片">#</a></p>
+</figcaption>
+</figure>
+</section>
+<section id="id11">
+<h3><span class="section-number">11.5.2. </span>新建 Markdown 单元格<a class="headerlink" href="#id11" title="Permalink to this heading">#</a></h3>
+<p>要在 Jupyter 中新建 Markdown 单元格，点击工具栏上的 <code class="docutils literal notranslate"><span class="pre">+</span></code> 按钮。Jupyter 中所有新建单元格默认都是代码单元格，所以必须改变单元格格式，它才会被识别为 Markdown 单元格并渲染出来。做法是：用光标点击该单元格，确认它已经激活。然后点击工具栏上标着“代码（Code）”的下拉框（它就在 ⏭ 按钮旁边），把它从“<strong>代码</strong>”改成“<strong>Markdown</strong>”（<a class="reference internal" href="#convert-to-markdown-cell"><span class="std std-numref">图 11.9</span></a>）。</p>
+<figure class="align-default" id="convert-to-markdown-cell">
+<img alt="_images/convert-to-markdown-cell.png" src="_images/convert-to-markdown-cell.png" />
+<figcaption>
+<p><span class="caption-number">图 11.9 </span><span class="caption-text">新建的单元格默认是代码单元格。要创建 Markdown 单元格，必须改变单元格格式。</span><a class="headerlink" href="#convert-to-markdown-cell" title="永久链接至图片">#</a></p>
+</figcaption>
+</figure>
+</section>
+</section>
+<section id="id12">
+<h2><span class="section-number">11.6. </span>保存你的工作<a class="headerlink" href="#id12" title="Permalink to this heading">#</a></h2>
+<p>和对待任何正在处理的文件一样，一定要经常保存，免得丢失已完成的进度！Jupyter 有自动保存（autosave）功能，会定期保存打开的文件，默认每两分钟保存一次。你也可以手动保存 Jupyter 笔记本：在<strong>文件</strong>菜单中选择<strong>保存笔记本</strong>，点击工具栏上的磁盘图标，或者使用快捷键（Windows 上是 <code class="docutils literal notranslate"><span class="pre">Control</span> <span class="pre">+</span> <span class="pre">S</span></code>，Mac OS 上是 <code class="docutils literal notranslate"><span class="pre">Command</span> <span class="pre">+</span> <span class="pre">S</span></code>）。</p>
+</section>
+<section id="id13">
+<h2><span class="section-number">11.7. </span>运行笔记本的最佳实践<a class="headerlink" href="#id13" title="Permalink to this heading">#</a></h2>
+<section id="id14">
+<h3><span class="section-number">11.7.1. </span>运行代码单元格的最佳实践<a class="headerlink" href="#id14" title="Permalink to this heading">#</a></h3>
+<p id="index-7">读到这里，你大概已经知道（至少能想到），Jupyter 笔记本非常擅长交互式地编辑、编写和运行 Python 代码——它们本来就是为此设计的！因此，Jupyter 笔记本在代码单元格的执行顺序上很灵活。这种灵活性意味着，用<strong>运行</strong>（⏵）按钮可以按任意顺序运行代码单元格。但这种灵活性也有代价：可能让笔记本的代码无法按线性顺序（从笔记本顶部到底部）执行。非线性笔记本会带来麻烦，因为代码文档习惯上都按线性顺序运行，别人运行你的笔记本时也会这样期待。最后，如果代码要用在某种自动化流程中，就必须按线性顺序、从笔记本顶部到底部运行。</p>
+<p>最容易在不经意间做出非线性笔记本的做法，就是只靠（⏵）按钮来运行单元格。例如，假设你写了一段 Python 代码来创建一个 Python 对象，比如名为 <code class="docutils literal notranslate"><span class="pre">y</span></code> 的变量。运行该单元格、创建出 <code class="docutils literal notranslate"><span class="pre">y</span></code> 之后，它会一直存在，直到你用 Python 代码特意删除它，或者 Jupyter 笔记本的 Python 会话（<em>即</em>内核）被停止或重启。它也可以被另一个不同的代码单元格引用（<a class="reference internal" href="#out-of-order-1"><span class="std std-numref">图 11.10</span></a>）。这两点合起来意味着：你可以在笔记本更靠前的位置写一个引用 <code class="docutils literal notranslate"><span class="pre">y</span></code> 的单元格，并在当前会话中顺利运行而不报错（<a class="reference internal" href="#out-of-order-2"><span class="std std-numref">图 11.11</span></a>）。在以后的会话中，只有当你按同样不合常规的顺序运行这些单元格，才可能成功。可是这种不合常规的顺序很难记住，也不是别人期望的执行顺序。所以以后按常规的线性顺序运行这个笔记本时，就会出错（<a class="reference internal" href="#out-of-order-3"><span class="std std-numref">图 11.12</span></a>）。</p>
+<figure class="align-default" id="out-of-order-1">
+<img alt="_images/out-of-order-1.png" src="_images/out-of-order-1.png" />
+<figcaption>
+<p><span class="caption-number">图 11.10 </span><span class="caption-text">乱序编写，但尚未运行的代码。</span><a class="headerlink" href="#out-of-order-1" title="永久链接至图片">#</a></p>
+</figcaption>
+</figure>
+<figure class="align-default" id="out-of-order-2">
+<img alt="_images/out-of-order-2.png" src="_images/out-of-order-2.png" />
+<figcaption>
+<p><span class="caption-number">图 11.11 </span><span class="caption-text">乱序编写，并用运行按钮以非线性顺序成功运行的代码。执行顺序可以顺着代码单元格左侧的编号看下去；这些编号的顺序就表示单元格的运行顺序。</span><a class="headerlink" href="#out-of-order-2" title="永久链接至图片">#</a></p>
+</figcaption>
+</figure>
+<figure class="align-default" id="out-of-order-3">
+<img alt="_images/out-of-order-3.png" src="_images/out-of-order-3.png" />
+<figcaption>
+<p><span class="caption-number">图 11.12 </span><span class="caption-text">乱序编写，并用“重启内核并运行全部单元格……”按线性顺序运行的代码。结果第二个代码单元格运行时出错，没能把笔记本中的全部代码单元格都运行完。</span><a class="headerlink" href="#out-of-order-3" title="永久链接至图片">#</a></p>
+</figcaption>
+</figure>
+<p>你还可能无意中做出一个不能正常运行的笔记本：在某个单元格里创建了一个对象，而这个对象后来被删除了。这种情形下，该对象只在那一个 Python 会话中存在，笔记本重启后再运行就不存在了。如果笔记本中另有单元格引用了这个对象，那么在新会话中重新运行整个笔记本时就会报错。</p>
+<p>编写代码时，这些情况可能不会给当前 Python 会话带来负面影响；但你现在应该看出来了，以后在新的会话中运行该笔记本时，它们很可能导致报错。经常在全新的 Python 会话中运行整个笔记本，有助于避免这类问题。如果你重启会话后，按线性顺序运行所有单元格时冒出新的报错，至少你能意识到存在问题。越早发现，就越能及时修好问题，确保笔记本可以从头到尾线性运行。</p>
+<p>我们建议的最佳实践是：在每一段工作中，至少在全新的 Python 会话里完整运行整个笔记本 2–3 次。请注意，这一点很关键：你<em>必须在全新的 Python 会话中做这件事</em>，也就是要重启内核。我们建议使用<strong>内核</strong> &gt;&gt; **重启内核并运行全部单元格……**命令，或者工具栏上的 ⏭ 按钮。注意，<strong>运行</strong> &gt;&gt; <strong>运行全部单元格</strong>菜单项不会重启内核，所以它不足以防范这类错误。</p>
+</section>
+<section id="python">
+<h3><span class="section-number">11.7.2. </span>在笔记本中引入 Python 包的最佳实践<a class="headerlink" href="#python" title="Permalink to this heading">#</a></h3>
+<p>如今大多数数据分析都依赖外部 Python 包提供的函数，这些包并非 Python 自带。本书大量使用的 <code class="docutils literal notranslate"><span class="pre">pandas</span></code> 包就是一例。借助这个包，我们可以使用 <code class="docutils literal notranslate"><span class="pre">read_csv</span></code> 等函数读取数据，使用 <code class="docutils literal notranslate"><span class="pre">loc[]</span></code> 等函数取行和列的子集。我们还用 <code class="docutils literal notranslate"><span class="pre">altair</span></code> 包绘制高质量的图形。</p>
+<p>如前文所述，外部 Python 包必须先加载，才能使用其中的函数。我们推荐用 <code class="docutils literal notranslate"><span class="pre">import</span> <span class="pre">package_name</span></code> 加载，也可以再给它起个更短的别名，如 <code class="docutils literal notranslate"><span class="pre">import</span> <span class="pre">package_name</span> <span class="pre">as</span> <span class="pre">pn</span></code>。可是这行代码应该写在 Jupyter 笔记本的什么位置呢？一种想法是在用到该函数之前才加载这个库。不过，这样做虽然技术上可行，却会给查看或尝试运行该笔记本的人造成隐含的、至少是不明显的 Python 包依赖。如果在另一台电脑上运行该笔记本时没有安装所需的 Python 包，这些隐含依赖就会导致报错。此外，如果数据分析代码运行起来很耗时，那么要找出必须安装哪些隐含依赖才能让分析顺利运行，就会花掉大量时间。</p>
+<p>因此，我们建议在 Jupyter 笔记本靠前位置的某个代码单元格里加载所有 Python 包。在开头加载全部包，可以保证在调用其中的函数之前所有包都已加载——前提是按上面的建议，从顶部到底部按线性顺序运行笔记本。这也能让别人在查看或运行笔记本时，一眼看出分析用到了哪些外部 Python 包，从而知道要在自己电脑上安装哪些包才能顺利跑通分析。</p>
+</section>
+<section id="id15">
+<h3><span class="section-number">11.7.3. </span>运行笔记本的最佳实践小结<a class="headerlink" href="#id15" title="Permalink to this heading">#</a></h3>
+<ol class="arabic simple">
+<li><p>编写代码时，保证它能按线性顺序执行。</p></li>
+<li><p>在 Jupyter 笔记本中写代码的过程中，经常按线性顺序完整运行笔记本（每段工作 2–3 次），做法是使用 Jupyter 菜单中的<strong>内核</strong> &gt;&gt; **重启内核并运行全部单元格……**命令，或者工具栏上的 ⏭ 按钮。</p></li>
+<li><p>把加载外部 Python 包的代码写在 Jupyter 笔记本靠前的位置。</p></li>
+</ol>
+</section>
+</section>
+<section id="id16">
+<h2><span class="section-number">11.8. </span>查看数据文件<a class="headerlink" href="#id16" title="Permalink to this heading">#</a></h2>
+<p id="index-8">把数据文件读入 Python 之前，先预览一下很有必要：看看有没有列名、分隔符是什么、有没有需要跳过的行。在 Jupyter 中，可以在 Jupyter 文件浏览器里右键点击文件名，选择<strong>打开方式（Open with）</strong>，再选择<strong>编辑器（Editor）</strong>（<a class="reference internal" href="#open-data-w-editor-1"><span class="std std-numref">图 11.13</span></a>），这样就能以纯文本形式预览这些纯文本数据文件，例如逗号分隔文件和制表符分隔文件（<a class="reference internal" href="#open-data-w-editor-2"><span class="std std-numref">图 11.14</span></a>）。如果你没有指定用编辑器打开数据文件，Jupyter 就会为你渲染出一张漂亮的表格，这时你看不到列与列之间的分隔符，也就不知道该用哪个函数，也不知道该用哪些参数、为它们指定什么取值。</p>
+<figure class="align-default" id="open-data-w-editor-1">
+<img alt="_images/open_data_w_editor_01.png" src="_images/open_data_w_editor_01.png" />
+<figcaption>
+<p><span class="caption-number">图 11.13 </span><span class="caption-text">在 Jupyter 中用编辑器打开数据文件。</span><a class="headerlink" href="#open-data-w-editor-1" title="永久链接至图片">#</a></p>
+</figcaption>
+</figure>
+<figure class="align-default" id="open-data-w-editor-2">
+<img alt="_images/open_data_w_editor_02.png" src="_images/open_data_w_editor_02.png" />
+<figcaption>
+<p><span class="caption-number">图 11.14 </span><span class="caption-text">在 Jupyter 的编辑器中查看数据文件。</span><a class="headerlink" href="#open-data-w-editor-2" title="永久链接至图片">#</a></p>
+</figcaption>
+</figure>
+</section>
+<section id="id17">
+<h2><span class="section-number">11.9. </span>导出为其他文件格式<a class="headerlink" href="#id17" title="Permalink to this heading">#</a></h2>
+<p id="index-9">在 Jupyter 中，查看、编辑和运行 Python 代码都是在扩展名为 <code class="docutils literal notranslate"><span class="pre">.ipynb</span></code> 的 Jupyter 笔记本文件格式中完成的。这种文件格式在 Jupyter 之外不太容易打开和查看。所以，要把分析分享给不常用 Jupyter 的人，建议把运行过的分析导出为更常见的文件类型，比如 <code class="docutils literal notranslate"><span class="pre">.html</span></code> 文件或 <code class="docutils literal notranslate"><span class="pre">.pdf</span></code>。我们建议在运行完分析之后再导出 Jupyter 笔记本，这样代码的输出也能一并分享。不过要注意，别人无法用 <code class="docutils literal notranslate"><span class="pre">.html</span></code> 或 <code class="docutils literal notranslate"><span class="pre">.pdf</span></code> 文件<em>运行</em>你的分析。如果你希望他们能复现这份分析，就必须把 <code class="docutils literal notranslate"><span class="pre">.ipynb</span></code> 格式的 Jupyter 笔记本文件提供给他们。</p>
+<section id="html">
+<h3><span class="section-number">11.9.1. </span>导出为 HTML<a class="headerlink" href="#html" title="Permalink to this heading">#</a></h3>
+<p>导出为 <code class="docutils literal notranslate"><span class="pre">.html</span></code> 会得到一个便于分享的文件，任何人都可以用网页浏览器（如 Firefox、Safari、Chrome 或 Edge）打开。<code class="docutils literal notranslate"><span class="pre">.html</span></code> 输出生成的文档，外观上与笔记本在 Jupyter 里的样子很接近。这里有一点要注意：如果 Jupyter 笔记本里有图片，就必须把图片文件和 <code class="docutils literal notranslate"><span class="pre">.html</span></code> 文件一起分享，别人才能看到图片。</p>
+</section>
+<section id="pdf">
+<h3><span class="section-number">11.9.2. </span>导出为 PDF<a class="headerlink" href="#pdf" title="Permalink to this heading">#</a></h3>
+<p>导出为 <code class="docutils literal notranslate"><span class="pre">.pdf</span></code> 会得到一个便于分享的文件，任何人都可以用许多程序打开，包括 Adobe Acrobat、Preview、网页浏览器等等。导出为 PDF 的好处在于它是一份独立文档，即使 Jupyter 笔记本引用了图片文件也没关系。遗憾的是，默认设置生成的文档，外观与笔记本在 Jupyter 里的样子差别相当大。在 <code class="docutils literal notranslate"><span class="pre">.pdf</span></code> 输出中，字体、页边距和其他细节都会不一样。</p>
+</section>
+</section>
+<section id="id18">
+<h2><span class="section-number">11.10. </span>新建 Jupyter 笔记本<a class="headerlink" href="#id18" title="Permalink to this heading">#</a></h2>
+<p>总有一天，你会想为自己的项目新建一个全新的 Jupyter 笔记本，而不是查看、运行或编辑别人创建的笔记本。做法是：切换到<strong>启动器（Launcher）<strong>标签页，点击</strong>笔记本（Notebook）<strong>标题下的 Python 图标。如果看不到</strong>启动器</strong>标签页，可以点击 Jupyter 文件浏览器顶部的 <strong>+</strong> 按钮新建一个（<a class="reference internal" href="#launcher"><span class="std std-numref">图 11.15</span></a>）。</p>
+<figure class="align-default" id="launcher">
+<img alt="_images/launcher-annotated.png" src="_images/launcher-annotated.png" />
+<figcaption>
+<p><span class="caption-number">图 11.15 </span><span class="caption-text">点击笔记本标题下的 Python 图标，就会新建一个使用 Python 内核的 Jupyter 笔记本。</span><a class="headerlink" href="#launcher" title="永久链接至图片">#</a></p>
+</figcaption>
+</figure>
+<p>新建 Jupyter 笔记本之后，一定要给它起一个能说明内容的名称，因为默认的文件名是 <code class="docutils literal notranslate"><span class="pre">Untitled.ipynb</span></code>。重命名文件时，先右键单击刚创建的笔记本的文件名，再单击<strong>重命名（Rename）</strong>。这样文件名就变成可编辑的状态，用键盘修改名称即可。按 <code class="docutils literal notranslate"><span class="pre">Enter</span></code> 键，或者在 Jupyter 界面中的其他位置单击，都会保存改好的文件名。</p>
+<p>我们建议文件名中不要使用空白字符或非标准字符。这样做并不会妨碍你在 Jupyter 中使用该文件。不过，一旦你开始做更高级的数据科学项目，涉及重复操作和自动化，这类做法就会带来麻烦。我们建议文件名使用小写字母，并用连字符（<code class="docutils literal notranslate"><span class="pre">-</span></code>）或下划线（<code class="docutils literal notranslate"><span class="pre">_</span></code>）分隔单词。</p>
+</section>
+<section id="id19">
+<h2><span class="section-number">11.11. </span>拓展资源<a class="headerlink" href="#id19" title="Permalink to this heading">#</a></h2>
+<ul class="simple">
+<li><p><a class="reference external" href="https://jupyterlab.readthedocs.io/en/latest/">JupyterLab 文档</a>是你进一步了解 Jupyter 笔记本使用方法的好去处。该文档对本章讲到的所有主题给出了详细得多的说明，同时也涵盖更高级的话题。</p></li>
+<li><p>如果你想学习用于富文本（rich text）格式化的 Markdown 语言，有两个不错的起点：CommonMark 的 <a class="reference external" href="https://commonmark.org/help/">Markdown 速查表</a>和 <a class="reference external" href="https://commonmark.org/help/tutorial/">Markdown 教程</a>。</p></li>
+</ul>
+</section>
+<section id="id20">
+<h2><span class="section-number">11.12. </span>参考文献<a class="headerlink" href="#id20" title="Permalink to this heading">#</a></h2>
+<div class="docutils container" id="id21">
+<dl class="citation">
+<dt class="label" id="id65"><span class="brackets"><a class="fn-backref" href="#id4">KRKPerez+16</a></span></dt>
+<dd><p>Thomas Kluyver, Benjamin Ragan-Kelley, Fernando Pérez, Brian Granger, Matthias Bussonnier, Jonathan Frederic, Kyle Kelley, Jessica Hamrick, Jason Grout, Sylvain Corlay, Paul Ivanov, Damián Avila, Safia Abdalla, Carol Willing, and Jupyter Development Team. Jupyter notebooks: a publishing format for reproducible computational workflows. In <em>Positioning and Power in Academic Publishing: Players, Agents and Agendas: Proceedings of the 20th international conference on electronic publishing</em>, volume 87. Amsterdam, 2016. IOS Press.</p>
+</dd>
+</dl>
+</div>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="inference.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">上一页</p>
+        <p class="prev-next-title"><span class="section-number">10. </span>统计推断</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="version-control.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">下一页</p>
+        <p class="prev-next-title"><span class="section-number">12. </span>借助版本控制协作</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> 目录
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">11.1. 概述</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">11.2. 本章学习目标</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">11.3. Jupyter</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id5">11.3.1. 访问 Jupyter</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id6">11.4. 代码单元格</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id7">11.4.1. 运行代码单元格</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id8">11.4.2. 内核</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id9">11.4.3. 新建代码单元格</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#markdown">11.5. Markdown 单元格</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id10">11.5.1. 编辑 Markdown 单元格</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id11">11.5.2. 新建 Markdown 单元格</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id12">11.6. 保存你的工作</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id13">11.7. 运行笔记本的最佳实践</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id14">11.7.1. 运行代码单元格的最佳实践</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#python">11.7.2. 在笔记本中引入 Python 包的最佳实践</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id15">11.7.3. 运行笔记本的最佳实践小结</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id16">11.8. 查看数据文件</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id17">11.9. 导出为其他文件格式</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#html">11.9.1. 导出为 HTML</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pdf">11.9.2. 导出为 PDF</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id18">11.10. 新建 Jupyter 笔记本</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id19">11.11. 拓展资源</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id20">11.12. 参考文献</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+作者： Tiffany Timbers, Trevor Campbell, Melissa Lee, Joel Ostblom, and Lindsey Heagy
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2022.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

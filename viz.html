@@ -1,0 +1,2714 @@
+
+
+<!DOCTYPE html>
+
+
+<html lang="zh-CN" data-content_root="" >
+
+  <head>
+<link rel="canonical" href="https://peleryuan.github.io/introduction-to-datascience-python/viz.html" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>4. 有效的数据可视化 &#8212; 数据科学：Python 入门</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" href="_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="_static/style.css" />
+    <link rel="stylesheet" type="text/css" href="_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/clipboard.min.js"></script>
+    <script src="_static/copybutton.js"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="_static/togglebutton.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="_static/translations.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="_static/design-tabs.js"></script>
+    <script async="async" src="https://www.googletagmanager.com/gtag/js?id=G-7XBFF4RSN2"></script>
+    <script>
+                window.dataLayer = window.dataLayer || [];
+                function gtag(){ dataLayer.push(arguments); }
+                gtag('js', new Date());
+                gtag('config', 'G-7XBFF4RSN2');
+            </script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="_static/sphinx-thebe.js"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'viz';</script>
+    <link rel="index" title="索引" href="genindex.html" />
+    <link rel="search" title="搜索" href="search.html" />
+    <link rel="next" title="5. 分类 I：训练与预测" href="classification1.html" />
+    <link rel="prev" title="3. 数据清洗与整理" href="wrangling.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="zh-CN"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="index.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">数据科学：Python 入门</p>
+  
+</a></div>
+        <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">前言</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="preface-text.html">前言</a></li>
+<li class="toctree-l1"><a class="reference internal" href="foreword-text.html">序言</a></li>
+<li class="toctree-l1"><a class="reference internal" href="acknowledgements.html">致谢</a></li>
+<li class="toctree-l1"><a class="reference internal" href="authors.html">作者简介</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">正文章节</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="intro.html">1. Python 与 Pandas</a></li>
+<li class="toctree-l1"><a class="reference internal" href="reading.html">2. 从本地和网络读取数据</a></li>
+<li class="toctree-l1"><a class="reference internal" href="wrangling.html">3. 数据清洗与整理</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">4. 有效的数据可视化</a></li>
+<li class="toctree-l1"><a class="reference internal" href="classification1.html">5. 分类 I：训练与预测</a></li>
+<li class="toctree-l1"><a class="reference internal" href="classification2.html">6. 分类 II：评估与调优</a></li>
+<li class="toctree-l1"><a class="reference internal" href="regression1.html">7. 回归 I：k 近邻回归</a></li>
+<li class="toctree-l1"><a class="reference internal" href="regression2.html">8. 回归 II：线性回归</a></li>
+<li class="toctree-l1"><a class="reference internal" href="clustering.html">9. 聚类</a></li>
+<li class="toctree-l1"><a class="reference internal" href="inference.html">10. 统计推断</a></li>
+<li class="toctree-l1"><a class="reference internal" href="jupyter.html">11. 用 Jupyter 结合代码和文本</a></li>
+<li class="toctree-l1"><a class="reference internal" href="version-control.html">12. 借助版本控制协作</a></li>
+<li class="toctree-l1"><a class="reference internal" href="setup.html">13. 配置你的计算机</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="下载此页面">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="_sources/viz.md" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="下载源文件"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.md</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="列印成 PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="全屏模式"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="搜索" aria-label="搜索" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>有效的数据可视化</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> 目录 </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">4.1. 概述</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">4.2. 本章学习目标</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id4">4.3. 选择可视化图形</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id6">4.4. 改进可视化图形</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#altair">4.5. 用 <code class="docutils literal notranslate"><span class="pre">altair</span></code> 创建可视化图形</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#co-text-2">4.5.1. 散点图与折线图：冒纳罗亚 CO<span class="math notranslate nohighlight">\(_{\text{2}}\)</span> 数据集</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id9">4.5.2. 散点图：老忠实间歇泉的喷发时间数据集</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id10">4.5.3. 坐标轴变换与彩色散点图：加拿大语言数据集</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id12">4.5.4. 条形图：岛屿陆块数据集</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#histogramsviz">4.5.5. 直方图：迈克尔逊光速数据集</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id16">为 <code class="docutils literal notranslate"><span class="pre">altair</span></code> 图形叠加图层</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id17">为直方图选择箱宽</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id18">4.6. 讲解可视化</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id19">4.7. 保存可视化</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id21">4.8. 习题</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id22">4.9. 拓展资源</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id26">4.10. 参考文献</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="viz">
+<span id="id1"></span><h1><span class="section-number">4. </span>有效的数据可视化<a class="headerlink" href="#viz" title="Permalink to this heading">#</a></h1>
+<section id="id2">
+<h2><span class="section-number">4.1. </span>概述<a class="headerlink" href="#id2" title="Permalink to this heading">#</a></h2>
+<p>本章介绍数据可视化的概念与工具，内容超出我们目前已经见过和练习过的范围。我们会着重讲解有效数据可视化的指导原则，并说明数据可视化如何独立于任何特定工具或编程语言。在此过程中，还会涉及用 Python 为数据创建可视化图形的一些具体做法（散点图、条形图、折线图和直方图）。</p>
+</section>
+<section id="id3">
+<h2><span class="section-number">4.2. </span>本章学习目标<a class="headerlink" href="#id3" title="Permalink to this heading">#</a></h2>
+<p>学完本章后，你将能够：</p>
+<ul class="simple">
+<li><p>说明借助数据集回答具体问题时，何时该使用以下几种可视化：</p>
+<ul>
+<li><p>散点图</p></li>
+<li><p>折线图</p></li>
+<li><p>条形图</p></li>
+<li><p>直方图</p></li>
+</ul>
+</li>
+<li><p>给定一个数据集和一个问题，从上述图形类型中挑选合适的一种，用 Python 创建最能回答该问题的可视化。</p></li>
+<li><p>评价一张可视化图形的效果，并提出改进建议，以便更好地回答给定的问题。</p></li>
+<li><p>结合可视化图形，用非技术的语言表达得出的结论。</p></li>
+<li><p>识别创建有效可视化的经验法则。</p></li>
+<li><p>使用 Python 中的 <code class="docutils literal notranslate"><span class="pre">altair</span></code> 库，借助以下要素创建并改进上述可视化：</p>
+<ul>
+<li><p>图形标记（graphical mark）：<code class="docutils literal notranslate"><span class="pre">mark_point</span></code>、<code class="docutils literal notranslate"><span class="pre">mark_line</span></code>、<code class="docutils literal notranslate"><span class="pre">mark_circle</span></code>、<code class="docutils literal notranslate"><span class="pre">mark_bar</span></code>、<code class="docutils literal notranslate"><span class="pre">mark_rule</span></code></p></li>
+<li><p>编码通道（encoding channel）：<code class="docutils literal notranslate"><span class="pre">x</span></code>、<code class="docutils literal notranslate"><span class="pre">y</span></code>、<code class="docutils literal notranslate"><span class="pre">color</span></code>、<code class="docutils literal notranslate"><span class="pre">shape</span></code></p></li>
+<li><p>标签：<code class="docutils literal notranslate"><span class="pre">title</span></code></p></li>
+<li><p>变换：<code class="docutils literal notranslate"><span class="pre">scale</span></code></p></li>
+<li><p>子图：<code class="docutils literal notranslate"><span class="pre">facet</span></code></p></li>
+</ul>
+</li>
+<li><p>说明 <code class="docutils literal notranslate"><span class="pre">altair</span></code> 图形的两个关键要素：</p>
+<ul>
+<li><p>图形标记</p></li>
+<li><p>编码通道</p></li>
+</ul>
+</li>
+<li><p>说明栅格图（raster graphics）与矢量图两种输出格式的区别。</p></li>
+<li><p>使用 <code class="docutils literal notranslate"><span class="pre">chart.save()</span></code> 把可视化图形保存为 <code class="docutils literal notranslate"><span class="pre">.png</span></code> 和 <code class="docutils literal notranslate"><span class="pre">.svg</span></code> 格式。</p></li>
+</ul>
+</section>
+<section id="id4">
+<h2><span class="section-number">4.3. </span>选择可视化图形<a class="headerlink" href="#id4" title="Permalink to this heading">#</a></h2>
+<p><font size="5"><em>提出问题，并回答它</em></font></p>
+<p id="index-0">可视化的目的在于回答关于某个数据集的问题。因此，在创建可视化图形<strong>之前</strong>，首先要做的就是把你想要回答的、关于数据的问题表述清楚。好的可视化能不受干扰地清楚回答你的问题；<em>出色的</em>可视化甚至不需要额外解释，就能让人看出问题本身是什么。你可以把自己的可视化想象成项目海报展示的一部分：即使你没有站在海报前讲解，有效的可视化也能把你的信息传达给观众。</p>
+<p>回想一下<a class="reference internal" href="intro.html#intro"><span class="std std-numref">第 1 章</span></a>中介绍的各种数据分析问题。用本章将要介绍的可视化方法，我们能够回答的<em>只有描述性和探索性</em>问题。请注意，不要用这里介绍的可视化去回答任何<em>预测性、推断性、因果性</em>或<em>机理性</em>问题，因为要恰当地回答这些问题所需的工具，我们还没有学过。</p>
+<p>和大多数编程任务一样，在找到适合自己数据和问题的可视化之前，出错并迭代几次完全没问题（而且相当常见）。可用的绘图图形种类很多（目录可参见《Fundamentals of Data Visualization》的第 5 章 <span id="id5">[<a class="reference internal" href="#id54" title="Claus Wilke. Fundamentals of Data Visualization. O'Reilly Media, 2019. URL: https://clauswilke.com/dataviz/.">Wilke, 2019</a>]</span>）。本书要介绍的图形类型见<a class="reference internal" href="#plot-sketches"><span class="std std-numref">图 4.1</span></a>；你应该选择哪一种，取决于你的数据和你想回答的问题。一般来说，何时该用哪类图形的指导原则如下：</p>
+<ul class="simple" id="index-1">
+<li><p><strong>散点图</strong>用来展示两个定量变量之间的关系</p></li>
+<li><p><strong>折线图</strong>用来展示相对于某个独立且有序的量（例如时间）的趋势</p></li>
+<li><p><strong>条形图</strong>用来展示数量之间的比较</p></li>
+<li><p><strong>直方图</strong>用来展示某个定量变量的分布（也就是它所有可能的取值，以及每个取值出现的频率）</p></li>
+</ul>
+<figure class="align-default" id="plot-sketches">
+<a class="reference internal image-reference" href="_images/plot-sketches-1.png"><img alt="_images/plot-sketches-1.png" src="_images/plot-sketches-1.png" style="height: 400px;" /></a>
+<figcaption>
+<p><span class="caption-number">图 4.1 </span><span class="caption-text">散点图、折线图和条形图以及直方图的示例。</span><a class="headerlink" href="#plot-sketches" title="永久链接至图片">#</a></p>
+</figcaption>
+</figure>
+<p>所有类型的可视化都有各自的用法（以及误用），但有三类通常难以理解，或者很容易被更好的做法取代。特别要避免使用<strong>饼图</strong>：一般来说用条形更好，因为比较条形的高度比比较饼图扇区的大小更容易。也不要使用<strong>三维可视化</strong>，因为把它们转换成静态的二维图像格式后，通常很难理解。最后，不要用表格做数值比较；人快速处理视觉信息的能力远胜于处理文字和数学。条形图通常又是更好的选择。</p>
+</section>
+<section id="id6">
+<h2><span class="section-number">4.4. </span>改进可视化图形<a class="headerlink" href="#id6" title="Permalink to this heading">#</a></h2>
+<p><font size="5"><em>传达信息，减少噪声</em></font></p>
+<p>仅仅能用 Python 和 <code class="docutils literal notranslate"><span class="pre">altair</span></code>（或任何其他工具）做出一张可视化图形，并不意味着它就能有效地把你的信息传达给别人。选定大致的可视化类型之后，你还得加以改进，让它符合自己的具体需要。下面列出了一些可用的经验法则。这些法则大致分为两类：你要<em>让可视化图形传达你的信息</em>，并且要<em>尽可能减少视觉噪声</em>。人处理信息的认知能力有限；这两类改进都是为了减轻观众观看可视化图形时的心理负担，让他们更容易快速理解并记住你的信息。</p>
+<p><strong>传达信息</strong></p>
+<ul class="simple">
+<li><p>确保可视化图形尽可能简单、直白地回答问题。</p></li>
+<li><p>使用图例和标签，让别人不看周围的文字也能看懂你的可视化图形。</p></li>
+<li><p>确保可视化图形上的文字、符号、线条等都足够大，容易看清。</p></li>
+<li><p>确保数据清晰可见；不要把数据的形状或分布藏在其他对象（例如条形）后面。</p></li>
+<li><p>确保使用色盲者也能看懂的配色方案（这部分人在总人口中的比例大得惊人——约 1% 到 10%，具体取决于性别和血统 <span id="id7">[<a class="reference internal" href="#id36" title="Sameer Deeb. The molecular basis of variation in human color vision. Clinical Genetics, 67:369–377, 2005.">Deeb, 2005</a>]</span>）。例如，<a class="reference external" href="https://altair-viz.github.io/user_guide/customization.html#customizing-colors">配色方案</a>功能让你可以选择这类配色方案；图形画好之后，你还可以上传到<a class="reference external" href="https://www.color-blindness.com/coblis-color-blindness-simulator/">色盲模拟器</a>之类的在线工具进行检查。</p></li>
+<li><p>冗余有时也有帮助：用多种方式传达同一条信息，能加深观众的印象。</p></li>
+</ul>
+<p><strong>减少噪声</strong></p>
+<ul class="simple">
+<li><p>少用颜色。颜色太多会分散注意力、制造出并不存在的模式，还会削弱信息的传达。</p></li>
+<li><p>警惕标记重叠（overplotting）。标记重叠指的是表示数据的标记互相交叠，它的问题在于：在发生重叠的区域，你无法看出这里究竟表示了多少个数据点。如果图中的点或线太多，已经开始显得杂乱，就得换一种做法。</p></li>
+<li><p>绘图区域（点、线和条形所在的区域）只做到需要的大小即可。简单的图形可以画得小一些。</p></li>
+<li><p>不要调整坐标轴去放大微小的差异。差异小，就把它显示为小！</p></li>
+</ul>
+</section>
+<section id="altair">
+<h2><span class="section-number">4.5. </span>用 <code class="docutils literal notranslate"><span class="pre">altair</span></code> 创建可视化图形<a class="headerlink" href="#altair" title="Permalink to this heading">#</a></h2>
+<p><font size="5"><em>迭代构建可视化图形</em></font></p>
+<p id="index-2">本节会给出一些示例，说明在给定数据集和待回答的问题时，如何选择和改进可视化图形，以及随后如何用 Python 和 <code class="docutils literal notranslate"><span class="pre">altair</span></code> 把它创建出来。要使用 <code class="docutils literal notranslate"><span class="pre">altair</span></code> 包，先得导入它。我们还会导入 <code class="docutils literal notranslate"><span class="pre">pandas</span></code>，用来读入数据。</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">altair</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">alt</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">备注</p>
+<p>本章的示例可视化都使用相对较小的数据集，所以用 <code class="docutils literal notranslate"><span class="pre">altair</span></code> 的默认设置就足够了。不过，如果你想用行数超过 5,000 的数据框绘图，<code class="docutils literal notranslate"><span class="pre">altair</span></code> 会报错。要绘制更大的数据集，最简单的做法是在导入 <code class="docutils literal notranslate"><span class="pre">altair</span></code> 包之后立刻启用 <code class="docutils literal notranslate"><span class="pre">vegafusion</span></code> 数据转换器：<code class="docutils literal notranslate"><span class="pre">alt.data_transformers.enable(&quot;vegafusion&quot;)</span></code>。这样最多可以绘制 100,000 个图形对象（例如含 100,000 个点的散点图）。要可视化<em>更大</em>的数据集，请参阅 <a class="reference external" href="https://altair-viz.github.io/user_guide/large_datasets">altair 文档</a>。</p>
+</div>
+<section id="co-text-2">
+<h3><span class="section-number">4.5.1. </span>散点图与折线图：冒纳罗亚 CO<span class="math notranslate nohighlight">\(_{\text{2}}\)</span> 数据集<a class="headerlink" href="#co-text-2" title="Permalink to this heading">#</a></h3>
+<p id="index-3"><a class="reference external" href="https://www.esrl.noaa.gov/gmd/ccgg/trends/data.html">冒纳罗亚 CO<span class="math notranslate nohighlight">\(_{\text{2}}\)</span> 数据集</a>由 NOAA/GML 的 Pieter Tans 博士和斯克里普斯海洋研究所的 Ralph Keeling 博士整理，记录了 1959 年以来夏威夷冒纳罗亚研究站大气中二氧化碳（CO<span class="math notranslate nohighlight">\(_{\text{2}}\)</span>，单位为百万分率）的浓度 <span id="id8">[<a class="reference internal" href="#id65" title="Pieter Tans and Ralph Keeling. Trends in atmospheric carbon dioxide. 2020. URL: https://gml.noaa.gov/ccgg/trends/data.html (visited on 2020-07-04).">Tans and Keeling, 2020</a>]</span>。本书将重点关注 1980—2020 年。</p>
+<p id="index-4">**问题：**大气中 CO<span class="math notranslate nohighlight">\(_{\text{2}}\)</span> 的浓度会随时间变化吗？有没有值得注意的有趣模式？</p>
+<p>首先读入并查看数据：</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># mauna loa carbon dioxide data</span>
+<span class="n">co2_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span>
+    <span class="s2">"data/mauna_loa_data.csv"</span><span class="p">,</span>
+    <span class="n">parse_dates</span><span class="o">=</span><span class="p">[</span><span class="s2">"date_measured"</span><span class="p">]</span>
+<span class="p">)</span>
+<span class="n">co2_df</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>date_measured</th>
+      <th>ppm</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>1980-02-01</td>
+      <td>338.34</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>1980-03-01</td>
+      <td>340.01</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>1980-04-01</td>
+      <td>340.93</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>1980-05-01</td>
+      <td>341.48</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>1980-06-01</td>
+      <td>341.33</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>479</th>
+      <td>2020-02-01</td>
+      <td>414.11</td>
+    </tr>
+    <tr>
+      <th>480</th>
+      <td>2020-03-01</td>
+      <td>414.51</td>
+    </tr>
+    <tr>
+      <th>481</th>
+      <td>2020-04-01</td>
+      <td>416.21</td>
+    </tr>
+    <tr>
+      <th>482</th>
+      <td>2020-05-01</td>
+      <td>417.07</td>
+    </tr>
+    <tr>
+      <th>483</th>
+      <td>2020-06-01</td>
+      <td>416.39</td>
+    </tr>
+  </tbody>
+</table>
+<p>484 rows × 2 columns</p>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">co2_df</span><span class="o">.</span><span class="n">info</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;class 'pandas.core.frame.DataFrame'&gt;
+RangeIndex: 484 entries, 0 to 483
+Data columns (total 2 columns):
+ #   Column         Non-Null Count  Dtype         
+---  ------         --------------  -----         
+ 0   date_measured  484 non-null    datetime64[ns]
+ 1   ppm            484 non-null    float64       
+dtypes: datetime64[ns](1), float64(1)
+memory usage: 7.7 KB
+</pre></div>
+</div>
+</div>
+</div>
+<p>可以看到，<code class="docutils literal notranslate"><span class="pre">co2_df</span></code> 数据框中有两列：<code class="docutils literal notranslate"><span class="pre">date_measured</span></code> 和 <code class="docutils literal notranslate"><span class="pre">ppm</span></code>。<code class="docutils literal notranslate"><span class="pre">date_measured</span></code> 列保存测量的日期，类型是 <code class="docutils literal notranslate"><span class="pre">datetime64</span></code>。<code class="docutils literal notranslate"><span class="pre">ppm</span></code> 列保存每个日期测得的 CO<span class="math notranslate nohighlight">\(_{\text{2}}\)</span> 浓度，单位为百万分率，类型是 <code class="docutils literal notranslate"><span class="pre">float64</span></code>，这是小数的常见类型。</p>
+<div class="admonition note" id="index-5">
+<p class="admonition-title">备注</p>
+<p><code class="docutils literal notranslate"><span class="pre">read_csv</span></code> 之所以能把 <code class="docutils literal notranslate"><span class="pre">date_measured</span></code> 列解析成 <code class="docutils literal notranslate"><span class="pre">datetime</span></code> 向量类型，是因为该列采用的是国际标准日期格式，即 ISO 8601，这种格式把日期写成 <code class="docutils literal notranslate"><span class="pre">year-month-day</span></code>，并且我们使用了 <code class="docutils literal notranslate"><span class="pre">parse_dates=True</span></code>。<code class="docutils literal notranslate"><span class="pre">datetime</span></code> 向量是一种具有特殊性质的 <code class="docutils literal notranslate"><span class="pre">double</span></code> 向量，能够正确处理日期。例如，<code class="docutils literal notranslate"><span class="pre">datetime</span></code> 类型向量允许 <code class="docutils literal notranslate"><span class="pre">altair</span></code> 之类的函数把它们当作数值日期处理，而不是当作字符向量，尽管其中包含非数字字符（例如 <code class="docutils literal notranslate"><span class="pre">co2_df</span></code> 数据框中 <code class="docutils literal notranslate"><span class="pre">date_measured</span></code> 列的取值）。这意味着 Python 不会不小心把日期按错误的顺序绘制出来（也就是说，不会像字符向量那样按字母数字顺序排列）。关于日期与时间的更多内容可以看<a class="reference external" href="https://wesmckinney.com/book/time-series.html">这里</a>。</p>
+</div>
+<p>我们要研究的是两个变量（CO<span class="math notranslate nohighlight">\(_{\text{2}}\)</span> 浓度和日期）之间的关系，所以从散点图入手比较合适。散点图把数据表示为一个个单独的点，每个点有 <code class="docutils literal notranslate"><span class="pre">x</span></code>（水平轴）和 <code class="docutils literal notranslate"><span class="pre">y</span></code>（垂直轴）坐标。这里我们用测量日期作为 <code class="docutils literal notranslate"><span class="pre">x</span></code> 坐标，用 CO<span class="math notranslate nohighlight">\(_{\text{2}}\)</span> 浓度作为 <code class="docutils literal notranslate"><span class="pre">y</span></code> 坐标。图形用 <code class="docutils literal notranslate"><span class="pre">alt.Chart()</span></code> 函数创建。创建图形时有几个基本方面需要指定：</p>
+<ul class="simple" id="index-6">
+<li><p>要可视化的<strong>数据框</strong>名称。</p>
+<ul>
+<li><p>这里我们把 <code class="docutils literal notranslate"><span class="pre">co2_df</span></code> 数据框作为参数传给 <code class="docutils literal notranslate"><span class="pre">alt.Chart</span></code></p></li>
+</ul>
+</li>
+<li><p><strong>图形标记</strong>，它规定映射后的数据应该如何显示。</p>
+<ul>
+<li><p>创建图形标记要用 <code class="docutils literal notranslate"><span class="pre">Chart.mark_*</span></code> 方法（图形标记的清单见
+<a class="reference external" href="https://altair-viz.github.io/user_guide/marks.html">altair 参考文档</a>）。</p></li>
+<li><p>这里我们用 <code class="docutils literal notranslate"><span class="pre">mark_point</span></code> 函数把数据可视化为散点图。</p></li>
+</ul>
+</li>
+<li><p><strong>编码通道</strong>，它告诉 <code class="docutils literal notranslate"><span class="pre">altair</span></code> 数据框中的各列如何映射到图形中的视觉属性。</p>
+<ul>
+<li><p>创建编码要用 <code class="docutils literal notranslate"><span class="pre">encode</span></code> 函数。</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">encode</span></code> 方法在编码通道（例如 x、y）与数据集中的字段之间建立键值映射，字段通过字段名（列名）来访问</p></li>
+<li><p>这里我们把图形的 <code class="docutils literal notranslate"><span class="pre">x</span></code> 轴设为 <code class="docutils literal notranslate"><span class="pre">date_measured</span></code> 变量，在 <code class="docutils literal notranslate"><span class="pre">y</span></code> 轴上绘制 <code class="docutils literal notranslate"><span class="pre">ppm</span></code> 变量。</p></li>
+<li><p>对 y 轴，我们还提供了方法
+<code class="docutils literal notranslate"><span class="pre">scale(zero=False)</span></code>。默认情况下，<code class="docutils literal notranslate"><span class="pre">altair</span></code> 根据数据选择 y 轴的上下界，并让 <code class="docutils literal notranslate"><span class="pre">y=0</span></code> 留在视野内。这往往是很有用的默认行为，但在这里，由于最小值大于 300
+ppm，我们就很难看出数据中的任何趋势。于是我们提供 <code class="docutils literal notranslate"><span class="pre">scale(zero=False)</span></code>，告诉 altair 根据数据选择一个合理的下界，这个下界不必是 0。</p></li>
+<li><p>要改变编码通道的属性，需要借助辅助函数 <code class="docutils literal notranslate"><span class="pre">alt.Y</span></code> 和 <code class="docutils literal notranslate"><span class="pre">alt.X</span></code>。这些辅助函数用来定制顺序、标题和标度等内容。这里我们用 <code class="docutils literal notranslate"><span class="pre">alt.Y</span></code> 改变 y 轴的取值范围，让它从 <code class="docutils literal notranslate"><span class="pre">date_measured</span></code> 列中的最小值开始，而不是从 0 开始。</p></li>
+</ul>
+</li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">co2_scatter</span> <span class="o">=</span> <span class="n">alt</span><span class="o">.</span><span class="n">Chart</span><span class="p">(</span><span class="n">co2_df</span><span class="p">)</span><span class="o">.</span><span class="n">mark_point</span><span class="p">()</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span>
+    <span class="n">x</span><span class="o">=</span><span class="s2">"date_measured"</span><span class="p">,</span>
+    <span class="n">y</span><span class="o">=</span><span class="n">alt</span><span class="o">.</span><span class="n">Y</span><span class="p">(</span><span class="s2">"ppm"</span><span class="p">)</span><span class="o">.</span><span class="n">scale</span><span class="p">(</span><span class="n">zero</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<figure class="align-default" id="co2-scatter" style="width: 700px">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>alt.Chart(...)
+</pre></div>
+</div>
+<figcaption>
+<p><span class="caption-number">图 4.2 </span><span class="caption-text">大气中 CO<span class="math notranslate nohighlight">\(_{2}\)</span> 的浓度随时间变化的散点图。</span><a class="headerlink" href="#co2-scatter" title="永久链接至图片">#</a></p>
+</figcaption>
+</figure>
+<p><a class="reference internal" href="#co2-scatter"><span class="std std-numref">图 4.2</span></a> 中的可视化图形显示，大气中 CO<span class="math notranslate nohighlight">\(_{\text{2}}\)</span> 的浓度随时间有明显上升的趋势。这张图对我们问题的前半部分给出了肯定回答，但这似乎是从散点图中能得出的唯一结论。</p>
+<p>关于这份数据，有一点很重要：我们要考察的变量之一是时间。时间是一类特殊的定量变量，因为它给数据加上了额外的结构——数据点有自然的先后顺序。具体来说，数据集中的每个观测都有前一个和后一个观测，观测的顺序很重要；改变顺序就会改变它们的含义。遇到这种情况，我们通常用折线图来可视化数据。折线图用线段把观测的 <code class="docutils literal notranslate"><span class="pre">x</span></code> 和 <code class="docutils literal notranslate"><span class="pre">y</span></code> 坐标依次连接起来，从而突出它们的顺序。</p>
+<p id="index-7">在 <code class="docutils literal notranslate"><span class="pre">altair</span></code> 中可以用 <code class="docutils literal notranslate"><span class="pre">mark_line</span></code> 函数创建折线图。现在我们试着只用默认参数把 <code class="docutils literal notranslate"><span class="pre">co2_df</span></code> 可视化为折线图：</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">co2_line</span> <span class="o">=</span> <span class="n">alt</span><span class="o">.</span><span class="n">Chart</span><span class="p">(</span><span class="n">co2_df</span><span class="p">)</span><span class="o">.</span><span class="n">mark_line</span><span class="p">()</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span>
+    <span class="n">x</span><span class="o">=</span><span class="s2">"date_measured"</span><span class="p">,</span>
+    <span class="n">y</span><span class="o">=</span><span class="n">alt</span><span class="o">.</span><span class="n">Y</span><span class="p">(</span><span class="s2">"ppm"</span><span class="p">)</span><span class="o">.</span><span class="n">scale</span><span class="p">(</span><span class="n">zero</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<figure class="align-default" id="co2-line" style="width: 700px">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>alt.Chart(...)
+</pre></div>
+</div>
+<figcaption>
+<p><span class="caption-number">图 4.3 </span><span class="caption-text">大气中 CO<span class="math notranslate nohighlight">\(_{2}\)</span> 的浓度随时间变化的折线图。</span><a class="headerlink" href="#co2-line" title="永久链接至图片">#</a></p>
+</figcaption>
+</figure>
+<p id="index-8">啊哈！<a class="reference internal" href="#co2-line"><span class="std std-numref">图 4.3</span></a> 显示，数据中<em>确实</em>还有另一个有趣的现象：除了随时间上升，浓度似乎还在上下振荡。就目前的这张图而言，仍然很难判断振荡有多快，不过，回答我们的问题，折线似乎比散点图更合适。这两张图的对比还说明散点图有一个常见问题：点常常挨得太近，甚至互相叠在一起，把原本清楚的信息搅乱了（<em>标记重叠</em>）。</p>
+<p id="index-9">可视化的大致细节定下来之后，就该做改进了。这张图相当简单，没有多少视觉噪声需要去除。但为了提高清晰度，有几件事必须做，例如加上信息明确的坐标轴标签，并把字体调到更容易阅读的字号。添加坐标轴标签要用 <code class="docutils literal notranslate"><span class="pre">title</span></code> 方法配合 <code class="docutils literal notranslate"><span class="pre">alt.X</span></code> 和 <code class="docutils literal notranslate"><span class="pre">alt.Y</span></code> 函数。改变字号要用 <code class="docutils literal notranslate"><span class="pre">configure_axis</span></code> 函数，并指定 <code class="docutils literal notranslate"><span class="pre">titleFontSize</span></code> 参数。</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">co2_line_labels</span> <span class="o">=</span> <span class="n">alt</span><span class="o">.</span><span class="n">Chart</span><span class="p">(</span><span class="n">co2_df</span><span class="p">)</span><span class="o">.</span><span class="n">mark_line</span><span class="p">()</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span>
+    <span class="n">x</span><span class="o">=</span><span class="n">alt</span><span class="o">.</span><span class="n">X</span><span class="p">(</span><span class="s2">"date_measured"</span><span class="p">)</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">"Year"</span><span class="p">),</span>
+    <span class="n">y</span><span class="o">=</span><span class="n">alt</span><span class="o">.</span><span class="n">Y</span><span class="p">(</span><span class="s2">"ppm"</span><span class="p">)</span><span class="o">.</span><span class="n">scale</span><span class="p">(</span><span class="n">zero</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">"Atmospheric CO2 (ppm)"</span><span class="p">)</span>
+<span class="p">)</span><span class="o">.</span><span class="n">configure_axis</span><span class="p">(</span><span class="n">titleFontSize</span><span class="o">=</span><span class="mi">12</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<figure class="align-default" id="co2-line-labels" style="width: 700px">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>alt.Chart(...)
+</pre></div>
+</div>
+<figcaption>
+<p><span class="caption-number">图 4.4 </span><span class="caption-text">大气中 CO<span class="math notranslate nohighlight">\(_{2}\)</span> 的浓度随时间变化的折线图，坐标轴和标签更清晰。</span><a class="headerlink" href="#co2-line-labels" title="永久链接至图片">#</a></p>
+</figcaption>
+</figure>
+<div class="admonition note">
+<p class="admonition-title">备注</p>
+<p><code class="docutils literal notranslate"><span class="pre">altair</span></code> 中的 <code class="docutils literal notranslate"><span class="pre">configure_*</span></code> 函数还支持更多定制，例如调整图形大小、改变字体颜色，以及许多其他选项，可参见<a class="reference external" href="https://altair-viz.github.io/user_guide/configuration.html">这里</a>。</p>
+</div>
+<p id="index-10">最后，我们看看能不能稍微改动一下图形，以便更好地理解这种振荡。请注意，用少量几张图来回答问题的不同侧面，完全没问题。为此我们要用到<em>标度</em>，这是 <code class="docutils literal notranslate"><span class="pre">altair</span></code> 的另一个重要特性，它可以方便地变换各个变量并设定界限。具体来说，这里我们用 <code class="docutils literal notranslate"><span class="pre">alt.Scale</span></code> 函数只放大几年的数据（比如 1990—1995 年）。<code class="docutils literal notranslate"><span class="pre">domain</span></code> 参数接收一个长度为 2 的列表，用来指定限制坐标轴的上下界。我们还给 <code class="docutils literal notranslate"><span class="pre">mark_line</span></code> 加上了 <code class="docutils literal notranslate"><span class="pre">clip=True</span></code> 参数。这告诉 <code class="docutils literal notranslate"><span class="pre">altair</span></code> 把设定取值范围之外的数据“裁剪”（删除）掉，使其不会延伸到绘图区域之外。由于我们在编码上同时使用了 <code class="docutils literal notranslate"><span class="pre">scale</span></code> 和 <code class="docutils literal notranslate"><span class="pre">title</span></code> 方法，所以把它们分行堆叠，让代码更易读。</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">co2_line_scale</span> <span class="o">=</span> <span class="n">alt</span><span class="o">.</span><span class="n">Chart</span><span class="p">(</span><span class="n">co2_df</span><span class="p">)</span><span class="o">.</span><span class="n">mark_line</span><span class="p">(</span><span class="n">clip</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span>
+    <span class="n">x</span><span class="o">=</span><span class="n">alt</span><span class="o">.</span><span class="n">X</span><span class="p">(</span><span class="s2">"date_measured"</span><span class="p">)</span>
+        <span class="o">.</span><span class="n">scale</span><span class="p">(</span><span class="n">domain</span><span class="o">=</span><span class="p">[</span><span class="s2">"1990"</span><span class="p">,</span> <span class="s2">"1995"</span><span class="p">])</span>
+        <span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">"Measurement Date"</span><span class="p">),</span>
+    <span class="n">y</span><span class="o">=</span><span class="n">alt</span><span class="o">.</span><span class="n">Y</span><span class="p">(</span><span class="s2">"ppm"</span><span class="p">)</span>
+        <span class="o">.</span><span class="n">scale</span><span class="p">(</span><span class="n">zero</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">"Atmospheric CO2 (ppm)"</span><span class="p">)</span>
+<span class="p">)</span><span class="o">.</span><span class="n">configure_axis</span><span class="p">(</span><span class="n">titleFontSize</span><span class="o">=</span><span class="mi">12</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<figure class="align-default" id="co2-line-scale" style="width: 700px">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>alt.Chart(...)
+</pre></div>
+</div>
+<figcaption>
+<p><span class="caption-number">图 4.5 </span><span class="caption-text">1990 年至 1995 年大气中 CO<span class="math notranslate nohighlight">\(_{2}\)</span> 的浓度随时间变化的折线图。</span><a class="headerlink" href="#co2-line-scale" title="永久链接至图片">#</a></p>
+</figcaption>
+</figure>
+<p>有意思！看来每年大气 CO<span class="math notranslate nohighlight">\(_{\text{2}}\)</span> 都会上升，在 4 月前后达到峰值，随后一直下降到 9 月下旬前后，然后又再次上升，直到年底。夏威夷有两个季节：5 月到 10 月是夏季，11 月到 4 月是冬季。因此，CO<span class="math notranslate nohighlight">\(_{\text{2}}\)</span> 的振荡模式与这两个季节相当吻合。</p>
+<p>有一个很贴切的类比：构建数据可视化就像画一幅画。我们先准备一张空白画布，第一件事是给画布打底，为作画做好准备。在数据可视化中，这相当于调用 <code class="docutils literal notranslate"><span class="pre">alt.Chart</span></code> 并指定要用的数据集。接下来，我们勾画画面的背景。在数据可视化中，这相当于用 <code class="docutils literal notranslate"><span class="pre">encode</span></code> 函数把数据映射到坐标轴上。然后，我们把要表现的主要对象画进图中。在数据可视化中，这就是图形标记（例如 <code class="docutils literal notranslate"><span class="pre">mark_point</span></code>、<code class="docutils literal notranslate"><span class="pre">mark_line</span></code> 等）。最后，我们给画面添加细节和修饰。在数据可视化中，这就是微调坐标轴标签、改变字体、调整点的大小，以及做其他类似的事情。</p>
+</section>
+<section id="id9">
+<h3><span class="section-number">4.5.2. </span>散点图：老忠实间歇泉的喷发时间数据集<a class="headerlink" href="#id9" title="Permalink to this heading">#</a></h3>
+<p id="index-11"><code class="docutils literal notranslate"><span class="pre">faithful</span></code> 数据集收录了美国怀俄明州黄石国家公园老忠实间歇泉的测量值，包括两次喷发之间的等待时间，以及紧接着那次喷发的持续时间（单位为分钟）。首先读入数据，然后回答下面的问题：</p>
+<p id="index-12">**问题：**喷发前的等待时间与喷发的持续时间之间是否存在关系？</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">faithful</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">"data/faithful.csv"</span><span class="p">)</span>
+<span class="n">faithful</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>eruptions</th>
+      <th>waiting</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>3.600</td>
+      <td>79</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>1.800</td>
+      <td>54</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>3.333</td>
+      <td>74</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>2.283</td>
+      <td>62</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>4.533</td>
+      <td>85</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>267</th>
+      <td>4.117</td>
+      <td>81</td>
+    </tr>
+    <tr>
+      <th>268</th>
+      <td>2.150</td>
+      <td>46</td>
+    </tr>
+    <tr>
+      <th>269</th>
+      <td>4.417</td>
+      <td>90</td>
+    </tr>
+    <tr>
+      <th>270</th>
+      <td>1.817</td>
+      <td>46</td>
+    </tr>
+    <tr>
+      <th>271</th>
+      <td>4.467</td>
+      <td>74</td>
+    </tr>
+  </tbody>
+</table>
+<p>272 rows × 2 columns</p>
+</div></div></div>
+</div>
+<p>这里我们再次研究两个定量变量（等待时间和喷发时间）之间的关系。但如果你看看数据框的输出，就会注意到：与冒纳罗亚 CO<span class="math notranslate nohighlight">\(_{\text{2}}\)</span> 数据集中的时间不同，这里的两个变量都没有天然的先后顺序。所以散点图很可能是最合适的可视化方式。我们用 <code class="docutils literal notranslate"><span class="pre">altair</span></code> 包创建散点图，把 <code class="docutils literal notranslate"><span class="pre">waiting</span></code> 变量放在水平轴上，把 <code class="docutils literal notranslate"><span class="pre">eruptions</span></code> 变量放在垂直轴上，并用 <code class="docutils literal notranslate"><span class="pre">mark_point</span></code> 作为图形标记。结果见<a class="reference internal" href="#faithful-scatter"><span class="std std-numref">图 4.6</span></a>。</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">faithful_scatter</span> <span class="o">=</span> <span class="n">alt</span><span class="o">.</span><span class="n">Chart</span><span class="p">(</span><span class="n">faithful</span><span class="p">)</span><span class="o">.</span><span class="n">mark_point</span><span class="p">()</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span>
+    <span class="n">x</span><span class="o">=</span><span class="s2">"waiting"</span><span class="p">,</span>
+    <span class="n">y</span><span class="o">=</span><span class="s2">"eruptions"</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<figure class="align-default" id="faithful-scatter" style="width: 700px">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>alt.Chart(...)
+</pre></div>
+</div>
+<figcaption>
+<p><span class="caption-number">图 4.6 </span><span class="caption-text">等待时间与喷发时间的散点图。</span><a class="headerlink" href="#faithful-scatter" title="永久链接至图片">#</a></p>
+</figcaption>
+</figure>
+<p>从<a class="reference internal" href="#faithful-scatter"><span class="std std-numref">图 4.6</span></a> 可以看出，数据倾向于分成两组：一组等待时间和喷发时间都短，另一组两者都长。请注意，这里没有出现标记重叠：各点总体上分得很清楚，形成的模式也很清晰。要改进这张图，我们只需加上坐标轴标签，并把字体调得更容易阅读。</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">faithful_scatter_labels</span> <span class="o">=</span> <span class="n">alt</span><span class="o">.</span><span class="n">Chart</span><span class="p">(</span><span class="n">faithful</span><span class="p">)</span><span class="o">.</span><span class="n">mark_point</span><span class="p">()</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span>
+    <span class="n">x</span><span class="o">=</span><span class="n">alt</span><span class="o">.</span><span class="n">X</span><span class="p">(</span><span class="s2">"waiting"</span><span class="p">)</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">"Waiting Time (mins)"</span><span class="p">),</span>
+    <span class="n">y</span><span class="o">=</span><span class="n">alt</span><span class="o">.</span><span class="n">Y</span><span class="p">(</span><span class="s2">"eruptions"</span><span class="p">)</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">"Eruption Duration (mins)"</span><span class="p">)</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<figure class="align-default" id="faithful-scatter-labels" style="width: 700px">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>alt.Chart(...)
+</pre></div>
+</div>
+<figcaption>
+<p><span class="caption-number">图 4.7 </span><span class="caption-text">等待时间与喷发时间的散点图，坐标轴和标签更清晰。</span><a class="headerlink" href="#faithful-scatter-labels" title="永久链接至图片">#</a></p>
+</figcaption>
+</figure>
+<p>指定 <code class="docutils literal notranslate"><span class="pre">mark_point(size=10,</span> <span class="pre">color=&quot;black&quot;)</span></code> 可以改变点的大小和图形的颜色。</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">faithful_scatter_labels_black</span> <span class="o">=</span> <span class="n">alt</span><span class="o">.</span><span class="n">Chart</span><span class="p">(</span><span class="n">faithful</span><span class="p">)</span><span class="o">.</span><span class="n">mark_point</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">"black"</span><span class="p">)</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span>
+    <span class="n">x</span><span class="o">=</span><span class="n">alt</span><span class="o">.</span><span class="n">X</span><span class="p">(</span><span class="s2">"waiting"</span><span class="p">)</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">"Waiting Time (mins)"</span><span class="p">),</span>
+    <span class="n">y</span><span class="o">=</span><span class="n">alt</span><span class="o">.</span><span class="n">Y</span><span class="p">(</span><span class="s2">"eruptions"</span><span class="p">)</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">"Eruption Duration (mins)"</span><span class="p">)</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<figure class="align-default" id="faithful-scatter-labels-black" style="width: 700px">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>alt.Chart(...)
+</pre></div>
+</div>
+<figcaption>
+<p><span class="caption-number">图 4.8 </span><span class="caption-text">等待时间与喷发时间的散点图，点用黑色标出。</span><a class="headerlink" href="#faithful-scatter-labels-black" title="永久链接至图片">#</a></p>
+</figcaption>
+</figure>
+</section>
+<section id="id10">
+<h3><span class="section-number">4.5.3. </span>坐标轴变换与彩色散点图：加拿大语言数据集<a class="headerlink" href="#id10" title="Permalink to this heading">#</a></h3>
+<p id="index-13">回顾一下<a class="reference internal" href="intro.html#intro"><span class="std std-numref">第 1 章</span></a>、<a class="reference internal" href="reading.html#reading"><span class="std std-numref">第 2 章</span></a>与<a class="reference internal" href="wrangling.html#wrangling"><span class="std std-numref">第 3 章</span></a>中介绍过的
+<code class="docutils literal notranslate"><span class="pre">can_lang</span></code> 数据集 <span id="id11">[<a class="reference internal" href="#id47" title="Tiffany Timbers. canlang: Canadian Census language data. 2020. R package version 0.0.9. URL: https://ttimbers.github.io/canlang/.">Timbers, 2020</a>]</span>。该数据集记录了 2016 年加拿大人口普查中各种语言的使用人数。</p>
+<p id="index-14">**问题：**把某种语言作为母语的人所占的百分比，与把该语言作为在家主要使用的语言的人所占的百分比之间，是否存在关系？这种关系的强度在更高层级的语言类别——官方语言、原住民语言（Aboriginal languages），以及非官方、非原住民语言——中是否呈现出某种模式？</p>
+<p>我们先读取并查看这份数据：</p>
+<div class="cell tag_output_scroll docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">can_lang</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">"data/can_lang.csv"</span><span class="p">)</span>
+<span class="n">can_lang</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>category</th>
+      <th>language</th>
+      <th>mother_tongue</th>
+      <th>most_at_home</th>
+      <th>most_at_work</th>
+      <th>lang_known</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Aboriginal languages</td>
+      <td>Aboriginal languages, n.o.s.</td>
+      <td>590</td>
+      <td>235</td>
+      <td>30</td>
+      <td>665</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Non-Official &amp; Non-Aboriginal languages</td>
+      <td>Afrikaans</td>
+      <td>10260</td>
+      <td>4785</td>
+      <td>85</td>
+      <td>23415</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>Non-Official &amp; Non-Aboriginal languages</td>
+      <td>Afro-Asiatic languages, n.i.e.</td>
+      <td>1150</td>
+      <td>445</td>
+      <td>10</td>
+      <td>2775</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>Non-Official &amp; Non-Aboriginal languages</td>
+      <td>Akan (Twi)</td>
+      <td>13460</td>
+      <td>5985</td>
+      <td>25</td>
+      <td>22150</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>Non-Official &amp; Non-Aboriginal languages</td>
+      <td>Albanian</td>
+      <td>26895</td>
+      <td>13135</td>
+      <td>345</td>
+      <td>31930</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>209</th>
+      <td>Non-Official &amp; Non-Aboriginal languages</td>
+      <td>Wolof</td>
+      <td>3990</td>
+      <td>1385</td>
+      <td>10</td>
+      <td>8240</td>
+    </tr>
+    <tr>
+      <th>210</th>
+      <td>Aboriginal languages</td>
+      <td>Woods Cree</td>
+      <td>1840</td>
+      <td>800</td>
+      <td>75</td>
+      <td>2665</td>
+    </tr>
+    <tr>
+      <th>211</th>
+      <td>Non-Official &amp; Non-Aboriginal languages</td>
+      <td>Wu (Shanghainese)</td>
+      <td>12915</td>
+      <td>7650</td>
+      <td>105</td>
+      <td>16530</td>
+    </tr>
+    <tr>
+      <th>212</th>
+      <td>Non-Official &amp; Non-Aboriginal languages</td>
+      <td>Yiddish</td>
+      <td>13555</td>
+      <td>7085</td>
+      <td>895</td>
+      <td>20985</td>
+    </tr>
+    <tr>
+      <th>213</th>
+      <td>Non-Official &amp; Non-Aboriginal languages</td>
+      <td>Yoruba</td>
+      <td>9080</td>
+      <td>2615</td>
+      <td>15</td>
+      <td>22415</td>
+    </tr>
+  </tbody>
+</table>
+<p>214 rows × 6 columns</p>
+</div></div></div>
+</div>
+<p id="index-15">我们先为数据框中的 <code class="docutils literal notranslate"><span class="pre">mother_tongue</span></code> 列与 <code class="docutils literal notranslate"><span class="pre">most_at_home</span></code> 列画一张散点图。正如上一节的散点图所示，<code class="docutils literal notranslate"><span class="pre">mark_point</span></code> 默认只画出每个点的轮廓。如果想把点填充起来，可以给 <code class="docutils literal notranslate"><span class="pre">mark_point</span></code> 传入参数 <code class="docutils literal notranslate"><span class="pre">filled=True</span></code>，也可以直接使用简写 <code class="docutils literal notranslate"><span class="pre">mark_circle</span></code>。点要不要填充，主要取决于个人偏好，不过图中有很多点互相重叠时，空心点让人更容易看清每一个点。由此得到的图形见<a class="reference internal" href="#can-lang-plot"><span class="std std-numref">图 4.9</span></a>。</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">can_lang_plot</span> <span class="o">=</span> <span class="n">alt</span><span class="o">.</span><span class="n">Chart</span><span class="p">(</span><span class="n">can_lang</span><span class="p">)</span><span class="o">.</span><span class="n">mark_circle</span><span class="p">()</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span>
+    <span class="n">x</span><span class="o">=</span><span class="s2">"most_at_home"</span><span class="p">,</span>
+    <span class="n">y</span><span class="o">=</span><span class="s2">"mother_tongue"</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<figure class="align-default" id="can-lang-plot" style="width: 700px">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>alt.Chart(...)
+</pre></div>
+</div>
+<figcaption>
+<p><span class="caption-number">图 4.9 </span><span class="caption-text">以某种语言为母语的加拿大人人数，与在家主要使用该语言的加拿大人人数之间的散点图。</span><a class="headerlink" href="#can-lang-plot" title="永久链接至图片">#</a></p>
+</figcaption>
+</figure>
+<p>要初步提高<a class="reference internal" href="#can-lang-plot"><span class="std std-numref">图 4.9</span></a> 的可解释性，我们应该把默认的坐标轴名称换成信息更明确的标签。要让图中的坐标轴标签更易读，可以把较长的标签分成多行显示。为此，我们把 title 写成一个字符串列表，列表中的每个字符串对应新的一行文字。我们还可以加大字号，进一步提高可读性。</p>
+<div class="cell docutils container" id="index-16">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">can_lang_plot_labels</span> <span class="o">=</span> <span class="n">alt</span><span class="o">.</span><span class="n">Chart</span><span class="p">(</span><span class="n">can_lang</span><span class="p">)</span><span class="o">.</span><span class="n">mark_circle</span><span class="p">()</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span>
+    <span class="n">x</span><span class="o">=</span><span class="n">alt</span><span class="o">.</span><span class="n">X</span><span class="p">(</span><span class="s2">"most_at_home"</span><span class="p">)</span>
+        <span class="o">.</span><span class="n">title</span><span class="p">([</span><span class="s2">"Language spoken most at home"</span><span class="p">,</span> <span class="s2">"(number of Canadian residents)"</span><span class="p">]),</span>
+    <span class="n">y</span><span class="o">=</span><span class="n">alt</span><span class="o">.</span><span class="n">Y</span><span class="p">(</span><span class="s2">"mother_tongue"</span><span class="p">)</span>
+        <span class="o">.</span><span class="n">scale</span><span class="p">(</span><span class="n">zero</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="o">.</span><span class="n">title</span><span class="p">([</span><span class="s2">"Mother tongue"</span><span class="p">,</span> <span class="s2">"(number of Canadian residents)"</span><span class="p">])</span>
+<span class="p">)</span><span class="o">.</span><span class="n">configure_axis</span><span class="p">(</span><span class="n">titleFontSize</span><span class="o">=</span><span class="mi">12</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<figure class="align-default" id="can-lang-plot-labels" style="width: 700px">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>alt.Chart(...)
+</pre></div>
+</div>
+<figcaption>
+<p><span class="caption-number">图 4.10 </span><span class="caption-text">以某种语言为母语的加拿大人人数，与在家主要使用该语言的加拿大人人数之间的散点图，并带有 x 轴和 y 轴标签。</span><a class="headerlink" href="#can-lang-plot-labels" title="永久链接至图片">#</a></p>
+</figcaption>
+</figure>
+<p>很好！<a class="reference internal" href="#can-lang-plot-labels"><span class="std std-numref">图 4.10</span></a> 的坐标轴和标签现在清楚多了，也更容易解读。不过散点本身还有改进的空间：214 个数据点大多挤在图形的左下方。数据之所以挤成一团，是因为在加拿大讲英语或法语的人（也就是右上角的两个点）远多于讲其他语言的人。具体来说，最常用的母语有 <span class="pasted-text">19,460,850</span> 名使用者，而最不常用的母语只有 <span class="pasted-text">10</span>。这两个数字的大小相差六个数量级！我们可以筛选数据，确认右上角的这两个点对应的正是加拿大的两种官方语言：</p>
+<div class="cell tag_output_scroll docutils container" id="index-17">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">can_lang</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span>
+    <span class="p">(</span><span class="n">can_lang</span><span class="p">[</span><span class="s2">"language"</span><span class="p">]</span><span class="o">==</span><span class="s2">"English"</span><span class="p">)</span>
+    <span class="o">|</span> <span class="p">(</span><span class="n">can_lang</span><span class="p">[</span><span class="s2">"language"</span><span class="p">]</span><span class="o">==</span><span class="s2">"French"</span><span class="p">)</span>
+<span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>category</th>
+      <th>language</th>
+      <th>mother_tongue</th>
+      <th>most_at_home</th>
+      <th>most_at_work</th>
+      <th>lang_known</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>54</th>
+      <td>Official languages</td>
+      <td>English</td>
+      <td>19460850</td>
+      <td>22162865</td>
+      <td>15265335</td>
+      <td>29748265</td>
+    </tr>
+    <tr>
+      <th>59</th>
+      <td>Official languages</td>
+      <td>French</td>
+      <td>7166700</td>
+      <td>6943800</td>
+      <td>3825215</td>
+      <td>10242945</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p id="index-18">回忆一下，我们这个关于数据的问题涉及<em>全部</em>语言；所以要妥善回答这个问题，就需要调整坐标轴的标度，以便看清所有散点。具体来说，我们会把水平和垂直坐标轴改成<strong>对数</strong>（<strong>log</strong>）标度，以此改进这张图。数据中同时出现<em>非常大</em>和<em>非常小</em>的取值时，对数标度就很有用，因为它有助于把小的取值拉开、把大的取值压缩在一起。例如，<span class="math notranslate nohighlight">\(\log_{10}(1) = 0\)</span>、<span class="math notranslate nohighlight">\(\log_{10}(10) = 1\)</span>、<span class="math notranslate nohighlight">\(\log_{10}(100) = 2\)</span>，以及 <span class="math notranslate nohighlight">\(\log_{10}(1000) = 3\)</span>；在对数标度上，1、10、100 和 1000 这几个数值彼此间距完全相同！可见，做这种变换就是把大的取值拉近、把小的取值推远。请注意，如果你的数据可能取到 0，对数标度也许并不合适（因为在 Python 中 <code class="docutils literal notranslate"><span class="pre">log10(0)</span></code> 是 <code class="docutils literal notranslate"><span class="pre">-inf</span></code>）。这种情况下还有其他变换数据的方法，但已超出本书范围。</p>
+<p>在 <code class="docutils literal notranslate"><span class="pre">altair</span></code> 可视化中，只要在 scale 方法里使用参数 <code class="docutils literal notranslate"><span class="pre">type=&quot;log&quot;</span></code>，就能实现对数标度。</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">can_lang_plot_log</span> <span class="o">=</span> <span class="n">alt</span><span class="o">.</span><span class="n">Chart</span><span class="p">(</span><span class="n">can_lang</span><span class="p">)</span><span class="o">.</span><span class="n">mark_circle</span><span class="p">()</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span>
+    <span class="n">x</span><span class="o">=</span><span class="n">alt</span><span class="o">.</span><span class="n">X</span><span class="p">(</span><span class="s2">"most_at_home"</span><span class="p">)</span>
+        <span class="o">.</span><span class="n">scale</span><span class="p">(</span><span class="nb">type</span><span class="o">=</span><span class="s2">"log"</span><span class="p">)</span>
+        <span class="o">.</span><span class="n">title</span><span class="p">([</span><span class="s2">"Language spoken most at home"</span><span class="p">,</span> <span class="s2">"(number of Canadian residents)"</span><span class="p">]),</span>
+    <span class="n">y</span><span class="o">=</span><span class="n">alt</span><span class="o">.</span><span class="n">Y</span><span class="p">(</span><span class="s2">"mother_tongue"</span><span class="p">)</span>
+        <span class="o">.</span><span class="n">scale</span><span class="p">(</span><span class="nb">type</span><span class="o">=</span><span class="s2">"log"</span><span class="p">)</span>
+        <span class="o">.</span><span class="n">title</span><span class="p">([</span><span class="s2">"Mother tongue"</span><span class="p">,</span> <span class="s2">"(number of Canadian residents)"</span><span class="p">])</span>
+<span class="p">)</span><span class="o">.</span><span class="n">configure_axis</span><span class="p">(</span><span class="n">titleFontSize</span><span class="o">=</span><span class="mi">12</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<figure class="align-default" id="can-lang-plot-log" style="width: 700px">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>alt.Chart(...)
+</pre></div>
+</div>
+<figcaption>
+<p><span class="caption-number">图 4.11 </span><span class="caption-text">以某种语言为母语的加拿大人人数，与在家主要使用该语言的加拿大人人数之间的散点图，其中 x 轴和 y 轴已按对数调整。</span><a class="headerlink" href="#can-lang-plot-log" title="永久链接至图片">#</a></p>
+</figcaption>
+</figure>
+<p>在上面的图中你会注意到两件事。把坐标轴改成对数后会产生很多刻度和网格线，让图形看起来相当杂乱，很难把注意力集中到数据上。你还会看到，x 轴上倒数第二个刻度标签不见了；Altair 之所以省掉它，是因为那些大数字并排放不下。另外也不容易判断 100,000,000 这个标签属于最后一个刻度还是倒数第二个刻度。要解决这些问题，我们可以把刻度和网格线的数量限制为只保留主要的七条，并把数字格式改成带后缀的形式，让标签更短。</p>
+<div class="cell docutils container" id="index-19">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">can_lang_plot_log_revised</span> <span class="o">=</span> <span class="n">alt</span><span class="o">.</span><span class="n">Chart</span><span class="p">(</span><span class="n">can_lang</span><span class="p">)</span><span class="o">.</span><span class="n">mark_circle</span><span class="p">()</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span>
+    <span class="n">x</span><span class="o">=</span><span class="n">alt</span><span class="o">.</span><span class="n">X</span><span class="p">(</span><span class="s2">"most_at_home"</span><span class="p">)</span>
+        <span class="o">.</span><span class="n">scale</span><span class="p">(</span><span class="nb">type</span><span class="o">=</span><span class="s2">"log"</span><span class="p">)</span>
+        <span class="o">.</span><span class="n">title</span><span class="p">([</span><span class="s2">"Language spoken most at home"</span><span class="p">,</span> <span class="s2">"(number of Canadian residents)"</span><span class="p">])</span>
+        <span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="n">tickCount</span><span class="o">=</span><span class="mi">7</span><span class="p">,</span> <span class="nb">format</span><span class="o">=</span><span class="s2">"s"</span><span class="p">),</span>
+    <span class="n">y</span><span class="o">=</span><span class="n">alt</span><span class="o">.</span><span class="n">Y</span><span class="p">(</span><span class="s2">"mother_tongue"</span><span class="p">)</span>
+        <span class="o">.</span><span class="n">scale</span><span class="p">(</span><span class="nb">type</span><span class="o">=</span><span class="s2">"log"</span><span class="p">)</span>
+        <span class="o">.</span><span class="n">title</span><span class="p">([</span><span class="s2">"Mother tongue"</span><span class="p">,</span> <span class="s2">"(number of Canadian residents)"</span><span class="p">])</span>
+        <span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="n">tickCount</span><span class="o">=</span><span class="mi">7</span><span class="p">,</span> <span class="nb">format</span><span class="o">=</span><span class="s2">"s"</span><span class="p">)</span>
+<span class="p">)</span><span class="o">.</span><span class="n">configure_axis</span><span class="p">(</span><span class="n">titleFontSize</span><span class="o">=</span><span class="mi">12</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<figure class="align-default" id="can-lang-plot-log-revised" style="width: 700px">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>alt.Chart(...)
+</pre></div>
+</div>
+<figcaption>
+<p><span class="caption-number">图 4.12 </span><span class="caption-text">以某种语言为母语的加拿大人人数，与在家主要使用该语言的加拿大人人数之间的散点图，其中 x 轴和 y 轴已按对数调整。图中只显示主要的网格线。后缀“k”表示 1,000（“kilo”），而后缀“M”表示 1,000,000（“million”）。</span><a class="headerlink" href="#can-lang-plot-log-revised" title="永久链接至图片">#</a></p>
+</figcaption>
+</figure>
+<p>与<a class="reference internal" href="wrangling.html#wrangling"><span class="std std-numref">第 3 章</span></a>中的一些例子类似，我们可以把计数换算成百分比，为这些数字提供参照，也让它们更容易理解。做法是：把以某种语言为母语、或以该语言作为在家主要使用的语言的人数，除以居住在加拿大的人口数，再乘以 100%。例如，在 2016 年加拿大人口普查中报告自己的母语为英语的人所占百分比为
+<span class="pasted-text">19,460,850</span> / <span class="pasted-text">35,151,728</span> <span class="math notranslate nohighlight">\(\times\)</span>
+100% = <span class="pasted-text">55.36</span>%</p>
+<p>下面我们把以某种语言为母语的人所占百分比，与以该语言作为在家主要使用的语言的人所占百分比，分别赋给 <code class="docutils literal notranslate"><span class="pre">can_lang</span></code> 数据框中的两个新列。由于新列是追加在数据表末尾的，我们在变换之后选取了这两列，这样你能清楚地看到表格变换后的输出。请注意，我们把加拿大人口数用 <code class="docutils literal notranslate"><span class="pre">_</span></code> 分隔书写，这样读起来更方便；这不会影响 Python 对这个数字的解释方式，仅仅是为了便于阅读。</p>
+<div class="cell docutils container" id="index-20">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">canadian_population</span> <span class="o">=</span> <span class="mi">35_151_728</span>
+<span class="n">can_lang</span><span class="p">[</span><span class="s2">"mother_tongue_percent"</span><span class="p">]</span> <span class="o">=</span> <span class="n">can_lang</span><span class="p">[</span><span class="s2">"mother_tongue"</span><span class="p">]</span><span class="o">/</span><span class="n">canadian_population</span><span class="o">*</span><span class="mi">100</span>
+<span class="n">can_lang</span><span class="p">[</span><span class="s2">"most_at_home_percent"</span><span class="p">]</span> <span class="o">=</span> <span class="n">can_lang</span><span class="p">[</span><span class="s2">"most_at_home"</span><span class="p">]</span><span class="o">/</span><span class="n">canadian_population</span><span class="o">*</span><span class="mi">100</span>
+<span class="n">can_lang</span><span class="p">[[</span><span class="s2">"mother_tongue_percent"</span><span class="p">,</span> <span class="s2">"most_at_home_percent"</span><span class="p">]]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>mother_tongue_percent</th>
+      <th>most_at_home_percent</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>0.001678</td>
+      <td>0.000669</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>0.029188</td>
+      <td>0.013612</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>0.003272</td>
+      <td>0.001266</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>0.038291</td>
+      <td>0.017026</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>0.076511</td>
+      <td>0.037367</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>209</th>
+      <td>0.011351</td>
+      <td>0.003940</td>
+    </tr>
+    <tr>
+      <th>210</th>
+      <td>0.005234</td>
+      <td>0.002276</td>
+    </tr>
+    <tr>
+      <th>211</th>
+      <td>0.036741</td>
+      <td>0.021763</td>
+    </tr>
+    <tr>
+      <th>212</th>
+      <td>0.038561</td>
+      <td>0.020155</td>
+    </tr>
+    <tr>
+      <th>213</th>
+      <td>0.025831</td>
+      <td>0.007439</td>
+    </tr>
+  </tbody>
+</table>
+<p>211 rows × 2 columns</p>
+</div></div></div>
+</div>
+<p>接下来，我们修改可视化，改用刚算出的百分比（并相应调整坐标轴标签，以反映单位的变化）。最终结果见<a class="reference internal" href="#can-lang-plot-percent"><span class="std std-numref">图 4.13</span></a>。这里的刻度标签默认都能放下，所以我们没有给标签加后缀。请注意，后缀有时也更难理解，因此除非你的交流对象是技术背景的人，一般建议避免使用后缀（数值很小时尤其如此）。</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">can_lang_plot_percent</span> <span class="o">=</span> <span class="n">alt</span><span class="o">.</span><span class="n">Chart</span><span class="p">(</span><span class="n">can_lang</span><span class="p">)</span><span class="o">.</span><span class="n">mark_circle</span><span class="p">()</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span>
+    <span class="n">x</span><span class="o">=</span><span class="n">alt</span><span class="o">.</span><span class="n">X</span><span class="p">(</span><span class="s2">"most_at_home_percent"</span><span class="p">)</span>
+        <span class="o">.</span><span class="n">scale</span><span class="p">(</span><span class="nb">type</span><span class="o">=</span><span class="s2">"log"</span><span class="p">)</span>
+        <span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="n">tickCount</span><span class="o">=</span><span class="mi">7</span><span class="p">)</span>
+        <span class="o">.</span><span class="n">title</span><span class="p">([</span><span class="s2">"Language spoken most at home"</span><span class="p">,</span> <span class="s2">"(percentage of Canadian residents)"</span><span class="p">]),</span>
+    <span class="n">y</span><span class="o">=</span><span class="n">alt</span><span class="o">.</span><span class="n">Y</span><span class="p">(</span><span class="s2">"mother_tongue_percent"</span><span class="p">)</span>
+        <span class="o">.</span><span class="n">scale</span><span class="p">(</span><span class="nb">type</span><span class="o">=</span><span class="s2">"log"</span><span class="p">)</span>
+        <span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="n">tickCount</span><span class="o">=</span><span class="mi">7</span><span class="p">)</span>
+        <span class="o">.</span><span class="n">title</span><span class="p">([</span><span class="s2">"Mother tongue"</span><span class="p">,</span> <span class="s2">"(percentage of Canadian residents)"</span><span class="p">]),</span>
+<span class="p">)</span><span class="o">.</span><span class="n">configure_axis</span><span class="p">(</span><span class="n">titleFontSize</span><span class="o">=</span><span class="mi">12</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<figure class="align-default" id="can-lang-plot-percent" style="width: 700px">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>alt.Chart(...)
+</pre></div>
+</div>
+<figcaption>
+<p><span class="caption-number">图 4.13 </span><span class="caption-text">以某种语言为母语的加拿大人所占百分比，与在家主要使用该语言的加拿大人所占百分比之间的散点图。</span><a class="headerlink" href="#can-lang-plot-percent" title="永久链接至图片">#</a></p>
+</figcaption>
+</figure>
+<p><a class="reference internal" href="#can-lang-plot-percent"><span class="std std-numref">图 4.13</span></a> 正是回答本节第一个问题所要用的可视化，也就是：把某种语言作为母语的人所占百分比，与把该语言作为在家主要使用的语言的人所占百分比之间是否存在关系。要完整回答这个问题，我们需要借助<a class="reference internal" href="#can-lang-plot-percent"><span class="std std-numref">图 4.13</span></a>
+来评估数据的几个关键特征：</p>
+<ul class="simple" id="index-21">
+<li><p><strong>方向：</strong> x 变量增大时 y 变量往往也增大，那么 y 与 x 就是<strong>正</strong>相关关系（positive relationship）。x 增大时 y 往往减小，那么 y 与 x 就是<strong>负</strong>相关关系。如果 x 增大时 y 没有明显的增大或减小，那么 y 与 x <strong>几乎没有</strong>相关关系。</p></li>
+</ul>
+<ul class="simple" id="index-22">
+<li><p><strong>强度：</strong> x 增大时 y 变量<em>稳定地</em>增大、减小或保持不变，这种关系就是<strong>强</strong>相关关系；否则就是<strong>弱</strong>相关关系。直观地说，散点靠得比较近、整体看起来更像一条“线”或“曲线”而不是一团“云”时，这种关系就强。</p></li>
+</ul>
+<ul class="simple" id="index-23">
+<li><p><strong>形状：<strong>如果能大致沿着这些数据点画出一条直线，这种关系就是</strong>线性</strong>关系；否则就是<strong>非线性</strong>关系。</p></li>
+</ul>
+<p>在<a class="reference internal" href="#can-lang-plot-percent"><span class="std std-numref">图 4.13</span></a> 中可以看到，把某种语言作为母语的人所占百分比越高，在家中讲这种语言的人所占百分比也越高。因此，这两个变量之间是<strong>正</strong>相关关系。此外，因为<a class="reference internal" href="#can-lang-plot-percent"><span class="std std-numref">图 4.13</span></a> 中的点相当集中，整体更像一条“线”而不是一团“云”，所以可以说这是一种<strong>强</strong>相关关系。最后，因为在<a class="reference internal" href="#can-lang-plot-percent"><span class="std std-numref">图 4.13</span></a>
+中穿过这些点画一条直线能相当好地贴合我们观察到的模式，所以我们说这种关系是<strong>线性</strong>的。</p>
+<p>接下来看探索性数据分析问题的第二部分！回忆一下，我们想知道在<a class="reference internal" href="#can-lang-plot-percent"><span class="std std-numref">图 4.13</span></a> 中发现的关系的强度，是否取决于更高层级的语言类别（官方语言、原住民语言，以及非官方、非原住民语言）。一种常见的探索方法，是给已经画好的散点图上的数据点按组着色。例如，既然 2016 年加拿大人口普查中记录的每种语言都有对应的更高层级语言类别，我们就可以给之前那张散点图上的点着色，以表示每种语言所属的更高层级语言类别。</p>
+<p>这里我们要按取值所属的 <code class="docutils literal notranslate"><span class="pre">category</span></code> 组把它们区分开。我们可以在 <code class="docutils literal notranslate"><span class="pre">encode</span></code> 方法中加上 <code class="docutils literal notranslate"><span class="pre">color</span></code> 参数，指定用 <code class="docutils literal notranslate"><span class="pre">category</span></code> 列为点着色。加上这个参数后，点会按所属组着色，图的一侧也会出现图例。语言类别的标签本身已经说明了含义，所以我们可以删掉图例标题，这样既能减少视觉杂乱，又不会削弱图表的表达效果。</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">can_lang_plot_category</span><span class="o">=</span><span class="n">alt</span><span class="o">.</span><span class="n">Chart</span><span class="p">(</span><span class="n">can_lang</span><span class="p">)</span><span class="o">.</span><span class="n">mark_circle</span><span class="p">()</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span>
+    <span class="n">x</span><span class="o">=</span><span class="n">alt</span><span class="o">.</span><span class="n">X</span><span class="p">(</span><span class="s2">"most_at_home_percent"</span><span class="p">)</span>
+        <span class="o">.</span><span class="n">scale</span><span class="p">(</span><span class="nb">type</span><span class="o">=</span><span class="s2">"log"</span><span class="p">)</span>
+        <span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="n">tickCount</span><span class="o">=</span><span class="mi">7</span><span class="p">)</span>
+        <span class="o">.</span><span class="n">title</span><span class="p">([</span><span class="s2">"Language spoken most at home"</span><span class="p">,</span> <span class="s2">"(percentage of Canadian residents)"</span><span class="p">]),</span>
+    <span class="n">y</span><span class="o">=</span><span class="n">alt</span><span class="o">.</span><span class="n">Y</span><span class="p">(</span><span class="s2">"mother_tongue_percent"</span><span class="p">)</span>
+        <span class="o">.</span><span class="n">scale</span><span class="p">(</span><span class="nb">type</span><span class="o">=</span><span class="s2">"log"</span><span class="p">)</span>
+        <span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="n">tickCount</span><span class="o">=</span><span class="mi">7</span><span class="p">)</span>
+        <span class="o">.</span><span class="n">title</span><span class="p">([</span><span class="s2">"Mother tongue"</span><span class="p">,</span> <span class="s2">"(percentage of Canadian residents)"</span><span class="p">]),</span>
+    <span class="n">color</span><span class="o">=</span><span class="s2">"category"</span>
+<span class="p">)</span><span class="o">.</span><span class="n">configure_axis</span><span class="p">(</span><span class="n">titleFontSize</span><span class="o">=</span><span class="mi">12</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<figure class="align-default" id="can-lang-plot-category" style="width: 700px">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>alt.Chart(...)
+</pre></div>
+</div>
+<figcaption>
+<p><span class="caption-number">图 4.14 </span><span class="caption-text">以某种语言为母语的加拿大人所占百分比，与在家主要使用该语言的加拿大人所占百分比之间的散点图，按语言类别着色。</span><a class="headerlink" href="#can-lang-plot-category" title="永久链接至图片">#</a></p>
+</figcaption>
+</figure>
+<p>另一个可以调整的地方是图例的位置。这属于个人偏好，对可视化并不关键。我们用 <code class="docutils literal notranslate"><span class="pre">alt.Legend</span></code> 方法移动图例标题，并指定把它放在图形顶部。这样图例项会自动改成水平排列，而不是垂直排列，不过也可以在 <code class="docutils literal notranslate"><span class="pre">alt.Legend</span></code> 中指定 <code class="docutils literal notranslate"><span class="pre">direction=&quot;vertical&quot;</span></code>，保留垂直排列。</p>
+<div class="cell docutils container" id="index-24">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">can_lang_plot_legend</span> <span class="o">=</span> <span class="n">alt</span><span class="o">.</span><span class="n">Chart</span><span class="p">(</span><span class="n">can_lang</span><span class="p">)</span><span class="o">.</span><span class="n">mark_circle</span><span class="p">()</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span>
+    <span class="n">x</span><span class="o">=</span><span class="n">alt</span><span class="o">.</span><span class="n">X</span><span class="p">(</span><span class="s2">"most_at_home_percent"</span><span class="p">)</span>
+        <span class="o">.</span><span class="n">scale</span><span class="p">(</span><span class="nb">type</span><span class="o">=</span><span class="s2">"log"</span><span class="p">)</span>
+        <span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="n">tickCount</span><span class="o">=</span><span class="mi">7</span><span class="p">)</span>
+        <span class="o">.</span><span class="n">title</span><span class="p">([</span><span class="s2">"Language spoken most at home"</span><span class="p">,</span> <span class="s2">"(percentage of Canadian residents)"</span><span class="p">]),</span>
+    <span class="n">y</span><span class="o">=</span><span class="n">alt</span><span class="o">.</span><span class="n">Y</span><span class="p">(</span><span class="s2">"mother_tongue_percent"</span><span class="p">)</span>
+        <span class="o">.</span><span class="n">scale</span><span class="p">(</span><span class="nb">type</span><span class="o">=</span><span class="s2">"log"</span><span class="p">)</span>
+        <span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="n">tickCount</span><span class="o">=</span><span class="mi">7</span><span class="p">)</span>
+        <span class="o">.</span><span class="n">title</span><span class="p">([</span><span class="s2">"Mother tongue"</span><span class="p">,</span> <span class="s2">"(percentage of Canadian residents)"</span><span class="p">]),</span>
+    <span class="n">color</span><span class="o">=</span><span class="n">alt</span><span class="o">.</span><span class="n">Color</span><span class="p">(</span><span class="s2">"category"</span><span class="p">)</span>
+        <span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">orient</span><span class="o">=</span><span class="s2">"top"</span><span class="p">)</span>
+        <span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">""</span><span class="p">)</span>
+<span class="p">)</span><span class="o">.</span><span class="n">configure_axis</span><span class="p">(</span><span class="n">titleFontSize</span><span class="o">=</span><span class="mi">12</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<figure class="align-default" id="can-lang-plot-legend" style="width: 700px">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>alt.Chart(...)
+</pre></div>
+</div>
+<figcaption>
+<p><span class="caption-number">图 4.15 </span><span class="caption-text">以某种语言为母语的加拿大人所占百分比，与在家主要使用该语言的加拿大人所占百分比之间的散点图，按语言类别着色，并调整了图例。</span><a class="headerlink" href="#can-lang-plot-legend" title="永久链接至图片">#</a></p>
+</figcaption>
+</figure>
+<p id="index-25">在<a class="reference internal" href="#can-lang-plot-legend"><span class="std std-numref">图 4.15</span></a> 中，点使用的是 <code class="docutils literal notranslate"><span class="pre">altair</span></code> 默认的配色方案 <code class="docutils literal notranslate"><span class="pre">&quot;tableau10&quot;</span></code>。这在多数情况下都是合适的选择，色觉减弱的人也容易分辨。一般来说，Altair 默认使用的配色方案会与所展示数据的类型相匹配，挑选时兼顾色觉正常和色觉减弱的人，让两者都容易解读。如果你对某个颜色搭配没有把握，可以使用这个<a class="reference external" href="https://www.color-blindness.com/coblis-color-blindness-simulator/">色盲模拟器</a>检查你的可视化对色盲是否友好。</p>
+<p>全部可用的配色方案，以及如何创建自己的配色方案，都可以在 <a class="reference external" href="https://altair-viz.github.io/user_guide/customization.html#customizing-colors">Altair 文档</a>中查看。要更换图表的配色方案，我们可以在 <code class="docutils literal notranslate"><span class="pre">color</span></code> 编码的 <code class="docutils literal notranslate"><span class="pre">scale</span></code> 中加上 <code class="docutils literal notranslate"><span class="pre">scheme</span></code> 参数。下面我们选择 <code class="docutils literal notranslate"><span class="pre">&quot;dark2&quot;</span></code> 主题，结果见<a class="reference internal" href="#can-lang-plot-theme"><span class="std std-numref">图 4.16</span></a>。我们还把 <code class="docutils literal notranslate"><span class="pre">shape</span></code> 图形属性映射（aesthetic mapping）设到 <code class="docutils literal notranslate"><span class="pre">category</span></code> 变量上；这样每个语言类别的散点形状都不一样。这类视觉冗余（visual redundancy）——也就是用散点的颜色和形状同时传达同一信息——能进一步提高可视化的清晰度和可及性（accessibility），但如果形状和颜色种类太多，也会增加视觉噪声，所以要谨慎使用。请注意，这里我们改回使用 <code class="docutils literal notranslate"><span class="pre">mark_point</span></code>，因为 <code class="docutils literal notranslate"><span class="pre">mark_circle</span></code> 不支持 <code class="docutils literal notranslate"><span class="pre">shape</span></code> 编码，画出来的点永远是实心圆。</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">can_lang_plot_theme</span> <span class="o">=</span> <span class="n">alt</span><span class="o">.</span><span class="n">Chart</span><span class="p">(</span><span class="n">can_lang</span><span class="p">)</span><span class="o">.</span><span class="n">mark_point</span><span class="p">(</span><span class="n">filled</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span>
+    <span class="n">x</span><span class="o">=</span><span class="n">alt</span><span class="o">.</span><span class="n">X</span><span class="p">(</span><span class="s2">"most_at_home_percent"</span><span class="p">)</span>
+        <span class="o">.</span><span class="n">scale</span><span class="p">(</span><span class="nb">type</span><span class="o">=</span><span class="s2">"log"</span><span class="p">)</span>
+        <span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="n">tickCount</span><span class="o">=</span><span class="mi">7</span><span class="p">)</span>
+        <span class="o">.</span><span class="n">title</span><span class="p">([</span><span class="s2">"Language spoken most at home"</span><span class="p">,</span> <span class="s2">"(percentage of Canadian residents)"</span><span class="p">]),</span>
+    <span class="n">y</span><span class="o">=</span><span class="n">alt</span><span class="o">.</span><span class="n">Y</span><span class="p">(</span><span class="s2">"mother_tongue_percent"</span><span class="p">)</span>
+        <span class="o">.</span><span class="n">scale</span><span class="p">(</span><span class="nb">type</span><span class="o">=</span><span class="s2">"log"</span><span class="p">)</span>
+        <span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="n">tickCount</span><span class="o">=</span><span class="mi">7</span><span class="p">)</span>
+        <span class="o">.</span><span class="n">title</span><span class="p">([</span><span class="s2">"Mother tongue"</span><span class="p">,</span> <span class="s2">"(percentage of Canadian residents)"</span><span class="p">]),</span>
+    <span class="n">color</span><span class="o">=</span><span class="n">alt</span><span class="o">.</span><span class="n">Color</span><span class="p">(</span><span class="s2">"category"</span><span class="p">)</span>
+        <span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">orient</span><span class="o">=</span><span class="s2">"top"</span><span class="p">)</span>
+        <span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">""</span><span class="p">)</span>
+        <span class="o">.</span><span class="n">scale</span><span class="p">(</span><span class="n">scheme</span><span class="o">=</span><span class="s2">"dark2"</span><span class="p">),</span>
+    <span class="n">shape</span><span class="o">=</span><span class="s2">"category"</span>
+<span class="p">)</span><span class="o">.</span><span class="n">configure_axis</span><span class="p">(</span><span class="n">titleFontSize</span><span class="o">=</span><span class="mi">12</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<figure class="align-default" id="can-lang-plot-theme" style="width: 700px">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>alt.Chart(...)
+</pre></div>
+</div>
+<figcaption>
+<p><span class="caption-number">图 4.16 </span><span class="caption-text">以某种语言为母语的加拿大人所占百分比，与在家主要使用该语言的加拿大人所占百分比之间的散点图，按语言类别着色，并使用自定义的颜色和形状。</span><a class="headerlink" href="#can-lang-plot-theme" title="永久链接至图片">#</a></p>
+</figcaption>
+</figure>
+<p>上图已经很好地展示了不同语言类别之间的差异，有了这些信息，就足以回答我们的研究问题了。但如果我们想知道图中每个点究竟对应哪一种语言，又该怎么办呢？用普通的可视化库做不到这一点，因为给每一种语言都单独加上文字标签会带来大量视觉噪声，让图表难以解读。不过，altair 是交互式可视化库，我们可以通过 <code class="docutils literal notranslate"><span class="pre">Tooltip</span></code> 编码通道按需添加信息：只要把鼠标指针悬停在某个点上，该点的文字标签就会显示出来。这里我们还会把 x 轴和 y 轴变量的确切取值也加进提示框。</p>
+<div class="cell docutils container" id="index-26">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">can_lang_plot_tooltip</span> <span class="o">=</span> <span class="n">alt</span><span class="o">.</span><span class="n">Chart</span><span class="p">(</span><span class="n">can_lang</span><span class="p">)</span><span class="o">.</span><span class="n">mark_point</span><span class="p">(</span><span class="n">filled</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span>
+    <span class="n">x</span><span class="o">=</span><span class="n">alt</span><span class="o">.</span><span class="n">X</span><span class="p">(</span><span class="s2">"most_at_home_percent"</span><span class="p">)</span>
+        <span class="o">.</span><span class="n">scale</span><span class="p">(</span><span class="nb">type</span><span class="o">=</span><span class="s2">"log"</span><span class="p">)</span>
+        <span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="n">tickCount</span><span class="o">=</span><span class="mi">7</span><span class="p">)</span>
+        <span class="o">.</span><span class="n">title</span><span class="p">([</span><span class="s2">"Language spoken most at home"</span><span class="p">,</span> <span class="s2">"(percentage of Canadian residents)"</span><span class="p">]),</span>
+    <span class="n">y</span><span class="o">=</span><span class="n">alt</span><span class="o">.</span><span class="n">Y</span><span class="p">(</span><span class="s2">"mother_tongue_percent"</span><span class="p">)</span>
+        <span class="o">.</span><span class="n">scale</span><span class="p">(</span><span class="nb">type</span><span class="o">=</span><span class="s2">"log"</span><span class="p">)</span>
+        <span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="n">tickCount</span><span class="o">=</span><span class="mi">7</span><span class="p">)</span>
+        <span class="o">.</span><span class="n">title</span><span class="p">([</span><span class="s2">"Mother tongue"</span><span class="p">,</span> <span class="s2">"(percentage of Canadian residents)"</span><span class="p">]),</span>
+    <span class="n">color</span><span class="o">=</span><span class="n">alt</span><span class="o">.</span><span class="n">Color</span><span class="p">(</span><span class="s2">"category"</span><span class="p">)</span>
+        <span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">orient</span><span class="o">=</span><span class="s2">"top"</span><span class="p">)</span>
+        <span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">""</span><span class="p">)</span>
+        <span class="o">.</span><span class="n">scale</span><span class="p">(</span><span class="n">scheme</span><span class="o">=</span><span class="s2">"dark2"</span><span class="p">),</span>
+    <span class="n">shape</span><span class="o">=</span><span class="s2">"category"</span><span class="p">,</span>
+    <span class="n">tooltip</span><span class="o">=</span><span class="n">alt</span><span class="o">.</span><span class="n">Tooltip</span><span class="p">([</span><span class="s2">"language"</span><span class="p">,</span> <span class="s2">"mother_tongue"</span><span class="p">,</span> <span class="s2">"most_at_home"</span><span class="p">])</span>
+<span class="p">)</span><span class="o">.</span><span class="n">configure_axis</span><span class="p">(</span><span class="n">titleFontSize</span><span class="o">=</span><span class="mi">12</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<figure class="align-default" id="can-lang-plot-tooltip" style="width: 700px">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>alt.Chart(...)
+</pre></div>
+</div>
+<figcaption>
+<p><span class="caption-number">图 4.17 </span><span class="caption-text">以某种语言为母语的加拿大人所占百分比，与在家主要使用该语言的加拿大人所占百分比之间的散点图，按语言类别着色，并使用自定义的颜色和鼠标悬停提示框。</span><a class="headerlink" href="#can-lang-plot-tooltip" title="永久链接至图片">#</a></p>
+</figcaption>
+</figure>
+<p>从<a class="reference internal" href="#can-lang-plot-tooltip"><span class="std std-numref">图 4.17</span></a> 这张图可以清楚地看到，绝大多数加拿大人申报的母语，以及他们在家中说得最多的语言，都是某一种官方语言。再看探索性问题的后半部分，我们能发现什么？在不同高层级的语言类别中，把某种语言作为母语与作为在家主要使用的语言，这两种情况之间的关系是否存在差异？从<a class="reference internal" href="#can-lang-plot-tooltip"><span class="std std-numref">图 4.17</span></a> 来看，差异似乎不大。对每一个高层级的语言类别而言，把某种语言作为母语的人数占比，与把它作为在家主要使用的语言的人数占比之间，似乎都存在很强的正相关关系，而且这种关系呈线性。无论属于哪个类别，这种关系看起来都很相似。</p>
+<p>这是否意味着，世界上所有语言的这种关系都是正相关的？更进一步说，如果已经知道有多少人把某种语言作为在家主要使用的语言，我们能否只凭这张数据可视化图就预测出有多少人把它作为母语？这两个问题的答案都是“不能！”不过，借助探索性数据分析，我们可以提出新的假设、新的想法和新的问题（就像本段开头那样）。回答这些问题往往要做更复杂的分析，有时甚至还要收集更多数据。本书后面还会看到更多这样的复杂分析。</p>
+</section>
+<section id="id12">
+<h3><span class="section-number">4.5.4. </span>条形图：岛屿陆块数据集<a class="headerlink" href="#id12" title="Permalink to this heading">#</a></h3>
+<p id="index-27"><code class="docutils literal notranslate"><span class="pre">islands.csv</span></code> 数据集收录了地球上的各个陆块及其面积（单位为千平方英里）<span id="id13">[<a class="reference internal" href="#id67" title="Donald R. McNeil. Interactive Data Analysis: A Practical Primer. Wiley, 1977.">McNeil, 1977</a>]</span>。</p>
+<p id="index-28">**问题：**七大洲（北美洲、南美洲、非洲、欧洲、亚洲、澳大利亚和南极洲）是地球上最大的七个陆块吗？如果是，紧随其后的几个最大陆块又是哪些？</p>
+<p>首先，我们读入并查看数据：</p>
+<div class="cell tag_output_scroll docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">islands_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">"data/islands.csv"</span><span class="p">)</span>
+<span class="n">islands_df</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>landmass</th>
+      <th>size</th>
+      <th>landmass_type</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Africa</td>
+      <td>11506</td>
+      <td>Continent</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Antarctica</td>
+      <td>5500</td>
+      <td>Continent</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>Asia</td>
+      <td>16988</td>
+      <td>Continent</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>Australia</td>
+      <td>2968</td>
+      <td>Continent</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>Axel Heiberg</td>
+      <td>16</td>
+      <td>Other</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>Baffin</td>
+      <td>184</td>
+      <td>Other</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>Banks</td>
+      <td>23</td>
+      <td>Other</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>Borneo</td>
+      <td>280</td>
+      <td>Other</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>Britain</td>
+      <td>84</td>
+      <td>Other</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>Celebes</td>
+      <td>73</td>
+      <td>Other</td>
+    </tr>
+    <tr>
+      <th>10</th>
+      <td>Celon</td>
+      <td>25</td>
+      <td>Other</td>
+    </tr>
+    <tr>
+      <th>11</th>
+      <td>Cuba</td>
+      <td>43</td>
+      <td>Other</td>
+    </tr>
+    <tr>
+      <th>12</th>
+      <td>Devon</td>
+      <td>21</td>
+      <td>Other</td>
+    </tr>
+    <tr>
+      <th>13</th>
+      <td>Ellesmere</td>
+      <td>82</td>
+      <td>Other</td>
+    </tr>
+    <tr>
+      <th>14</th>
+      <td>Europe</td>
+      <td>3745</td>
+      <td>Continent</td>
+    </tr>
+    <tr>
+      <th>15</th>
+      <td>Greenland</td>
+      <td>840</td>
+      <td>Other</td>
+    </tr>
+    <tr>
+      <th>16</th>
+      <td>Hainan</td>
+      <td>13</td>
+      <td>Other</td>
+    </tr>
+    <tr>
+      <th>17</th>
+      <td>Hispaniola</td>
+      <td>30</td>
+      <td>Other</td>
+    </tr>
+    <tr>
+      <th>18</th>
+      <td>Hokkaido</td>
+      <td>30</td>
+      <td>Other</td>
+    </tr>
+    <tr>
+      <th>19</th>
+      <td>Honshu</td>
+      <td>89</td>
+      <td>Other</td>
+    </tr>
+    <tr>
+      <th>20</th>
+      <td>Iceland</td>
+      <td>40</td>
+      <td>Other</td>
+    </tr>
+    <tr>
+      <th>21</th>
+      <td>Ireland</td>
+      <td>33</td>
+      <td>Other</td>
+    </tr>
+    <tr>
+      <th>22</th>
+      <td>Java</td>
+      <td>49</td>
+      <td>Other</td>
+    </tr>
+    <tr>
+      <th>23</th>
+      <td>Kyushu</td>
+      <td>14</td>
+      <td>Other</td>
+    </tr>
+    <tr>
+      <th>24</th>
+      <td>Luzon</td>
+      <td>42</td>
+      <td>Other</td>
+    </tr>
+    <tr>
+      <th>25</th>
+      <td>Madagascar</td>
+      <td>227</td>
+      <td>Other</td>
+    </tr>
+    <tr>
+      <th>26</th>
+      <td>Melville</td>
+      <td>16</td>
+      <td>Other</td>
+    </tr>
+    <tr>
+      <th>27</th>
+      <td>Mindanao</td>
+      <td>36</td>
+      <td>Other</td>
+    </tr>
+    <tr>
+      <th>28</th>
+      <td>Moluccas</td>
+      <td>29</td>
+      <td>Other</td>
+    </tr>
+    <tr>
+      <th>29</th>
+      <td>New Britain</td>
+      <td>15</td>
+      <td>Other</td>
+    </tr>
+    <tr>
+      <th>30</th>
+      <td>New Guinea</td>
+      <td>306</td>
+      <td>Other</td>
+    </tr>
+    <tr>
+      <th>31</th>
+      <td>New Zealand (N)</td>
+      <td>44</td>
+      <td>Other</td>
+    </tr>
+    <tr>
+      <th>32</th>
+      <td>New Zealand (S)</td>
+      <td>58</td>
+      <td>Other</td>
+    </tr>
+    <tr>
+      <th>33</th>
+      <td>Newfoundland</td>
+      <td>43</td>
+      <td>Other</td>
+    </tr>
+    <tr>
+      <th>34</th>
+      <td>North America</td>
+      <td>9390</td>
+      <td>Continent</td>
+    </tr>
+    <tr>
+      <th>35</th>
+      <td>Novaya Zemlya</td>
+      <td>32</td>
+      <td>Other</td>
+    </tr>
+    <tr>
+      <th>36</th>
+      <td>Prince of Wales</td>
+      <td>13</td>
+      <td>Other</td>
+    </tr>
+    <tr>
+      <th>37</th>
+      <td>Sakhalin</td>
+      <td>29</td>
+      <td>Other</td>
+    </tr>
+    <tr>
+      <th>38</th>
+      <td>South America</td>
+      <td>6795</td>
+      <td>Continent</td>
+    </tr>
+    <tr>
+      <th>39</th>
+      <td>Southampton</td>
+      <td>16</td>
+      <td>Other</td>
+    </tr>
+    <tr>
+      <th>40</th>
+      <td>Spitsbergen</td>
+      <td>15</td>
+      <td>Other</td>
+    </tr>
+    <tr>
+      <th>41</th>
+      <td>Sumatra</td>
+      <td>183</td>
+      <td>Other</td>
+    </tr>
+    <tr>
+      <th>42</th>
+      <td>Taiwan</td>
+      <td>14</td>
+      <td>Other</td>
+    </tr>
+    <tr>
+      <th>43</th>
+      <td>Tasmania</td>
+      <td>26</td>
+      <td>Other</td>
+    </tr>
+    <tr>
+      <th>44</th>
+      <td>Tierra del Fuego</td>
+      <td>19</td>
+      <td>Other</td>
+    </tr>
+    <tr>
+      <th>45</th>
+      <td>Timor</td>
+      <td>13</td>
+      <td>Other</td>
+    </tr>
+    <tr>
+      <th>46</th>
+      <td>Vancouver</td>
+      <td>12</td>
+      <td>Other</td>
+    </tr>
+    <tr>
+      <th>47</th>
+      <td>Victoria</td>
+      <td>82</td>
+      <td>Other</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>这里的数据框列出了地球上的各个陆块，我们要比较它们的大小。回答这个问题，合适的可视化方式是条形图。条形图中，每根条形的高度代表某个<em>数量</em>的取值（大小、计数、比例、百分比等）。比较分类变量各组的计数或比例时，条形图特别有用。不过要注意，条形图一般不宜用来展示均值或中位数，因为这样会掩盖数据变异的重要信息。更好的做法是展示所有单个数据点的分布，例如使用直方图，我们会在<a class="reference internal" href="#histogramsviz"><span class="std std-numref">第 4.5.5 节</span></a>中进一步讨论。</p>
+<p id="index-29">我们通过 <code class="docutils literal notranslate"><span class="pre">altair</span></code> 中的 <code class="docutils literal notranslate"><span class="pre">mark_bar</span></code> 函数指定使用条形图。结果见<a class="reference internal" href="#islands-bar"><span class="std std-numref">图 4.18</span></a>。</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">islands_bar</span> <span class="o">=</span> <span class="n">alt</span><span class="o">.</span><span class="n">Chart</span><span class="p">(</span><span class="n">islands_df</span><span class="p">)</span><span class="o">.</span><span class="n">mark_bar</span><span class="p">()</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span>
+    <span class="n">x</span><span class="o">=</span><span class="s2">"landmass"</span><span class="p">,</span>
+    <span class="n">y</span><span class="o">=</span><span class="s2">"size"</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<figure class="align-default" id="islands-bar" style="width: 400px">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>alt.Chart(...)
+</pre></div>
+</div>
+<figcaption>
+<p><span class="caption-number">图 4.18 </span><span class="caption-text">地球各陆块大小的条形图。使用默认设置时图形太宽。</span><a class="headerlink" href="#islands-bar" title="永久链接至图片">#</a></p>
+</figcaption>
+</figure>
+<p>好，还不错！<a class="reference internal" href="#islands-bar"><span class="std std-numref">图 4.18</span></a> 中的图形肯定是对的可视化方式，我们能清楚地看到并比较各陆块的大小。主要问题在于，较小陆块的大小很难分辨，而且图形太宽，没法把它们放在一起比较！不过别忘了，我们问的问题只涉及最大的那些陆块；只保留最大的 12 个陆块，图形就能更清楚一些。我们用 <code class="docutils literal notranslate"><span class="pre">nlargest</span></code> 函数来做这件事：第一个参数是要保留的行数，第二个是用来比较大小的列名。为了让陆块名称更容易读，我们再交换 <code class="docutils literal notranslate"><span class="pre">x</span></code> 和 <code class="docutils literal notranslate"><span class="pre">y</span></code> 变量，把标签放到 y 轴上，这样就不用歪着头去读了。</p>
+<div class="admonition note">
+<p class="admonition-title">备注</p>
+<p>回想一下，在<a class="reference internal" href="intro.html#intro"><span class="std std-numref">第 1 章</span></a>中，我们用 <code class="docutils literal notranslate"><span class="pre">sort_values</span></code> 后接 <code class="docutils literal notranslate"><span class="pre">head</span></code> 取出了某个变量取值最大的十行。其实也可以改用 <code class="docutils literal notranslate"><span class="pre">pandas</span></code> 的 <code class="docutils literal notranslate"><span class="pre">nlargest</span></code> 函数。<code class="docutils literal notranslate"><span class="pre">nsmallest</span></code> 和 <code class="docutils literal notranslate"><span class="pre">nlargest</span></code> 函数与 <code class="docutils literal notranslate"><span class="pre">sort_values</span></code> 后接 <code class="docutils literal notranslate"><span class="pre">head</span></code> 的效果一样，但效率略高，因为它们是专门为此设计的。一般来说，只要有更专用的函数，就该优先使用！</p>
+</div>
+<div class="cell docutils container" id="index-30">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">islands_top12</span> <span class="o">=</span> <span class="n">islands_df</span><span class="o">.</span><span class="n">nlargest</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="s2">"size"</span><span class="p">)</span>
+
+<span class="n">islands_bar_top</span> <span class="o">=</span> <span class="n">alt</span><span class="o">.</span><span class="n">Chart</span><span class="p">(</span><span class="n">islands_top12</span><span class="p">)</span><span class="o">.</span><span class="n">mark_bar</span><span class="p">()</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span>
+    <span class="n">x</span><span class="o">=</span><span class="s2">"size"</span><span class="p">,</span>
+    <span class="n">y</span><span class="o">=</span><span class="s2">"landmass"</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<figure class="align-default" id="islands-bar-top" style="width: 700px">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>alt.Chart(...)
+</pre></div>
+</div>
+<figcaption>
+<p><span class="caption-number">图 4.19 </span><span class="caption-text">地球最大的 12 个陆块各自大小的条形图。</span><a class="headerlink" href="#islands-bar-top" title="永久链接至图片">#</a></p>
+</figcaption>
+</figure>
+<p><a class="reference internal" href="#islands-bar-top"><span class="std std-numref">图 4.19</span></a> 中的图形明显更清楚了，也能帮我们回答最初的问题：“七大洲是地球上最大的陆块吗？”以及“紧随其后的几个最大陆块是哪些？”不过，这张图还可以再改进：按各陆块是否属于大洲给条形着色，并按陆块大小而不是字母顺序排列条形。用于给条形着色的数据存放在 <code class="docutils literal notranslate"><span class="pre">landmass_type</span></code> 列中，所以我们把 <code class="docutils literal notranslate"><span class="pre">color</span></code> 编码设为 <code class="docutils literal notranslate"><span class="pre">landmass_type</span></code>。要按 <code class="docutils literal notranslate"><span class="pre">size</span></code> 变量排列陆块，我们会在图形的 y 编码通道中使用 altair 的 <code class="docutils literal notranslate"><span class="pre">sort</span></code> 函数。由于 <code class="docutils literal notranslate"><span class="pre">size</span></code> 变量编码在图形的 x 通道中，我们在 <code class="docutils literal notranslate"><span class="pre">alt.Y</span></code> 上指定 <code class="docutils literal notranslate"><span class="pre">sort(&quot;x&quot;)</span></code>。这样就会把 <code class="docutils literal notranslate"><span class="pre">y</span></code> 轴上的取值按 <code class="docutils literal notranslate"><span class="pre">x</span></code> 轴取值的升序绘制出来。于是得到的图形中，最长的条形最靠近坐标轴线，这通常是条形排序时视觉效果最好的做法。如果反过来想按 <code class="docutils literal notranslate"><span class="pre">x-axis</span></code> 的降序排列 <code class="docutils literal notranslate"><span class="pre">y-axis</span></code> 上的取值，可以加上一个负号反转顺序，写成 <code class="docutils literal notranslate"><span class="pre">sort=&quot;-x&quot;</span></code>。</p>
+<p id="index-31">最后，我们用 <code class="docutils literal notranslate"><span class="pre">title</span></code> 方法定制坐标轴标签和图例标签，并通过指定 <code class="docutils literal notranslate"><span class="pre">alt.Chart</span></code> 的 <code class="docutils literal notranslate"><span class="pre">title</span></code> 参数给图形加上标题。图形标题并非总是必需的，尤其是当它与已有的图注或周围上下文重复时（例如在带注释的幻灯片里）。但如果你决定加上标题，好的图形标题应当给出你希望读者关注的核心信息，例如“地球上最大的七个陆块都是大洲”，或者对所展示信息做一个更概括的总结，例如“地球上最大的十二个陆块”。</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">islands_plot_sorted</span> <span class="o">=</span> <span class="n">alt</span><span class="o">.</span><span class="n">Chart</span><span class="p">(</span>
+	<span class="n">islands_top12</span><span class="p">,</span>
+	<span class="n">title</span><span class="o">=</span><span class="s2">"Earth's seven largest landmasses are continents"</span>
+<span class="p">)</span><span class="o">.</span><span class="n">mark_bar</span><span class="p">()</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span>
+    <span class="n">x</span><span class="o">=</span><span class="n">alt</span><span class="o">.</span><span class="n">X</span><span class="p">(</span><span class="s2">"size"</span><span class="p">)</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">"Size (1000 square mi)"</span><span class="p">),</span>
+    <span class="n">y</span><span class="o">=</span><span class="n">alt</span><span class="o">.</span><span class="n">Y</span><span class="p">(</span><span class="s2">"landmass"</span><span class="p">)</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="s2">"x"</span><span class="p">)</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">"Landmass"</span><span class="p">),</span>
+    <span class="n">color</span><span class="o">=</span><span class="n">alt</span><span class="o">.</span><span class="n">Color</span><span class="p">(</span><span class="s2">"landmass_type"</span><span class="p">)</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">"Type"</span><span class="p">)</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<figure class="align-default" id="islands-plot-sorted" style="width: 700px">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>alt.Chart(...)
+</pre></div>
+</div>
+<figcaption>
+<p><span class="caption-number">图 4.20 </span><span class="caption-text">地球最大的 12 个陆块各自大小的条形图，按陆块类型着色，坐标轴和标签更清晰。</span><a class="headerlink" href="#islands-plot-sorted" title="永久链接至图片">#</a></p>
+</figcaption>
+</figure>
+<p><a class="reference internal" href="#islands-plot-sorted"><span class="std std-numref">图 4.20</span></a> 中的图形现在可以有效地回答我们最初的问题了。陆块按大小排列，大洲和其他陆块的颜色不同，可以很清楚地看出，最大的七个陆块都是大洲。</p>
+</section>
+<section id="histogramsviz">
+<span id="id14"></span><h3><span class="section-number">4.5.5. </span>直方图：迈克尔逊光速数据集<a class="headerlink" href="#histogramsviz" title="Permalink to this heading">#</a></h3>
+<p id="index-32"><code class="docutils literal notranslate"><span class="pre">morley</span></code> 数据集收录了 1879 年实验中测得的光速测量值。当时做了五次实验，每次实验又做了 20 轮——也就是说，每次实验都收集了 20 个光速测量值 <span id="id15">[<a class="reference internal" href="#id68" title="Albert Michelson. Experimental determination of the velocity of light made at the United States Naval Academy, Annapolis. Astronomic Papers, 1:135–8, 1882.">Michelson, 1882</a>]</span>。因为光速是很大的数（真值为 299,792.458 千米/秒），数据被编码成测得的光速减去 299,000。这样编码便于我们关注测量值的波动，这些波动通常远小于 299,000。如果直接使用完整的大数值光速测量值，测量值之间的波动就看不出来，也就难以研究各次实验之间的差异。</p>
+<p id="index-33">**问题：**已知我们现在对光速的了解（每秒 299,792.458 千米），各次实验的准确程度如何？</p>
+<p>首先读入数据。</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">morley_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">"data/morley.csv"</span><span class="p">)</span>
+<span class="n">morley_df</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Expt</th>
+      <th>Run</th>
+      <th>Speed</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>1</td>
+      <td>1</td>
+      <td>850</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>1</td>
+      <td>2</td>
+      <td>740</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>1</td>
+      <td>3</td>
+      <td>900</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>1</td>
+      <td>4</td>
+      <td>1070</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>1</td>
+      <td>5</td>
+      <td>930</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>95</th>
+      <td>5</td>
+      <td>16</td>
+      <td>940</td>
+    </tr>
+    <tr>
+      <th>96</th>
+      <td>5</td>
+      <td>17</td>
+      <td>950</td>
+    </tr>
+    <tr>
+      <th>97</th>
+      <td>5</td>
+      <td>18</td>
+      <td>800</td>
+    </tr>
+    <tr>
+      <th>98</th>
+      <td>5</td>
+      <td>19</td>
+      <td>810</td>
+    </tr>
+    <tr>
+      <th>99</th>
+      <td>5</td>
+      <td>20</td>
+      <td>870</td>
+    </tr>
+  </tbody>
+</table>
+<p>100 rows × 3 columns</p>
+</div></div></div>
+</div>
+<span class="target" id="index-34"></span><p id="index-35">在这份实验数据中，迈克尔逊要测量的只是一个定量数值（光速）。该数据集包含这个量的许多测量值。要判断各次实验的准确程度，就需要把测量值的分布可视化（也就是它们所有可能的取值，以及每个取值出现了多少次）。这可以用<em>直方图</em>来做。直方图把取值划分到各个箱中，再用竖条显示每个箱里落入了多少个数据点，从而帮助我们观察某个变量在数据集中的分布。</p>
+<p>要了解如何在 <code class="docutils literal notranslate"><span class="pre">altair</span></code> 中绘制直方图，我们先像上一节那样画一张条形图。注意这一次我们把 <code class="docutils literal notranslate"><span class="pre">y</span></code> 编码设为 <code class="docutils literal notranslate"><span class="pre">&quot;count()&quot;</span></code>。<code class="docutils literal notranslate"><span class="pre">morley_df</span></code> 里并没有名为 <code class="docutils literal notranslate"><span class="pre">&quot;count()&quot;</span></code> 的列；我们用 <code class="docutils literal notranslate"><span class="pre">&quot;count()&quot;</span></code> 告诉 <code class="docutils literal notranslate"><span class="pre">altair</span></code>，我们希望统计 x 轴上每个取值出现的次数（x 轴编码的是 <code class="docutils literal notranslate"><span class="pre">Speed</span></code> 列）。</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">morley_bars</span> <span class="o">=</span> <span class="n">alt</span><span class="o">.</span><span class="n">Chart</span><span class="p">(</span><span class="n">morley_df</span><span class="p">)</span><span class="o">.</span><span class="n">mark_bar</span><span class="p">()</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span>
+    <span class="n">x</span><span class="o">=</span><span class="s2">"Speed"</span><span class="p">,</span>
+    <span class="n">y</span><span class="o">=</span><span class="s2">"count()"</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<figure class="align-default" id="morley-bars" style="width: 700px">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>alt.Chart(...)
+</pre></div>
+</div>
+<figcaption>
+<p><span class="caption-number">图 4.21 </span><span class="caption-text">迈克尔逊光速数据的条形图。</span><a class="headerlink" href="#morley-bars" title="永久链接至图片">#</a></p>
+</figcaption>
+</figure>
+<p>上面的条形图能提示哪些取值比其他取值更常见，但条形太细，很难看出数据的整体分布。我们其实并不关心每个确切的 <code class="docutils literal notranslate"><span class="pre">Speed</span></code> 取值出现了多少次，而是关心大多数 <code class="docutils literal notranslate"><span class="pre">Speed</span></code> 取值大体落在什么位置。要更有效地传达这些信息，我们可以用 <code class="docutils literal notranslate"><span class="pre">bin</span></code> 方法把 x 轴划分成若干个箱，也就是“分组区间”，然后统计每个箱里落入多少个 <code class="docutils literal notranslate"><span class="pre">Speed</span></code> 取值。对分箱后的定量变量统计取值个数而画出的条形图，就叫做直方图。</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">morley_hist</span> <span class="o">=</span> <span class="n">alt</span><span class="o">.</span><span class="n">Chart</span><span class="p">(</span><span class="n">morley_df</span><span class="p">)</span><span class="o">.</span><span class="n">mark_bar</span><span class="p">()</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span>
+    <span class="n">x</span><span class="o">=</span><span class="n">alt</span><span class="o">.</span><span class="n">X</span><span class="p">(</span><span class="s2">"Speed"</span><span class="p">)</span><span class="o">.</span><span class="n">bin</span><span class="p">(),</span>
+    <span class="n">y</span><span class="o">=</span><span class="s2">"count()"</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<figure class="align-default" id="morley-hist" style="width: 700px">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>alt.Chart(...)
+</pre></div>
+</div>
+<figcaption>
+<p><span class="caption-number">图 4.22 </span><span class="caption-text">迈克尔逊光速数据的直方图。</span><a class="headerlink" href="#morley-hist" title="永久链接至图片">#</a></p>
+</figcaption>
+</figure>
+<section id="id16">
+<h4>为 <code class="docutils literal notranslate"><span class="pre">altair</span></code> 图形叠加图层<a class="headerlink" href="#id16" title="Permalink to this heading">#</a></h4>
+<p id="index-36"><a class="reference internal" href="#morley-hist"><span class="std std-numref">图 4.22</span></a> 是个很好的开始。不过，除非能看到真值，否则用这张图无法判断测量有多准确。为了把真实光速可视化，我们用 <code class="docutils literal notranslate"><span class="pre">mark_rule</span></code> 函数加上一条竖线。要用 <code class="docutils literal notranslate"><span class="pre">mark_rule</span></code> 画竖线，需要指定这条线画在 x 轴上的哪个位置。这可以通过 <code class="docutils literal notranslate"><span class="pre">x=alt.datum(792.458)</span></code> 来实现，其中 <code class="docutils literal notranslate"><span class="pre">792.458</span></code> 是真实光速减去 299,000 的结果，而 <code class="docutils literal notranslate"><span class="pre">alt.datum</span></code> 告诉 altair，我们要绘制的是一个单独的数据取值（数字），而不是数据框中的某一列。类似地，用 <code class="docutils literal notranslate"><span class="pre">y</span></code> 轴编码并传入只含单个取值的数据框，就能画出水平线，这个取值就是 y 轴截距。请注意，<em>竖线</em>用来标示<em>横轴</em>上的量，而<em>横线</em>用来标示<em>纵轴</em>上的量。</p>
+<p>要微调这条竖线的外观，可以用 <code class="docutils literal notranslate"><span class="pre">strokeDash=[5]</span></code> 把它从实线改成虚线，其中 <code class="docutils literal notranslate"><span class="pre">5</span></code> 表示每一段虚线的长度。我们还可以用 <code class="docutils literal notranslate"><span class="pre">size=2</span></code> 改变线的粗细。为了把虚线叠加到直方图上，我们用 <code class="docutils literal notranslate"><span class="pre">+</span></code> 运算符把 <code class="docutils literal notranslate"><span class="pre">mark_rule</span></code> 图形<strong>添加</strong>到 <code class="docutils literal notranslate"><span class="pre">morley_hist</span></code> 上。用 <code class="docutils literal notranslate"><span class="pre">+</span></code> 运算符给图形添加内容，在 <code class="docutils literal notranslate"><span class="pre">altair</span></code> 中叫做<em>图层叠加</em>。这是 <code class="docutils literal notranslate"><span class="pre">altair</span></code> 的强大特性：你可以不断迭代同一张图，一次叠加一个图层并逐步改进。如果你已经用赋值符号（<code class="docutils literal notranslate"><span class="pre">=</span></code>）把图形存成了变量，就可以用 <code class="docutils literal notranslate"><span class="pre">+</span></code> 运算符在它上面继续添加。下面我们把用 <code class="docutils literal notranslate"><span class="pre">mark_rule</span></code> 创建的竖线加到前面创建的 <code class="docutils literal notranslate"><span class="pre">morley_hist</span></code> 上。</p>
+<div class="admonition note">
+<p class="admonition-title">备注</p>
+<p>严格来说，创建这条竖线时本来可以省略 data 参数，因为我们并没有用到 <code class="docutils literal notranslate"><span class="pre">morley_df</span></code> 数据框中的任何取值；但后面给这张叠加图层后的图形分面时还会用到它，所以这里就先写上了。</p>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">v_line</span> <span class="o">=</span> <span class="n">alt</span><span class="o">.</span><span class="n">Chart</span><span class="p">(</span><span class="n">morley_df</span><span class="p">)</span><span class="o">.</span><span class="n">mark_rule</span><span class="p">(</span><span class="n">strokeDash</span><span class="o">=</span><span class="p">[</span><span class="mi">6</span><span class="p">],</span> <span class="n">size</span><span class="o">=</span><span class="mf">1.5</span><span class="p">)</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span>
+    <span class="n">x</span><span class="o">=</span><span class="n">alt</span><span class="o">.</span><span class="n">datum</span><span class="p">(</span><span class="mf">792.458</span><span class="p">)</span>
+<span class="p">)</span>
+
+<span class="n">morley_hist_line</span> <span class="o">=</span> <span class="n">morley_hist</span> <span class="o">+</span> <span class="n">v_line</span>
+</pre></div>
+</div>
+</div>
+</div>
+<figure class="align-default" id="morley-hist-line" style="width: 700px">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>alt.LayerChart(...)
+</pre></div>
+</div>
+<figcaption>
+<p><span class="caption-number">图 4.23 </span><span class="caption-text">迈克尔逊光速数据的直方图，并用竖线标出真实光速。</span><a class="headerlink" href="#morley-hist-line" title="永久链接至图片">#</a></p>
+</figcaption>
+</figure>
+<p>在<a class="reference internal" href="#morley-hist-line"><span class="std std-numref">图 4.23</span></a> 中，我们仍然看不出哪些测量值来自哪次实验（实验由 <code class="docutils literal notranslate"><span class="pre">Expt</span></code> 列标示），也许有的实验比其他实验更准确。要完整回答我们的问题，就得在图上把这些测量值彼此区分开。可以尝试用<em>带颜色的</em>直方图，把不同实验的计数以不同颜色堆叠在一起。只要把 <code class="docutils literal notranslate"><span class="pre">Expt</span></code> 变量加到 <code class="docutils literal notranslate"><span class="pre">color</span></code> 参数上，就能画出按它着色的直方图。</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">morley_hist_colored</span> <span class="o">=</span> <span class="n">alt</span><span class="o">.</span><span class="n">Chart</span><span class="p">(</span><span class="n">morley_df</span><span class="p">)</span><span class="o">.</span><span class="n">mark_bar</span><span class="p">()</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span>
+    <span class="n">x</span><span class="o">=</span><span class="n">alt</span><span class="o">.</span><span class="n">X</span><span class="p">(</span><span class="s2">"Speed"</span><span class="p">)</span><span class="o">.</span><span class="n">bin</span><span class="p">(),</span>
+    <span class="n">y</span><span class="o">=</span><span class="s2">"count()"</span><span class="p">,</span>
+    <span class="n">color</span><span class="o">=</span><span class="s2">"Expt"</span>
+<span class="p">)</span>
+
+<span class="n">morley_hist_colored</span> <span class="o">=</span> <span class="n">morley_hist_colored</span> <span class="o">+</span> <span class="n">v_line</span>
+</pre></div>
+</div>
+</div>
+</div>
+<figure class="align-default" id="morley-hist-colored" style="width: 700px">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>alt.LayerChart(...)
+</pre></div>
+</div>
+<figcaption>
+<p><span class="caption-number">图 4.24 </span><span class="caption-text">迈克尔逊光速数据的直方图，按实验着色。</span><a class="headerlink" href="#morley-hist-colored" title="永久链接至图片">#</a></p>
+</figcaption>
+</figure>
+<p id="index-37">好，<a class="reference internal" href="#morley-hist-colored"><span class="std std-numref">图 4.24</span></a> 看起来……等等！我们没法轻易区分直方图中不同实验的颜色！这是怎么回事？回想一下<a class="reference internal" href="wrangling.html#wrangling"><span class="std std-numref">第 3 章</span></a>的内容：你为每个变量选择的<em>数据类型</em>会影响 Python 和 <code class="docutils literal notranslate"><span class="pre">altair</span></code> 处理它的方式。这里，<code class="docutils literal notranslate"><span class="pre">morley</span></code> 数据框中的数据类型确实有问题。具体来说，<code class="docutils literal notranslate"><span class="pre">Expt</span></code> 列目前是<em>整数</em>，准确地说是 <code class="docutils literal notranslate"><span class="pre">int64</span></code> 类型。但我们希望把它当作<em>类别</em>来处理，也就是说，每种实验类型应该对应一个类别。</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">morley_df</span><span class="o">.</span><span class="n">info</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;class 'pandas.core.frame.DataFrame'&gt;
+RangeIndex: 100 entries, 0 to 99
+Data columns (total 3 columns):
+ #   Column  Non-Null Count  Dtype
+---  ------  --------------  -----
+ 0   Expt    100 non-null    int64
+ 1   Run     100 non-null    int64
+ 2   Speed   100 non-null    int64
+dtypes: int64(3)
+memory usage: 2.5 KB
+</pre></div>
+</div>
+</div>
+</div>
+<p id="index-38">要解决这个问题，我们可以在 <code class="docutils literal notranslate"><span class="pre">Expt</span></code> 变量后面加上后缀 <code class="docutils literal notranslate"><span class="pre">:N</span></code>，把它转换成 <code class="docutils literal notranslate"><span class="pre">nominal</span></code>（即分类）类型的变量。给 <code class="docutils literal notranslate"><span class="pre">Expt</span></code> 加上 <code class="docutils literal notranslate"><span class="pre">:N</span></code> 后缀能确保 <code class="docutils literal notranslate"><span class="pre">altair</span></code> 把该变量当作分类变量处理，从而在可视化中使用离散的配色方案（<a class="reference external" href="https://altair-viz.github.io/user_guide/encodings/index.html#encoding-data-types">关于数据类型的更多说明见 altair 文档</a>）。我们还在 <code class="docutils literal notranslate"><span class="pre">y</span></code> 编码上调用 <code class="docutils literal notranslate"><span class="pre">stack(False)</span></code> 方法，让条形不再互相堆叠，而是共用同一条基线。不同颜色的条形会互相遮挡，为了尽量让它们都能看清，我们把 <code class="docutils literal notranslate"><span class="pre">mark_bar</span></code> 中的 <code class="docutils literal notranslate"><span class="pre">opacity</span></code> 参数设为 <code class="docutils literal notranslate"><span class="pre">0.5</span></code>，让条形略微半透明。</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">morley_hist_categorical</span> <span class="o">=</span> <span class="n">alt</span><span class="o">.</span><span class="n">Chart</span><span class="p">(</span><span class="n">morley_df</span><span class="p">)</span><span class="o">.</span><span class="n">mark_bar</span><span class="p">(</span><span class="n">opacity</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span>
+    <span class="n">x</span><span class="o">=</span><span class="n">alt</span><span class="o">.</span><span class="n">X</span><span class="p">(</span><span class="s2">"Speed"</span><span class="p">)</span><span class="o">.</span><span class="n">bin</span><span class="p">(),</span>
+    <span class="n">y</span><span class="o">=</span><span class="n">alt</span><span class="o">.</span><span class="n">Y</span><span class="p">(</span><span class="s2">"count()"</span><span class="p">)</span><span class="o">.</span><span class="n">stack</span><span class="p">(</span><span class="kc">False</span><span class="p">),</span>
+    <span class="n">color</span><span class="o">=</span><span class="s2">"Expt:N"</span>
+<span class="p">)</span>
+
+<span class="n">morley_hist_categorical</span> <span class="o">=</span> <span class="n">morley_hist_categorical</span> <span class="o">+</span> <span class="n">v_line</span>
+</pre></div>
+</div>
+</div>
+</div>
+<figure class="align-default" id="morley-hist-categorical" style="width: 700px">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>alt.LayerChart(...)
+</pre></div>
+</div>
+<figcaption>
+<p><span class="caption-number">图 4.25 </span><span class="caption-text">迈克尔逊光速数据的直方图，把实验当作分类变量着色。</span><a class="headerlink" href="#morley-hist-categorical" title="永久链接至图片">#</a></p>
+</figcaption>
+</figure>
+<p>遗憾的是，想用颜色把实验编号区分开，结果弄得有些混乱。<a class="reference internal" href="#morley-hist-categorical"><span class="std std-numref">图 4.25</span></a> 里的所有颜色都混在了一起；虽然仍能从中得出<em>一些</em>认识（例如实验 1 和实验 3 中有一些测量值的偏差最大），但这并不是传达信息、回答问题的最清晰方式。我们换一种策略：把直方图排成一张网格，每格放一个子图。</p>
+<p id="index-39">我们可以用 <code class="docutils literal notranslate"><span class="pre">facet</span></code> 函数创建由多个子图按网格排列而成的图。<code class="docutils literal notranslate"><span class="pre">facet</span></code> 的参数指定用一个或多个变量把图形拆分成子图（下面代码中的 <code class="docutils literal notranslate"><span class="pre">Expt</span></code>），以及网格中应有多少列。本例中我们选择把子图排成一列（<code class="docutils literal notranslate"><span class="pre">columns=1</span></code>），因为这样更容易比较不同子图里直方图在 <code class="docutils literal notranslate"><span class="pre">x</span></code> 轴上的位置。我们还降低了每张图的高度，好让它们都能放进同一个视图。请注意，我们复用了上面刚创建的那张图，而不是从头重新创建一张同样的图。我们还显式声明 <code class="docutils literal notranslate"><span class="pre">facet</span></code> 用的是分类变量，因为分面只应针对分类变量来做。</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">morley_hist_facet</span> <span class="o">=</span> <span class="n">morley_hist_categorical</span><span class="o">.</span><span class="n">properties</span><span class="p">(</span>
+    <span class="n">height</span><span class="o">=</span><span class="mi">100</span>
+<span class="p">)</span><span class="o">.</span><span class="n">facet</span><span class="p">(</span>
+    <span class="s2">"Expt:N"</span><span class="p">,</span>
+    <span class="n">columns</span><span class="o">=</span><span class="mi">1</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<figure class="align-default" id="morley-hist-facet" style="width: 700px">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>alt.FacetChart(...)
+</pre></div>
+</div>
+<figcaption>
+<p><span class="caption-number">图 4.26 </span><span class="caption-text">按实验纵向拆分的迈克尔逊光速数据直方图。</span><a class="headerlink" href="#morley-hist-facet" title="永久链接至图片">#</a></p>
+</figcaption>
+</figure>
+<p><a class="reference internal" href="#morley-hist-facet"><span class="std std-numref">图 4.26</span></a> 中的可视化清楚地表明各个实验彼此之间有多准确。测量值波动最大的是实验 1，其测量值大致在 650—1050 km/sec 之间。测量值波动最小的是实验 2，其测量值大致在 750—950 km/sec 之间。差别最大的几个实验，总体上仍然得到了相当接近的结果！</p>
+<p id="index-40">要让这张图更清楚，还有三处收尾工作。首先，也是最重要的，是用 <code class="docutils literal notranslate"><span class="pre">alt.X</span></code> 和 <code class="docutils literal notranslate"><span class="pre">alt.Y</span></code> 函数加上有信息量的坐标轴标签，并用 <code class="docutils literal notranslate"><span class="pre">configure_axis</span></code> 函数调大字号以保持清晰可读。我们还可以加一个标题；对 <code class="docutils literal notranslate"><span class="pre">facet</span></code> 图来说，只要把 <code class="docutils literal notranslate"><span class="pre">title</span></code> 传给 facet 函数即可。最后一点也许最不易察觉：在这张图上，虽然很容易把各个实验互相比较，却很难体会所有实验总体上到底有多准确。例如，图上 800 这个值相对于真实光速到底有多准确？为了回答这个问题，我们要把数据转换成相对误差，而不是绝对测量值。</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">speed_of_light</span> <span class="o">=</span> <span class="mf">299792.458</span>
+<span class="n">morley_df</span><span class="p">[</span><span class="s2">"RelativeError"</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="mi">100</span> <span class="o">*</span> <span class="p">(</span><span class="mi">299000</span> <span class="o">+</span> <span class="n">morley_df</span><span class="p">[</span><span class="s2">"Speed"</span><span class="p">]</span> <span class="o">-</span> <span class="n">speed_of_light</span><span class="p">)</span> <span class="o">/</span> <span class="n">speed_of_light</span>
+<span class="p">)</span>
+<span class="n">morley_df</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Expt</th>
+      <th>Run</th>
+      <th>Speed</th>
+      <th>RelativeError</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>1</td>
+      <td>1</td>
+      <td>850</td>
+      <td>0.019194</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>1</td>
+      <td>2</td>
+      <td>740</td>
+      <td>-0.017498</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>1</td>
+      <td>3</td>
+      <td>900</td>
+      <td>0.035872</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>1</td>
+      <td>4</td>
+      <td>1070</td>
+      <td>0.092578</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>1</td>
+      <td>5</td>
+      <td>930</td>
+      <td>0.045879</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>95</th>
+      <td>5</td>
+      <td>16</td>
+      <td>940</td>
+      <td>0.049215</td>
+    </tr>
+    <tr>
+      <th>96</th>
+      <td>5</td>
+      <td>17</td>
+      <td>950</td>
+      <td>0.052550</td>
+    </tr>
+    <tr>
+      <th>97</th>
+      <td>5</td>
+      <td>18</td>
+      <td>800</td>
+      <td>0.002516</td>
+    </tr>
+    <tr>
+      <th>98</th>
+      <td>5</td>
+      <td>19</td>
+      <td>810</td>
+      <td>0.005851</td>
+    </tr>
+    <tr>
+      <th>99</th>
+      <td>5</td>
+      <td>20</td>
+      <td>870</td>
+      <td>0.025865</td>
+    </tr>
+  </tbody>
+</table>
+<p>100 rows × 4 columns</p>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">morley_hist_rel</span> <span class="o">=</span> <span class="n">alt</span><span class="o">.</span><span class="n">Chart</span><span class="p">(</span><span class="n">morley_df</span><span class="p">)</span><span class="o">.</span><span class="n">mark_bar</span><span class="p">()</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span>
+    <span class="n">x</span><span class="o">=</span><span class="n">alt</span><span class="o">.</span><span class="n">X</span><span class="p">(</span><span class="s2">"RelativeError"</span><span class="p">)</span>
+        <span class="o">.</span><span class="n">bin</span><span class="p">()</span>
+        <span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">"Relative Error (%)"</span><span class="p">),</span>
+    <span class="n">y</span><span class="o">=</span><span class="n">alt</span><span class="o">.</span><span class="n">Y</span><span class="p">(</span><span class="s2">"count()"</span><span class="p">)</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">"# Measurements"</span><span class="p">),</span>
+    <span class="n">color</span><span class="o">=</span><span class="n">alt</span><span class="o">.</span><span class="n">Color</span><span class="p">(</span><span class="s2">"Expt:N"</span><span class="p">)</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">"Experiment ID"</span><span class="p">)</span>
+<span class="p">)</span>
+
+<span class="c1"># Recreating v_line to indicate that the speed of light is at 0% relative error</span>
+<span class="n">v_line</span> <span class="o">=</span> <span class="n">alt</span><span class="o">.</span><span class="n">Chart</span><span class="p">(</span><span class="n">morley_df</span><span class="p">)</span><span class="o">.</span><span class="n">mark_rule</span><span class="p">(</span><span class="n">strokeDash</span><span class="o">=</span><span class="p">[</span><span class="mi">6</span><span class="p">],</span> <span class="n">size</span><span class="o">=</span><span class="mf">1.5</span><span class="p">)</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span>
+    <span class="n">x</span><span class="o">=</span><span class="n">alt</span><span class="o">.</span><span class="n">datum</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="p">)</span>
+
+<span class="n">morley_hist_relative</span> <span class="o">=</span> <span class="p">(</span><span class="n">morley_hist_rel</span> <span class="o">+</span> <span class="n">v_line</span><span class="p">)</span><span class="o">.</span><span class="n">properties</span><span class="p">(</span>
+    <span class="n">height</span><span class="o">=</span><span class="mi">100</span>
+<span class="p">)</span><span class="o">.</span><span class="n">facet</span><span class="p">(</span>
+    <span class="s2">"Expt:N"</span><span class="p">,</span>
+    <span class="n">columns</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+    <span class="n">title</span><span class="o">=</span><span class="s2">"Histogram of relative error of Michelson’s speed of light data"</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<figure class="align-default" id="morley-hist-relative" style="width: 700px">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>alt.FacetChart(...)
+</pre></div>
+</div>
+<figcaption>
+<p><span class="caption-number">图 4.27 </span><span class="caption-text">按实验纵向拆分的相对误差直方图，坐标轴和标签更清晰。</span><a class="headerlink" href="#morley-hist-relative" title="永久链接至图片">#</a></p>
+</figcaption>
+</figure>
+<p>哇，真了不起！这些 1879 年的光速测量结果，误差只有真实光速的 <em>0.05%</em> 左右。<a class="reference internal" href="#morley-hist-relative"><span class="std std-numref">图 4.27</span></a> 告诉你：虽然实验 2 和实验 5 也许最为准确，但考虑到当时的可用技术，所有实验都做得相当出色。</p>
+</section>
+<section id="id17">
+<h4>为直方图选择箱宽<a class="headerlink" href="#id17" title="Permalink to this heading">#</a></h4>
+<p>在 <code class="docutils literal notranslate"><span class="pre">altair</span></code> 中创建直方图时，它会尝试选择一个合理的箱数。我们可以用 <code class="docutils literal notranslate"><span class="pre">bin</span></code> 方法里的 <code class="docutils literal notranslate"><span class="pre">maxbins</span></code> 参数来改变箱数。</p>
+<div class="cell docutils container" id="index-41">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">morley_hist_maxbins</span> <span class="o">=</span> <span class="n">alt</span><span class="o">.</span><span class="n">Chart</span><span class="p">(</span><span class="n">morley_df</span><span class="p">)</span><span class="o">.</span><span class="n">mark_bar</span><span class="p">()</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span>
+    <span class="n">x</span><span class="o">=</span><span class="n">alt</span><span class="o">.</span><span class="n">X</span><span class="p">(</span><span class="s2">"RelativeError"</span><span class="p">)</span><span class="o">.</span><span class="n">bin</span><span class="p">(</span><span class="n">maxbins</span><span class="o">=</span><span class="mi">30</span><span class="p">),</span>
+    <span class="n">y</span><span class="o">=</span><span class="s2">"count()"</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<figure class="align-default" id="morley-hist-maxbins" style="width: 700px">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>alt.Chart(...)
+</pre></div>
+</div>
+<figcaption>
+<p><span class="caption-number">图 4.28 </span><span class="caption-text">迈克尔逊光速数据的直方图。</span><a class="headerlink" href="#morley-hist-maxbins" title="永久链接至图片">#</a></p>
+</figcaption>
+</figure>
+<p>可是，箱数取多少才合适呢？很遗憾，正确的箱数或箱宽并没有硬性规则。这完全取决于你要解决的问题；<em>正确</em>的箱数或箱宽，就是<em>能帮你回答所提问题</em>的那个。为你要解决的问题选出合适的设置，往往需要反复迭代。通常值得多试几个不同的 <code class="docutils literal notranslate"><span class="pre">maxbins</span></code>，看看在你想回答的问题背景下，哪一个最能清楚地呈现数据。</p>
+<p>为了体会不同分箱方式对可视化的影响，我们就用本节一直在处理的这张直方图来做实验。在<a class="reference internal" href="#morley-hist-max-bins"><span class="std std-numref">图 4.29</span></a> 中，我们把默认设置与另外三张直方图作比较，后者的 <code class="docutils literal notranslate"><span class="pre">maxbins</span></code> 分别设为 200、70 和 5。在这里可以看到，默认箱数和 <code class="docutils literal notranslate"><span class="pre">maxbins=70</span></code> 都能有效地帮助我们回答问题。另一方面，<code class="docutils literal notranslate"><span class="pre">maxbins=200</span></code> 和 <code class="docutils literal notranslate"><span class="pre">maxbins=5</span></code> 分别过小和过大。</p>
+<figure class="align-default" id="morley-hist-max-bins" style="width: 700px">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>alt.VConcatChart(...)
+</pre></div>
+</div>
+<figcaption>
+<p><span class="caption-number">图 4.29 </span><span class="caption-text">不同 maxbins 取值对直方图的影响。</span><a class="headerlink" href="#morley-hist-max-bins" title="永久链接至图片">#</a></p>
+</figcaption>
+</figure>
+</section>
+</section>
+</section>
+<section id="id18">
+<h2><span class="section-number">4.6. </span>讲解可视化<a class="headerlink" href="#id18" title="Permalink to this heading">#</a></h2>
+<p><font size="5"><em>讲一个故事</em></font></p>
+<p>通常情况下，你的可视化不会完全独立出现，而会是更大规模演示的一部分。此外，可视化可以为演示的任何环节提供辅助信息，从开场到结论都可以。例如，你可以在演示开场时用一张探索性可视化图，说明自己为什么选择更细致的数据分析或模型；也可以用一张分析结果的可视化图，展示分析发现了什么；甚至可以在演示结尾放一张图，为今后的工作方向提供建议。</p>
+<p id="index-42">无论在什么地方出现，讨论可视化的一个好办法是把它当成一个故事来讲：</p>
+<ol class="arabic simple">
+<li><p>交代背景和范围，说明你为什么做这件事。2) 提出你的可视化要回答的问题，并说明为什么这个问题值得回答。3) 用你的可视化回答这个问题。务必描述可视化的<em>所有</em>方面（包括描述坐标轴）。但你可以根据回答问题的需要，突出不同的方面：</p>
+<ul class="simple">
+<li><p>**趋势（折线图）：**直线能很好地描述趋势吗？如果能，趋势就是<em>线性</em>的；如果不能，趋势就是<em>非线性</em>的。趋势是上升、下降，还是两者都不是？趋势中是否有周期性振荡（摆动）？趋势是有噪声的（也就是线条频繁“跳来跳去”）还是平滑的？</p></li>
+<li><p>**分布（散点图、直方图）：**数据的离散程度如何？大致以哪里为中心？有没有明显的“簇”或“子组”，在直方图上会表现为多个峰？</p></li>
+<li><p>**两个变量的分布（散点图）：**变量之间的关系是清晰 / 强的（点落在明显的模式中）、弱的（点落在某种模式中但带有一些噪声），还是看不出关系（数据噪声太大，无法得出任何结论）？</p></li>
+<li><p>**数量（条形图）：**各条形彼此相比有多大？不同组的条形中是否有模式？4) 总结你的发现，并用它们引出你接下来要讲的内容。</p></li>
+</ul>
+</li>
+</ol>
+<p>下面用两个例子说明，如何按这四个步骤讲解本章前面出现过的示例可视化。每一步都用括号中的编号标出，例如（3）。</p>
+<p id="index-43"><strong>冒纳罗亚大气 CO<span class="math notranslate nohighlight">\(_{\text{2}}\)</span> 测量数据：</strong>（1）当前许多形式的能源生产与转换——从汽车发动机到天然气发电厂——都依赖燃烧化石燃料，并产生温室气体作为副产物，其中通常主要是二氧化碳（CO<span class="math notranslate nohighlight">\(_{\text{2}}\)</span>）。这些气体在地球大气中过多，就会使大气截留更多来自太阳的热量，导致全球变暖。（2）为了评估大气中 CO<span class="math notranslate nohighlight">\(_{\text{2}}\)</span> 浓度上升得有多快，我们（3）使用了夏威夷冒纳罗亚观测站的一套数据，其中包含 1980 年到 2020 年的 CO<span class="math notranslate nohighlight">\(_{\text{2}}\)</span> 测量值。我们把测得的 CO<span class="math notranslate nohighlight">\(_{\text{2}}\)</span> 浓度画在纵轴上，把时间画在横轴上。从这张图可以看到，随时间推移存在清晰、上升、总体呈线性的趋势。图中还有每年发生一次、与夏威夷季节相吻合的周期性振荡，其振幅相对于整体趋势的增长很小。这说明大气中的 CO<span class="math notranslate nohighlight">\(_{\text{2}}\)</span> 显然在随时间上升，（4）也许值得进一步研究其中的成因。</p>
+<p id="index-44"><strong>迈克尔逊光速实验：</strong>（1）与 19 世纪末相比，我们对光物理的现代认识已经进步了很多；当年迈克尔逊和莫雷的实验首次证明光速是有限的。根据现代实验，我们现在知道光的传播速度约为每秒 299,792.458 千米。（2）但是，我们最初测量这个基本物理常数的准确程度如何？某些实验是否比另一些实验得到了更准确的结果？（3）为了更好地理解这一点，我们把迈克尔逊在 1879 年所做的 5 次实验的数据画成彼此堆叠的直方图，每次实验有 20 轮试验。横轴表示测量值相对于我们今天所知真实光速的误差，用百分比表示。从这张图可以看到，大多数结果的相对误差至多为 0.05%。你还能看到，实验 1 和实验 3 的测量值离真实值最远，而实验 5 往往给出最稳定的准确结果。（4）值得进一步研究这些实验之间的差异，看看它们为什么会产生不同的结果。</p>
+</section>
+<section id="id19">
+<h2><span class="section-number">4.7. </span>保存可视化<a class="headerlink" href="#id19" title="Permalink to this heading">#</a></h2>
+<p><font size="5"><em>按需要选择合适的输出格式</em></font></p>
+<span class="target" id="index-45"></span><p id="index-46">正如存储数据集有很多方式一样，存储可视化和图像也有很多方式。该选哪一种取决于若干因素，例如文件大小或类型的限制（比如把可视化作为会议论文的一部分提交，或送到海报打印店），以及它将在哪里显示（例如网上、论文中、海报上、广告牌上、报告幻灯片里）。一般来说，图像分为两大类：<em>栅格</em>格式和<em>矢量</em>格式。</p>
+<p id="index-47"><strong>栅格</strong>图像表示成由正方形像素组成的二维网格，每个像素有各自的颜色。栅格图像在存储前往往要先<em>压缩</em>，以占用更少的空间。如果图像在加载和显示时无法被完美重建，这种压缩格式就是<em>有损</em>的，只是希望这种变化不易察觉。相反，<em>无损</em>格式可以完美地显示原始图像。</p>
+<ul class="simple">
+<li><p><em>常见文件类型：</em></p>
+<ul>
+<li><p><a class="reference external" href="https://en.wikipedia.org/wiki/JPEG">JPEG</a>（<code class="docutils literal notranslate"><span class="pre">.jpg</span></code>、<code class="docutils literal notranslate"><span class="pre">.jpeg</span></code>）：有损，通常用于照片</p></li>
+<li><p><a class="reference external" href="https://en.wikipedia.org/wiki/Portable_Network_Graphics">PNG</a>（<code class="docutils literal notranslate"><span class="pre">.png</span></code>）：无损，通常用于统计图形和线条图</p></li>
+<li><p><a class="reference external" href="https://en.wikipedia.org/wiki/BMP_file_format">BMP</a>（<code class="docutils literal notranslate"><span class="pre">.bmp</span></code>）：无损，原始图像数据，不压缩（很少使用）</p></li>
+<li><p><a class="reference external" href="https://en.wikipedia.org/wiki/TIFF">TIFF</a>（<code class="docutils literal notranslate"><span class="pre">.tif</span></code>、<code class="docutils literal notranslate"><span class="pre">.tiff</span></code>）：通常无损，不压缩，多用于美术设计和出版</p></li>
+</ul>
+</li>
+<li><p><em>开源软件：</em> <a class="reference external" href="https://www.gimp.org/">GIMP</a></p></li>
+</ul>
+<p id="index-48"><strong>矢量</strong>图像表示成一组数学对象（直线、曲面、形状、曲线）。计算机显示图像时，会用这些对象的数学公式重新绘制所有元素。</p>
+<ul class="simple">
+<li><p><em>常见文件类型：</em></p>
+<ul>
+<li><p><a class="reference external" href="https://en.wikipedia.org/wiki/Scalable_Vector_Graphics">SVG</a>（<code class="docutils literal notranslate"><span class="pre">.svg</span></code>）：通用</p></li>
+<li><p><a class="reference external" href="https://en.wikipedia.org/wiki/Encapsulated_PostScript">EPS</a>（<code class="docutils literal notranslate"><span class="pre">.eps</span></code>）：通用（很少使用）</p></li>
+</ul>
+</li>
+<li><p><em>开源软件：</em> <a class="reference external" href="https://inkscape.org/">Inkscape</a></p></li>
+</ul>
+<p>栅格图像和矢量图像的优缺点正好相反。宽高固定的栅格图像，无论显示什么内容，占用的空间和加载时间都相同（唯一的例外是：对某些图像，压缩算法可能把文件压得更小，或者运行得更快）。矢量图像占用的空间和加载时间取决于图像的复杂程度，因为每次显示时计算机都要重新绘制所有元素。例如，把包含 100 万个点的散点图存成 SVG 文件，你的计算机可能要花一些时间才能打开。反过来，矢量图可以随意放大 / 缩放，画面都不会变差；而栅格图像放大到一定程度就会显得“像素化”。</p>
+<span class="target" id="index-49"></span><div class="admonition note" id="index-50">
+<p class="admonition-title">备注</p>
+<p>可移植文档格式 <a class="reference external" href="https://en.wikipedia.org/wiki/PDF">PDF</a>（<code class="docutils literal notranslate"><span class="pre">.pdf</span></code>）常用来<em>同时</em>存储栅格和矢量两种格式。如果你打开一个 PDF 时发现加载很久，可能是因为其中有一张复杂的矢量图，正由你的计算机渲染。</p>
+</div>
+<p>下面我们学习如何把图形保存成 <code class="docutils literal notranslate"><span class="pre">.png</span></code> 和 <code class="docutils literal notranslate"><span class="pre">.svg</span></code> 文件格式。这里用的例子是前面创建的 <code class="docutils literal notranslate"><span class="pre">faithful_scatter_labels</span></code> 散点图，它来自<a class="reference external" href="https://www.stat.cmu.edu/~larry/all-of-statistics/=data/faithful.dat">老忠实间歇泉数据集</a> <span id="id20">[<a class="reference internal" href="#id66" title="Wolfgang Hardle. Smoothing Techniques with Implementation in S. Springer, New York, 1991.">Hardle, 1991</a>]</span>，见<a class="reference internal" href="#faithful-scatter-labels"><span class="std std-numref">图 4.7</span></a>。要把图形保存到文件，可以用 <code class="docutils literal notranslate"><span class="pre">save</span></code> 方法。<code class="docutils literal notranslate"><span class="pre">save</span></code> 方法接收保存文件的路径（例如 <code class="docutils literal notranslate"><span class="pre">img/viz/filename.png</span></code> 表示把名为 <code class="docutils literal notranslate"><span class="pre">filename.png</span></code> 的文件保存到 <code class="docutils literal notranslate"><span class="pre">img/viz/</span></code> 目录）。保存成哪种图像由文件扩展名决定。例如，要创建 PNG 图像文件，就把文件扩展名指定为 <code class="docutils literal notranslate"><span class="pre">.png</span></code>。下面演示如何把 <code class="docutils literal notranslate"><span class="pre">faithful_scatter_labels</span></code> 图保存成 PNG 和 SVG 两种文件类型。</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">faithful_scatter_labels</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="s2">"img/viz/faithful_plot.png"</span><span class="p">)</span>
+<span class="n">faithful_scatter_labels</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="s2">"img/viz/faithful_plot.svg"</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">ModuleNotFoundError</span><span class="g g-Whitespace">                       </span>Traceback (most recent call last)
+<span class="nn">File D:\Translation\Data Science A First Introduction with Python\.venv-build\lib\site-packages\pandas\compat\_optional.py:135,</span> in <span class="ni">import_optional_dependency</span><span class="nt">(name, extra, errors, min_version)</span>
+<span class="g g-Whitespace">    </span><span class="mi">134</span> <span class="k">try</span><span class="p">:</span>
+<span class="ne">--&gt; </span><span class="mi">135</span>     <span class="n">module</span> <span class="o">=</span> <span class="n">importlib</span><span class="o">.</span><span class="n">import_module</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">136</span> <span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
+
+<span class="nn">File ~\AppData\Local\Programs\Python\Python310\lib\importlib\__init__.py:126,</span> in <span class="ni">import_module</span><span class="nt">(name, package)</span>
+<span class="g g-Whitespace">    </span><span class="mi">125</span>         <span class="n">level</span> <span class="o">+=</span> <span class="mi">1</span>
+<span class="ne">--&gt; </span><span class="mi">126</span> <span class="k">return</span> <span class="n">_bootstrap</span><span class="o">.</span><span class="n">_gcd_import</span><span class="p">(</span><span class="n">name</span><span class="p">[</span><span class="n">level</span><span class="p">:],</span> <span class="n">package</span><span class="p">,</span> <span class="n">level</span><span class="p">)</span>
+
+<span class="nn">File &lt;frozen importlib._bootstrap&gt;:1050,</span> in <span class="ni">_gcd_import</span><span class="nt">(name, package, level)</span>
+
+<span class="nn">File &lt;frozen importlib._bootstrap&gt;:1027,</span> in <span class="ni">_find_and_load</span><span class="nt">(name, import_)</span>
+
+<span class="nn">File &lt;frozen importlib._bootstrap&gt;:1004,</span> in <span class="ni">_find_and_load_unlocked</span><span class="nt">(name, import_)</span>
+
+<span class="ne">ModuleNotFoundError</span>: No module named 'pyarrow'
+
+<span class="n">During</span> <span class="n">handling</span> <span class="n">of</span> <span class="n">the</span> <span class="n">above</span> <span class="n">exception</span><span class="p">,</span> <span class="n">another</span> <span class="n">exception</span> <span class="n">occurred</span><span class="p">:</span>
+
+<span class="ne">ImportError</span><span class="g g-Whitespace">                               </span>Traceback (most recent call last)
+<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">73</span><span class="p">],</span> <span class="n">line</span> <span class="mi">1</span>
+<span class="ne">----&gt; </span><span class="mi">1</span> <span class="n">faithful_scatter_labels</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="s2">"img/viz/faithful_plot.png"</span><span class="p">)</span>
+<span class="g g-Whitespace">      </span><span class="mi">2</span> <span class="n">faithful_scatter_labels</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="s2">"img/viz/faithful_plot.svg"</span><span class="p">)</span>
+
+<span class="nn">File D:\Translation\Data Science A First Introduction with Python\.venv-build\lib\site-packages\altair\vegalite\v6\api.py:2420,</span> in <span class="ni">TopLevelMixin.save</span><span class="nt">(self, fp, format, override_data_transformer, scale_factor, mode, vegalite_version, vega_version, vegaembed_version, embed_options, json_kwds, engine, inline, **kwargs)</span>
+<span class="g g-Whitespace">   </span><span class="mi">2418</span> <span class="k">if</span> <span class="n">override_data_transformer</span><span class="p">:</span>
+<span class="g g-Whitespace">   </span><span class="mi">2419</span>     <span class="k">with</span> <span class="n">data_transformers</span><span class="o">.</span><span class="n">disable_max_rows</span><span class="p">():</span>
+<span class="ne">-&gt; </span><span class="mi">2420</span>         <span class="n">save</span><span class="p">(</span><span class="o">**</span><span class="n">kwds</span><span class="p">)</span>
+<span class="g g-Whitespace">   </span><span class="mi">2421</span> <span class="k">else</span><span class="p">:</span>
+<span class="g g-Whitespace">   </span><span class="mi">2422</span>     <span class="n">save</span><span class="p">(</span><span class="o">**</span><span class="n">kwds</span><span class="p">)</span>
+
+<span class="nn">File D:\Translation\Data Science A First Introduction with Python\.venv-build\lib\site-packages\altair\utils\save.py:276,</span> in <span class="ni">save</span><span class="nt">(chart, fp, vega_version, vegaembed_version, format, mode, vegalite_version, embed_options, json_kwds, scale_factor, engine, inline, **kwargs)</span>
+<span class="g g-Whitespace">    </span><span class="mi">271</span> <span class="k">if</span> <span class="n">using_vegafusion</span><span class="p">():</span>
+<span class="g g-Whitespace">    </span><span class="mi">272</span>     <span class="c1"># When the vegafusion data transformer is enabled, transforms will be</span>
+<span class="g g-Whitespace">    </span><span class="mi">273</span>     <span class="c1"># evaluated during save and the resulting data will be included in the</span>
+<span class="g g-Whitespace">    </span><span class="mi">274</span>     <span class="c1"># vega specification that is saved.</span>
+<span class="g g-Whitespace">    </span><span class="mi">275</span>     <span class="k">with</span> <span class="n">data_transformers</span><span class="o">.</span><span class="n">disable_max_rows</span><span class="p">():</span>
+<span class="ne">--&gt; </span><span class="mi">276</span>         <span class="n">perform_save</span><span class="p">()</span>
+<span class="g g-Whitespace">    </span><span class="mi">277</span> <span class="k">else</span><span class="p">:</span>
+<span class="g g-Whitespace">    </span><span class="mi">278</span>     <span class="c1"># Temporarily turn off any data transformers so that all data is inlined</span>
+<span class="g g-Whitespace">    </span><span class="mi">279</span>     <span class="c1"># when calling chart.to_dict. This is relevant for vl-convert which cannot access</span>
+<span class="g g-Whitespace">    </span><span class="mi">280</span>     <span class="c1"># local json files which could be created by a json data transformer. Furthermore,</span>
+<span class="g g-Whitespace">    </span><span class="mi">281</span>     <span class="c1"># we don't exit the with statement until this function completed due to the issue</span>
+<span class="g g-Whitespace">    </span><span class="mi">282</span>     <span class="c1"># described at https://github.com/vega/vl-convert/issues/31</span>
+<span class="g g-Whitespace">    </span><span class="mi">283</span>     <span class="k">with</span> <span class="n">data_transformers</span><span class="o">.</span><span class="n">enable</span><span class="p">(</span><span class="s2">"default"</span><span class="p">),</span> <span class="n">data_transformers</span><span class="o">.</span><span class="n">disable_max_rows</span><span class="p">():</span>
+
+<span class="nn">File D:\Translation\Data Science A First Introduction with Python\.venv-build\lib\site-packages\altair\utils\save.py:251,</span> in <span class="ni">save.&lt;locals&gt;.perform_save</span><span class="nt">()</span>
+<span class="g g-Whitespace">    </span><span class="mi">249</span>     <span class="n">write_file_or_filename</span><span class="p">(</span><span class="n">fp</span><span class="p">,</span> <span class="n">json_spec</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s2">"w"</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="n">encoding</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">250</span> <span class="k">elif</span> <span class="nb">format</span> <span class="ow">in</span> <span class="p">{</span><span class="s2">"html"</span><span class="p">,</span> <span class="s2">"png"</span><span class="p">,</span> <span class="s2">"svg"</span><span class="p">,</span> <span class="s2">"pdf"</span><span class="p">,</span> <span class="s2">"vega"</span><span class="p">}:</span>
+<span class="ne">--&gt; </span><span class="mi">251</span>     <span class="n">_save_mimebundle_format</span><span class="p">(</span>
+<span class="g g-Whitespace">    </span><span class="mi">252</span>         <span class="n">spec</span><span class="o">=</span><span class="n">spec</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">253</span>         <span class="nb">format</span><span class="o">=</span><span class="nb">format</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">254</span>         <span class="n">fp</span><span class="o">=</span><span class="n">fp</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">255</span>         <span class="n">inner_mode</span><span class="o">=</span><span class="n">inner_mode</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">256</span>         <span class="n">vega_version</span><span class="o">=</span><span class="n">vega_version</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">257</span>         <span class="n">vegalite_version</span><span class="o">=</span><span class="n">vegalite_version</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">258</span>         <span class="n">vegaembed_version</span><span class="o">=</span><span class="n">vegaembed_version</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">259</span>         <span class="n">embed_options</span><span class="o">=</span><span class="n">embed_options</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">260</span>         <span class="n">json_kwds</span><span class="o">=</span><span class="n">json_kwds</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">261</span>         <span class="n">encoding</span><span class="o">=</span><span class="n">encoding</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">262</span>         <span class="n">scale_factor</span><span class="o">=</span><span class="n">scale_factor</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">263</span>         <span class="n">engine</span><span class="o">=</span><span class="n">engine</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">264</span>         <span class="n">inline</span><span class="o">=</span><span class="n">inline</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">265</span>         <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">266</span>     <span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">267</span> <span class="k">else</span><span class="p">:</span>
+<span class="g g-Whitespace">    </span><span class="mi">268</span>     <span class="n">msg</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"Unsupported format: '</span><span class="si">{</span><span class="nb">format</span><span class="si">}</span><span class="s2">'"</span>
+
+<span class="nn">File D:\Translation\Data Science A First Introduction with Python\.venv-build\lib\site-packages\altair\utils\save.py:111,</span> in <span class="ni">_save_mimebundle_format</span><span class="nt">(spec, format, fp, inner_mode, vega_version, vegalite_version, vegaembed_version, embed_options, json_kwds, encoding, scale_factor, engine, inline, **kwargs)</span>
+<span class="g g-Whitespace">    </span><span class="mi">109</span>     <span class="n">write_file_or_filename</span><span class="p">(</span><span class="n">fp</span><span class="p">,</span> <span class="n">mb_result</span><span class="p">[</span><span class="s2">"text/html"</span><span class="p">],</span> <span class="n">mode</span><span class="o">=</span><span class="s2">"w"</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="n">encoding</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">110</span> <span class="k">elif</span> <span class="nb">format</span> <span class="o">==</span> <span class="s2">"png"</span><span class="p">:</span>
+<span class="ne">--&gt; </span><span class="mi">111</span>     <span class="n">mb_result_png</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">],</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]]</span> <span class="o">=</span> <span class="n">spec_to_mimebundle</span><span class="p">(</span>
+<span class="g g-Whitespace">    </span><span class="mi">112</span>         <span class="n">spec</span><span class="o">=</span><span class="n">spec</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">113</span>         <span class="nb">format</span><span class="o">=</span><span class="nb">format</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">114</span>         <span class="n">mode</span><span class="o">=</span><span class="n">inner_mode</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">115</span>         <span class="n">vega_version</span><span class="o">=</span><span class="n">vega_version</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">116</span>         <span class="n">vegalite_version</span><span class="o">=</span><span class="n">vegalite_version</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">117</span>         <span class="n">vegaembed_version</span><span class="o">=</span><span class="n">vegaembed_version</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">118</span>         <span class="n">embed_options</span><span class="o">=</span><span class="n">embed_options</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">119</span>         <span class="n">scale_factor</span><span class="o">=</span><span class="n">scale_factor</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">120</span>         <span class="n">engine</span><span class="o">=</span><span class="n">engine</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">121</span>         <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">122</span>     <span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">123</span>     <span class="n">write_file_or_filename</span><span class="p">(</span><span class="n">fp</span><span class="p">,</span> <span class="n">mb_result_png</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s2">"image/png"</span><span class="p">],</span> <span class="n">mode</span><span class="o">=</span><span class="s2">"wb"</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">124</span> <span class="k">elif</span> <span class="nb">format</span> <span class="o">==</span> <span class="s2">"svg"</span><span class="p">:</span>
+
+<span class="nn">File D:\Translation\Data Science A First Introduction with Python\.venv-build\lib\site-packages\altair\utils\mimebundle.py:124,</span> in <span class="ni">spec_to_mimebundle</span><span class="nt">(spec, format, mode, vega_version, vegaembed_version, vegalite_version, embed_options, engine, **kwargs)</span>
+<span class="g g-Whitespace">    </span><span class="mi">122</span> <span class="n">internal_mode</span><span class="p">:</span> <span class="n">Literal</span><span class="p">[</span><span class="s2">"vega-lite"</span><span class="p">,</span> <span class="s2">"vega"</span><span class="p">]</span> <span class="o">=</span> <span class="n">mode</span>
+<span class="g g-Whitespace">    </span><span class="mi">123</span> <span class="k">if</span> <span class="n">using_vegafusion</span><span class="p">():</span>
+<span class="ne">--&gt; </span><span class="mi">124</span>     <span class="n">spec</span> <span class="o">=</span> <span class="n">compile_with_vegafusion</span><span class="p">(</span><span class="n">spec</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">125</span>     <span class="n">internal_mode</span> <span class="o">=</span> <span class="s2">"vega"</span>
+<span class="g g-Whitespace">    </span><span class="mi">127</span> <span class="c1"># Default to the embed options set by alt.renderers.set_embed_options</span>
+
+<span class="nn">File D:\Translation\Data Science A First Introduction with Python\.venv-build\lib\site-packages\altair\utils\_vegafusion_data.py:273,</span> in <span class="ni">compile_with_vegafusion</span><span class="nt">(vegalite_spec)</span>
+<span class="g g-Whitespace">    </span><span class="mi">271</span> <span class="c1"># Pre-evaluate transforms in vega spec with vegafusion</span>
+<span class="g g-Whitespace">    </span><span class="mi">272</span> <span class="n">row_limit</span> <span class="o">=</span> <span class="n">data_transformers</span><span class="o">.</span><span class="n">options</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"max_rows"</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+<span class="ne">--&gt; </span><span class="mi">273</span> <span class="n">transformed_vega_spec</span><span class="p">,</span> <span class="n">warnings</span> <span class="o">=</span> <span class="n">vf</span><span class="o">.</span><span class="n">runtime</span><span class="o">.</span><span class="n">pre_transform_spec</span><span class="p">(</span>
+<span class="g g-Whitespace">    </span><span class="mi">274</span>     <span class="n">vega_spec</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">275</span>     <span class="n">vf</span><span class="o">.</span><span class="n">get_local_tz</span><span class="p">(),</span>
+<span class="g g-Whitespace">    </span><span class="mi">276</span>     <span class="n">inline_datasets</span><span class="o">=</span><span class="n">inline_tables</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">277</span>     <span class="n">row_limit</span><span class="o">=</span><span class="n">row_limit</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">278</span> <span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">280</span> <span class="c1"># Check from row limit warning and convert to MaxRowsError</span>
+<span class="g g-Whitespace">    </span><span class="mi">281</span> <span class="n">handle_row_limit_exceeded</span><span class="p">(</span><span class="n">row_limit</span><span class="p">,</span> <span class="n">warnings</span><span class="p">)</span>
+
+<span class="nn">File D:\Translation\Data Science A First Introduction with Python\.venv-build\lib\site-packages\vegafusion\runtime.py:414,</span> in <span class="ni">VegaFusionRuntime.pre_transform_spec</span><span class="nt">(self, spec, local_tz, default_input_tz, row_limit, preserve_interactivity, inline_datasets, keep_signals, keep_datasets)</span>
+<span class="g g-Whitespace">    </span><span class="mi">353</span><span class="w"> </span><span class="sd">"""</span>
+<span class="g g-Whitespace">    </span><span class="mi">354</span><span class="sd"> Evaluate supported transforms in an input Vega specification</span>
+<span class="g g-Whitespace">    </span><span class="mi">355</span><span class="sd"> </span>
+<span class="sd">   (...)</span>
+<span class="g g-Whitespace">    </span><span class="mi">411</span><span class="sd">         were eligible for pre-transforming</span>
+<span class="g g-Whitespace">    </span><span class="mi">412</span><span class="sd"> """</span>
+<span class="g g-Whitespace">    </span><span class="mi">413</span> <span class="n">local_tz</span> <span class="o">=</span> <span class="n">local_tz</span> <span class="ow">or</span> <span class="n">get_local_tz</span><span class="p">()</span>
+<span class="ne">--&gt; </span><span class="mi">414</span> <span class="n">imported_inline_dataset</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_import_inline_datasets</span><span class="p">(</span>
+<span class="g g-Whitespace">    </span><span class="mi">415</span>     <span class="n">inline_datasets</span><span class="p">,</span> <span class="n">get_inline_column_usage</span><span class="p">(</span><span class="n">spec</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">416</span> <span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">418</span> <span class="n">new_spec</span><span class="p">,</span> <span class="n">warnings</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">runtime</span><span class="o">.</span><span class="n">pre_transform_spec</span><span class="p">(</span>
+<span class="g g-Whitespace">    </span><span class="mi">419</span>     <span class="n">spec</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">420</span>     <span class="n">local_tz</span><span class="o">=</span><span class="n">local_tz</span><span class="p">,</span>
+   <span class="p">(</span><span class="o">...</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">426</span>     <span class="n">keep_datasets</span><span class="o">=</span><span class="n">parse_variables</span><span class="p">(</span><span class="n">keep_datasets</span><span class="p">),</span>
+<span class="g g-Whitespace">    </span><span class="mi">427</span> <span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">429</span> <span class="k">return</span> <span class="n">new_spec</span><span class="p">,</span> <span class="n">warnings</span>
+
+<span class="nn">File D:\Translation\Data Science A First Introduction with Python\.venv-build\lib\site-packages\vegafusion\runtime.py:332,</span> in <span class="ni">VegaFusionRuntime._import_inline_datasets</span><span class="nt">(self, inline_datasets, inline_dataset_usage)</span>
+<span class="g g-Whitespace">    </span><span class="mi">329</span>             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">330</span>         <span class="n">df_nw</span> <span class="o">=</span> <span class="n">df_nw</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="n">columns</span><span class="p">)</span>
+<span class="ne">--&gt; </span><span class="mi">332</span>     <span class="n">imported_inline_datasets</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">Table</span><span class="p">(</span><span class="n">df_nw</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">333</span> <span class="k">except</span> <span class="ne">TypeError</span><span class="p">:</span>
+<span class="g g-Whitespace">    </span><span class="mi">334</span>     <span class="c1"># Not supported by Narwhals, try pycapsule interface directly</span>
+<span class="g g-Whitespace">    </span><span class="mi">335</span>     <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="s2">"__arrow_c_stream__"</span><span class="p">):</span>
+
+<span class="nn">File D:\Translation\Data Science A First Introduction with Python\.venv-build\lib\site-packages\narwhals\dataframe.py:819,</span> in <span class="ni">DataFrame.__arrow_c_stream__</span><span class="nt">(self, requested_schema)</span>
+<span class="g g-Whitespace">    </span><span class="mi">817</span> <span class="n">native_frame</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_compliant_frame</span><span class="o">.</span><span class="n">_native_frame</span>
+<span class="g g-Whitespace">    </span><span class="mi">818</span> <span class="k">if</span> <span class="n">supports_arrow_c_stream</span><span class="p">(</span><span class="n">native_frame</span><span class="p">):</span>
+<span class="ne">--&gt; </span><span class="mi">819</span>     <span class="k">return</span> <span class="n">native_frame</span><span class="o">.</span><span class="n">__arrow_c_stream__</span><span class="p">(</span><span class="n">requested_schema</span><span class="o">=</span><span class="n">requested_schema</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">820</span> <span class="k">try</span><span class="p">:</span>
+<span class="g g-Whitespace">    </span><span class="mi">821</span>     <span class="n">pa_version</span> <span class="o">=</span> <span class="n">Implementation</span><span class="o">.</span><span class="n">PYARROW</span><span class="o">.</span><span class="n">_backend_version</span><span class="p">()</span>
+
+<span class="nn">File D:\Translation\Data Science A First Introduction with Python\.venv-build\lib\site-packages\pandas\core\frame.py:1026,</span> in <span class="ni">DataFrame.__arrow_c_stream__</span><span class="nt">(self, requested_schema)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1005</span> <span class="k">def</span><span class="w"> </span><span class="nf">__arrow_c_stream__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">requested_schema</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="g g-Whitespace">   </span><span class="mi">1006</span><span class="w">     </span><span class="sd">"""</span>
+<span class="g g-Whitespace">   </span><span class="mi">1007</span><span class="sd">     Export the pandas DataFrame as an Arrow C stream PyCapsule.</span>
+<span class="g g-Whitespace">   </span><span class="mi">1008</span><span class="sd"> </span>
+<span class="sd">   (...)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1024</span><span class="sd">     PyCapsule</span>
+<span class="g g-Whitespace">   </span><span class="mi">1025</span><span class="sd">     """</span>
+<span class="ne">-&gt; </span><span class="mi">1026</span>     <span class="n">pa</span> <span class="o">=</span> <span class="n">import_optional_dependency</span><span class="p">(</span><span class="s2">"pyarrow"</span><span class="p">,</span> <span class="n">min_version</span><span class="o">=</span><span class="s2">"14.0.0"</span><span class="p">)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1027</span>     <span class="k">if</span> <span class="n">requested_schema</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+<span class="g g-Whitespace">   </span><span class="mi">1028</span>         <span class="n">requested_schema</span> <span class="o">=</span> <span class="n">pa</span><span class="o">.</span><span class="n">Schema</span><span class="o">.</span><span class="n">_import_from_c_capsule</span><span class="p">(</span><span class="n">requested_schema</span><span class="p">)</span>
+
+<span class="nn">File D:\Translation\Data Science A First Introduction with Python\.venv-build\lib\site-packages\pandas\compat\_optional.py:138,</span> in <span class="ni">import_optional_dependency</span><span class="nt">(name, extra, errors, min_version)</span>
+<span class="g g-Whitespace">    </span><span class="mi">136</span> <span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
+<span class="g g-Whitespace">    </span><span class="mi">137</span>     <span class="k">if</span> <span class="n">errors</span> <span class="o">==</span> <span class="s2">"raise"</span><span class="p">:</span>
+<span class="ne">--&gt; </span><span class="mi">138</span>         <span class="k">raise</span> <span class="ne">ImportError</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">139</span>     <span class="k">return</span> <span class="kc">None</span>
+<span class="g g-Whitespace">    </span><span class="mi">141</span> <span class="c1"># Handle submodules: if we have submodule, grab parent module from sys.modules</span>
+
+<span class="ne">ImportError</span>: Missing optional dependency 'pyarrow'.  Use pip or conda to install pyarrow.
+</pre></div>
+</div>
+</div>
+</div>
+<div class="pst-scrollable-table-container"><table class="table" id="png-vs-svg-table">
+<caption><span class="caption-number">表 4.1 </span><span class="caption-text">老忠实间歇泉数据集散点图存成不同文件格式时的文件大小。</span><a class="headerlink" href="#png-vs-svg-table" title="永久链接至表格">#</a></caption>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>图像类型</p></th>
+<th class="head"><p>文件类型</p></th>
+<th class="head"><p>图像大小</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>栅格</p></td>
+<td><p>PNG</p></td>
+<td><p><span class="pasted-text">0.07</span> MB</p></td>
+</tr>
+<tr class="row-odd"><td><p>矢量</p></td>
+<td><p>SVG</p></td>
+<td><p><span class="pasted-text">0.09</span> MB</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>看看<a class="reference internal" href="#png-vs-svg-table"><span class="std std-numref">表 4.1</span></a> 中的文件大小。哇，差别还真大！这里 <code class="docutils literal notranslate"><span class="pre">.png</span></code> 图像几乎比 <code class="docutils literal notranslate"><span class="pre">.svg</span></code> 图像小 4 倍。由于图中的点相当多，矢量图格式的 <code class="docutils literal notranslate"><span class="pre">.svg</span></code> 文件比只存储图像数据本身的栅格图像 <code class="docutils literal notranslate"><span class="pre">.png</span></code> 更大。在<a class="reference internal" href="#png-vs-svg"><span class="std std-numref">图 4.30</span></a> 中，我们展示了放大到只有 3 个数据点的矩形区域时图像的样子。你就能明白矢量图格式为什么这么有用了：正因为它们只是基于数学公式，矢量图可以放大到任意尺寸。这使它们很适合各种尺寸的展示媒介，从论文到海报再到广告牌。</p>
+<figure class="align-default" id="png-vs-svg">
+<a class="reference internal image-reference" href="_images/png-vs-svg.png"><img alt="_images/png-vs-svg.png" src="_images/png-vs-svg.png" style="height: 400px;" /></a>
+<figcaption>
+<p><span class="caption-number">图 4.30 </span><span class="caption-text">放大后的 <code class="docutils literal notranslate"><span class="pre">faithful</span></code> 图，栅格格式（PNG，左）和矢量格式（SVG，右）。</span><a class="headerlink" href="#png-vs-svg" title="永久链接至图片">#</a></p>
+</figcaption>
+</figure>
+</section>
+<section id="id21">
+<h2><span class="section-number">4.8. </span>习题<a class="headerlink" href="#id21" title="Permalink to this heading">#</a></h2>
+<p>本章内容的练习题可在配套的<a class="reference external" href="https://worksheets.python.datasciencebook.ca">练习册仓库</a>（worksheets repository）的“有效的数据可视化（Effective data visualization）”一行中找到。点击“查看练习册（view worksheet）”，即可预览本章练习册的非交互版本。若要交互式地完成这些习题，请按练习册仓库中的说明下载全部练习册，并按照<a class="reference internal" href="setup.html#move-to-your-own-machine"><span class="std std-numref">第 13 章</span></a>中的计算机配置说明做好准备。这样才能保证练习册提供的自动反馈和指导按预期发挥作用。</p>
+</section>
+<section id="id22">
+<h2><span class="section-number">4.9. </span>拓展资源<a class="headerlink" href="#id22" title="Permalink to this heading">#</a></h2>
+<ul class="simple">
+<li><p>如果想进一步了解本章讲到的函数、可以使用的全部参数以及其他相关函数，可以查阅 <a class="reference external" href="https://altair-viz.github.io/">altair 文档</a> <span id="id23">[<a class="reference internal" href="#id90" title="Jacob VanderPlas, Brian Granger, Jeffrey Heer, Dominik Moritz, Kanit Wongsuphasawat, Arvind Satyanarayan, Eitan Lees, Ilia Timofeev, Ben Welsh, and Scott Sievert. Altair: interactive statistical visualizations for python. Journal of Open Source Software, 3(32):1057, 2018. URL: https://doi.org/10.21105/joss.01057, doi:10.21105/joss.01057.">VanderPlas <em>et al.</em>, 2018</a>]</span>。</p></li>
+<li><p><a class="reference external" href="https://clauswilke.com/dataviz/">《Fundamentals of Data Visualization》</a> <span id="id24">[<a class="reference internal" href="#id54" title="Claus Wilke. Fundamentals of Data Visualization. O'Reilly Media, 2019. URL: https://clauswilke.com/dataviz/.">Wilke, 2019</a>]</span> 中有大量关于设计有效可视化的内容。这本书不针对任何特定的编程语言或库。如果你想提高自己的可视化能力，接下来就该看这本书。</p></li>
+<li><p>如果想了解 <code class="docutils literal notranslate"><span class="pre">date</span></code> 和 <code class="docutils literal notranslate"><span class="pre">time</span></code>，包括如何创建它们，以及如何用它们有效地处理时长等，可以查阅<a class="reference external" href="https://wesmckinney.com/book/">《Python for Data Analysis》</a> <span id="id25">[<a class="reference internal" href="wrangling.html#id77" title="Wes McKinney. Python for data analysis: Data wrangling with Pandas, NumPy, and IPython. &quot; O'Reilly Media, Inc.&quot;, 2012.">McKinney, 2012</a>]</span> 中关于<a class="reference external" href="https://wesmckinney.com/book/time-series.html">日期与时间</a>的那一章</p></li>
+</ul>
+</section>
+<section id="id26">
+<h2><span class="section-number">4.10. </span>参考文献<a class="headerlink" href="#id26" title="Permalink to this heading">#</a></h2>
+<div class="docutils container" id="id27">
+<dl class="citation">
+<dt class="label" id="id36"><span class="brackets"><a class="fn-backref" href="#id7">Dee05</a></span></dt>
+<dd><p>Sameer Deeb. The molecular basis of variation in human color vision. <em>Clinical Genetics</em>, 67:369–377, 2005.</p>
+</dd>
+<dt class="label" id="id66"><span class="brackets"><a class="fn-backref" href="#id20">Har91</a></span></dt>
+<dd><p>Wolfgang Hardle. <em>Smoothing Techniques with Implementation in S</em>. Springer, New York, 1991.</p>
+</dd>
+<dt class="label" id="id75"><span class="brackets"><a class="fn-backref" href="#id25">McK12</a></span></dt>
+<dd><p>Wes McKinney. <em>Python for data analysis: Data wrangling with Pandas, NumPy, and IPython</em>. &quot; O'Reilly Media, Inc.&quot;, 2012.</p>
+</dd>
+<dt class="label" id="id67"><span class="brackets"><a class="fn-backref" href="#id13">McN77</a></span></dt>
+<dd><p>Donald R. McNeil. <em>Interactive Data Analysis: A Practical Primer</em>. Wiley, 1977.</p>
+</dd>
+<dt class="label" id="id68"><span class="brackets"><a class="fn-backref" href="#id15">Mic82</a></span></dt>
+<dd><p>Albert Michelson. Experimental determination of the velocity of light made at the United States Naval Academy, Annapolis. <em>Astronomic Papers</em>, 1:135–8, 1882.</p>
+</dd>
+<dt class="label" id="id65"><span class="brackets"><a class="fn-backref" href="#id8">TK20</a></span></dt>
+<dd><p>Pieter Tans and Ralph Keeling. Trends in atmospheric carbon dioxide. 2020. URL: <a class="reference external" href="https://gml.noaa.gov/ccgg/trends/data.html">https://gml.noaa.gov/ccgg/trends/data.html</a> (visited on 2020-07-04).</p>
+</dd>
+<dt class="label" id="id47"><span class="brackets"><a class="fn-backref" href="#id11">Tim20</a></span></dt>
+<dd><p>Tiffany Timbers. <em>canlang: Canadian Census language data</em>. 2020. R package version 0.0.9. URL: <a class="reference external" href="https://ttimbers.github.io/canlang/">https://ttimbers.github.io/canlang/</a>.</p>
+</dd>
+<dt class="label" id="id90"><span class="brackets"><a class="fn-backref" href="#id23">VGH+18</a></span></dt>
+<dd><p>Jacob VanderPlas, Brian Granger, Jeffrey Heer, Dominik Moritz, Kanit Wongsuphasawat, Arvind Satyanarayan, Eitan Lees, Ilia Timofeev, Ben Welsh, and Scott Sievert. Altair: interactive statistical visualizations for python. <em>Journal of Open Source Software</em>, 3(32):1057, 2018. URL: <a class="reference external" href="https://doi.org/10.21105/joss.01057">https://doi.org/10.21105/joss.01057</a>, <a class="reference external" href="https://doi.org/10.21105/joss.01057">doi:10.21105/joss.01057</a>.</p>
+</dd>
+<dt class="label" id="id54"><span class="brackets">Wil19</span><span class="fn-backref">(<a href="#id5">1</a>,<a href="#id24">2</a>)</span></dt>
+<dd><p>Claus Wilke. <em>Fundamentals of Data Visualization</em>. O'Reilly Media, 2019. URL: <a class="reference external" href="https://clauswilke.com/dataviz/">https://clauswilke.com/dataviz/</a>.</p>
+</dd>
+</dl>
+</div>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="wrangling.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">上一页</p>
+        <p class="prev-next-title"><span class="section-number">3. </span>数据清洗与整理</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="classification1.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">下一页</p>
+        <p class="prev-next-title"><span class="section-number">5. </span>分类 I：训练与预测</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> 目录
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">4.1. 概述</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">4.2. 本章学习目标</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id4">4.3. 选择可视化图形</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id6">4.4. 改进可视化图形</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#altair">4.5. 用 <code class="docutils literal notranslate"><span class="pre">altair</span></code> 创建可视化图形</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#co-text-2">4.5.1. 散点图与折线图：冒纳罗亚 CO<span class="math notranslate nohighlight">\(_{\text{2}}\)</span> 数据集</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id9">4.5.2. 散点图：老忠实间歇泉的喷发时间数据集</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id10">4.5.3. 坐标轴变换与彩色散点图：加拿大语言数据集</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id12">4.5.4. 条形图：岛屿陆块数据集</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#histogramsviz">4.5.5. 直方图：迈克尔逊光速数据集</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id16">为 <code class="docutils literal notranslate"><span class="pre">altair</span></code> 图形叠加图层</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id17">为直方图选择箱宽</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id18">4.6. 讲解可视化</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id19">4.7. 保存可视化</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id21">4.8. 习题</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id22">4.9. 拓展资源</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id26">4.10. 参考文献</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+作者： Tiffany Timbers, Trevor Campbell, Melissa Lee, Joel Ostblom, and Lindsey Heagy
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2022.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

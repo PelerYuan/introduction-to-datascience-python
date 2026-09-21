@@ -1,0 +1,2592 @@
+
+
+<!DOCTYPE html>
+
+
+<html lang="zh-CN" data-content_root="" >
+
+  <head>
+<link rel="canonical" href="https://peleryuan.github.io/introduction-to-datascience-python/inference.html" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>10. 统计推断 &#8212; 数据科学：Python 入门</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" href="_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="_static/style.css" />
+    <link rel="stylesheet" type="text/css" href="_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/clipboard.min.js"></script>
+    <script src="_static/copybutton.js"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="_static/togglebutton.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="_static/translations.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="_static/design-tabs.js"></script>
+    <script async="async" src="https://www.googletagmanager.com/gtag/js?id=G-7XBFF4RSN2"></script>
+    <script>
+                window.dataLayer = window.dataLayer || [];
+                function gtag(){ dataLayer.push(arguments); }
+                gtag('js', new Date());
+                gtag('config', 'G-7XBFF4RSN2');
+            </script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="_static/sphinx-thebe.js"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'inference';</script>
+    <link rel="index" title="索引" href="genindex.html" />
+    <link rel="search" title="搜索" href="search.html" />
+    <link rel="next" title="11. 用 Jupyter 结合代码和文本" href="jupyter.html" />
+    <link rel="prev" title="9. 聚类" href="clustering.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="zh-CN"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="index.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">数据科学：Python 入门</p>
+  
+</a></div>
+        <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">前言</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="preface-text.html">前言</a></li>
+<li class="toctree-l1"><a class="reference internal" href="foreword-text.html">序言</a></li>
+<li class="toctree-l1"><a class="reference internal" href="acknowledgements.html">致谢</a></li>
+<li class="toctree-l1"><a class="reference internal" href="authors.html">作者简介</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">正文章节</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="intro.html">1. Python 与 Pandas</a></li>
+<li class="toctree-l1"><a class="reference internal" href="reading.html">2. 从本地和网络读取数据</a></li>
+<li class="toctree-l1"><a class="reference internal" href="wrangling.html">3. 数据清洗与整理</a></li>
+<li class="toctree-l1"><a class="reference internal" href="viz.html">4. 有效的数据可视化</a></li>
+<li class="toctree-l1"><a class="reference internal" href="classification1.html">5. 分类 I：训练与预测</a></li>
+<li class="toctree-l1"><a class="reference internal" href="classification2.html">6. 分类 II：评估与调优</a></li>
+<li class="toctree-l1"><a class="reference internal" href="regression1.html">7. 回归 I：k 近邻回归</a></li>
+<li class="toctree-l1"><a class="reference internal" href="regression2.html">8. 回归 II：线性回归</a></li>
+<li class="toctree-l1"><a class="reference internal" href="clustering.html">9. 聚类</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">10. 统计推断</a></li>
+<li class="toctree-l1"><a class="reference internal" href="jupyter.html">11. 用 Jupyter 结合代码和文本</a></li>
+<li class="toctree-l1"><a class="reference internal" href="version-control.html">12. 借助版本控制协作</a></li>
+<li class="toctree-l1"><a class="reference internal" href="setup.html">13. 配置你的计算机</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="下载此页面">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="_sources/inference.md" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="下载源文件"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.md</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="列印成 PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="全屏模式"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="搜索" aria-label="搜索" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>统计推断</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> 目录 </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">10.1. 概述</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">10.2. 本章学习目标</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id4">10.3. 为什么需要抽样？</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id5">10.4. 抽样分布</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id6">10.4.1. 比例的抽样分布</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id8">10.4.2. 均值的抽样分布</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id9">10.4.3. 小结</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id10">10.5. 自助法</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id11">10.5.1. 概述</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#python">10.5.2. 用 Python 实现自助法</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id12">10.5.3. 用自助法计算合理取值范围</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id13">10.6. 习题</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id14">10.7. 拓展资源</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id16">10.8. 参考文献</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="inference">
+<span id="id1"></span><h1><span class="section-number">10. </span>统计推断<a class="headerlink" href="#inference" title="Permalink to this heading">#</a></h1>
+<section id="id2">
+<h2><span class="section-number">10.1. </span>概述<a class="headerlink" href="#id2" title="Permalink to this heading">#</a></h2>
+<p>在实际的数据分析中，一项典型任务是根据从总体中抽取的观测数据，对感兴趣的总体某个未知方面作出结论；我们通常拿不到<em>整个</em>总体的数据。数据集中的各种汇总、模式、趋势或关系如何推广到更大的总体，这类数据分析问题称为<em>推断性问题</em>（inferential question）。本章先介绍从总体中抽样的基本思想，再介绍统计推断中的两种常用技术：<em>点估计</em>与<em>区间估计</em>。</p>
+</section>
+<section id="id3">
+<h2><span class="section-number">10.2. </span>本章学习目标<a class="headerlink" href="#id3" title="Permalink to this heading">#</a></h2>
+<p>学完本章后，你将能够：</p>
+<ul class="simple">
+<li><p>描述可以用统计推断回答的真实问题示例。</p></li>
+<li><p>定义常见的总体参数（例如均值、比例、标准差）——这些参数通常用抽样数据来估计——并根据样本估计这些参数。</p></li>
+<li><p>定义以下统计抽样术语：总体、样本、总体参数、点估计和抽样分布。</p></li>
+<li><p>解释总体参数与样本点估计之间的区别。</p></li>
+<li><p>用 Python 从有限总体中抽取随机样本。</p></li>
+<li><p>用 Python 根据有限总体构造抽样分布。</p></li>
+<li><p>说明样本量如何影响抽样分布。</p></li>
+<li><p>定义自助法（bootstrap）。</p></li>
+<li><p>用 Python 构造自助分布来近似抽样分布。</p></li>
+<li><p>对比自助分布与抽样分布。</p></li>
+</ul>
+</section>
+<section id="id4">
+<h2><span class="section-number">10.3. </span>为什么需要抽样？<a class="headerlink" href="#id4" title="Permalink to this heading">#</a></h2>
+<p>我们常常需要了解：从一部分数据中观测到的量，与更大总体中同样的量之间有什么关系。例如，假设一家零售商正在考虑销售 iPhone 配件，他们想估计这个市场可能有多大。此外，他们还想制定策略，思考如何把产品推销到北美的高校校园。这位零售商可能会提出下面这个问题：</p>
+<p><em>北美所有本科生中拥有 iPhone 的比例是多少？</em></p>
+<p id="index-0">在上面这个问题中，我们想对北美<em>所有</em>本科生作出结论；这些学生的全体就称为<strong>总体</strong>。一般来说，总体就是我们想要研究的全部个体或个案。此外，上面这个问题要计算的是一个基于整个总体的量——拥有 iPhone 的比例。这个比例称为<strong>总体参数</strong>。一般来说，总体参数是整个总体的一个数值特征。要算出上例中的这个数值，我们得逐一询问北美的每一位本科生是否拥有 iPhone。在实践中，直接计算总体参数往往既费时又费钱，有时甚至无法做到。</p>
+<span class="target" id="index-1"></span><p id="index-2">更实际的做法是针对<strong>样本</strong>做测量，也就是从总体中抽取的一部分个体。然后我们可以计算一个<strong>样本估计值</strong>——样本的某个数值特征——用它来估计总体参数。例如，假设我们在北美随机抽取十名本科生（即样本），算出其中拥有 iPhone 的学生所占的比例（即样本估计值）。这时，我们也许会觉得这个比例可以合理地估计整个总体中拥有 iPhone 的学生比例。<a class="reference internal" href="#fig-11-population-vs-sample"><span class="std std-numref">图 10.1</span></a> 展示了这一过程。一般来说，利用样本对抽取该样本的更大总体作出结论，这一过程称为<strong>统计推断</strong>。</p>
+<figure class="align-default" id="fig-11-population-vs-sample">
+<img alt="_images/population_vs_sample.png" src="_images/population_vs_sample.png" />
+<figcaption>
+<p><span class="caption-number">图 10.1 </span><span class="caption-text">用更大总体中的样本得到总体参数点估计的过程。在本例中，一个容量为 10 的样本里有 6 人拥有 iPhone，由此算出的 iPhone 拥有者总体比例估计值为 60%。这张示例图中实际的总体比例是 53.8%。</span><a class="headerlink" href="#fig-11-population-vs-sample" title="永久链接至图片">#</a></p>
+</figcaption>
+</figure>
+<p>请注意，比例并不是我们可能关心的<em>唯一</em>一种总体参数。例如，假设一名在加拿大不列颠哥伦比亚大学读书的本科生想租一套公寓。这名学生需要制定预算，所以想了解不列颠哥伦比亚省温哥华市单间公寓的租金情况。这名学生可能会提出下面这个问题：</p>
+<p><em>加拿大温哥华的单间公寓平均月租金是多少？</em></p>
+<p>在这个例子里，总体是温哥华所有出租的单间公寓，总体参数是<em>平均月租金</em>。这里我们用平均数作为集中趋势的度量，来描述单间公寓租金的“典型取值”。但即便只在这一个例子里，我们也可能关心许多其他总体参数。比如，我们知道温哥华并不是每套单间公寓的月租金都相同。这名学生可能想了解月租金的波动有多大，希望找到一个衡量租金离散程度（或变异性）的指标，例如标准差。又或者，这名学生可能关心月租金超过 $1000 的单间公寓所占的比例。我们想回答的问题会帮助我们确定要估计的参数。如果我们有办法观测到温哥华所有出租的单间公寓，就能精确算出上面每一个数；因此，这些都是总体参数。在实践中你会遇到许多种观测和总体参数，但本章只关注两类情形：</p>
+<ol class="arabic simple">
+<li><p>用分类观测估计某个类别的比例</p></li>
+<li><p>用定量观测估计平均数（或均值）</p></li>
+</ol>
+</section>
+<section id="id5">
+<h2><span class="section-number">10.4. </span>抽样分布<a class="headerlink" href="#id5" title="Permalink to this heading">#</a></h2>
+<section id="id6">
+<h3><span class="section-number">10.4.1. </span>比例的抽样分布<a class="headerlink" href="#id6" title="Permalink to this heading">#</a></h3>
+<p id="index-3">我们来看一个例子，用的是 <a class="reference external" href="http://insideairbnb.com/">Inside Airbnb</a> 的数据 <span id="id7">[<a class="reference internal" href="#id60" title="Murray Cox. Inside Airbnb. n.d. URL: http://insideairbnb.com/ (visited on 2020-09-01).">Cox, n.d.</a>]</span>。Airbnb 是一个在线平台，可以预订度假短租和住宿场所。这份数据集包含加拿大温哥华 2020 年 9 月的房源信息。我们的数据包括 ID 编号、街区、房间类型、房源可容纳的人数、浴室数、卧室数、床位数以及每晚价格。</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+
+<span class="n">airbnb</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">"data/listings.csv"</span><span class="p">)</span>
+<span class="n">airbnb</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>id</th>
+      <th>neighbourhood</th>
+      <th>room_type</th>
+      <th>accommodates</th>
+      <th>bathrooms</th>
+      <th>bedrooms</th>
+      <th>beds</th>
+      <th>price</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>1</td>
+      <td>Downtown</td>
+      <td>Entire home/apt</td>
+      <td>5</td>
+      <td>2 baths</td>
+      <td>2</td>
+      <td>2</td>
+      <td>150.00</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>2</td>
+      <td>Downtown Eastside</td>
+      <td>Entire home/apt</td>
+      <td>4</td>
+      <td>2 baths</td>
+      <td>2</td>
+      <td>2</td>
+      <td>132.00</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>3</td>
+      <td>West End</td>
+      <td>Entire home/apt</td>
+      <td>2</td>
+      <td>1 bath</td>
+      <td>1</td>
+      <td>1</td>
+      <td>85.00</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>4</td>
+      <td>Kensington-Cedar Cottage</td>
+      <td>Entire home/apt</td>
+      <td>2</td>
+      <td>1 bath</td>
+      <td>1</td>
+      <td>0</td>
+      <td>146.00</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>5</td>
+      <td>Kensington-Cedar Cottage</td>
+      <td>Entire home/apt</td>
+      <td>4</td>
+      <td>1 bath</td>
+      <td>1</td>
+      <td>2</td>
+      <td>110.00</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>4589</th>
+      <td>4590</td>
+      <td>Downtown Eastside</td>
+      <td>Entire home/apt</td>
+      <td>5</td>
+      <td>1 bath</td>
+      <td>1</td>
+      <td>1</td>
+      <td>99.00</td>
+    </tr>
+    <tr>
+      <th>4590</th>
+      <td>4591</td>
+      <td>Oakridge</td>
+      <td>Private room</td>
+      <td>2</td>
+      <td>1.5 baths</td>
+      <td>1</td>
+      <td>1</td>
+      <td>42.51</td>
+    </tr>
+    <tr>
+      <th>4591</th>
+      <td>4592</td>
+      <td>Dunbar Southlands</td>
+      <td>Private room</td>
+      <td>2</td>
+      <td>1.5 shared baths</td>
+      <td>1</td>
+      <td>1</td>
+      <td>53.29</td>
+    </tr>
+    <tr>
+      <th>4592</th>
+      <td>4593</td>
+      <td>West End</td>
+      <td>Entire home/apt</td>
+      <td>4</td>
+      <td>1 bath</td>
+      <td>2</td>
+      <td>2</td>
+      <td>145.00</td>
+    </tr>
+    <tr>
+      <th>4593</th>
+      <td>4594</td>
+      <td>Shaughnessy</td>
+      <td>Entire home/apt</td>
+      <td>6</td>
+      <td>1 bath</td>
+      <td>3</td>
+      <td>4</td>
+      <td>135.00</td>
+    </tr>
+  </tbody>
+</table>
+<p>4594 rows × 8 columns</p>
+</div></div></div>
+</div>
+<p>假设温哥华市政府想了解 Airbnb 租赁信息，以便规划市政条例；他们想知道有多少 Airbnb 房源被列为整套住宅和公寓（而不是私人房间或共享房间）。因此，他们可能想估计所有 Airbnb 房源中房间类型列为“整套住宅或公寓”的真实比例。当然，我们通常拿不到真实的总体，但这里不妨（出于学习目的）设想这份数据集就代表了加拿大温哥华全部 Airbnb 出租房源的总体。我们可以像前面几章那样，用 <code class="docutils literal notranslate"><span class="pre">value_counts</span></code> 函数配合 <code class="docutils literal notranslate"><span class="pre">normalize</span></code> 参数，求出每种房间类型的房源比例。</p>
+<div class="cell docutils container" id="index-4">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">airbnb</span><span class="p">[</span><span class="s2">"room_type"</span><span class="p">]</span><span class="o">.</span><span class="n">value_counts</span><span class="p">(</span><span class="n">normalize</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>room_type
+Entire home/apt    0.747497
+Private room       0.246408
+Shared room        0.005224
+Hotel room         0.000871
+Name: proportion, dtype: float64
+</pre></div>
+</div>
+</div>
+</div>
+<p>可以看到，数据集中 <code class="docutils literal notranslate"><span class="pre">Entire</span> <span class="pre">home/apt</span></code> 房源的比例是 <span class="pasted-text">0.747</span>。这个值 <span class="pasted-text">0.747</span> 就是总体参数。请记住，在真实的数据分析问题中，这个参数取值通常是未知的，因为一般无法对整个总体做测量。</p>
+<p id="index-5">也许我们可以用一小部分数据来近似它！为了探究这个想法，我们来随机抽取 40 个房源（<em>即</em>从总体中抽取容量为 40 的随机样本），并计算这个样本的比例。我们将用 <code class="docutils literal notranslate"><span class="pre">DataFrame</span></code> 对象的 <code class="docutils literal notranslate"><span class="pre">sample</span></code> 方法抽取样本。<code class="docutils literal notranslate"><span class="pre">sample</span></code> 的参数 <code class="docutils literal notranslate"><span class="pre">n</span></code> 指定要抽取的样本量。由于这里开始用到随机性，我们还会用 numpy 设置随机种子，让结果可以复现。</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+
+
+<span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">155</span><span class="p">)</span>
+
+<span class="n">airbnb</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="n">n</span><span class="o">=</span><span class="mi">40</span><span class="p">)[</span><span class="s2">"room_type"</span><span class="p">]</span><span class="o">.</span><span class="n">value_counts</span><span class="p">(</span><span class="n">normalize</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>room_type
+Entire home/apt    0.725
+Private room       0.250
+Shared room        0.025
+Name: proportion, dtype: float64
+</pre></div>
+</div>
+</div>
+</div>
+<p id="index-6">可以看到，这个随机样本中整套住宅/公寓房源的比例是 <span class="pasted-text">0.725</span>。哇——这和真实的总体取值很接近！但别忘了，这个比例是用容量为 40 的随机样本算出来的。由此产生两个结果。第一，这个值只是一个<em>估计值</em>，也就是我们利用这个样本对总体参数作出的最佳猜测。既然这里估计的只是单个数值，我们通常称它为<strong>点估计</strong>。第二，由于样本是随机抽取的，如果我们再抽取<em>另一个</em>容量为 40 的随机样本并计算它的比例，答案就不会相同：</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">airbnb</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="n">n</span><span class="o">=</span><span class="mi">40</span><span class="p">)[</span><span class="s2">"room_type"</span><span class="p">]</span><span class="o">.</span><span class="n">value_counts</span><span class="p">(</span><span class="n">normalize</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>room_type
+Entire home/apt    0.625
+Private room       0.350
+Shared room        0.025
+Name: proportion, dtype: float64
+</pre></div>
+</div>
+</div>
+</div>
+<p>果然如此！这一次我们得到的估计值不同了。这说明我们的点估计可能并不可靠。的确，由于存在<strong>抽样变异性</strong>，估计值会随样本不同而变化。那么，我们应该预期随机样本的估计值有多大变化？换句话说，仅凭单个样本得到的点估计，到底有多可信？</p>
+<p id="index-7">为了弄清楚这一点，我们将从房源总体中模拟抽取许多个样本（远远多于两个），每个样本的容量都是 40，并计算每个样本中整套住宅/公寓房源的比例。这次模拟会产生许多样本比例，我们可以用直方图把它们画出来。从一个总体中抽取给定容量（我们通常记作 <span class="math notranslate nohighlight">\(n\)</span>）的全部可能样本，其估计值的分布称为<strong>抽样分布</strong>。抽样分布能帮助我们看出，从这一总体抽取容量为 40 的样本时，样本比例预期会有多大的变化。</p>
+<p id="index-8">我们再次用 <code class="docutils literal notranslate"><span class="pre">sample</span></code> 从 Airbnb 房源总体中抽取容量为 40 的样本。不过这次我们借助列表推导式（list comprehension）把这一操作重复多次（前面在<a class="reference internal" href="clustering.html#clustering"><span class="std std-numref">第 9 章</span></a>中也是这样做的）。这里我们把该操作重复 20,000 次，得到 20,000 个容量为 40 的样本。为了清楚地看出数据框中的每一行来自 20,000 个样本中的哪一个，我们还用 <code class="docutils literal notranslate"><span class="pre">assign</span></code> 函数添加了一列 <code class="docutils literal notranslate"><span class="pre">replicate</span></code> 来记录这一信息（这个函数在前面<a class="reference internal" href="wrangling.html#wrangling"><span class="std std-numref">第 3 章</span></a>中已经介绍过）。<code class="docutils literal notranslate"><span class="pre">concat</span></code> 调用把列表推导式返回的 20,000 个数据框合并成一个大的数据框。</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">samples</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span>
+    <span class="n">airbnb</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="mi">40</span><span class="p">)</span><span class="o">.</span><span class="n">assign</span><span class="p">(</span><span class="n">replicate</span><span class="o">=</span><span class="n">n</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">20_000</span><span class="p">)</span>
+<span class="p">])</span>
+<span class="n">samples</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>id</th>
+      <th>neighbourhood</th>
+      <th>room_type</th>
+      <th>accommodates</th>
+      <th>bathrooms</th>
+      <th>bedrooms</th>
+      <th>beds</th>
+      <th>price</th>
+      <th>replicate</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>605</th>
+      <td>606</td>
+      <td>Marpole</td>
+      <td>Entire home/apt</td>
+      <td>3</td>
+      <td>1 bath</td>
+      <td>1</td>
+      <td>1</td>
+      <td>91.0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>4579</th>
+      <td>4580</td>
+      <td>Downtown</td>
+      <td>Entire home/apt</td>
+      <td>3</td>
+      <td>1 bath</td>
+      <td>1</td>
+      <td>2</td>
+      <td>160.0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>1739</th>
+      <td>1740</td>
+      <td>West End</td>
+      <td>Entire home/apt</td>
+      <td>2</td>
+      <td>1 bath</td>
+      <td>1</td>
+      <td>2</td>
+      <td>151.0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>3904</th>
+      <td>3905</td>
+      <td>Oakridge</td>
+      <td>Private room</td>
+      <td>6</td>
+      <td>1 private bath</td>
+      <td>3</td>
+      <td>3</td>
+      <td>185.0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>1596</th>
+      <td>1597</td>
+      <td>Kitsilano</td>
+      <td>Entire home/apt</td>
+      <td>1</td>
+      <td>1 bath</td>
+      <td>1</td>
+      <td>1</td>
+      <td>99.0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>3060</th>
+      <td>3061</td>
+      <td>Hastings-Sunrise</td>
+      <td>Private room</td>
+      <td>2</td>
+      <td>3.5 shared baths</td>
+      <td>1</td>
+      <td>1</td>
+      <td>78.0</td>
+      <td>19999</td>
+    </tr>
+    <tr>
+      <th>527</th>
+      <td>528</td>
+      <td>Kitsilano</td>
+      <td>Private room</td>
+      <td>4</td>
+      <td>1 private bath</td>
+      <td>1</td>
+      <td>1</td>
+      <td>99.0</td>
+      <td>19999</td>
+    </tr>
+    <tr>
+      <th>1587</th>
+      <td>1588</td>
+      <td>Downtown</td>
+      <td>Entire home/apt</td>
+      <td>6</td>
+      <td>1 bath</td>
+      <td>1</td>
+      <td>3</td>
+      <td>169.0</td>
+      <td>19999</td>
+    </tr>
+    <tr>
+      <th>3860</th>
+      <td>3861</td>
+      <td>Downtown</td>
+      <td>Entire home/apt</td>
+      <td>3</td>
+      <td>1 bath</td>
+      <td>1</td>
+      <td>1</td>
+      <td>100.0</td>
+      <td>19999</td>
+    </tr>
+    <tr>
+      <th>2747</th>
+      <td>2748</td>
+      <td>Downtown</td>
+      <td>Entire home/apt</td>
+      <td>3</td>
+      <td>1 bath</td>
+      <td>1</td>
+      <td>1</td>
+      <td>285.0</td>
+      <td>19999</td>
+    </tr>
+  </tbody>
+</table>
+<p>800000 rows × 9 columns</p>
+</div></div></div>
+</div>
+<p>由于 <code class="docutils literal notranslate"><span class="pre">replicate</span></code> 列标明了重复编号或样本编号，我们可以确认，我们似乎确实得到了 20,0000 个样本，从样本 0 开始、到样本 19,999 结束。</p>
+<p>现在样本已经取好了，我们需要计算每个样本中整套住宅/公寓房源的比例。我们先用 <code class="docutils literal notranslate"><span class="pre">replicate</span></code> 变量对数据分组——把每个样本中的房源归到一起——然后用 <code class="docutils literal notranslate"><span class="pre">value_counts</span></code> 并设置 <code class="docutils literal notranslate"><span class="pre">normalize=True</span></code>，算出每个样本中的比例。下面打印了所得数据框的开头和结尾若干行，说明我们最终得到 20,000 个点估计，每一个样本对应一个。</p>
+<div class="cell docutils container" id="index-9">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="p">(</span>
+    <span class="n">samples</span>
+    <span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s2">"replicate"</span><span class="p">)</span>
+    <span class="p">[</span><span class="s2">"room_type"</span><span class="p">]</span>
+    <span class="o">.</span><span class="n">value_counts</span><span class="p">(</span><span class="n">normalize</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>replicate  room_type      
+0          Entire home/apt    0.750
+           Private room       0.250
+1          Entire home/apt    0.775
+           Private room       0.225
+2          Entire home/apt    0.750
+                              ...  
+19998      Entire home/apt    0.700
+           Private room       0.275
+           Shared room        0.025
+19999      Entire home/apt    0.750
+           Private room       0.250
+Name: proportion, Length: 44552, dtype: float64
+</pre></div>
+</div>
+</div>
+</div>
+<p>返回的对象是一个序列（series）。正如前面学过的，我们可以用 <code class="docutils literal notranslate"><span class="pre">reset_index</span></code> 把它变成数据框。不过这里有一点需要注意：对分组后的序列使用 <code class="docutils literal notranslate"><span class="pre">value_counts</span></code> 函数再调用 <code class="docutils literal notranslate"><span class="pre">reset_index</span></code>，会出现两个同名的列，因而报错（在这里，<code class="docutils literal notranslate"><span class="pre">room_type</span></code> 会出现两次）。好在有个简单的解决办法：调用 <code class="docutils literal notranslate"><span class="pre">reset_index</span></code> 时，可以用 <code class="docutils literal notranslate"><span class="pre">name</span></code> 参数指定新列的名称：</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="p">(</span>
+    <span class="n">samples</span>
+    <span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s2">"replicate"</span><span class="p">)</span>
+    <span class="p">[</span><span class="s2">"room_type"</span><span class="p">]</span>
+    <span class="o">.</span><span class="n">value_counts</span><span class="p">(</span><span class="n">normalize</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">"sample_proportion"</span><span class="p">)</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>replicate</th>
+      <th>room_type</th>
+      <th>sample_proportion</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>0</td>
+      <td>Entire home/apt</td>
+      <td>0.750</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>0</td>
+      <td>Private room</td>
+      <td>0.250</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>1</td>
+      <td>Entire home/apt</td>
+      <td>0.775</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>1</td>
+      <td>Private room</td>
+      <td>0.225</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>2</td>
+      <td>Entire home/apt</td>
+      <td>0.750</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>44547</th>
+      <td>19998</td>
+      <td>Entire home/apt</td>
+      <td>0.700</td>
+    </tr>
+    <tr>
+      <th>44548</th>
+      <td>19998</td>
+      <td>Private room</td>
+      <td>0.275</td>
+    </tr>
+    <tr>
+      <th>44549</th>
+      <td>19998</td>
+      <td>Shared room</td>
+      <td>0.025</td>
+    </tr>
+    <tr>
+      <th>44550</th>
+      <td>19999</td>
+      <td>Entire home/apt</td>
+      <td>0.750</td>
+    </tr>
+    <tr>
+      <th>44551</th>
+      <td>19999</td>
+      <td>Private room</td>
+      <td>0.250</td>
+    </tr>
+  </tbody>
+</table>
+<p>44552 rows × 3 columns</p>
+</div></div></div>
+</div>
+<p>下面我们把所有步骤串起来，并筛选数据框，只保留我们关心的房间类型。</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sample_estimates</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="n">samples</span>
+    <span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s2">"replicate"</span><span class="p">)</span>
+    <span class="p">[</span><span class="s2">"room_type"</span><span class="p">]</span>
+    <span class="o">.</span><span class="n">value_counts</span><span class="p">(</span><span class="n">normalize</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">"sample_proportion"</span><span class="p">)</span>
+<span class="p">)</span>
+
+<span class="n">sample_estimates</span> <span class="o">=</span> <span class="n">sample_estimates</span><span class="p">[</span><span class="n">sample_estimates</span><span class="p">[</span><span class="s2">"room_type"</span><span class="p">]</span> <span class="o">==</span> <span class="s2">"Entire home/apt"</span><span class="p">]</span>
+<span class="n">sample_estimates</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>replicate</th>
+      <th>room_type</th>
+      <th>sample_proportion</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>0</td>
+      <td>Entire home/apt</td>
+      <td>0.750</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>1</td>
+      <td>Entire home/apt</td>
+      <td>0.775</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>2</td>
+      <td>Entire home/apt</td>
+      <td>0.750</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>3</td>
+      <td>Entire home/apt</td>
+      <td>0.675</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>4</td>
+      <td>Entire home/apt</td>
+      <td>0.725</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>44541</th>
+      <td>19995</td>
+      <td>Entire home/apt</td>
+      <td>0.775</td>
+    </tr>
+    <tr>
+      <th>44543</th>
+      <td>19996</td>
+      <td>Entire home/apt</td>
+      <td>0.750</td>
+    </tr>
+    <tr>
+      <th>44545</th>
+      <td>19997</td>
+      <td>Entire home/apt</td>
+      <td>0.725</td>
+    </tr>
+    <tr>
+      <th>44547</th>
+      <td>19998</td>
+      <td>Entire home/apt</td>
+      <td>0.700</td>
+    </tr>
+    <tr>
+      <th>44550</th>
+      <td>19999</td>
+      <td>Entire home/apt</td>
+      <td>0.750</td>
+    </tr>
+  </tbody>
+</table>
+<p>20000 rows × 3 columns</p>
+</div></div></div>
+</div>
+<p>现在我们可以用直方图画出样本比例的抽样分布，其中样本的容量为 40（见<a class="reference internal" href="#fig-11-example-proportions7"><span class="std std-numref">图 10.2</span></a>）。请记住：在现实世界中，我们拿不到完整的总体，因此无法抽取许多样本，也无法真正构造或画出抽样分布。我们特意构造了这个例子，让它<em>确实</em>能拿到完整总体，从而可以出于学习目的直接把这个抽样分布画出来。</p>
+<div class="cell tag_remove-output docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sampling_distribution</span> <span class="o">=</span> <span class="n">alt</span><span class="o">.</span><span class="n">Chart</span><span class="p">(</span><span class="n">sample_estimates</span><span class="p">)</span><span class="o">.</span><span class="n">mark_bar</span><span class="p">()</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span>
+    <span class="n">x</span><span class="o">=</span><span class="n">alt</span><span class="o">.</span><span class="n">X</span><span class="p">(</span><span class="s2">"sample_proportion"</span><span class="p">)</span>
+        <span class="o">.</span><span class="n">bin</span><span class="p">(</span><span class="n">maxbins</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+        <span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">"Sample proportions"</span><span class="p">),</span>
+    <span class="n">y</span><span class="o">=</span><span class="n">alt</span><span class="o">.</span><span class="n">Y</span><span class="p">(</span><span class="s2">"count()"</span><span class="p">)</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">"Count"</span><span class="p">),</span>
+<span class="p">)</span>
+
+<span class="n">sampling_distribution</span>
+</pre></div>
+</div>
+</div>
+</div>
+<figure class="align-default" id="fig-11-example-proportions7">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>alt.Chart(...)
+</pre></div>
+</div>
+<figcaption>
+<p><span class="caption-number">图 10.2 </span><span class="caption-text">样本量为 40 时样本比例的抽样分布。</span><a class="headerlink" href="#fig-11-example-proportions7" title="永久链接至图片">#</a></p>
+</figcaption>
+</figure>
+<p id="index-10"><a class="reference internal" href="#fig-11-example-proportions7"><span class="std std-numref">图 10.2</span></a> 中的抽样分布呈钟形（bell-shaped），大致对称，并且是单峰的。分布的中心在 <span class="pasted-text">0.75</span> 附近，样本比例的取值大致从 <span class="pasted-text">0.55</span> 到 <span class="pasted-text">0.95</span>。事实上，我们还可以计算样本比例的均值。</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sample_estimates</span><span class="p">[</span><span class="s2">"sample_proportion"</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>np.float64(0.74848375)
+</pre></div>
+</div>
+</div>
+</div>
+<p>我们注意到，样本比例的中心就在总体比例取值 <span class="pasted-text">0.748</span> 附近！一般来说，抽样分布的均值应该等于总体比例。这是个好消息，因为这说明样本比例既不会高估也不会低估总体比例。换句话说，如果你像上面那样抽取许多样本，结果并不会倾向于高估或低估总体比例。在真实的数据分析中，你只能拿到自己抽到的单个样本，这就意味着你可以认为样本点估计高于或低于真实总体比例的可能性大致相同。</p>
+</section>
+<section id="id8">
+<h3><span class="section-number">10.4.2. </span>均值的抽样分布<a class="headerlink" href="#id8" title="Permalink to this heading">#</a></h3>
+<p>上一节中，我们关心的变量——<code class="docutils literal notranslate"><span class="pre">room_type</span></code>——是<em>分类</em>的，总体参数是比例。正如本章引言所说，每类变量都有许多总体参数可选。如果我们想推断的是<em>定量</em>变量的总体，又该怎么办？例如，一位到加拿大温哥华旅游的旅客可能想估计 Airbnb 房源每晚价格的总体<em>均值</em>（或平均数）。知道平均数有助于他们判断某个房源是否定价过高。我们可以用直方图画出每晚价格的总体分布。</p>
+<div class="cell tag_remove-output docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">population_distribution</span> <span class="o">=</span> <span class="n">alt</span><span class="o">.</span><span class="n">Chart</span><span class="p">(</span><span class="n">airbnb</span><span class="p">)</span><span class="o">.</span><span class="n">mark_bar</span><span class="p">()</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span>
+    <span class="n">x</span><span class="o">=</span><span class="n">alt</span><span class="o">.</span><span class="n">X</span><span class="p">(</span><span class="s2">"price"</span><span class="p">)</span>
+        <span class="o">.</span><span class="n">bin</span><span class="p">(</span><span class="n">maxbins</span><span class="o">=</span><span class="mi">30</span><span class="p">)</span>
+        <span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">"Price per night (dollars)"</span><span class="p">),</span>
+    <span class="n">y</span><span class="o">=</span><span class="n">alt</span><span class="o">.</span><span class="n">Y</span><span class="p">(</span><span class="s2">"count()"</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s2">"Count"</span><span class="p">),</span>
+<span class="p">)</span>
+
+<span class="n">population_distribution</span>
+</pre></div>
+</div>
+</div>
+</div>
+<figure class="align-default" id="fig-11-example-means2">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>alt.Chart(...)
+</pre></div>
+</div>
+<figcaption>
+<p><span class="caption-number">图 10.3 </span><span class="caption-text">加拿大温哥华全部 Airbnb 房源每晚价格（美元）的总体分布。</span><a class="headerlink" href="#fig-11-example-means2" title="永久链接至图片">#</a></p>
+</figcaption>
+</figure>
+<p id="index-11">在<a class="reference internal" href="#fig-11-example-means2"><span class="std std-numref">图 10.3</span></a> 中可以看到，总体分布只有一个峰。它还是偏斜的（skewed），也就是并不对称：大多数房源的每晚价格不到 $250，但少数房源贵得多，在直方图右侧拖出一条长尾。除了把总体分布可视化，我们还可以计算总体均值，也就是所有 Airbnb 房源每晚价格的平均数。</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">airbnb</span><span class="p">[</span><span class="s2">"price"</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>np.float64(154.5109773617762)
+</pre></div>
+</div>
+</div>
+</div>
+<p id="index-12">不列颠哥伦比亚省温哥华市所有 Airbnb 房源的每晚价格平均为 $<span class="pasted-text">154.51</span>。由于这个值是用总体数据算出来的，所以它就是我们的总体参数。</p>
+<p id="index-13">现在假设我们拿不到总体数据（通常都是如此！），却想估计每晚价格的均值。要回答这个问题，可以抽取一个随机样本，具体抽多少房源取决于我们有多少时间和资源。假设我们只能抽
+40 个房源。这样的样本会是什么样子？既然我们手头确实有总体数据，不妨利用这一点，用 Python 模拟抽取一个包含 40 个房源的随机样本，仍然使用 <code class="docutils literal notranslate"><span class="pre">sample</span></code>。</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">one_sample</span> <span class="o">=</span> <span class="n">airbnb</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="n">n</span><span class="o">=</span><span class="mi">40</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>我们可以画一张直方图，把样本中观测的分布可视化（<a class="reference internal" href="#fig-11-example-means-sample-hist"><span class="std std-numref">图 10.4</span></a>），并计算样本均值。</p>
+<div class="cell tag_remove-output docutils container" id="index-14">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sample_distribution</span> <span class="o">=</span> <span class="n">alt</span><span class="o">.</span><span class="n">Chart</span><span class="p">(</span><span class="n">one_sample</span><span class="p">)</span><span class="o">.</span><span class="n">mark_bar</span><span class="p">()</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span>
+    <span class="n">x</span><span class="o">=</span><span class="n">alt</span><span class="o">.</span><span class="n">X</span><span class="p">(</span><span class="s2">"price"</span><span class="p">)</span>
+        <span class="o">.</span><span class="n">bin</span><span class="p">(</span><span class="n">maxbins</span><span class="o">=</span><span class="mi">30</span><span class="p">)</span>
+        <span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">"Price per night (dollars)"</span><span class="p">),</span>
+    <span class="n">y</span><span class="o">=</span><span class="n">alt</span><span class="o">.</span><span class="n">Y</span><span class="p">(</span><span class="s2">"count()"</span><span class="p">)</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">"Count"</span><span class="p">),</span>
+<span class="p">)</span>
+
+<span class="n">sample_distribution</span>
+</pre></div>
+</div>
+</div>
+</div>
+<figure class="align-default" id="fig-11-example-means-sample-hist">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>alt.Chart(...)
+</pre></div>
+</div>
+<figcaption>
+<p><span class="caption-number">图 10.4 </span><span class="caption-text">40 个 Airbnb 房源样本中每晚价格（美元）的分布。</span><a class="headerlink" href="#fig-11-example-means-sample-hist" title="永久链接至图片">#</a></p>
+</figcaption>
+</figure>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">one_sample</span><span class="p">[</span><span class="s2">"price"</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>np.float64(153.48225)
+</pre></div>
+</div>
+</div>
+</div>
+<p>容量为 40 的这个样本的平均数是 $<span class="pasted-text">153.48</span>。这个数就是整个总体均值的点估计。回忆一下，总体均值是
+$<span class="pasted-text">154.51</span>。可见我们的估计值与总体参数相当接近：均值与总体均值大约相差
+<span class="pasted-text">0.7</span>%。请注意，实践中我们通常无法计算估计的准确程度，因为拿不到总体参数；如果拿得到，那也就不必估计了！</p>
+<p id="index-15">另外，回忆上一节的内容：点估计会有波动；如果再从总体中抽取一个随机样本，估计值就可能改变。那么，上面得到的点估计只是运气好而已吗？在这个例子中，容量为 40 的不同样本之间，估计值的波动有多大？同样，由于我们能拿到总体数据，可以抽取许多样本，画出样本均值的抽样分布，借此感受这种波动。这里我们沿用已经存进 <code class="docutils literal notranslate"><span class="pre">samples</span></code> 变量的 20,000 个容量为 40 的样本。先计算每个重复的样本均值，再画出容量为 40 的样本的样本均值抽样分布。</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sample_estimates</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="n">samples</span>
+    <span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s2">"replicate"</span><span class="p">)</span>
+    <span class="p">[</span><span class="s2">"price"</span><span class="p">]</span>
+    <span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+    <span class="o">.</span><span class="n">reset_index</span><span class="p">()</span>
+    <span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">{</span><span class="s2">"price"</span><span class="p">:</span> <span class="s2">"mean_price"</span><span class="p">})</span>
+<span class="p">)</span>
+<span class="n">sample_estimates</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>replicate</th>
+      <th>mean_price</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>0</td>
+      <td>187.00000</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>1</td>
+      <td>148.56075</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>2</td>
+      <td>165.50500</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>3</td>
+      <td>140.93925</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>4</td>
+      <td>139.14650</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>19995</th>
+      <td>19995</td>
+      <td>198.50000</td>
+    </tr>
+    <tr>
+      <th>19996</th>
+      <td>19996</td>
+      <td>192.66425</td>
+    </tr>
+    <tr>
+      <th>19997</th>
+      <td>19997</td>
+      <td>144.88600</td>
+    </tr>
+    <tr>
+      <th>19998</th>
+      <td>19998</td>
+      <td>146.08800</td>
+    </tr>
+    <tr>
+      <th>19999</th>
+      <td>19999</td>
+      <td>156.25000</td>
+    </tr>
+  </tbody>
+</table>
+<p>20000 rows × 2 columns</p>
+</div></div></div>
+</div>
+<div class="cell tag_remove-output docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sampling_distribution</span> <span class="o">=</span> <span class="n">alt</span><span class="o">.</span><span class="n">Chart</span><span class="p">(</span><span class="n">sample_estimates</span><span class="p">)</span><span class="o">.</span><span class="n">mark_bar</span><span class="p">()</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span>
+    <span class="n">x</span><span class="o">=</span><span class="n">alt</span><span class="o">.</span><span class="n">X</span><span class="p">(</span><span class="s2">"mean_price"</span><span class="p">)</span>
+        <span class="o">.</span><span class="n">bin</span><span class="p">(</span><span class="n">maxbins</span><span class="o">=</span><span class="mi">30</span><span class="p">)</span>
+        <span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">"Sample mean price per night (dollars)"</span><span class="p">),</span>
+    <span class="n">y</span><span class="o">=</span><span class="n">alt</span><span class="o">.</span><span class="n">Y</span><span class="p">(</span><span class="s2">"count()"</span><span class="p">)</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">"Count"</span><span class="p">)</span>
+<span class="p">)</span>
+
+<span class="n">sampling_distribution</span>
+</pre></div>
+</div>
+</div>
+</div>
+<figure class="align-default" id="fig-11-example-means4">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>alt.Chart(...)
+</pre></div>
+</div>
+<figcaption>
+<p><span class="caption-number">图 10.5 </span><span class="caption-text">样本量为 40 时样本均值的抽样分布。</span><a class="headerlink" href="#fig-11-example-means4" title="永久链接至图片">#</a></p>
+</figcaption>
+</figure>
+<p id="index-16">在<a class="reference internal" href="#fig-11-example-means4"><span class="std std-numref">图 10.5</span></a> 中，均值的抽样分布呈单峰、钟形。大多数估计值大约介于
+$<span class="pasted-text">140</span> 与
+$<span class="pasted-text">170</span> 之间；但也有相当一部分情形落在这个范围之外（也就是说，点估计与总体参数相差较大）。所以，我们只用
+<span class="pasted-text">0.7</span>% 的误差就估计出了总体均值，看起来确实相当走运。</p>
+<p id="index-17">我们把总体分布、样本分布和抽样分布画在同一张图上，以便比较，见<a class="reference internal" href="#fig-11-example-means5"><span class="std std-numref">图 10.6</span></a>。比较这三个分布可以看到，它们的中心都在同一个价位附近（大约 $150）。原始总体分布有一条很长的右侧长尾，样本分布的形状与总体分布相似。然而，抽样分布的形状与总体分布、样本分布都不一样。相反，它呈钟形，离散程度比总体分布和样本分布都小。样本均值的波动比单个观测小，因为任何随机样本中都会既有较大的取值、也有较小的取值，这使平均数不至于太过极端。</p>
+<!---
+```{r 11-example-means4.5}
+sample_estimates |>
+  summarize(mean_of_sample_means = mean(sample_mean))
+```
+Notice that the mean of the sample means is \$`r round(mean(sample_estimates$sample_mean),2)`. Recall that the population mean
+was \$`r round(mean(airbnb$price),2)`.
+--><figure class="align-default" id="fig-11-example-means5">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>alt.VConcatChart(...)
+</pre></div>
+</div>
+<figcaption>
+<p><span class="caption-number">图 10.6 </span><span class="caption-text">总体分布、样本分布与抽样分布的对比。</span><a class="headerlink" href="#fig-11-example-means5" title="永久链接至图片">#</a></p>
+</figcaption>
+</figure>
+<p>样本均值的抽样分布波动相当大——也就是说，我们得到的点估计并不十分可靠——那么，有没有办法改进估计呢？改进点估计的一种办法是抽取<em>更大</em>的样本。为了说明这样做的影响，我们分别抽取容量为 20、50、100 和 500 的大量样本，并画出样本均值的抽样分布。我们用一条竖线标出抽样分布的均值。</p>
+<figure class="align-default" id="fig-11-example-means7">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>alt.FacetChart(...)
+</pre></div>
+</div>
+<figcaption>
+<p><span class="caption-number">图 10.7 </span><span class="caption-text">抽样分布的比较，均值用竖线标出。</span><a class="headerlink" href="#fig-11-example-means7" title="永久链接至图片">#</a></p>
+</figcaption>
+</figure>
+<p id="index-18">从<a class="reference internal" href="#fig-11-example-means7"><span class="std std-numref">图 10.7</span></a> 的可视化结果可以看出，关于样本均值可以清楚地看到三点：</p>
+<ol class="arabic simple">
+<li><p>样本均值的均值（即在各个样本之间求平均）等于总体均值。换句话说，抽样分布以总体均值为中心。</p></li>
+<li><p>增大样本量会减小抽样分布的离散程度（也就是变异性）。因此，样本量越大，总体参数的点估计就越可靠。</p></li>
+<li><p>样本均值的分布大致呈钟形。</p></li>
+</ol>
+<div class="admonition note">
+<p class="admonition-title">备注</p>
+<p>你可能会注意到，<a class="reference internal" href="#fig-11-example-means7"><span class="std std-numref">图 10.7</span></a> 中 <code class="docutils literal notranslate"><span class="pre">n</span> <span class="pre">=</span> <span class="pre">20</span></code> 那一组里，分布并不<em>完全</em>呈钟形，还稍稍向右偏斜！你还可能注意到，<code class="docutils literal notranslate"><span class="pre">n</span> <span class="pre">=</span> <span class="pre">50</span></code> 以及更大的几组里，这种偏斜似乎消失了。一般来说，无论均值还是比例，抽样分布都只有在<em>样本量足够大</em>之后才会变成钟形。“足够大”是多大？很遗憾，这完全取决于具体问题。不过按经验法则，样本量通常至少达到 20 就够了。</p>
+</div>
+<!---
+```{note}
+If random samples of size $n$ are taken from a population, the sample mean
+$\bar{x}$ will be approximately Normal with mean $\mu$ and standard deviation
+$\frac{\sigma}{\sqrt{n}}$ as long as the sample size $n$ is large enough. $\mu$
+is the population mean, $\sigma$ is the population standard deviation,
+$\bar{x}$ is the sample mean, and $n$ is the sample size.
+If samples are selected from a finite population as we are doing in this
+chapter, we should apply a finite population correction. We multiply
+$\frac{\sigma}{\sqrt{n}}$ by $\sqrt{\frac{N - n}{N - 1}}$ where $N$ is the
+population size and $n$ is the sample size. If our sample size, $n$, is small
+relative to the population size, this finite correction factor is less
+important.
+```
+---></section>
+<section id="id9">
+<h3><span class="section-number">10.4.3. </span>小结<a class="headerlink" href="#id9" title="Permalink to this heading">#</a></h3>
+<ol class="arabic simple">
+<li><p>点估计是用总体的一个样本算出的单个数值（例如均值或比例）。</p></li>
+<li><p>估计值的抽样分布，是指从同一总体中抽取所有可能的固定大小样本时，该估计值的分布。</p></li>
+<li><p>抽样分布的形状通常是单峰钟形，并以总体均值或总体比例为中心。</p></li>
+<li><p>抽样分布的离散程度与样本量有关。样本量越大，抽样分布的离散程度就越小。</p></li>
+</ol>
+</section>
+</section>
+<section id="id10">
+<h2><span class="section-number">10.5. </span>自助法<a class="headerlink" href="#id10" title="Permalink to this heading">#</a></h2>
+<section id="id11">
+<h3><span class="section-number">10.5.1. </span>概述<a class="headerlink" href="#id11" title="Permalink to this heading">#</a></h3>
+<p><em>为什么要如此强调抽样分布？</em></p>
+<p>上一节我们看到，可以用从总体中抽到的一个样本算出总体参数的<strong>点估计</strong>。而且，由于我们构造的例子能拿到总体数据，所以可以评估估计有多准确，甚至能看出不同样本之间估计值的波动有多大。但在真正的数据分析场景中，我们通常<em>只有一个样本</em>，拿不到总体本身。因此，无法像上一节那样构造抽样分布。而且正如我们看到的，样本估计值与总体参数可能相差很大。所以，只报告单个样本的点估计也许还不够，我们还需要报告点估计取值的某种<em>不确定性</em>。</p>
+<span class="target" id="index-19"></span><p id="index-20">遗憾的是，没有总体的完整数据，就无法构造精确的抽样分布。不过，如果我们能以某种方式<em>近似</em>出样本所对应的抽样分布，就可以用这个近似来报告样本点估计有多不确定（正如上面用<em>精确</em>抽样分布所做的那样）。实现这一点有若干种方法；本书将使用<em>自助法</em>。我们将只使用总体中的一个样本，讨论<strong>区间估计</strong>并构造<strong>置信区间</strong>。置信区间是总体参数的合理取值范围。</p>
+<p>关键思路如下。首先，只要样本足够大，它就<em>看起来像</em>总体。请注意<a class="reference internal" href="#fig-11-example-bootstrapping0"><span class="std std-numref">图 10.8</span></a> 中从总体抽取的不同大小样本的直方图形状。可以看到，样本足够大时，样本的分布与总体分布很相似。</p>
+<figure class="align-default" id="fig-11-example-bootstrapping0">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>alt.VConcatChart(...)
+</pre></div>
+</div>
+<figcaption>
+<p><span class="caption-number">图 10.8 </span><span class="caption-text">从总体抽取的不同大小样本的比较。</span><a class="headerlink" href="#fig-11-example-bootstrapping0" title="永久链接至图片">#</a></p>
+</figcaption>
+</figure>
+<p id="index-21">上一节中，我们<em>从总体中</em>抽取了许多同样大小的样本，以了解样本估计值的变异性。但如果我们的样本足够大、看起来就像总体，我们就可以把样本<em>当作</em>总体，转而从它里面抽取更多同样大小的样本（有放回，with replacement）！这个十分巧妙的技巧叫作<strong>自助法</strong>。请注意，从我们唯一观测到的样本中抽取许多样本，得到的并不是真正的抽样分布，而是一个近似，我们称之为<strong>自助分布</strong>。</p>
+<div class="admonition note">
+<p class="admonition-title">备注</p>
+<p>使用自助法时，我们必须<em>有放回</em>地抽样。否则，如果我们有一个容量为 <span class="math notranslate nohighlight">\(n\)</span> 的样本，再从中<em>无放回</em>地抽取一个容量为 <span class="math notranslate nohighlight">\(n\)</span> 的样本，那只会把原来的样本原封不动地取回来！</p>
+</div>
+<p>本节将介绍如何用 Python 从单个样本创建自助分布。整个过程在<a class="reference internal" href="#fig-11-intro-bootstrap-image"><span class="std std-numref">图 10.9</span></a> 中做了可视化。对于容量为 <span class="math notranslate nohighlight">\(n\)</span> 的样本，你需要做以下几步：</p>
+<ol class="arabic simple">
+<li><p>从取自总体的原始样本中随机选取一个观测。</p></li>
+<li><p>记录这个观测的取值。</p></li>
+<li><p>把这个观测放回样本。</p></li>
+<li><p>重复第 1 至第 3 步（<em>有放回</em>地抽样），直到得到 <span class="math notranslate nohighlight">\(n\)</span> 个观测，它们构成一个自助样本。</p></li>
+<li><p>计算自助样本中这 <span class="math notranslate nohighlight">\(n\)</span> 个观测的自助点估计（例如均值、中位数、比例、斜率等）。</p></li>
+<li><p>重复第 1 至第 5 步很多次，得到点估计的分布（即自助分布）。</p></li>
+<li><p>计算观测到的点估计附近的合理取值范围。</p></li>
+</ol>
+<figure class="align-default" id="fig-11-intro-bootstrap-image">
+<img alt="_images/intro-bootstrap.jpeg" src="_images/intro-bootstrap.jpeg" />
+<figcaption>
+<p><span class="caption-number">图 10.9 </span><span class="caption-text">自助法流程概览。</span><a class="headerlink" href="#fig-11-intro-bootstrap-image" title="永久链接至图片">#</a></p>
+</figcaption>
+</figure>
+</section>
+<section id="python">
+<h3><span class="section-number">10.5.2. </span>用 Python 实现自助法<a class="headerlink" href="#python" title="Permalink to this heading">#</a></h3>
+<p>我们接着用 Airbnb 的例子，说明如何只靠从总体中抽出的一个样本，构造并使用自助分布。仍然假设我们想估计加拿大温哥华所有 Airbnb 房源每晚价格的总体均值，而手头只有一个样本量为 40 的样本。回想一下，我们的点估计是 $<span class="pasted-text">153.48</span>。样本中价格的直方图见<a class="reference internal" href="#fig-11-bootstrapping1"><span class="std std-numref">图 10.10</span></a>。</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">one_sample</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>id</th>
+      <th>neighbourhood</th>
+      <th>room_type</th>
+      <th>accommodates</th>
+      <th>bathrooms</th>
+      <th>bedrooms</th>
+      <th>beds</th>
+      <th>price</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>4025</th>
+      <td>4026</td>
+      <td>Renfrew-Collingwood</td>
+      <td>Private room</td>
+      <td>1</td>
+      <td>1 shared bath</td>
+      <td>1</td>
+      <td>1</td>
+      <td>40.00</td>
+    </tr>
+    <tr>
+      <th>1977</th>
+      <td>1978</td>
+      <td>Fairview</td>
+      <td>Private room</td>
+      <td>1</td>
+      <td>2 baths</td>
+      <td>3</td>
+      <td>1</td>
+      <td>70.00</td>
+    </tr>
+    <tr>
+      <th>4008</th>
+      <td>4009</td>
+      <td>Downtown</td>
+      <td>Entire home/apt</td>
+      <td>4</td>
+      <td>1 bath</td>
+      <td>1</td>
+      <td>1</td>
+      <td>269.00</td>
+    </tr>
+    <tr>
+      <th>1543</th>
+      <td>1544</td>
+      <td>Kensington-Cedar Cottage</td>
+      <td>Entire home/apt</td>
+      <td>6</td>
+      <td>2 baths</td>
+      <td>3</td>
+      <td>5</td>
+      <td>320.00</td>
+    </tr>
+    <tr>
+      <th>3350</th>
+      <td>3351</td>
+      <td>Downtown</td>
+      <td>Entire home/apt</td>
+      <td>2</td>
+      <td>1 bath</td>
+      <td>1</td>
+      <td>1</td>
+      <td>140.00</td>
+    </tr>
+    <tr>
+      <th>804</th>
+      <td>805</td>
+      <td>Mount Pleasant</td>
+      <td>Private room</td>
+      <td>2</td>
+      <td>1 private bath</td>
+      <td>1</td>
+      <td>1</td>
+      <td>77.00</td>
+    </tr>
+    <tr>
+      <th>2286</th>
+      <td>2287</td>
+      <td>Marpole</td>
+      <td>Entire home/apt</td>
+      <td>4</td>
+      <td>1 bath</td>
+      <td>2</td>
+      <td>2</td>
+      <td>105.00</td>
+    </tr>
+    <tr>
+      <th>1010</th>
+      <td>1011</td>
+      <td>Strathcona</td>
+      <td>Entire home/apt</td>
+      <td>2</td>
+      <td>1 bath</td>
+      <td>1</td>
+      <td>1</td>
+      <td>120.00</td>
+    </tr>
+    <tr>
+      <th>1878</th>
+      <td>1879</td>
+      <td>Fairview</td>
+      <td>Private room</td>
+      <td>2</td>
+      <td>1 private bath</td>
+      <td>1</td>
+      <td>1</td>
+      <td>175.00</td>
+    </tr>
+    <tr>
+      <th>1644</th>
+      <td>1645</td>
+      <td>Downtown</td>
+      <td>Entire home/apt</td>
+      <td>4</td>
+      <td>2 baths</td>
+      <td>2</td>
+      <td>1</td>
+      <td>150.00</td>
+    </tr>
+    <tr>
+      <th>4579</th>
+      <td>4580</td>
+      <td>Downtown</td>
+      <td>Entire home/apt</td>
+      <td>3</td>
+      <td>1 bath</td>
+      <td>1</td>
+      <td>2</td>
+      <td>160.00</td>
+    </tr>
+    <tr>
+      <th>2771</th>
+      <td>2772</td>
+      <td>Dunbar Southlands</td>
+      <td>Entire home/apt</td>
+      <td>5</td>
+      <td>1 bath</td>
+      <td>2</td>
+      <td>2</td>
+      <td>130.00</td>
+    </tr>
+    <tr>
+      <th>4151</th>
+      <td>4152</td>
+      <td>Kitsilano</td>
+      <td>Entire home/apt</td>
+      <td>2</td>
+      <td>1 bath</td>
+      <td>1</td>
+      <td>1</td>
+      <td>289.00</td>
+    </tr>
+    <tr>
+      <th>4495</th>
+      <td>4496</td>
+      <td>Riley Park</td>
+      <td>Entire home/apt</td>
+      <td>2</td>
+      <td>1 bath</td>
+      <td>1</td>
+      <td>1</td>
+      <td>115.00</td>
+    </tr>
+    <tr>
+      <th>1308</th>
+      <td>1309</td>
+      <td>Riley Park</td>
+      <td>Entire home/apt</td>
+      <td>2</td>
+      <td>1 bath</td>
+      <td>1</td>
+      <td>1</td>
+      <td>105.00</td>
+    </tr>
+    <tr>
+      <th>2246</th>
+      <td>2247</td>
+      <td>Mount Pleasant</td>
+      <td>Entire home/apt</td>
+      <td>4</td>
+      <td>1 bath</td>
+      <td>1</td>
+      <td>2</td>
+      <td>105.00</td>
+    </tr>
+    <tr>
+      <th>2335</th>
+      <td>2336</td>
+      <td>Kensington-Cedar Cottage</td>
+      <td>Entire home/apt</td>
+      <td>3</td>
+      <td>1 bath</td>
+      <td>2</td>
+      <td>2</td>
+      <td>85.00</td>
+    </tr>
+    <tr>
+      <th>4059</th>
+      <td>4060</td>
+      <td>Downtown</td>
+      <td>Entire home/apt</td>
+      <td>5</td>
+      <td>2 baths</td>
+      <td>2</td>
+      <td>3</td>
+      <td>250.00</td>
+    </tr>
+    <tr>
+      <th>1280</th>
+      <td>1281</td>
+      <td>Hastings-Sunrise</td>
+      <td>Entire home/apt</td>
+      <td>6</td>
+      <td>1 bath</td>
+      <td>2</td>
+      <td>3</td>
+      <td>100.00</td>
+    </tr>
+    <tr>
+      <th>4324</th>
+      <td>4325</td>
+      <td>Renfrew-Collingwood</td>
+      <td>Private room</td>
+      <td>1</td>
+      <td>1 shared bath</td>
+      <td>1</td>
+      <td>0</td>
+      <td>25.00</td>
+    </tr>
+    <tr>
+      <th>3403</th>
+      <td>3404</td>
+      <td>Arbutus Ridge</td>
+      <td>Entire home/apt</td>
+      <td>15</td>
+      <td>4 baths</td>
+      <td>6</td>
+      <td>8</td>
+      <td>664.00</td>
+    </tr>
+    <tr>
+      <th>1729</th>
+      <td>1730</td>
+      <td>Renfrew-Collingwood</td>
+      <td>Entire home/apt</td>
+      <td>6</td>
+      <td>1 bath</td>
+      <td>2</td>
+      <td>3</td>
+      <td>93.00</td>
+    </tr>
+    <tr>
+      <th>3722</th>
+      <td>3723</td>
+      <td>Downtown</td>
+      <td>Entire home/apt</td>
+      <td>4</td>
+      <td>1 bath</td>
+      <td>3</td>
+      <td>6</td>
+      <td>275.00</td>
+    </tr>
+    <tr>
+      <th>241</th>
+      <td>242</td>
+      <td>Hastings-Sunrise</td>
+      <td>Private room</td>
+      <td>2</td>
+      <td>1 shared bath</td>
+      <td>1</td>
+      <td>1</td>
+      <td>50.00</td>
+    </tr>
+    <tr>
+      <th>3955</th>
+      <td>3956</td>
+      <td>Dunbar Southlands</td>
+      <td>Private room</td>
+      <td>2</td>
+      <td>1.5 shared baths</td>
+      <td>1</td>
+      <td>1</td>
+      <td>60.00</td>
+    </tr>
+    <tr>
+      <th>1042</th>
+      <td>1043</td>
+      <td>Kitsilano</td>
+      <td>Private room</td>
+      <td>1</td>
+      <td>1 shared bath</td>
+      <td>1</td>
+      <td>1</td>
+      <td>66.00</td>
+    </tr>
+    <tr>
+      <th>649</th>
+      <td>650</td>
+      <td>Sunset</td>
+      <td>Entire home/apt</td>
+      <td>5</td>
+      <td>1 bath</td>
+      <td>2</td>
+      <td>2</td>
+      <td>196.00</td>
+    </tr>
+    <tr>
+      <th>1995</th>
+      <td>1996</td>
+      <td>Riley Park</td>
+      <td>Private room</td>
+      <td>2</td>
+      <td>1 shared bath</td>
+      <td>1</td>
+      <td>1</td>
+      <td>70.00</td>
+    </tr>
+    <tr>
+      <th>363</th>
+      <td>364</td>
+      <td>Kensington-Cedar Cottage</td>
+      <td>Entire home/apt</td>
+      <td>3</td>
+      <td>1 bath</td>
+      <td>1</td>
+      <td>2</td>
+      <td>120.00</td>
+    </tr>
+    <tr>
+      <th>1783</th>
+      <td>1784</td>
+      <td>Downtown Eastside</td>
+      <td>Private room</td>
+      <td>2</td>
+      <td>1 private bath</td>
+      <td>1</td>
+      <td>1</td>
+      <td>60.00</td>
+    </tr>
+    <tr>
+      <th>805</th>
+      <td>806</td>
+      <td>Mount Pleasant</td>
+      <td>Entire home/apt</td>
+      <td>4</td>
+      <td>1 bath</td>
+      <td>2</td>
+      <td>2</td>
+      <td>150.00</td>
+    </tr>
+    <tr>
+      <th>254</th>
+      <td>255</td>
+      <td>Downtown</td>
+      <td>Entire home/apt</td>
+      <td>4</td>
+      <td>1.5 baths</td>
+      <td>2</td>
+      <td>2</td>
+      <td>300.00</td>
+    </tr>
+    <tr>
+      <th>3365</th>
+      <td>3366</td>
+      <td>Sunset</td>
+      <td>Private room</td>
+      <td>1</td>
+      <td>1 private bath</td>
+      <td>1</td>
+      <td>1</td>
+      <td>100.00</td>
+    </tr>
+    <tr>
+      <th>4562</th>
+      <td>4563</td>
+      <td>Downtown</td>
+      <td>Private room</td>
+      <td>1</td>
+      <td>1 shared bath</td>
+      <td>1</td>
+      <td>1</td>
+      <td>64.29</td>
+    </tr>
+    <tr>
+      <th>2124</th>
+      <td>2125</td>
+      <td>Downtown</td>
+      <td>Entire home/apt</td>
+      <td>4</td>
+      <td>1 bath</td>
+      <td>2</td>
+      <td>3</td>
+      <td>200.00</td>
+    </tr>
+    <tr>
+      <th>18</th>
+      <td>19</td>
+      <td>Downtown</td>
+      <td>Entire home/apt</td>
+      <td>4</td>
+      <td>2 baths</td>
+      <td>2</td>
+      <td>2</td>
+      <td>200.00</td>
+    </tr>
+    <tr>
+      <th>1997</th>
+      <td>1998</td>
+      <td>Downtown</td>
+      <td>Entire home/apt</td>
+      <td>6</td>
+      <td>2 baths</td>
+      <td>3</td>
+      <td>3</td>
+      <td>257.00</td>
+    </tr>
+    <tr>
+      <th>4329</th>
+      <td>4330</td>
+      <td>West End</td>
+      <td>Entire home/apt</td>
+      <td>2</td>
+      <td>1 bath</td>
+      <td>1</td>
+      <td>0</td>
+      <td>92.00</td>
+    </tr>
+    <tr>
+      <th>3408</th>
+      <td>3409</td>
+      <td>Downtown</td>
+      <td>Entire home/apt</td>
+      <td>2</td>
+      <td>2 baths</td>
+      <td>2</td>
+      <td>2</td>
+      <td>189.00</td>
+    </tr>
+    <tr>
+      <th>635</th>
+      <td>636</td>
+      <td>Grandview-Woodland</td>
+      <td>Entire home/apt</td>
+      <td>6</td>
+      <td>2 baths</td>
+      <td>1</td>
+      <td>2</td>
+      <td>103.00</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<div class="cell tag_remove-output docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">one_sample_dist</span> <span class="o">=</span> <span class="n">alt</span><span class="o">.</span><span class="n">Chart</span><span class="p">(</span><span class="n">one_sample</span><span class="p">)</span><span class="o">.</span><span class="n">mark_bar</span><span class="p">()</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span>
+    <span class="n">x</span><span class="o">=</span><span class="n">alt</span><span class="o">.</span><span class="n">X</span><span class="p">(</span><span class="s2">"price"</span><span class="p">)</span>
+        <span class="o">.</span><span class="n">bin</span><span class="p">(</span><span class="n">maxbins</span><span class="o">=</span><span class="mi">30</span><span class="p">)</span>
+        <span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">"Price per night (dollars)"</span><span class="p">),</span>
+    <span class="n">y</span><span class="o">=</span><span class="n">alt</span><span class="o">.</span><span class="n">Y</span><span class="p">(</span><span class="s2">"count()"</span><span class="p">)</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">"Count"</span><span class="p">),</span>
+<span class="p">)</span>
+
+<span class="n">one_sample_dist</span>
+</pre></div>
+</div>
+</div>
+</div>
+<figure class="align-default" id="fig-11-bootstrapping1">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>alt.Chart(...)
+</pre></div>
+</div>
+<figcaption>
+<p><span class="caption-number">图 10.10 </span><span class="caption-text">样本量为 40 的一个样本中每晚价格（美元）的直方图。</span><a class="headerlink" href="#fig-11-bootstrapping1" title="永久链接至图片">#</a></p>
+</figcaption>
+</figure>
+<p>该样本的直方图是偏斜的，有少数几个观测落在右侧较远处。样本均值为 $<span class="pasted-text">153.48</span>。请记住，在实践中，我们通常只有从总体中抽到的这一个样本。所以这个样本和这个估计值就是我们能使用的全部数据。</p>
+<p id="index-22">现在我们在 Python 中执行上面列出的第 1 至第 5 步，生成一个自助样本，并据此算出点估计。我们继续使用数据框的 <code class="docutils literal notranslate"><span class="pre">sample</span></code> 函数。这里有一点很关键：我们设置 <code class="docutils literal notranslate"><span class="pre">frac=1</span></code>（“fraction”，比例），表示想抽取的条数与数据框的行数同样多（也可以设
+<code class="docutils literal notranslate"><span class="pre">n=40</span></code>，但那样就得自己留意数据框里有多少行）。由于做自助法需要有放回抽样，所以要把 <code class="docutils literal notranslate"><span class="pre">replace</span></code> 参数改成 <code class="docutils literal notranslate"><span class="pre">True</span></code>。</p>
+<div class="cell tag_remove-output docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">boot1</span> <span class="o">=</span> <span class="n">one_sample</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="n">frac</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">replace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">boot1_dist</span> <span class="o">=</span> <span class="n">alt</span><span class="o">.</span><span class="n">Chart</span><span class="p">(</span><span class="n">boot1</span><span class="p">)</span><span class="o">.</span><span class="n">mark_bar</span><span class="p">()</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span>
+    <span class="n">x</span><span class="o">=</span><span class="n">alt</span><span class="o">.</span><span class="n">X</span><span class="p">(</span><span class="s2">"price"</span><span class="p">)</span>
+        <span class="o">.</span><span class="n">bin</span><span class="p">(</span><span class="n">maxbins</span><span class="o">=</span><span class="mi">30</span><span class="p">)</span>
+        <span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">"Price per night (dollars)"</span><span class="p">),</span>
+    <span class="n">y</span><span class="o">=</span><span class="n">alt</span><span class="o">.</span><span class="n">Y</span><span class="p">(</span><span class="s2">"count()"</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s2">"Count"</span><span class="p">),</span>
+<span class="p">)</span>
+
+<span class="n">boot1_dist</span>
+</pre></div>
+</div>
+</div>
+</div>
+<figure class="align-default" id="fig-11-bootstrapping3">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>alt.Chart(...)
+</pre></div>
+</div>
+<figcaption>
+<p><span class="caption-number">图 10.11 </span><span class="caption-text">自助分布。</span><a class="headerlink" href="#fig-11-bootstrapping3" title="永久链接至图片">#</a></p>
+</figcaption>
+</figure>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">boot1</span><span class="p">[</span><span class="s2">"price"</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>np.float64(132.65)
+</pre></div>
+</div>
+</div>
+</div>
+<p>从<a class="reference internal" href="#fig-11-bootstrapping3"><span class="std std-numref">图 10.11</span></a> 中可以看到，自助样本的直方图与原始样本的直方图形状相似。虽然两个分布的形状相近，但并不完全相同。你还会发现，原始样本的均值与自助样本的均值不一样。这是怎么发生的呢？请记住，我们是从原始样本中有放回地抽样，所以不会再次抽到完全相同的样本取值。我们是在<em>假装</em>这一个样本与总体很接近，并通过从原始样本中再抽一个样本，来模拟从总体中再抽一个样本。</p>
+<p>现在我们用原始样本（<code class="docutils literal notranslate"><span class="pre">one_sample</span></code>）生成 20,000 个自助样本，并计算每个重复的均值。要记住，这样做的前提是 <code class="docutils literal notranslate"><span class="pre">one_sample</span></code> <em>看起来像</em>原始总体；但既然我们拿不到总体本身，这通常已经是我们能做的最好的选择了。请注意，这里把列表推导式拆成了多行，以便阅读。</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">boot20000</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span>
+    <span class="n">one_sample</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="n">frac</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">replace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="o">.</span><span class="n">assign</span><span class="p">(</span><span class="n">replicate</span><span class="o">=</span><span class="n">n</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">20_000</span><span class="p">)</span>
+<span class="p">])</span>
+<span class="n">boot20000</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>id</th>
+      <th>neighbourhood</th>
+      <th>room_type</th>
+      <th>accommodates</th>
+      <th>bathrooms</th>
+      <th>bedrooms</th>
+      <th>beds</th>
+      <th>price</th>
+      <th>replicate</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>2286</th>
+      <td>2287</td>
+      <td>Marpole</td>
+      <td>Entire home/apt</td>
+      <td>4</td>
+      <td>1 bath</td>
+      <td>2</td>
+      <td>2</td>
+      <td>105.0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>254</th>
+      <td>255</td>
+      <td>Downtown</td>
+      <td>Entire home/apt</td>
+      <td>4</td>
+      <td>1.5 baths</td>
+      <td>2</td>
+      <td>2</td>
+      <td>300.0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>2246</th>
+      <td>2247</td>
+      <td>Mount Pleasant</td>
+      <td>Entire home/apt</td>
+      <td>4</td>
+      <td>1 bath</td>
+      <td>1</td>
+      <td>2</td>
+      <td>105.0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>4579</th>
+      <td>4580</td>
+      <td>Downtown</td>
+      <td>Entire home/apt</td>
+      <td>3</td>
+      <td>1 bath</td>
+      <td>1</td>
+      <td>2</td>
+      <td>160.0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>4495</th>
+      <td>4496</td>
+      <td>Riley Park</td>
+      <td>Entire home/apt</td>
+      <td>2</td>
+      <td>1 bath</td>
+      <td>1</td>
+      <td>1</td>
+      <td>115.0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>1997</th>
+      <td>1998</td>
+      <td>Downtown</td>
+      <td>Entire home/apt</td>
+      <td>6</td>
+      <td>2 baths</td>
+      <td>3</td>
+      <td>3</td>
+      <td>257.0</td>
+      <td>19999</td>
+    </tr>
+    <tr>
+      <th>241</th>
+      <td>242</td>
+      <td>Hastings-Sunrise</td>
+      <td>Private room</td>
+      <td>2</td>
+      <td>1 shared bath</td>
+      <td>1</td>
+      <td>1</td>
+      <td>50.0</td>
+      <td>19999</td>
+    </tr>
+    <tr>
+      <th>1878</th>
+      <td>1879</td>
+      <td>Fairview</td>
+      <td>Private room</td>
+      <td>2</td>
+      <td>1 private bath</td>
+      <td>1</td>
+      <td>1</td>
+      <td>175.0</td>
+      <td>19999</td>
+    </tr>
+    <tr>
+      <th>1783</th>
+      <td>1784</td>
+      <td>Downtown Eastside</td>
+      <td>Private room</td>
+      <td>2</td>
+      <td>1 private bath</td>
+      <td>1</td>
+      <td>1</td>
+      <td>60.0</td>
+      <td>19999</td>
+    </tr>
+    <tr>
+      <th>4495</th>
+      <td>4496</td>
+      <td>Riley Park</td>
+      <td>Entire home/apt</td>
+      <td>2</td>
+      <td>1 bath</td>
+      <td>1</td>
+      <td>1</td>
+      <td>115.0</td>
+      <td>19999</td>
+    </tr>
+  </tbody>
+</table>
+<p>800000 rows × 9 columns</p>
+</div></div></div>
+</div>
+<p>我们来看看自助样本前六次重复的直方图。</p>
+<div class="cell tag_remove-output docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">six_bootstrap_samples</span> <span class="o">=</span> <span class="n">boot20000</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="s2">"replicate &lt; 6"</span><span class="p">)</span>
+<span class="n">six_bootstrap_fig</span> <span class="o">=</span> <span class="n">alt</span><span class="o">.</span><span class="n">Chart</span><span class="p">(</span><span class="n">six_bootstrap_samples</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="mi">150</span><span class="p">)</span><span class="o">.</span><span class="n">mark_bar</span><span class="p">()</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span>
+    <span class="n">x</span><span class="o">=</span><span class="n">alt</span><span class="o">.</span><span class="n">X</span><span class="p">(</span><span class="s2">"price"</span><span class="p">)</span>
+        <span class="o">.</span><span class="n">bin</span><span class="p">(</span><span class="n">maxbins</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+        <span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">"Price per night (dollars)"</span><span class="p">),</span>
+    <span class="n">y</span><span class="o">=</span><span class="n">alt</span><span class="o">.</span><span class="n">Y</span><span class="p">(</span><span class="s2">"count()"</span><span class="p">)</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">"Count"</span><span class="p">)</span>
+<span class="p">)</span><span class="o">.</span><span class="n">facet</span><span class="p">(</span>
+    <span class="s2">"replicate:N"</span><span class="p">,</span>  <span class="c1"># Recall that `:N` converts the variable to a categorical type</span>
+    <span class="n">columns</span><span class="o">=</span><span class="mi">2</span>
+<span class="p">)</span>
+<span class="n">six_bootstrap_fig</span>
+</pre></div>
+</div>
+</div>
+</div>
+<figure class="align-default" id="fig-11-bootstrapping-six-bootstrap-samples">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>alt.FacetChart(...)
+</pre></div>
+</div>
+<figcaption>
+<p><span class="caption-number">图 10.12 </span><span class="caption-text">自助样本前六次重复的直方图。</span><a class="headerlink" href="#fig-11-bootstrapping-six-bootstrap-samples" title="永久链接至图片">#</a></p>
+</figcaption>
+</figure>
+<p>从<a class="reference internal" href="#fig-11-bootstrapping-six-bootstrap-samples"><span class="std std-numref">图 10.12</span></a> 中可以看到，各个自助样本的分布有何不同。如果分别计算这六个样本的样本均值，会发现它们彼此也不相同。要计算每个样本的均值，我们先按“replicate”分组，这一列记录的是样本/重复编号。然后计算
+<code class="docutils literal notranslate"><span class="pre">price</span></code> 列的均值，并把它重命名为 <code class="docutils literal notranslate"><span class="pre">mean_price</span></code>，让列名更有描述性。最后用 <code class="docutils literal notranslate"><span class="pre">reset_index</span></code>
+把 <code class="docutils literal notranslate"><span class="pre">replicate</span></code> 的取值变回数据框中的一列。</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="p">(</span>
+    <span class="n">six_bootstrap_samples</span>
+    <span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s2">"replicate"</span><span class="p">)</span>
+    <span class="p">[</span><span class="s2">"price"</span><span class="p">]</span>
+    <span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+    <span class="o">.</span><span class="n">reset_index</span><span class="p">()</span>
+    <span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">{</span><span class="s2">"price"</span><span class="p">:</span> <span class="s2">"mean_price"</span><span class="p">})</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>replicate</th>
+      <th>mean_price</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>0</td>
+      <td>155.67175</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>1</td>
+      <td>154.42500</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>2</td>
+      <td>149.35000</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>3</td>
+      <td>169.13225</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>4</td>
+      <td>179.79675</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>5</td>
+      <td>188.28225</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>自助样本之间的分布和均值之所以不同，是因为我们采用了<em>有放回</em>抽样。如果改成<em>无放回</em>抽样，那么每次得到的样本取值都会完全一样。</p>
+<p>接下来，我们为这 20,000 个自助样本分别计算均值的点估计，并由此得到这些点估计的自助分布。自助分布（<a class="reference internal" href="#fig-11-bootstrapping5"><span class="std std-numref">图 10.13</span></a>）可以提示我们，如果取多个样本，点估计会有怎样的表现。</p>
+<div class="cell docutils container" id="index-23">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">boot20000_means</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="n">boot20000</span>
+    <span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s2">"replicate"</span><span class="p">)</span>
+    <span class="p">[</span><span class="s2">"price"</span><span class="p">]</span>
+    <span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+    <span class="o">.</span><span class="n">reset_index</span><span class="p">()</span>
+    <span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">{</span><span class="s2">"price"</span><span class="p">:</span> <span class="s2">"mean_price"</span><span class="p">})</span>
+<span class="p">)</span>
+
+<span class="n">boot20000_means</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>replicate</th>
+      <th>mean_price</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>0</td>
+      <td>155.67175</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>1</td>
+      <td>154.42500</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>2</td>
+      <td>149.35000</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>3</td>
+      <td>169.13225</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>4</td>
+      <td>179.79675</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>19995</th>
+      <td>19995</td>
+      <td>159.29675</td>
+    </tr>
+    <tr>
+      <th>19996</th>
+      <td>19996</td>
+      <td>137.20000</td>
+    </tr>
+    <tr>
+      <th>19997</th>
+      <td>19997</td>
+      <td>136.55725</td>
+    </tr>
+    <tr>
+      <th>19998</th>
+      <td>19998</td>
+      <td>161.93950</td>
+    </tr>
+    <tr>
+      <th>19999</th>
+      <td>19999</td>
+      <td>170.22500</td>
+    </tr>
+  </tbody>
+</table>
+<p>20000 rows × 2 columns</p>
+</div></div></div>
+</div>
+<div class="cell tag_remove-output docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">boot_est_dist</span> <span class="o">=</span> <span class="n">alt</span><span class="o">.</span><span class="n">Chart</span><span class="p">(</span><span class="n">boot20000_means</span><span class="p">)</span><span class="o">.</span><span class="n">mark_bar</span><span class="p">()</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span>
+    <span class="n">x</span><span class="o">=</span><span class="n">alt</span><span class="o">.</span><span class="n">X</span><span class="p">(</span><span class="s2">"mean_price"</span><span class="p">)</span>
+        <span class="o">.</span><span class="n">bin</span><span class="p">(</span><span class="n">maxbins</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+        <span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">"Sample mean price per night (dollars)"</span><span class="p">),</span>
+    <span class="n">y</span><span class="o">=</span><span class="n">alt</span><span class="o">.</span><span class="n">Y</span><span class="p">(</span><span class="s2">"count()"</span><span class="p">)</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">"Count"</span><span class="p">),</span>
+<span class="p">)</span>
+
+<span class="n">boot_est_dist</span>
+</pre></div>
+</div>
+</div>
+</div>
+<figure class="align-default" id="fig-11-bootstrapping5">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>alt.Chart(...)
+</pre></div>
+</div>
+<figcaption>
+<p><span class="caption-number">图 10.13 </span><span class="caption-text">自助样本均值的分布。</span><a class="headerlink" href="#fig-11-bootstrapping5" title="永久链接至图片">#</a></p>
+</figcaption>
+</figure>
+<p>我们来比较自助分布——由容量为 40 的原始样本反复抽样构造而来——与真实的抽样分布——相当于从总体中反复抽样。</p>
+<figure class="align-default" id="fig-11-bootstrapping6">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>alt.VConcatChart(...)
+</pre></div>
+</div>
+<figcaption>
+<p><span class="caption-number">图 10.14 </span><span class="caption-text">自助样本均值的分布与抽样分布的比较。</span><a class="headerlink" href="#fig-11-bootstrapping6" title="永久链接至图片">#</a></p>
+</figcaption>
+</figure>
+<p id="index-24">从<a class="reference internal" href="#fig-11-bootstrapping6"><span class="std std-numref">图 10.14</span></a> 中我们可以得到两个要点。第一，真实抽样分布与自助分布的形状和离散程度相似；自助分布能帮助我们体会点估计的变异性。第二个要点是：这两个分布的均值略有不同。抽样分布的中心是总体均值
+$<span class="pasted-text">154.51</span>。而自助分布的中心是原始样本中每晚价格的平均值
+$<span class="pasted-text">153.48</span>。由于我们不断从原始样本中重抽样，可以看到自助分布的中心落在原始样本的均值上（样本均值的抽样分布则不同，它的中心是总体参数的取值）。</p>
+<p><a class="reference internal" href="#fig-11-bootstrapping7"><span class="std std-numref">图 10.15</span></a> 总结了自助法的流程。这里的思路是：当我们只有一个样本时，可以用自助样本均值的分布来近似样本均值的抽样分布。既然自助分布能相当好地近似抽样分布的离散程度，我们就可以借助自助分布的离散程度，结合点估计给出总体参数的合理取值范围！</p>
+<figure class="align-default" id="fig-11-bootstrapping7">
+<img alt="_images/11-bootstrapping7-1.png" src="_images/11-bootstrapping7-1.png" />
+<figcaption>
+<p><span class="caption-number">图 10.15 </span><span class="caption-text">自助法流程总结。</span><a class="headerlink" href="#fig-11-bootstrapping7" title="永久链接至图片">#</a></p>
+</figcaption>
+</figure>
+</section>
+<section id="id12">
+<h3><span class="section-number">10.5.3. </span>用自助法计算合理取值范围<a class="headerlink" href="#id12" title="Permalink to this heading">#</a></h3>
+<p id="index-25">现在我们已经构造出自助分布，接下来用它来算出一个近似的 95% 百分位数自助置信区间（percentile bootstrap confidence interval）。<strong>置信区间</strong>是总体参数的合理取值范围。我们要找出覆盖自助分布中间 95% 的那一段取值，这样就得到了 95% 置信区间。你也许会问：“95% 置信”是什么意思？如果我们抽取 100 个随机样本，算出 100 个 95% 置信区间，那么其中大约 95% 的区间会覆盖总体参数的取值。请注意，95% 这个数并没有什么特别之处，我们也可以用其他水平，比如 90% 或 99%。置信水平与精度之间存在权衡：置信水平越高，区间越宽；置信水平越低，区间越窄。因此，选择哪个水平取决于我们愿意承担多大的出错概率，而这又取决于出错对我们的应用会有什么后果。一般来说，我们选定的置信水平，既要让自己对不确定性感到安心，又不能严格到让区间失去用处。例如，如果我们的决策会影响人的生命，一旦出错后果致命，那我们可能希望很有把握，于是选择更高的置信水平。</p>
+<p>要计算 95% 百分位数自助置信区间，我们按下面的步骤来做：</p>
+<ol class="arabic simple">
+<li><p>把自助分布中的观测按从小到大的顺序排列。</p></li>
+<li><p>找出这样的取值：有 2.5% 的观测落在它以下（即第 2.5 百分位数）。把这个取值作为区间的下限。</p></li>
+<li><p>找出这样的取值：有 97.5% 的观测落在它以下（即第 97.5 百分位数）。把这个取值作为区间的上限。</p></li>
+</ol>
+<p>要在 Python 中完成这些步骤，我们可以用 DataFrame 的 <code class="docutils literal notranslate"><span class="pre">quantile</span></code> 函数。分位数用比例而不是百分数表示，所以第 2.5 百分位数和第 97.5 百分位数分别对应 0.025 和 0.975
+分位数。</p>
+<span class="target" id="index-26"></span><div class="cell docutils container" id="index-27">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ci_bounds</span> <span class="o">=</span> <span class="n">boot20000_means</span><span class="p">[</span><span class="s2">"mean_price"</span><span class="p">]</span><span class="o">.</span><span class="n">quantile</span><span class="p">([</span><span class="mf">0.025</span><span class="p">,</span> <span class="mf">0.975</span><span class="p">])</span>
+<span class="n">ci_bounds</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.025    121.607069
+0.975    191.525362
+Name: mean_price, dtype: float64
+</pre></div>
+</div>
+</div>
+</div>
+<p>我们的区间，从 $<span class="pasted-text">121.61</span> 到 $<span class="pasted-text">191.53</span>，覆盖了自助分布中位于中间 95% 的样本均值价格。我们可以在<a class="reference internal" href="#fig-11-bootstrapping9"><span class="std std-numref">图 10.16</span></a> 中把这个区间画在分布上。</p>
+<figure class="align-default" id="fig-11-bootstrapping9">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>alt.LayerChart(...)
+</pre></div>
+</div>
+<figcaption>
+<p><span class="caption-number">图 10.16 </span><span class="caption-text">带百分位数上下限的自助样本均值分布。</span><a class="headerlink" href="#fig-11-bootstrapping9" title="永久链接至图片">#</a></p>
+</figcaption>
+</figure>
+<p>要完成对总体参数的估计，我们需要报告点估计以及置信区间的下限和上限。这里 40 个
+Airbnb 房源每晚价格的样本均值为 $<span class="pasted-text">153.48</span>，而我们有 95% 的“把握”认为，温哥华所有 Airbnb 房源每晚价格的真实总体均值介于
+$<span class="pasted-text">121.61</span> 和 $<span class="pasted-text">191.53</span> 之间。可以看到，我们的区间确实覆盖了真实的总体均值 $<span class="pasted-text">154.51</span>! 不过在实践中，我们并不知道自己的区间有没有覆盖总体参数，因为我们通常只有一个样本，而不是整个总体。只有一个样本时，这已经是我们能做到的最好结果了！</p>
+<p>本章只是统计推断之旅的开端。我们可以把这里学到的概念推广出去，做远远不止于报告点估计和置信区间的事情，比如检验总体之间是否存在真实差异、检验变量之间是否有关联，等等。我们才刚刚触及统计推断的皮毛；不过，本章介绍的内容会成为你今后学习更高级统计方法的基础！</p>
+</section>
+</section>
+<section id="id13">
+<h2><span class="section-number">10.6. </span>习题<a class="headerlink" href="#id13" title="Permalink to this heading">#</a></h2>
+<p>本章内容的配套练习题见<a class="reference external" href="https://worksheets.python.datasciencebook.ca">练习册仓库</a>中“统计推断”（Statistical inference）那两行。点击“查看练习册”（view worksheet）即可预览本章每份练习册的非交互版本。若要交互式地做这些习题，请按照练习册仓库中的说明下载全部练习册，并按<a class="reference internal" href="setup.html#move-to-your-own-machine"><span class="std std-numref">第 13 章</span></a>中给出的计算机环境配置说明操作。这样才能确保练习册提供的自动反馈与指导按预期正常工作。</p>
+</section>
+<section id="id14">
+<h2><span class="section-number">10.7. </span>拓展资源<a class="headerlink" href="#id14" title="Permalink to this heading">#</a></h2>
+<ul class="simple">
+<li><p>《OpenIntro Statistics》 <span id="id15">[<a class="reference internal" href="#id75" title="David Diez, Mine Çetinkaya-Rundel, and Christopher Barr. OpenIntro Statistics. OpenIntro, Inc., 2019. URL: https://openintro.org/book/os/.">Diez <em>et al.</em>, 2019</a>]</span> 的第 4 至第 7 章在进一步学习统计推断时，是一个不错的进阶选择。虽然它无疑仍是一部入门教材，但这里的内容会更偏数学一些。视你的基础而定，你也许反而应该先读第 1 至第 3 章，那里会讲到概率论的一些基本概念。概率论看似偏离主题，其实它正是<em>统计学的语言</em>；如果对概率有扎实的掌握，更高阶的统计学对你来说就会水到渠成！</p></li>
+</ul>
+</section>
+<section id="id16">
+<h2><span class="section-number">10.8. </span>参考文献<a class="headerlink" href="#id16" title="Permalink to this heading">#</a></h2>
+<div class="docutils container" id="id17">
+<dl class="citation">
+<dt class="label" id="id60"><span class="brackets"><a class="fn-backref" href="#id7">Coxd.</a></span></dt>
+<dd><p>Murray Cox. Inside Airbnb. n.d. URL: <a class="reference external" href="http://insideairbnb.com/">http://insideairbnb.com/</a> (visited on 2020-09-01).</p>
+</dd>
+<dt class="label" id="id75"><span class="brackets"><a class="fn-backref" href="#id15">DcCetinkayaRB19</a></span></dt>
+<dd><p>David Diez, Mine Çetinkaya-Rundel, and Christopher Barr. <em>OpenIntro Statistics</em>. OpenIntro, Inc., 2019. URL: <a class="reference external" href="https://openintro.org/book/os/">https://openintro.org/book/os/</a>.</p>
+</dd>
+</dl>
+</div>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="clustering.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">上一页</p>
+        <p class="prev-next-title"><span class="section-number">9. </span>聚类</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="jupyter.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">下一页</p>
+        <p class="prev-next-title"><span class="section-number">11. </span>用 Jupyter 结合代码和文本</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> 目录
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">10.1. 概述</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">10.2. 本章学习目标</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id4">10.3. 为什么需要抽样？</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id5">10.4. 抽样分布</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id6">10.4.1. 比例的抽样分布</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id8">10.4.2. 均值的抽样分布</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id9">10.4.3. 小结</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id10">10.5. 自助法</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id11">10.5.1. 概述</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#python">10.5.2. 用 Python 实现自助法</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id12">10.5.3. 用自助法计算合理取值范围</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id13">10.6. 习题</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id14">10.7. 拓展资源</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id16">10.8. 参考文献</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+作者： Tiffany Timbers, Trevor Campbell, Melissa Lee, Joel Ostblom, and Lindsey Heagy
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2022.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

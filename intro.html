@@ -1,0 +1,2029 @@
+
+
+<!DOCTYPE html>
+
+
+<html lang="zh-CN" data-content_root="" >
+
+  <head>
+<link rel="canonical" href="https://peleryuan.github.io/introduction-to-datascience-python/intro.html" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>1. Python 与 Pandas &#8212; 数据科学：Python 入门</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" href="_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="_static/style.css" />
+    <link rel="stylesheet" type="text/css" href="_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/clipboard.min.js"></script>
+    <script src="_static/copybutton.js"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="_static/togglebutton.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="_static/translations.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="_static/design-tabs.js"></script>
+    <script async="async" src="https://www.googletagmanager.com/gtag/js?id=G-7XBFF4RSN2"></script>
+    <script>
+                window.dataLayer = window.dataLayer || [];
+                function gtag(){ dataLayer.push(arguments); }
+                gtag('js', new Date());
+                gtag('config', 'G-7XBFF4RSN2');
+            </script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="_static/sphinx-thebe.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'intro';</script>
+    <link rel="index" title="索引" href="genindex.html" />
+    <link rel="search" title="搜索" href="search.html" />
+    <link rel="next" title="2. 从本地和网络读取数据" href="reading.html" />
+    <link rel="prev" title="作者简介" href="authors.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="zh-CN"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="index.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">数据科学：Python 入门</p>
+  
+</a></div>
+        <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">前言</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="preface-text.html">前言</a></li>
+<li class="toctree-l1"><a class="reference internal" href="foreword-text.html">序言</a></li>
+<li class="toctree-l1"><a class="reference internal" href="acknowledgements.html">致谢</a></li>
+<li class="toctree-l1"><a class="reference internal" href="authors.html">作者简介</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">正文章节</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">1. Python 与 Pandas</a></li>
+<li class="toctree-l1"><a class="reference internal" href="reading.html">2. 从本地和网络读取数据</a></li>
+<li class="toctree-l1"><a class="reference internal" href="wrangling.html">3. 数据清洗与整理</a></li>
+<li class="toctree-l1"><a class="reference internal" href="viz.html">4. 有效的数据可视化</a></li>
+<li class="toctree-l1"><a class="reference internal" href="classification1.html">5. 分类 I：训练与预测</a></li>
+<li class="toctree-l1"><a class="reference internal" href="classification2.html">6. 分类 II：评估与调优</a></li>
+<li class="toctree-l1"><a class="reference internal" href="regression1.html">7. 回归 I：k 近邻回归</a></li>
+<li class="toctree-l1"><a class="reference internal" href="regression2.html">8. 回归 II：线性回归</a></li>
+<li class="toctree-l1"><a class="reference internal" href="clustering.html">9. 聚类</a></li>
+<li class="toctree-l1"><a class="reference internal" href="inference.html">10. 统计推断</a></li>
+<li class="toctree-l1"><a class="reference internal" href="jupyter.html">11. 用 Jupyter 结合代码和文本</a></li>
+<li class="toctree-l1"><a class="reference internal" href="version-control.html">12. 借助版本控制协作</a></li>
+<li class="toctree-l1"><a class="reference internal" href="setup.html">13. 配置你的计算机</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="下载此页面">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="_sources/intro.md" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="下载源文件"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.md</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="列印成 PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="全屏模式"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="搜索" aria-label="搜索" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Python 与 Pandas</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> 目录 </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">1.1. 概述</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">1.2. 本章学习目标</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">1.3. 加拿大语言数据集</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id11">1.4. 提出问题</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id13">1.5. 读入表格型数据集</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#python">1.6. 在 Python 中命名</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#loc">1.7. 用 <code class="docutils literal notranslate"><span class="pre">[]</span></code> 和 <code class="docutils literal notranslate"><span class="pre">loc[]</span></code> 创建数据框的子集</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id16">1.7.1. 用 <code class="docutils literal notranslate"><span class="pre">[]</span></code> 筛选行</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id17">1.7.2. 用 <code class="docutils literal notranslate"><span class="pre">[]</span></code> 选取列</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id18">1.7.3. 用 <code class="docutils literal notranslate"><span class="pre">loc[]</span></code> 筛选行并选取列</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#sort-values-head">1.8. 用 <code class="docutils literal notranslate"><span class="pre">sort_values</span></code> 和 <code class="docutils literal notranslate"><span class="pre">head</span></code> 按排序后的取值选取行</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#ch1-adding-modifying">1.9. 添加和修改列</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id20">1.10. 用链式调用和多行表达式合并步骤</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id21">1.11. 用可视化探索数据</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#altair">1.11.1. 用 <code class="docutils literal notranslate"><span class="pre">altair</span></code> 创建条形图</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#index-31">1.11.2. 设置 <code class="docutils literal notranslate"><span class="pre">altair</span></code> 图表的格式</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id24">1.11.3. 融会贯通</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id25">1.12. 查阅文档</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id26">1.13. 习题</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id27">1.14. 参考文献</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="python-pandas">
+<span id="intro"></span><h1><span class="section-number">1. </span>Python 与 Pandas<a class="headerlink" href="#python-pandas" title="Permalink to this heading">#</a></h1>
+<section id="id1">
+<h2><span class="section-number">1.1. </span>概述<a class="headerlink" href="#id1" title="Permalink to this heading">#</a></h2>
+<p>本章介绍数据科学与 Python 编程语言。我们的目标是让你从一开始就动手实干！我们会完整走一遍数据分析的流程，并在过程中介绍不同类型的数据分析问题、Python 中的一些基本编程概念，以及读取、清洗和可视化数据的基础知识。后续各章会逐一深入讲解这些步骤；不过现在，我们先直接上手，看看用数据科学能做多少事情！</p>
+</section>
+<section id="id2">
+<h2><span class="section-number">1.2. </span>本章学习目标<a class="headerlink" href="#id2" title="Permalink to this heading">#</a></h2>
+<p>学完本章后，你将能够：</p>
+<ul class="simple">
+<li><p>识别数据分析问题的不同类型，并把一个问题归入正确的类型。</p></li>
+<li><p>把 <code class="docutils literal notranslate"><span class="pre">pandas</span></code> 包导入 Python。</p></li>
+<li><p>用 <code class="docutils literal notranslate"><span class="pre">read_csv</span></code> 读取表格型数据（tabular data）。</p></li>
+<li><p>使用赋值符号在 Python 中创建新的变量和对象。</p></li>
+<li><p>使用 <code class="docutils literal notranslate"><span class="pre">[]</span></code>、<code class="docutils literal notranslate"><span class="pre">loc[]</span></code>、<code class="docutils literal notranslate"><span class="pre">sort_values</span></code> 和 <code class="docutils literal notranslate"><span class="pre">head</span></code> 创建并整理表格型数据的子集。</p></li>
+<li><p>使用列赋值在表格型数据中添加和修改列。</p></li>
+<li><p>把多个操作依次串联起来。</p></li>
+<li><p>用 <code class="docutils literal notranslate"><span class="pre">altair</span></code> 条形图可视化数据。</p></li>
+<li><p>使用 <code class="docutils literal notranslate"><span class="pre">help()</span></code> 和 <code class="docutils literal notranslate"><span class="pre">?</span></code> 访问 Python 的帮助与文档工具。</p></li>
+</ul>
+</section>
+<section id="id3">
+<h2><span class="section-number">1.3. </span>加拿大语言数据集<a class="headerlink" href="#id3" title="Permalink to this heading">#</a></h2>
+<p id="index-0">本章会完整分析一份数据集，其中记录的是加拿大居民在家使用的语言（<a class="reference internal" href="#canadamap"><span class="std std-numref">图 1.1</span></a>）。加拿大生活着许多原住民，他们有自己的文化和语言；这些语言往往为加拿大所独有，世界上其他地方并不使用 <span id="id4">[<a class="reference internal" href="#id59" title="Statistics Canada. The evolution of language populations in Canada, by mother tongue, from 1901 to 2016. 2018. URL: https://www150.statcan.gc.ca/n1/pub/11-630-x/11-630-x2018001-eng.htm (visited on 2021-05-27).">Statistics Canada, 2018</a>]</span>。令人痛心的是，殖民化导致其中许多语言消亡。例如，在加拿大的寄宿学校（residential schools）里，一代又一代儿童被禁止说自己的母语（母语是一个人幼年最先学会的语言）。殖民者还把他们“发现”的地方重新命名 <span id="id5">[<a class="reference internal" href="#id60" title="Kory Wilson. Pulling Together: Foundations Guide. BCcampus, 2018. URL: https://opentextbc.ca/indigenizationfoundations/ (visited on 2021-05-27).">Wilson, 2018</a>]</span>。这类行为严重损害了加拿大原住民语言的延续，有些语言因为报告会说的人很少，已被视为“濒危”。要了解更多内容，请参看《Canadian Geographic》杂志的文章《Mapping Indigenous Languages in Canada》<span id="id6">[<a class="reference internal" href="#id61" title="Nick Walker. Mapping indigenous languages in Canada. Canadian Geographic, 2017. URL: https://www.canadiangeographic.ca/article/mapping-indigenous-languages-canada (visited on 2021-05-27).">Walker, 2017</a>]</span>、《他们为孩子而来：加拿大、原住民与寄宿学校》（<em>They Came for the Children: Canada, Aboriginal peoples, and Residential Schools</em>）<span id="id7">[<a class="reference internal" href="#id64" title="Truth and Reconciliation Commission of Canada. They Came for the Children: Canada, Aboriginal Peoples, and the Residential Schools. Public Works &amp; Government Services Canada, 2012.">Truth and Reconciliation Commission of Canada, 2012</a>]</span>，以及加拿大真相与和解委员会（Truth and Reconciliation Commission）的《行动呼吁》（<em>Calls to Action</em>）<span id="id8">[<a class="reference internal" href="#id65" title="Truth and Reconciliation Commission of Canada. Calls to Action. 2015. URL: https://www2.gov.bc.ca/assets/gov/british-columbians-our-governments/indigenous-people/aboriginal-peoples-documents/calls_to_action_english2.pdf.">Truth and Reconciliation Commission of Canada, 2015</a>]</span>。</p>
+<figure class="align-default" id="canadamap">
+<img alt="_images/canada_map.png" src="_images/canada_map.png" />
+<figcaption>
+<p><span class="caption-number">图 1.1 </span><span class="caption-text">加拿大地图。</span><a class="headerlink" href="#canadamap" title="永久链接至图片">#</a></p>
+</figcaption>
+</figure>
+<p>本章要研究的数据集取自 <a class="reference external" href="https://ttimbers.github.io/canlang/"><code class="docutils literal notranslate"><span class="pre">canlang</span></code> R 数据包</a> <span id="id9">[<a class="reference internal" href="viz.html#id47" title="Tiffany Timbers. canlang: Canadian Census language data. 2020. R package version 0.0.9. URL: https://ttimbers.github.io/canlang/.">Timbers, 2020</a>]</span>，其中包含 2016 年加拿大人口普查 <span id="id10">[<a class="reference internal" href="#id40" title="Statistics Canada. Population census. 2016. URL: https://www12.statcan.gc.ca/census-recensement/2016/dp-pd/index-eng.cfm.">Statistics Canada, 2016</a>]</span> 收集的人口语言数据。这份数据记录了 214 种语言，每种语言有六个不同的属性：</p>
+<ol class="arabic simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">category</span></code>：更高层级的语言类别，说明该语言是加拿大官方语言、原住民（Aboriginal，即 Indigenous）语言，还是非官方且非原住民的语言。</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">language</span></code>：语言的名称。</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">mother_tongue</span></code>：报告该语言为自己母语的加拿大居民人数。母语一般定义为一个人自出生起就接触的语言。</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">most_at_home</span></code>：报告该语言为家中最常用语言的加拿大居民人数。</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">most_at_work</span></code>：报告工作中最常使用该语言的加拿大居民人数。</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">lang_known</span></code>：报告掌握该语言的加拿大居民人数。</p></li>
+</ol>
+<p>据人口普查，在加拿大报告使用的原住民语言超过 60 种。假设我们想知道哪些语言最为常见，那么我们可能会提出下面这个问题，并希望用数据来回答它：</p>
+<p><em>2016 年在加拿大被报告为母语最多的十种原住民语言是哪些，每种语言各有多少人使用？</em></p>
+<div class="admonition note" id="index-1">
+<p class="admonition-title">备注</p>
+<p>要做好数据科学，就必须深入理解数据和问题所在的领域。本书为了聚焦方法与基本概念，简化了示例中使用的数据集。但在现实生活中，没有领域专家，你无法也不应该做数据科学。换个角度说，在自己擅长的领域里做数据科学也很常见！请记住，处理数据时，务必思考数据是<em>如何</em>收集来的，这会影响你能得出什么结论。数据有偏差，结论就会有偏差！</p>
+</div>
+</section>
+<section id="id11">
+<h2><span class="section-number">1.4. </span>提出问题<a class="headerlink" href="#id11" title="Permalink to this heading">#</a></h2>
+<p>每一次出色的数据分析都始于一个<em>问题</em>——就像上面那个——你希望用数据来回答它。事实上，围绕数据的问题确实有若干不同的<em>类型</em>：描述性、探索性、预测性、推断性、因果性和机理性，<a class="reference internal" href="#questions-table"><span class="std std-numref">表 1.1</span></a> 给出了它们的定义 <span id="id12">[<a class="reference internal" href="#id43" title="Jeffrey Leek and Roger Peng. What is the question? Science, 347(6228):1314–1315, 2015.">Leek and Peng, 2015</a>, <a class="reference internal" href="#id44" title="Roger D Peng and Elizabeth Matsui. The Art of Data Science: A Guide for Anyone Who Works with Data. Skybrude Consulting, LLC, 2015. URL: https://bookdown.org/rdpeng/artofdatascience/.">Peng and Matsui, 2015</a>]</span>。在分析中尽早、审慎地提出问题——同时正确判断它属于哪一类——会决定你分析的整体思路，也会影响你选用哪些工具。</p>
+<span class="target" id="index-2"></span><div class="pst-scrollable-table-container"><span id="index-3"></span><table class="table" id="questions-table">
+<caption><span class="caption-number">表 1.1 </span><span class="caption-text">数据分析问题的类型。</span><a class="headerlink" href="#questions-table" title="永久链接至表格">#</a></caption>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>问题类型</p></th>
+<th class="head"><p>说明</p></th>
+<th class="head"><p>示例</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>描述性</p></td>
+<td><p>针对数据集的汇总特征提问，但不作解释（即报告一个事实）。</p></td>
+<td><p>加拿大各省和地区分别有多少人居住？</p></td>
+</tr>
+<tr class="row-odd"><td><p>探索性</p></td>
+<td><p>询问单个数据集内部是否存在模式、趋势或关系。常用于为后续研究提出假设。</p></td>
+<td><p>在一份针对 2,000 名加拿大居民收集的数据中，政党投票会随财富指标变化吗？</p></td>
+</tr>
+<tr class="row-even"><td><p>预测性</p></td>
+<td><p>询问如何预测个体（人或物）的测量值或标签。关注点在于哪些事物能预测某种结果，而不在于结果由什么造成。</p></td>
+<td><p>在下一届加拿大选举中，某人会把票投给哪个政党？</p></td>
+</tr>
+<tr class="row-odd"><td><p>推断性</p></td>
+<td><p>在单个数据集中寻找模式、趋势或关系，<strong>并且</strong>还要求量化这些发现对更大人群的适用程度。</p></td>
+<td><p>对全体加拿大居民而言，政党投票会随财富指标变化吗？</p></td>
+</tr>
+<tr class="row-even"><td><p>因果性</p></td>
+<td><p>询问在更大人群中，改变一个因素平均而言是否会导致另一个因素发生变化。</p></td>
+<td><p>在加拿大选举中，财富会导致人们投票给某个政党吗？</p></td>
+</tr>
+<tr class="row-odd"><td><p>机理性</p></td>
+<td><p>询问观察到的模式、趋势或关系背后的机制（即它是如何发生的？）。</p></td>
+<td><p>在加拿大选举中，财富是如何导致人们投票给某个政党的？</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>本书会教你回答前四类问题的方法：描述性、探索性、预测性和推断性问题；因果性与机理性问题超出了本书的范围。具体来说，你将学会使用下面这些分析工具：</p>
+<span class="target" id="index-4"></span><ol class="arabic simple" id="index-5">
+<li><p>**汇总：**计算并报告数据集的汇总值。汇总最常用于回答描述性问题，偶尔也有助于回答探索性问题。例如，你可以用汇总来回答下面这个问题：*这份数据集中，跑者的平均比赛用时是多少？*汇总工具会在<a class="reference internal" href="reading.html#reading"><span class="std std-numref">第 2 章</span></a>和<a class="reference internal" href="wrangling.html#wrangling"><span class="std std-numref">第 3 章</span></a>中详细讲解，不过在全书正文中会经常用到。</p></li>
+<li><p>**可视化：**用图形展示数据。可视化通常用于回答描述性问题和探索性问题，但在回答<a class="reference internal" href="#questions-table"><span class="std std-numref">表 1.1</span></a> 中所有类型的问题时，都起着关键的辅助作用。例如，你可以用可视化来回答下面这个问题：<em>这份数据集中，跑者的比赛用时和年龄之间有关系吗？</em><a class="reference internal" href="viz.html#viz"><span class="std std-numref">第 4 章</span></a>会详细讲解可视化，不过它在全书中同样会经常出现。</p></li>
+<li><p>**分类：**为一个新观测预测类别。分类用于回答预测性问题。例如，你可以用分类来回答下面这个问题：*已知某个肿瘤的平均细胞面积和周长的测量值，该肿瘤是良性的还是恶性的？*分类将在<a class="reference internal" href="classification1.html#classification1"><span class="std std-numref">第 5 章</span></a>和<a class="reference internal" href="classification2.html#classification2"><span class="std std-numref">第 6 章</span></a>中讲解。</p></li>
+<li><p>**回归：**为一个新观测预测定量取值。回归也用于回答预测性问题。例如，你可以用回归来回答下面这个问题：*一名 20 岁、体重 50kg 的跑者，比赛用时会是多少？*回归将在<a class="reference internal" href="regression1.html#regression1"><span class="std std-numref">第 7 章</span></a>和<a class="reference internal" href="regression2.html#regression2"><span class="std std-numref">第 8 章</span></a>中讲解。</p></li>
+<li><p>**聚类：**在数据集中找出此前未知或未标注的子组。聚类常用于回答探索性问题。例如，你可以用聚类来回答下面这个问题：*在 Amazon 上，哪些商品经常被一起购买？*聚类将在<a class="reference internal" href="clustering.html#clustering"><span class="std std-numref">第 9 章</span></a>中讲解。</p></li>
+<li><p>**估计：**从一个大群体中取少量个体进行测量，并对该大群体的均值或比例作出合理推断。估计用于回答推断性问题。例如，你可以用估计来回答下面这个问题：*在一项针对 100 名加拿大人手机持有情况的调查中，全体加拿大人口中拥有 Android 手机的比例是多少？*估计将在<a class="reference internal" href="inference.html#inference"><span class="std std-numref">第 10 章</span></a>中讲解。</p></li>
+</ol>
+<p>对照<a class="reference internal" href="#questions-table"><span class="std std-numref">表 1.1</span></a>，我们关于原住民语言的问题属于<em>描述性问题</em>：我们是在汇总一个数据集的各项特征，而不作进一步解释。再看一看上面的清单，看来我们应该用可视化，也许再加上一些汇总来回答这个问题。因此在本章余下的部分里，我们将着手制作一张可视化图形，展示 2016 年人口普查中加拿大最常见的十种原住民语言以及它们对应的计数。</p>
+</section>
+<section id="id13">
+<h2><span class="section-number">1.5. </span>读入表格型数据集<a class="headerlink" href="#id13" title="Permalink to this heading">#</a></h2>
+<p id="index-6">数据集从本质上说就是一组有结构的数字和字符。除此之外，其实没有什么严格的规则；数据集可以有各种不同的形式！不过，你在实践中遇到的最常见的数据集形式大概是<em>表格型数据</em>。想想 Microsoft Excel 里的电子表格：表格型数据呈矩形，与电子表格很像，如<a class="reference internal" href="#img-spreadsheet-vs-data-frame"><span class="std std-numref">图 1.2</span></a> 所示。本书主要关注表格型数据。</p>
+<p id="index-7">本书用 Python 做数据分析，所以第一步是把数据读入 Python。把表格型数据读入 Python 后，它会表示为一个<em>数据框</em>（data frame）对象。<a class="reference internal" href="#img-spreadsheet-vs-data-frame"><span class="std std-numref">图 1.2</span></a> 说明 Python 数据框与电子表格非常相似。我们把行称为<strong>观测</strong>，也就是我们收集数据所针对的各个对象。在<a class="reference internal" href="#img-spreadsheet-vs-data-frame"><span class="std std-numref">图 1.2</span></a> 中，观测就是各种语言。我们把列称为<strong>变量</strong>，也就是每个观测的特征。在<a class="reference internal" href="#img-spreadsheet-vs-data-frame"><span class="std std-numref">图 1.2</span></a> 中，变量是语言的类别、名称、母语使用者人数等。</p>
+<figure class="align-default" id="img-spreadsheet-vs-data-frame">
+<a class="reference internal image-reference" href="_images/spreadsheet_vs_df.png"><img alt="_images/spreadsheet_vs_df.png" src="_images/spreadsheet_vs_df.png" style="height: 500px;" /></a>
+<figcaption>
+<p><span class="caption-number">图 1.2 </span><span class="caption-text">Python 中的电子表格与数据框。</span><a class="headerlink" href="#img-spreadsheet-vs-data-frame" title="永久链接至图片">#</a></p>
+</figcaption>
+</figure>
+<span class="target" id="index-8"></span><p id="index-9">我们要学的第一种数据文件是<em>逗号分隔值</em>格式（简称 <code class="docutils literal notranslate"><span class="pre">.csv</span></code>），我们会把它读入 Python 并转成数据框。这类文件的文件名以 <code class="docutils literal notranslate"><span class="pre">.csv</span></code> 结尾，可以用 Microsoft Excel、Google Sheets 等常见电子表格程序打开和保存。例如，名为 <code class="docutils literal notranslate"><span class="pre">can_lang.csv</span></code> 的 <code class="docutils literal notranslate"><span class="pre">.csv</span></code> 文件就随<a class="reference external" href="https://github.com/UBC-DSCI/introduction-to-datascience-python/tree/main/source/data">本书的代码</a>一同提供。如果用纯文本编辑器（比如记事本这种只显示文本、不带任何格式的程序）打开这份数据，我们会看到每一行数据都单独占一行，表格中的每一项用逗号分隔：</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>category,language,mother_tongue,most_at_home,most_at_work,lang_known
+Aboriginal languages,"Aboriginal languages, n.o.s.",590,235,30,665
+Non-Official &amp; Non-Aboriginal languages,Afrikaans,10260,4785,85,23415
+Non-Official &amp; Non-Aboriginal languages,"Afro-Asiatic languages, n.i.e.",1150,44
+Non-Official &amp; Non-Aboriginal languages,Akan (Twi),13460,5985,25,22150
+Non-Official &amp; Non-Aboriginal languages,Albanian,26895,13135,345,31930
+Aboriginal languages,"Algonquian languages, n.i.e.",45,10,0,120
+Aboriginal languages,Algonquin,1260,370,40,2480
+Non-Official &amp; Non-Aboriginal languages,American Sign Language,2685,3020,1145,21
+Non-Official &amp; Non-Aboriginal languages,Amharic,22465,12785,200,33670
+</pre></div>
+</div>
+<p id="index-10">要把这些数据读入 Python，以便对它做各种事情（例如进行分析或制作数据可视化图形），我们需要用到<em>函数</em>。函数是 Python 中的一个特殊单词，它接收一些指令（我们称之为<em>参数</em>），然后做某件事。我们用来把 <code class="docutils literal notranslate"><span class="pre">.csv</span></code> 文件读入 Python 的函数叫 <code class="docutils literal notranslate"><span class="pre">read_csv</span></code>。在最基本的用法下，<code class="docutils literal notranslate"><span class="pre">read_csv</span></code> 要求数据文件：</p>
+<ul class="simple">
+<li><p>有列名，也就是<em>表头</em>（header），</p></li>
+<li><p>用逗号（<code class="docutils literal notranslate"><span class="pre">,</span></code>）分隔各列，并且</p></li>
+<li><p>不含行名。</p></li>
+</ul>
+<p id="index-11">下面你会看到用 <code class="docutils literal notranslate"><span class="pre">read_csv</span></code> 函数把数据读入 Python 的代码。请注意，<code class="docutils literal notranslate"><span class="pre">read_csv</span></code> 函数并不包含在 Python 的基础安装中，也就是说，安装 Python 时它并不是可以直接使用的基本函数之一。因此，你需要先把它从别处导入，然后才能使用。我们从中导入它的地方称为 Python <em>包</em>。Python 包是一组函数的集合，导入之后，它们可以和 Python 内置包中的函数一起使用。具体来说，只要用 <code class="docutils literal notranslate"><span class="pre">import</span></code> 命令导入 <a class="reference external" href="https://pypi.org/project/pandas/">Python 的 <code class="docutils literal notranslate"><span class="pre">pandas</span></code> 包</a> <span id="id14">[<a class="reference internal" href="#id88" title="The Pandas Development Team. pandas-dev/pandas: Pandas. February 2020. URL: https://doi.org/10.5281/zenodo.3509134, doi:10.5281/zenodo.3509134.">The Pandas Development Team, 2020</a>, <a class="reference internal" href="#id89" title="Wes McKinney. Data Structures for Statistical Computing in Python. In Stéfan van der Walt and Jarrod Millman, editors, Proceedings of the 9th Python in Science Conference, 56 - 61. 2010. doi:10.25080/Majora-92bf1922-00a.">Wes McKinney, 2010</a>]</span>，就能使用 <code class="docutils literal notranslate"><span class="pre">read_csv</span></code> 函数。<code class="docutils literal notranslate"><span class="pre">pandas</span></code> 包中有很多函数，本书从头到尾都会用它们来读取、清洗、整理和可视化数据。</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>这条命令分两部分。第一部分是 <code class="docutils literal notranslate"><span class="pre">import</span> <span class="pre">pandas</span></code>，用来导入 <code class="docutils literal notranslate"><span class="pre">pandas</span></code> 包；第二部分是 <code class="docutils literal notranslate"><span class="pre">as</span> <span class="pre">pd</span></code>，给 <code class="docutils literal notranslate"><span class="pre">pandas</span></code> 包起一个短得多的<em>别名</em>（即另一个名字）<code class="docutils literal notranslate"><span class="pre">pd</span></code>。现在只要写 <code class="docutils literal notranslate"><span class="pre">pd.read_csv</span></code>，就能使用 <code class="docutils literal notranslate"><span class="pre">read_csv</span></code> 函数，也就是先写包名，再写一个点，然后写函数名。你能看出为什么要给 <code class="docutils literal notranslate"><span class="pre">pandas</span></code> 起个更短的别名：如果每用一个函数都要在前面敲一遍 <code class="docutils literal notranslate"><span class="pre">pandas.</span></code>，代码就会变得又长又难读！</p>
+<p>现在 <code class="docutils literal notranslate"><span class="pre">pandas</span></code> 包已经导入，我们只要给 <code class="docutils literal notranslate"><span class="pre">read_csv</span></code> 函数传入一个参数，就能使用它：文件名 <code class="docutils literal notranslate"><span class="pre">&quot;can_lang.csv&quot;</span></code>。代码中的文件名以及其他字母和单词都要加上引号，以便与构成 Python 编程语言的那些特殊单词（比如函数！）区分开。我们只需要提供文件名这一个参数，因为在默认用法下，我们的文件已经满足了 <code class="docutils literal notranslate"><span class="pre">read_csv</span></code> 函数要求的其他所有条件。<a class="reference internal" href="#img-read-csv"><span class="std std-numref">图 1.3</span></a> 说明了如何用 <code class="docutils literal notranslate"><span class="pre">read_csv</span></code> 把数据读入 Python。</p>
+<figure class="align-default" id="img-read-csv">
+<img alt="_images/read_csv_function.png" src="_images/read_csv_function.png" />
+<figcaption>
+<p><span class="caption-number">图 1.3 </span><span class="caption-text"><code class="docutils literal notranslate"><span class="pre">read_csv</span></code> 函数的语法。</span><a class="headerlink" href="#img-read-csv" title="永久链接至图片">#</a></p>
+</figcaption>
+</figure>
+<div class="cell tag_output_scroll docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">"data/can_lang.csv"</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>category</th>
+      <th>language</th>
+      <th>mother_tongue</th>
+      <th>most_at_home</th>
+      <th>most_at_work</th>
+      <th>lang_known</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Aboriginal languages</td>
+      <td>Aboriginal languages, n.o.s.</td>
+      <td>590</td>
+      <td>235</td>
+      <td>30</td>
+      <td>665</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Non-Official &amp; Non-Aboriginal languages</td>
+      <td>Afrikaans</td>
+      <td>10260</td>
+      <td>4785</td>
+      <td>85</td>
+      <td>23415</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>Non-Official &amp; Non-Aboriginal languages</td>
+      <td>Afro-Asiatic languages, n.i.e.</td>
+      <td>1150</td>
+      <td>445</td>
+      <td>10</td>
+      <td>2775</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>Non-Official &amp; Non-Aboriginal languages</td>
+      <td>Akan (Twi)</td>
+      <td>13460</td>
+      <td>5985</td>
+      <td>25</td>
+      <td>22150</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>Non-Official &amp; Non-Aboriginal languages</td>
+      <td>Albanian</td>
+      <td>26895</td>
+      <td>13135</td>
+      <td>345</td>
+      <td>31930</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>209</th>
+      <td>Non-Official &amp; Non-Aboriginal languages</td>
+      <td>Wolof</td>
+      <td>3990</td>
+      <td>1385</td>
+      <td>10</td>
+      <td>8240</td>
+    </tr>
+    <tr>
+      <th>210</th>
+      <td>Aboriginal languages</td>
+      <td>Woods Cree</td>
+      <td>1840</td>
+      <td>800</td>
+      <td>75</td>
+      <td>2665</td>
+    </tr>
+    <tr>
+      <th>211</th>
+      <td>Non-Official &amp; Non-Aboriginal languages</td>
+      <td>Wu (Shanghainese)</td>
+      <td>12915</td>
+      <td>7650</td>
+      <td>105</td>
+      <td>16530</td>
+    </tr>
+    <tr>
+      <th>212</th>
+      <td>Non-Official &amp; Non-Aboriginal languages</td>
+      <td>Yiddish</td>
+      <td>13555</td>
+      <td>7085</td>
+      <td>895</td>
+      <td>20985</td>
+    </tr>
+    <tr>
+      <th>213</th>
+      <td>Non-Official &amp; Non-Aboriginal languages</td>
+      <td>Yoruba</td>
+      <td>9080</td>
+      <td>2615</td>
+      <td>15</td>
+      <td>22415</td>
+    </tr>
+  </tbody>
+</table>
+<p>214 rows × 6 columns</p>
+</div></div></div>
+</div>
+</section>
+<section id="python">
+<h2><span class="section-number">1.6. </span>在 Python 中命名<a class="headerlink" href="#python" title="Permalink to this heading">#</a></h2>
+<p>我们用 <code class="docutils literal notranslate"><span class="pre">read_csv</span></code> 读入 2016 年加拿大人口普查的语言数据时，并没有给这个数据框起名字。因此数据只是打印在屏幕上，我们无法再对它做别的事情。这样用处不大。更有用的做法，是给 <code class="docutils literal notranslate"><span class="pre">read_csv</span></code> 输出的数据框起一个名字，这样以后分析数据和做可视化时就能引用它。</p>
+<span class="target" id="index-12"></span><p id="index-13">在 Python 中给取值起名字要用<em>赋值符号</em>（assignment symbol），即等号 <code class="docutils literal notranslate"><span class="pre">=</span></code>。赋值符号左边写你想用的名字，右边写你希望这个名字指向的取值。在 Python 中，名字几乎可以用来指向任何东西，比如数字、单词（也就是由字符组成的<em>字符串</em>），以及数据框！下面我们把 <code class="docutils literal notranslate"><span class="pre">my_number</span></code> 设为 <code class="docutils literal notranslate"><span class="pre">3</span></code>（<code class="docutils literal notranslate"><span class="pre">1+2</span></code> 的结果），把 <code class="docutils literal notranslate"><span class="pre">name</span></code> 设为字符串 <code class="docutils literal notranslate"><span class="pre">&quot;Alice&quot;</span></code>。</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">my_number</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">+</span> <span class="mi">2</span>
+<span class="n">name</span> <span class="o">=</span> <span class="s2">"Alice"</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>注意，用赋值符号 <code class="docutils literal notranslate"><span class="pre">=</span></code> 在 Python 中给东西命名时，不需要给要创建的名字加引号。因为我们是在明确告诉 Python，这个特殊单词代表右侧那个取值。只有赋值符号右侧充当<em>取值</em>的字符和单词——例如前面指定的文件名 <code class="docutils literal notranslate"><span class="pre">&quot;data/can_lang.csv&quot;</span></code>，或者上面的 <code class="docutils literal notranslate"><span class="pre">&quot;Alice&quot;</span></code>——才需要用引号括起来。</p>
+<p>完成赋值之后，我们就可以用创建的特殊名字来代替它们对应的取值。例如，如果之后想对取值 <code class="docutils literal notranslate"><span class="pre">3</span></code> 做点什么，直接写 <code class="docutils literal notranslate"><span class="pre">my_number</span></code> 就行。我们来试着给 <code class="docutils literal notranslate"><span class="pre">my_number</span></code> 加上 2；你会看到 Python 把它理解为 2 加 3：</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">my_number</span> <span class="o">+</span> <span class="mi">2</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>5
+</pre></div>
+</div>
+</div>
+</div>
+<p id="index-14">对象名可以由字母、数字和下划线（<code class="docutils literal notranslate"><span class="pre">_</span></code>）组成。其他符号不行，因为它们在 Python 中各有自己的含义。例如，<code class="docutils literal notranslate"><span class="pre">-</span></code> 是减号；如果用 <code class="docutils literal notranslate"><span class="pre">-</span></code> 来命名，Python 会报错，我们就会得到一个错误！</p>
+<div class="cell tag_remove-output docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">my</span><span class="o">-</span><span class="n">number</span> <span class="o">=</span> <span class="mi">1</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell tag_remove-input docutils container">
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>SyntaxError: cannot assign to expression here. Maybe you meant '==' instead of '='?
+</pre></div>
+</div>
+</div>
+</div>
+<p id="index-15">Python 中对对象命名有一些约定。给对象命名时，我们建议只用小写字母、数字和下划线 <code class="docutils literal notranslate"><span class="pre">_</span></code> 来分隔名字中的单词。Python 区分大小写，也就是说 <code class="docutils literal notranslate"><span class="pre">Letter</span></code> 和 <code class="docutils literal notranslate"><span class="pre">letter</span></code> 在 Python 中是两个不同的对象。你还应该尽量给对象起有意义的名字。例如，你<em>可以</em>把一个数据框命名为 <code class="docutils literal notranslate"><span class="pre">x</span></code>。不过，改用 <code class="docutils literal notranslate"><span class="pre">language_data</span></code> 这类更有意义的名称，能帮你记住代码中每个名字代表什么。我们建议遵循 <em><a class="reference external" href="https://peps.python.org/pep-0008/">PEP 8</a></em> 中列出的 <strong>PEP 8</strong> 命名约定 <span id="id15">[<a class="reference internal" href="#id90" title="Nick Coghlan Guido van Rossum, Barry Warsaw. PEP 8 – Style Guide for Python Code. 2001. URL: https://peps.python.org/pep-0008/.">Guido van Rossum, 2001</a>]</span>。下面我们用赋值符号，把从 <code class="docutils literal notranslate"><span class="pre">read_csv</span></code> 得到的 2016 年加拿大人口普查语言数据框命名为 <code class="docutils literal notranslate"><span class="pre">can_lang</span></code>。</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">can_lang</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">"data/can_lang.csv"</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>等一下，这次什么都没发生！我们的数据呢？其实确实发生了事情：数据已经读入，并且现在与名字 <code class="docutils literal notranslate"><span class="pre">can_lang</span></code> 关联起来了。我们可以用这个名字来访问数据框，对它做各种事情。例如，只要输入数据框的名字，就会同时打印出开头几行和末尾几行。三个点（<code class="docutils literal notranslate"><span class="pre">...</span></code>）表示还有未打印出来的行。你还会看到，观测的个数（即行数）和变量的个数（即列数）就打印在数据框的下方（这里是 214 行、6 列）。像这样打印数据框的几行，是快速了解其中内容的好办法。</p>
+<div class="cell tag_output_scroll docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">can_lang</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>category</th>
+      <th>language</th>
+      <th>mother_tongue</th>
+      <th>most_at_home</th>
+      <th>most_at_work</th>
+      <th>lang_known</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Aboriginal languages</td>
+      <td>Aboriginal languages, n.o.s.</td>
+      <td>590</td>
+      <td>235</td>
+      <td>30</td>
+      <td>665</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Non-Official &amp; Non-Aboriginal languages</td>
+      <td>Afrikaans</td>
+      <td>10260</td>
+      <td>4785</td>
+      <td>85</td>
+      <td>23415</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>Non-Official &amp; Non-Aboriginal languages</td>
+      <td>Afro-Asiatic languages, n.i.e.</td>
+      <td>1150</td>
+      <td>445</td>
+      <td>10</td>
+      <td>2775</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>Non-Official &amp; Non-Aboriginal languages</td>
+      <td>Akan (Twi)</td>
+      <td>13460</td>
+      <td>5985</td>
+      <td>25</td>
+      <td>22150</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>Non-Official &amp; Non-Aboriginal languages</td>
+      <td>Albanian</td>
+      <td>26895</td>
+      <td>13135</td>
+      <td>345</td>
+      <td>31930</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>209</th>
+      <td>Non-Official &amp; Non-Aboriginal languages</td>
+      <td>Wolof</td>
+      <td>3990</td>
+      <td>1385</td>
+      <td>10</td>
+      <td>8240</td>
+    </tr>
+    <tr>
+      <th>210</th>
+      <td>Aboriginal languages</td>
+      <td>Woods Cree</td>
+      <td>1840</td>
+      <td>800</td>
+      <td>75</td>
+      <td>2665</td>
+    </tr>
+    <tr>
+      <th>211</th>
+      <td>Non-Official &amp; Non-Aboriginal languages</td>
+      <td>Wu (Shanghainese)</td>
+      <td>12915</td>
+      <td>7650</td>
+      <td>105</td>
+      <td>16530</td>
+    </tr>
+    <tr>
+      <th>212</th>
+      <td>Non-Official &amp; Non-Aboriginal languages</td>
+      <td>Yiddish</td>
+      <td>13555</td>
+      <td>7085</td>
+      <td>895</td>
+      <td>20985</td>
+    </tr>
+    <tr>
+      <th>213</th>
+      <td>Non-Official &amp; Non-Aboriginal languages</td>
+      <td>Yoruba</td>
+      <td>9080</td>
+      <td>2615</td>
+      <td>15</td>
+      <td>22415</td>
+    </tr>
+  </tbody>
+</table>
+<p>214 rows × 6 columns</p>
+</div></div></div>
+</div>
+</section>
+<section id="loc">
+<h2><span class="section-number">1.7. </span>用 <code class="docutils literal notranslate"><span class="pre">[]</span></code> 和 <code class="docutils literal notranslate"><span class="pre">loc[]</span></code> 创建数据框的子集<a class="headerlink" href="#loc" title="Permalink to this heading">#</a></h2>
+<span class="target" id="index-16"></span><span class="target" id="index-17"></span><p id="index-18">现在数据已经读入 Python，我们可以开始整理它，找出 2016 年在加拿大被报告为母语最多的十种原住民语言。具体来说，我们要构造一张表，列出 <code class="docutils literal notranslate"><span class="pre">mother_tongue</span></code> 列中计数最大的十种原住民语言。第一步，从 <code class="docutils literal notranslate"><span class="pre">can_lang</span></code> 数据中只取出对应原住民语言的那些行；第二步，只保留 <code class="docutils literal notranslate"><span class="pre">language</span></code> 和 <code class="docutils literal notranslate"><span class="pre">mother_tongue</span></code> 两列。<code class="docutils literal notranslate"><span class="pre">pandas</span></code> 数据框上的 <code class="docutils literal notranslate"><span class="pre">[]</span></code> 和 <code class="docutils literal notranslate"><span class="pre">loc[]</span></code> 操作正好能帮上忙。<code class="docutils literal notranslate"><span class="pre">[]</span></code> 可以取数据框行的一个子集（即<em>筛选</em>），也可以取数据框列的一个子集（即<em>选取</em>）。<code class="docutils literal notranslate"><span class="pre">loc[]</span></code> 操作则允许你<em>同时</em>筛选行<em>并</em>选取列。我们先考察用 <code class="docutils literal notranslate"><span class="pre">[]</span></code> 操作筛选行和选取列，然后在原住民语言数据的分析中用 <code class="docutils literal notranslate"><span class="pre">loc[]</span></code> 一次完成这两件事。</p>
+<div class="admonition note">
+<p class="admonition-title">备注</p>
+<p><code class="docutils literal notranslate"><span class="pre">pandas</span></code> 中的 <code class="docutils literal notranslate"><span class="pre">[]</span></code> 和 <code class="docutils literal notranslate"><span class="pre">loc[]</span></code> 操作，以及与之相关的操作，远比本章描述的强大。以后你会学到更精细的数据框索引方法，见<a class="reference internal" href="wrangling.html#wrangling"><span class="std std-numref">第 3 章</span></a>。</p>
+</div>
+<section id="id16">
+<h3><span class="section-number">1.7.1. </span>用 <code class="docutils literal notranslate"><span class="pre">[]</span></code> 筛选行<a class="headerlink" href="#id16" title="Permalink to this heading">#</a></h3>
+<p>观察上面的 <code class="docutils literal notranslate"><span class="pre">can_lang</span></code> 数据，可以看到 <code class="docutils literal notranslate"><span class="pre">category</span></code> 列包含几种高层级的语言类别，其中有“原住民语言”（Aboriginal languages）、“非官方且非原住民语言”（Non-Official &amp; Non-Aboriginal languages）和“官方语言”（Official languages）。要回答我们的问题，就得筛选这份数据集，把注意力限制在属于“原住民语言”这一类别的语言上。</p>
+<p id="index-19">我们可以用 <code class="docutils literal notranslate"><span class="pre">[]</span></code> 操作，从数据框中取出具有所需取值的那部分行。<a class="reference internal" href="#img-filter"><span class="std std-numref">图 1.4</span></a> 给出了用 <code class="docutils literal notranslate"><span class="pre">[]</span></code> 操作筛选行时要用的语法。先写数据框的名字——这里是 <code class="docutils literal notranslate"><span class="pre">can_lang</span></code>——再写一对方括号。方括号里面写筛选行时要用的<em>逻辑表达式</em>（logical statement）。逻辑表达式会对数据框中的每一行求值，结果是 <code class="docutils literal notranslate"><span class="pre">True</span></code> 或 <code class="docutils literal notranslate"><span class="pre">False</span></code>；<code class="docutils literal notranslate"><span class="pre">[]</span></code> 操作只保留逻辑表达式取值为 <code class="docutils literal notranslate"><span class="pre">True</span></code> 的那些行。例如，在我们的分析中，我们只想保留属于 <code class="docutils literal notranslate"><span class="pre">&quot;Aboriginal</span> <span class="pre">languages&quot;</span></code> 这个高层级类别的语言。可以用<em>相等运算符</em>（equivalency operator）<code class="docutils literal notranslate"><span class="pre">==</span></code> 把 <code class="docutils literal notranslate"><span class="pre">category</span></code> 列的取值——记作 <code class="docutils literal notranslate"><span class="pre">can_lang[&quot;category&quot;]</span></code>——与取值 <code class="docutils literal notranslate"><span class="pre">&quot;Aboriginal</span> <span class="pre">languages&quot;</span></code> 作比较。你在<a class="reference internal" href="wrangling.html#wrangling"><span class="std std-numref">第 3 章</span></a>中还会学到许多其他类型的逻辑表达式。之前读取数据文件时，我们给文件名加了引号；这里同样要给 <code class="docutils literal notranslate"><span class="pre">&quot;Aboriginal</span> <span class="pre">languages&quot;</span></code> 和 <code class="docutils literal notranslate"><span class="pre">&quot;category&quot;</span></code> 都加上引号。加引号是告诉 Python，这是一个<em>字符串取值</em>（例如列名或文字数据），而不是构成 Python 编程语言的那些特殊单词，也不是我们在已经写过的代码中给对象起的名字。</p>
+<div class="admonition note">
+<p class="admonition-title">备注</p>
+<p>在 Python 中，单引号（<code class="docutils literal notranslate"><span class="pre">'</span></code>）和双引号（<code class="docutils literal notranslate"><span class="pre">&quot;</span></code>）通常没有区别。所以上面的 <code class="docutils literal notranslate"><span class="pre">&quot;Aboriginal</span> <span class="pre">languages&quot;</span></code> 也可以写成 <code class="docutils literal notranslate"><span class="pre">'Aboriginal</span> <span class="pre">languages'</span></code>，<code class="docutils literal notranslate"><span class="pre">&quot;category&quot;</span></code> 也可以写成 <code class="docutils literal notranslate"><span class="pre">'category'</span></code>。你自己把两种写法都试一下吧！</p>
+</div>
+<figure class="align-default" id="img-filter">
+<img alt="_images/filter_rows.png" src="_images/filter_rows.png" />
+<figcaption>
+<p><span class="caption-number">图 1.4 </span><span class="caption-text">用 <code class="docutils literal notranslate"><span class="pre">[]</span></code> 操作筛选行的语法。</span><a class="headerlink" href="#img-filter" title="永久链接至图片">#</a></p>
+</figcaption>
+</figure>
+<p>该操作返回的数据框包含输入数据框的全部列，但只保留逻辑表达式中指定的那些原住民语言对应的行。</p>
+<div class="cell tag_output_scroll docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">can_lang</span><span class="p">[</span><span class="n">can_lang</span><span class="p">[</span><span class="s2">"category"</span><span class="p">]</span> <span class="o">==</span> <span class="s2">"Aboriginal languages"</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>category</th>
+      <th>language</th>
+      <th>mother_tongue</th>
+      <th>most_at_home</th>
+      <th>most_at_work</th>
+      <th>lang_known</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Aboriginal languages</td>
+      <td>Aboriginal languages, n.o.s.</td>
+      <td>590</td>
+      <td>235</td>
+      <td>30</td>
+      <td>665</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>Aboriginal languages</td>
+      <td>Algonquian languages, n.i.e.</td>
+      <td>45</td>
+      <td>10</td>
+      <td>0</td>
+      <td>120</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>Aboriginal languages</td>
+      <td>Algonquin</td>
+      <td>1260</td>
+      <td>370</td>
+      <td>40</td>
+      <td>2480</td>
+    </tr>
+    <tr>
+      <th>12</th>
+      <td>Aboriginal languages</td>
+      <td>Athabaskan languages, n.i.e.</td>
+      <td>50</td>
+      <td>10</td>
+      <td>0</td>
+      <td>85</td>
+    </tr>
+    <tr>
+      <th>13</th>
+      <td>Aboriginal languages</td>
+      <td>Atikamekw</td>
+      <td>6150</td>
+      <td>5465</td>
+      <td>1100</td>
+      <td>6645</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>191</th>
+      <td>Aboriginal languages</td>
+      <td>Thompson (Ntlakapamux)</td>
+      <td>335</td>
+      <td>20</td>
+      <td>0</td>
+      <td>450</td>
+    </tr>
+    <tr>
+      <th>195</th>
+      <td>Aboriginal languages</td>
+      <td>Tlingit</td>
+      <td>95</td>
+      <td>0</td>
+      <td>10</td>
+      <td>260</td>
+    </tr>
+    <tr>
+      <th>196</th>
+      <td>Aboriginal languages</td>
+      <td>Tsimshian</td>
+      <td>200</td>
+      <td>30</td>
+      <td>10</td>
+      <td>410</td>
+    </tr>
+    <tr>
+      <th>206</th>
+      <td>Aboriginal languages</td>
+      <td>Wakashan languages, n.i.e.</td>
+      <td>10</td>
+      <td>0</td>
+      <td>0</td>
+      <td>25</td>
+    </tr>
+    <tr>
+      <th>210</th>
+      <td>Aboriginal languages</td>
+      <td>Woods Cree</td>
+      <td>1840</td>
+      <td>800</td>
+      <td>75</td>
+      <td>2665</td>
+    </tr>
+  </tbody>
+</table>
+<p>67 rows × 6 columns</p>
+</div></div></div>
+</div>
+</section>
+<section id="id17">
+<h3><span class="section-number">1.7.2. </span>用 <code class="docutils literal notranslate"><span class="pre">[]</span></code> 选取列<a class="headerlink" href="#id17" title="Permalink to this heading">#</a></h3>
+<p id="index-20">我们也可以用 <code class="docutils literal notranslate"><span class="pre">[]</span></code> 操作从数据框中选取列。<a class="reference internal" href="#img-select"><span class="std std-numref">图 1.5</span></a> 给出了选取列所需的语法。同样先写数据框的名字——这里是 <code class="docutils literal notranslate"><span class="pre">can_lang</span></code>——再写一对方括号。方括号里面给出一个列名组成的<em>列表</em>（list）。在 Python 中，我们用方括号表示<em>列表</em>，其中每个元素用逗号（<code class="docutils literal notranslate"><span class="pre">,</span></code>）分隔。因此，如果只想从原来的 <code class="docutils literal notranslate"><span class="pre">can_lang</span></code> 数据框中选取 <code class="docutils literal notranslate"><span class="pre">language</span></code> 和 <code class="docutils literal notranslate"><span class="pre">mother_tongue</span></code> 两列，就把包含这两个列名的列表 <code class="docutils literal notranslate"><span class="pre">[&quot;language&quot;,</span> <span class="pre">&quot;mother_tongue&quot;]</span></code> 放进 <code class="docutils literal notranslate"><span class="pre">[]</span></code> 操作的方括号中。</p>
+<figure class="align-default" id="img-select">
+<img alt="_images/select_columns.png" src="_images/select_columns.png" />
+<figcaption>
+<p><span class="caption-number">图 1.5 </span><span class="caption-text">用 <code class="docutils literal notranslate"><span class="pre">[]</span></code> 操作选取列的语法。</span><a class="headerlink" href="#img-select" title="永久链接至图片">#</a></p>
+</figcaption>
+</figure>
+<p>该操作返回的数据框包含输入数据框的全部行，但只保留我们在选取列表中写出的那些列。</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">can_lang</span><span class="p">[[</span><span class="s2">"language"</span><span class="p">,</span> <span class="s2">"mother_tongue"</span><span class="p">]]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>language</th>
+      <th>mother_tongue</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Aboriginal languages, n.o.s.</td>
+      <td>590</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Afrikaans</td>
+      <td>10260</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>Afro-Asiatic languages, n.i.e.</td>
+      <td>1150</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>Akan (Twi)</td>
+      <td>13460</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>Albanian</td>
+      <td>26895</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>209</th>
+      <td>Wolof</td>
+      <td>3990</td>
+    </tr>
+    <tr>
+      <th>210</th>
+      <td>Woods Cree</td>
+      <td>1840</td>
+    </tr>
+    <tr>
+      <th>211</th>
+      <td>Wu (Shanghainese)</td>
+      <td>12915</td>
+    </tr>
+    <tr>
+      <th>212</th>
+      <td>Yiddish</td>
+      <td>13555</td>
+    </tr>
+    <tr>
+      <th>213</th>
+      <td>Yoruba</td>
+      <td>9080</td>
+    </tr>
+  </tbody>
+</table>
+<p>214 rows × 2 columns</p>
+</div></div></div>
+</div>
+</section>
+<section id="id18">
+<h3><span class="section-number">1.7.3. </span>用 <code class="docutils literal notranslate"><span class="pre">loc[]</span></code> 筛选行并选取列<a class="headerlink" href="#id18" title="Permalink to this heading">#</a></h3>
+<p id="index-21"><code class="docutils literal notranslate"><span class="pre">[]</span></code> 操作只用于筛选行<em>或</em>选取列，不能同时完成这两件事。但要回答本章最初的数据分析问题，我们必须<em>既</em>按原住民语言筛选行，<em>又</em>选取 <code class="docutils literal notranslate"><span class="pre">language</span></code> 和 <code class="docutils literal notranslate"><span class="pre">mother_tongue</span></code> 两列。好在 <code class="docutils literal notranslate"><span class="pre">pandas</span></code> 提供了 <code class="docutils literal notranslate"><span class="pre">loc[]</span></code> 操作，可以一次做到。它的语法和我们刚讲过的 <code class="docutils literal notranslate"><span class="pre">[]</span></code> 操作很像：本质上就是把前面的行筛选和列选取两步合在一起。具体来说，先写数据框的名字——还是 <code class="docutils literal notranslate"><span class="pre">can_lang</span></code>——后面接 <code class="docutils literal notranslate"><span class="pre">.loc[]</span></code> 操作。方括号里面，先写用于筛选行的逻辑表达式，然后写一个逗号，再写要选取的列组成的列表。</p>
+<figure class="align-default" id="img-loc">
+<img alt="_images/filter_rows_and_columns.png" src="_images/filter_rows_and_columns.png" />
+<figcaption>
+<p><span class="caption-number">图 1.6 </span><span class="caption-text">用 <code class="docutils literal notranslate"><span class="pre">loc[]</span></code> 操作筛选行并选取列的语法。</span><a class="headerlink" href="#img-loc" title="永久链接至图片">#</a></p>
+</figcaption>
+</figure>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">aboriginal_lang</span> <span class="o">=</span> <span class="n">can_lang</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">can_lang</span><span class="p">[</span><span class="s2">"category"</span><span class="p">]</span> <span class="o">==</span> <span class="s2">"Aboriginal languages"</span><span class="p">,</span> <span class="p">[</span><span class="s2">"language"</span><span class="p">,</span> <span class="s2">"mother_tongue"</span><span class="p">]]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>这段代码里有一点很重要，需要留意。第一，我们在 <code class="docutils literal notranslate"><span class="pre">can_lang</span></code> 数据框上使用 <code class="docutils literal notranslate"><span class="pre">loc[]</span></code> 操作时写的是 <code class="docutils literal notranslate"><span class="pre">can_lang.loc[]</span></code>——先写数据框名，再写一个点，然后写 <code class="docutils literal notranslate"><span class="pre">loc[]</span></code>。又是这个点！回想一下，本章前面我们用过 <code class="docutils literal notranslate"><span class="pre">pandas</span></code> 中的 <code class="docutils literal notranslate"><span class="pre">read_csv</span></code> 函数（别名为 <code class="docutils literal notranslate"><span class="pre">pd</span></code>），当时写的是 <code class="docutils literal notranslate"><span class="pre">pd.read_csv</span></code>。点表示左边的东西（<code class="docutils literal notranslate"><span class="pre">pd</span></code>，即 <code class="docutils literal notranslate"><span class="pre">pandas</span></code> 包）<em>提供</em>右边的东西（<code class="docutils literal notranslate"><span class="pre">read_csv</span></code> 函数）。在 <code class="docutils literal notranslate"><span class="pre">can_lang.loc[]</span></code> 这个例子里，左边的东西（<code class="docutils literal notranslate"><span class="pre">can_lang</span></code> 数据框）<em>提供</em>右边的东西（<code class="docutils literal notranslate"><span class="pre">loc[]</span></code> 操作）。在 Python 中，包（比如 <code class="docutils literal notranslate"><span class="pre">pandas</span></code>）<em>和</em>对象（比如我们的 <code class="docutils literal notranslate"><span class="pre">can_lang</span></code> 数据框）都可以提供函数和其他对象，我们用点语法（dot syntax）来访问它们。</p>
+<div class="admonition note">
+<p class="admonition-title">备注</p>
+<p>关于术语的一点说明：当对象 <code class="docutils literal notranslate"><span class="pre">obj</span></code> 用点语法提供函数 <code class="docutils literal notranslate"><span class="pre">f</span></code> 时（如 <code class="docutils literal notranslate"><span class="pre">obj.f()</span></code>），我们有时把函数 <code class="docutils literal notranslate"><span class="pre">f</span></code> 称为 <code class="docutils literal notranslate"><span class="pre">obj</span></code> 的<em>方法</em>，或者说成 <code class="docutils literal notranslate"><span class="pre">obj</span></code> 上的<em>操作</em>。类似地，当对象 <code class="docutils literal notranslate"><span class="pre">obj</span></code> 用点语法提供另一个对象 <code class="docutils literal notranslate"><span class="pre">x</span></code> 时（如 <code class="docutils literal notranslate"><span class="pre">obj.x</span></code>），我们有时把对象 <code class="docutils literal notranslate"><span class="pre">x</span></code> 称为 <code class="docutils literal notranslate"><span class="pre">obj</span></code> 的<em>属性</em>。本书会一直使用这些术语，你在社区里也会经常看到它们。另外，程序员似乎总喜欢无缘无故地把人搞糊涂：指代来自包（比如 <code class="docutils literal notranslate"><span class="pre">pandas</span></code>）的函数和对象时，我们<em>不</em>用“方法”“操作”“属性”这些术语。例如，<code class="docutils literal notranslate"><span class="pre">pd.read_csv</span></code> 通常就只被称为函数，而不叫方法或操作，尽管它也用点语法。</p>
+</div>
+<p>到这一步，如果前面都做对了，<code class="docutils literal notranslate"><span class="pre">aboriginal_lang</span></code> 应该是一个数据框，其中<em>只</em>包含 <code class="docutils literal notranslate"><span class="pre">category</span></code> 为 <code class="docutils literal notranslate"><span class="pre">&quot;Aboriginal</span> <span class="pre">languages&quot;</span></code> 的行，并且<em>只</em>包含 <code class="docutils literal notranslate"><span class="pre">language</span></code> 和 <code class="docutils literal notranslate"><span class="pre">mother_tongue</span></code> 两列。在数据分析中每走一步，最好都把结果打印出来检查一下。</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">aboriginal_lang</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>language</th>
+      <th>mother_tongue</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Aboriginal languages, n.o.s.</td>
+      <td>590</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>Algonquian languages, n.i.e.</td>
+      <td>45</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>Algonquin</td>
+      <td>1260</td>
+    </tr>
+    <tr>
+      <th>12</th>
+      <td>Athabaskan languages, n.i.e.</td>
+      <td>50</td>
+    </tr>
+    <tr>
+      <th>13</th>
+      <td>Atikamekw</td>
+      <td>6150</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>191</th>
+      <td>Thompson (Ntlakapamux)</td>
+      <td>335</td>
+    </tr>
+    <tr>
+      <th>195</th>
+      <td>Tlingit</td>
+      <td>95</td>
+    </tr>
+    <tr>
+      <th>196</th>
+      <td>Tsimshian</td>
+      <td>200</td>
+    </tr>
+    <tr>
+      <th>206</th>
+      <td>Wakashan languages, n.i.e.</td>
+      <td>10</td>
+    </tr>
+    <tr>
+      <th>210</th>
+      <td>Woods Cree</td>
+      <td>1840</td>
+    </tr>
+  </tbody>
+</table>
+<p>67 rows × 2 columns</p>
+</div></div></div>
+</div>
+<p>可以看到，原来的 <code class="docutils literal notranslate"><span class="pre">can_lang</span></code> 数据集有 214 行，包含多种 <code class="docutils literal notranslate"><span class="pre">category</span></code>。数据框 <code class="docutils literal notranslate"><span class="pre">aboriginal_lang</span></code> 只有 67 行，而且看起来只包含原住民语言。看来 <code class="docutils literal notranslate"><span class="pre">loc[]</span></code> 操作给出的正是我们想要的结果！</p>
+</section>
+</section>
+<section id="sort-values-head">
+<h2><span class="section-number">1.8. </span>用 <code class="docutils literal notranslate"><span class="pre">sort_values</span></code> 和 <code class="docutils literal notranslate"><span class="pre">head</span></code> 按排序后的取值选取行<a class="headerlink" href="#sort-values-head" title="Permalink to this heading">#</a></h2>
+<p id="index-22">我们已经用数据框上的 <code class="docutils literal notranslate"><span class="pre">[]</span></code> 和 <code class="docutils literal notranslate"><span class="pre">loc[]</span></code> 操作，得到了只含数据集中原住民语言及其对应计数的表。不过，我们想知道使用最频繁的<strong>十种</strong>语言。下一步，我们把 <code class="docutils literal notranslate"><span class="pre">mother_tongue</span></code> 列从大到小排序，然后只取出最前面的十行。<code class="docutils literal notranslate"><span class="pre">sort_values</span></code> 和 <code class="docutils literal notranslate"><span class="pre">head</span></code> 两个函数正好来救场！</p>
+<p><code class="docutils literal notranslate"><span class="pre">sort_values</span></code> 函数可以按某一列的取值给数据框的行排序。要排序的列名通过参数 <code class="docutils literal notranslate"><span class="pre">by</span></code> 传给函数。我们想选出被报告为母语最多的十种原住民语言，所以用 <code class="docutils literal notranslate"><span class="pre">sort_values</span></code> 函数按 <code class="docutils literal notranslate"><span class="pre">mother_tongue</span></code> 列给 <code class="docutils literal notranslate"><span class="pre">selected_lang</span></code> 数据框的行排序。我们要按降序（从大到小）排列，因此把参数 <code class="docutils literal notranslate"><span class="pre">ascending</span></code> 设为 <code class="docutils literal notranslate"><span class="pre">False</span></code>。</p>
+<figure class="align-default" id="img-sort-values">
+<img alt="_images/sort_values.png" src="_images/sort_values.png" />
+<figcaption>
+<p><span class="caption-number">图 1.7 </span><span class="caption-text">用 <code class="docutils literal notranslate"><span class="pre">sort_values</span></code> 按降序排列行的语法。</span><a class="headerlink" href="#img-sort-values" title="永久链接至图片">#</a></p>
+</figcaption>
+</figure>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">arranged_lang</span> <span class="o">=</span> <span class="n">aboriginal_lang</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="n">by</span><span class="o">=</span><span class="s2">"mother_tongue"</span><span class="p">,</span> <span class="n">ascending</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">arranged_lang</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>language</th>
+      <th>mother_tongue</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>40</th>
+      <td>Cree, n.o.s.</td>
+      <td>64050</td>
+    </tr>
+    <tr>
+      <th>89</th>
+      <td>Inuktitut</td>
+      <td>35210</td>
+    </tr>
+    <tr>
+      <th>138</th>
+      <td>Ojibway</td>
+      <td>17885</td>
+    </tr>
+    <tr>
+      <th>137</th>
+      <td>Oji-Cree</td>
+      <td>12855</td>
+    </tr>
+    <tr>
+      <th>48</th>
+      <td>Dene</td>
+      <td>10700</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>32</th>
+      <td>Cayuga</td>
+      <td>45</td>
+    </tr>
+    <tr>
+      <th>176</th>
+      <td>Southern East Cree</td>
+      <td>45</td>
+    </tr>
+    <tr>
+      <th>179</th>
+      <td>Squamish</td>
+      <td>40</td>
+    </tr>
+    <tr>
+      <th>90</th>
+      <td>Iroquoian languages, n.i.e.</td>
+      <td>35</td>
+    </tr>
+    <tr>
+      <th>206</th>
+      <td>Wakashan languages, n.i.e.</td>
+      <td>10</td>
+    </tr>
+  </tbody>
+</table>
+<p>67 rows × 2 columns</p>
+</div></div></div>
+</div>
+<p>接下来，我们只选取 <code class="docutils literal notranslate"><span class="pre">arranged_lang</span></code> 数据框的前十行，就能得到最常见的十种原住民语言。这一步用 <code class="docutils literal notranslate"><span class="pre">head</span></code> 函数完成，并把参数指定为 <code class="docutils literal notranslate"><span class="pre">10</span></code>。</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ten_lang</span> <span class="o">=</span> <span class="n">arranged_lang</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+<span class="n">ten_lang</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>language</th>
+      <th>mother_tongue</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>40</th>
+      <td>Cree, n.o.s.</td>
+      <td>64050</td>
+    </tr>
+    <tr>
+      <th>89</th>
+      <td>Inuktitut</td>
+      <td>35210</td>
+    </tr>
+    <tr>
+      <th>138</th>
+      <td>Ojibway</td>
+      <td>17885</td>
+    </tr>
+    <tr>
+      <th>137</th>
+      <td>Oji-Cree</td>
+      <td>12855</td>
+    </tr>
+    <tr>
+      <th>48</th>
+      <td>Dene</td>
+      <td>10700</td>
+    </tr>
+    <tr>
+      <th>125</th>
+      <td>Montagnais (Innu)</td>
+      <td>10235</td>
+    </tr>
+    <tr>
+      <th>119</th>
+      <td>Mi'kmaq</td>
+      <td>6690</td>
+    </tr>
+    <tr>
+      <th>13</th>
+      <td>Atikamekw</td>
+      <td>6150</td>
+    </tr>
+    <tr>
+      <th>149</th>
+      <td>Plains Cree</td>
+      <td>3065</td>
+    </tr>
+    <tr>
+      <th>180</th>
+      <td>Stoney</td>
+      <td>3025</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+</section>
+<section id="ch1-adding-modifying">
+<span id="id19"></span><h2><span class="section-number">1.9. </span>添加和修改列<a class="headerlink" href="#ch1-adding-modifying" title="Permalink to this heading">#</a></h2>
+<p id="index-23">回想一下，我们的数据分析问题问的是：报告说得最多的前十种原住民语言，每种语言各有多少加拿大居民把它当作母语；<code class="docutils literal notranslate"><span class="pre">ten_lang</span></code> 数据框里确实有这些<em>计数</em>……不过，看到这些数字，我们也许会对每个计数对应加拿大人口的<em>百分比</em>感到好奇。回答第一个问题时，常常又会冒出新的数据分析问题——所以别害怕，尽管去探索！为了顺便回答这个小问题，我们要用 <code class="docutils literal notranslate"><span class="pre">mother_tongue</span></code> 列中的每个计数除以 2016 年人口普查得到的加拿大总人口——即 35,151,728——再乘以 100。这个计算可以写成 <code class="docutils literal notranslate"><span class="pre">100</span> <span class="pre">*</span> <span class="pre">ten_lang[&quot;mother_tongue&quot;]</span> <span class="pre">/</span> <span class="pre">canadian_population</span></code>。然后，要把结果存进一个新列（或覆盖已有的列），就先写出要新建的列名（要修改的旧列名），再写赋值符号 <code class="docutils literal notranslate"><span class="pre">=</span></code>，最后写要存入该列的计算式。这里我们选择新建一列，命名为 <code class="docutils literal notranslate"><span class="pre">mother_tongue_percent</span></code>。</p>
+<div class="admonition note">
+<p class="admonition-title">备注</p>
+<p>下面你会看到，我们在 Python 里把加拿大人口写成 <code class="docutils literal notranslate"><span class="pre">35_151_728</span></code>。下划线（<code class="docutils literal notranslate"><span class="pre">_</span></code>）只是为了便于阅读，并不影响 Python 对这个数字的解释。换句话说，在 Python 中 <code class="docutils literal notranslate"><span class="pre">35151728</span></code> 和 <code class="docutils literal notranslate"><span class="pre">35_151_728</span></code> 完全等价，不过后者清楚得多！</p>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">canadian_population</span> <span class="o">=</span> <span class="mi">35_151_728</span>
+<span class="n">ten_lang</span><span class="p">[</span><span class="s2">"mother_tongue_percent"</span><span class="p">]</span> <span class="o">=</span> <span class="mi">100</span> <span class="o">*</span> <span class="n">ten_lang</span><span class="p">[</span><span class="s2">"mother_tongue"</span><span class="p">]</span> <span class="o">/</span> <span class="n">canadian_population</span>
+<span class="n">ten_lang</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>language</th>
+      <th>mother_tongue</th>
+      <th>mother_tongue_percent</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>40</th>
+      <td>Cree, n.o.s.</td>
+      <td>64050</td>
+      <td>0.182210</td>
+    </tr>
+    <tr>
+      <th>89</th>
+      <td>Inuktitut</td>
+      <td>35210</td>
+      <td>0.100166</td>
+    </tr>
+    <tr>
+      <th>138</th>
+      <td>Ojibway</td>
+      <td>17885</td>
+      <td>0.050879</td>
+    </tr>
+    <tr>
+      <th>137</th>
+      <td>Oji-Cree</td>
+      <td>12855</td>
+      <td>0.036570</td>
+    </tr>
+    <tr>
+      <th>48</th>
+      <td>Dene</td>
+      <td>10700</td>
+      <td>0.030439</td>
+    </tr>
+    <tr>
+      <th>125</th>
+      <td>Montagnais (Innu)</td>
+      <td>10235</td>
+      <td>0.029117</td>
+    </tr>
+    <tr>
+      <th>119</th>
+      <td>Mi'kmaq</td>
+      <td>6690</td>
+      <td>0.019032</td>
+    </tr>
+    <tr>
+      <th>13</th>
+      <td>Atikamekw</td>
+      <td>6150</td>
+      <td>0.017496</td>
+    </tr>
+    <tr>
+      <th>149</th>
+      <td>Plains Cree</td>
+      <td>3065</td>
+      <td>0.008719</td>
+    </tr>
+    <tr>
+      <th>180</th>
+      <td>Stoney</td>
+      <td>3025</td>
+      <td>0.008606</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">ten_lang_percent</span></code> 数据框表明，<code class="docutils literal notranslate"><span class="pre">ten_lang</span></code> 数据框中的十种原住民语言，作为母语使用的人数占加拿大人口的 0.008% 到 0.18%。</p>
+</section>
+<section id="id20">
+<h2><span class="section-number">1.10. </span>用链式调用和多行表达式合并步骤<a class="headerlink" href="#id20" title="Permalink to this heading">#</a></h2>
+<p>为了找出 2016 年在加拿大被报告为母语最多的十种原住民语言，我们用了 3 步。从 <code class="docutils literal notranslate"><span class="pre">can_lang</span></code> 数据框出发，我们：</p>
+<ol class="arabic simple">
+<li><p>用 <code class="docutils literal notranslate"><span class="pre">loc</span></code> 筛选行，只留下 <code class="docutils literal notranslate"><span class="pre">Aboriginal</span> <span class="pre">languages</span></code> 类别，并选取 <code class="docutils literal notranslate"><span class="pre">language</span></code> 和 <code class="docutils literal notranslate"><span class="pre">mother_tongue</span></code> 两列，2) 用 <code class="docutils literal notranslate"><span class="pre">sort_values</span></code> 按 <code class="docutils literal notranslate"><span class="pre">mother_tongue</span></code> 降序排列这些行，并且 3) 用 <code class="docutils literal notranslate"><span class="pre">head</span></code> 只取前 10 个取值。</p></li>
+</ol>
+<p>完成这些步骤的一种做法，就是直接写多行代码，边走边把中间结果存成临时对象。</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">aboriginal_lang</span> <span class="o">=</span> <span class="n">can_lang</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">can_lang</span><span class="p">[</span><span class="s2">"category"</span><span class="p">]</span> <span class="o">==</span> <span class="s2">"Aboriginal languages"</span><span class="p">,</span> <span class="p">[</span><span class="s2">"language"</span><span class="p">,</span> <span class="s2">"mother_tongue"</span><span class="p">]]</span>
+<span class="n">arranged_lang_sorted</span> <span class="o">=</span> <span class="n">aboriginal_lang</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="n">by</span><span class="o">=</span><span class="s2">"mother_tongue"</span><span class="p">,</span> <span class="n">ascending</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">ten_lang</span> <span class="o">=</span> <span class="n">arranged_lang_sorted</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p id="index-24">你可能觉得这段代码不好读。你没说错，确实不好读！可读性上主要有两个问题。第一，每一行代码都很长。很难看清到底调用了哪些方法、用了哪些参数。第二，每一行都引入一个新的临时对象。这里 <code class="docutils literal notranslate"><span class="pre">aboriginal_lang</span></code> 和 <code class="docutils literal notranslate"><span class="pre">arranged_lang_sorted</span></code> 都只是通往 <code class="docutils literal notranslate"><span class="pre">ten_lang</span></code> 数据框途中的临时结果。这样一来，代码既难读——因为得一步步追查每个临时对象去了哪里，也难懂——因为命名了很多对象，会让人以为它们很重要，其实它们只是中间产物。处理数据框时往往需要依次调用多个方法，所以这个问题很值得解决！</p>
+<p>要解决第一个问题，我们可以把上面那些很长的表达式拆到多行。在大多数情况下，Python 中的一个表达式必须写在一行代码里，只有少数几种情形允许我们这样做。接下来我们用多行表达式（multiline expression）把这段代码改写成更好读的形式。</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">aboriginal_lang</span> <span class="o">=</span> <span class="n">can_lang</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span>
+    <span class="n">can_lang</span><span class="p">[</span><span class="s2">"category"</span><span class="p">]</span> <span class="o">==</span> <span class="s2">"Aboriginal languages"</span><span class="p">,</span>
+    <span class="p">[</span><span class="s2">"language"</span><span class="p">,</span> <span class="s2">"mother_tongue"</span><span class="p">]</span>
+<span class="p">]</span>
+<span class="n">arranged_lang_sorted</span> <span class="o">=</span> <span class="n">aboriginal_lang</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span>
+    <span class="n">by</span><span class="o">=</span><span class="s2">"mother_tongue"</span><span class="p">,</span>
+    <span class="n">ascending</span><span class="o">=</span><span class="kc">False</span>
+<span class="p">)</span>
+<span class="n">ten_lang</span> <span class="o">=</span> <span class="n">arranged_lang_sorted</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>这段代码和前面展示的代码一样；可以看到，方法和参数的顺序完全相同。只是当表达式本来会变得又长又难读时，就把它拆到多行，从而提高代码的可读性。Python 怎么知道一个表达式还没写完、要接着读下一行呢？对于以 <code class="docutils literal notranslate"><span class="pre">aboriginal_lang</span> <span class="pre">=</span> <span class="pre">...</span></code> 开头的那一行，Python 看到这行以左方括号符号 <code class="docutils literal notranslate"><span class="pre">[</span></code> 结尾，就知道除非用对应的右方括号符号 <code class="docutils literal notranslate"><span class="pre">]</span></code> 把它闭合，否则这个表达式不会结束。我们放的两个参数和之前一样，对应的右方括号出现在 <code class="docutils literal notranslate"><span class="pre">[&quot;language&quot;,</span> <span class="pre">&quot;mother_tongue&quot;]</span></code> 之后）。对于以 <code class="docutils literal notranslate"><span class="pre">arranged_lang_sorted</span> <span class="pre">=</span> <span class="pre">...</span></code> 开头的那一行，Python 看到这行以左圆括号符号 <code class="docutils literal notranslate"><span class="pre">(</span></code> 结尾，就知道除非用对应的右圆括号符号 <code class="docutils literal notranslate"><span class="pre">)</span></code> 把它闭合，否则这个表达式不会结束。这里用的两个参数同样和之前一样，对应的右圆括号就出现在 <code class="docutils literal notranslate"><span class="pre">ascending=False</span></code> 后面。这两种情况下，Python 都会继续读下一行，弄清楚表达式的其余部分是什么。当然，我们也可以把全部代码写在一行里，但拆到多行对代码可读性帮助很大。</p>
+<p id="index-25">还有一个问题要处理：每一行代码——也就是分析中的每一步——都会引入一个新的临时对象。要解决它，我们可以把多个操作<em>链</em>在一起，而不给中间对象赋值。链式调用（chaining）的关键在于，分析中每一步的<em>输出</em>都是一个数据框，因此你可以直接对每一步的输出来继续调用方法，一环接一环！这样代码更简洁，也更好读。下面的代码同时演示了多行表达式和链式调用。代码现在清爽多了，得到的 <code class="docutils literal notranslate"><span class="pre">ten_lang</span></code> 数据框与上面那段凌乱代码的结果完全等价！</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># obtain the 10 most common Aboriginal languages</span>
+<span class="n">ten_lang</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="n">can_lang</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span>
+       <span class="n">can_lang</span><span class="p">[</span><span class="s2">"category"</span><span class="p">]</span> <span class="o">==</span> <span class="s2">"Aboriginal languages"</span><span class="p">,</span>
+       <span class="p">[</span><span class="s2">"language"</span><span class="p">,</span> <span class="s2">"mother_tongue"</span><span class="p">]</span>
+    <span class="p">]</span>
+    <span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="n">by</span><span class="o">=</span><span class="s2">"mother_tongue"</span><span class="p">,</span> <span class="n">ascending</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+<span class="p">)</span>
+<span class="n">ten_lang</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>language</th>
+      <th>mother_tongue</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>40</th>
+      <td>Cree, n.o.s.</td>
+      <td>64050</td>
+    </tr>
+    <tr>
+      <th>89</th>
+      <td>Inuktitut</td>
+      <td>35210</td>
+    </tr>
+    <tr>
+      <th>138</th>
+      <td>Ojibway</td>
+      <td>17885</td>
+    </tr>
+    <tr>
+      <th>137</th>
+      <td>Oji-Cree</td>
+      <td>12855</td>
+    </tr>
+    <tr>
+      <th>48</th>
+      <td>Dene</td>
+      <td>10700</td>
+    </tr>
+    <tr>
+      <th>125</th>
+      <td>Montagnais (Innu)</td>
+      <td>10235</td>
+    </tr>
+    <tr>
+      <th>119</th>
+      <td>Mi'kmaq</td>
+      <td>6690</td>
+    </tr>
+    <tr>
+      <th>13</th>
+      <td>Atikamekw</td>
+      <td>6150</td>
+    </tr>
+    <tr>
+      <th>149</th>
+      <td>Plains Cree</td>
+      <td>3065</td>
+    </tr>
+    <tr>
+      <th>180</th>
+      <td>Stoney</td>
+      <td>3025</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>我们把这段新代码逐块拆开来看。上面的代码以左圆括号 <code class="docutils literal notranslate"><span class="pre">(</span></code> 开头，因此 Python 知道要一直读到后面的行，直到找到对应的右圆括号符号 <code class="docutils literal notranslate"><span class="pre">)</span></code>。<code class="docutils literal notranslate"><span class="pre">loc</span></code> 方法和之前一样完成筛选和选取。接下来的一行以句点（<code class="docutils literal notranslate"><span class="pre">.</span></code>）开头，它把 <code class="docutils literal notranslate"><span class="pre">loc</span></code> 这一步的输出与下一个操作 <code class="docutils literal notranslate"><span class="pre">sort_values</span></code> <em>链</em>起来。既然 <code class="docutils literal notranslate"><span class="pre">loc</span></code> 的输出是一个数据框，我们就可以直接在它上面调用 <code class="docutils literal notranslate"><span class="pre">sort_values</span></code> 方法，而不必先给它起名字！下一行中的 <code class="docutils literal notranslate"><span class="pre">.sort_values</span></code> 做的正是这件事。最后，我们再次把 <code class="docutils literal notranslate"><span class="pre">sort_values</span></code> 的输出与 <code class="docutils literal notranslate"><span class="pre">head</span></code> <em>链</em>在一起，以取得最常见的 10 种语言。最后，与最开头那个左圆括号对应的右圆括号 <code class="docutils literal notranslate"><span class="pre">)</span></code> 出现在倒数第二行，整个多行表达式就此完成。链式调用不再创建中间对象，而是把一步操作的输出拿去做下一步操作。这样就省去了创建和存储中间对象的必要，代码因此更简洁，可读性也更好。</p>
+<p>我们已经把链式调用作为存储临时对象和组合代码之外的另一种选择介绍给你了。那么，是不是就<em>绝不</em>该存储临时对象或组合代码呢？未必！有些时候，保留临时对象很方便。例如，你可以先把结果存成临时对象，再把它传给绘图函数，这样就可以反复调整图形，而不必把前面的数据变换全部重做一遍。把许多函数链在一起可能让人吃不消，也不容易调试；你可能希望在中途把结果存成临时对象，检查一下再继续后面的步骤。</p>
+</section>
+<section id="id21">
+<h2><span class="section-number">1.11. </span>用可视化探索数据<a class="headerlink" href="#id21" title="Permalink to this heading">#</a></h2>
+<p id="index-26"><code class="docutils literal notranslate"><span class="pre">ten_lang</span></code> 这张表回答了最初的数据分析问题。我们做完了吗？还没有。表格几乎从来都不是把分析结果呈现给受众的最好方式。即使 <code class="docutils literal notranslate"><span class="pre">ten_lang</span></code> 只有两列，也还是有些不方便：比如，你得凑近了仔细看，才能大致感觉出各语言使用人数的相对多少。分析变得更复杂时，这个问题只会更严重。相比之下，<em>可视化</em>能以容易理解得多的方式传达这些信息。可视化是汇总信息的利器，能帮你有效地与受众沟通；做出有效的数据可视化，是任何数据分析都不可缺少的一环。本节我们要为 2016 年在加拿大被报告为母语最多的十种原住民语言，以及每种语言的使用人数，制作一张可视化图形。</p>
+<section id="altair">
+<h3><span class="section-number">1.11.1. </span>用 <code class="docutils literal notranslate"><span class="pre">altair</span></code> 创建条形图<a class="headerlink" href="#altair" title="Permalink to this heading">#</a></h3>
+<p id="index-27">在这份数据集中，<code class="docutils literal notranslate"><span class="pre">language</span></code> 和 <code class="docutils literal notranslate"><span class="pre">mother_tongue</span></code> 分别位于不同的列（也就是变量），而且每种语言占一行（也就是一个观测）。所以，这份数据属于我们所说的<em>整洁数据</em>（tidy data）格式。整洁数据是一个基本概念，也是本书余下部分的重要主题：<code class="docutils literal notranslate"><span class="pre">pandas</span></code> 中的许多函数都要求数据是整洁的，我们马上要用来做可视化的 <code class="docutils literal notranslate"><span class="pre">altair</span></code> 包也是如此。我们会在<a class="reference internal" href="wrangling.html#wrangling"><span class="std std-numref">第 3 章</span></a>中正式介绍整洁数据。</p>
+<span class="target" id="index-28"></span><p id="index-29">我们要用条形图把数据可视化。条形图的条形长度表示某些取值，比如计数或比例。我们用 <code class="docutils literal notranslate"><span class="pre">ten_lang</span></code> 数据框中的 <code class="docutils literal notranslate"><span class="pre">mother_tongue</span></code> 和 <code class="docutils literal notranslate"><span class="pre">language</span></code> 两列做一张条形图。要用 <code class="docutils literal notranslate"><span class="pre">altair</span></code> 包为这两个变量画条形图，必须指明用哪个数据框、把哪些变量放在 x 轴和 y 轴上，以及要画哪种图。第一步，先导入 <code class="docutils literal notranslate"><span class="pre">altair</span></code> 包。</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">altair</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">alt</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p id="index-30"><code class="docutils literal notranslate"><span class="pre">altair</span></code> 中最基本的对象是 <code class="docutils literal notranslate"><span class="pre">Chart</span></code>，它接收一个数据框作为参数：<code class="docutils literal notranslate"><span class="pre">alt.Chart(ten_lang)</span></code>。有了图形对象之后，就可以指定希望怎样可视化数据。先说明用什么图形<em>标记</em>来表示数据。这里我们用 <code class="docutils literal notranslate"><span class="pre">Chart.mark_bar</span></code> 函数设置图形对象的标记属性，因为要画的是条形图。接下来，我们需要用 <code class="docutils literal notranslate"><span class="pre">x</span></code> 和 <code class="docutils literal notranslate"><span class="pre">y</span></code> <em>编码通道</em>（encoding channel）来<em>编码</em>数据框中的变量（它们分别表示各个点在 x 轴和 y 轴上的位置）。这用 <code class="docutils literal notranslate"><span class="pre">encode()</span></code> 函数完成：我们指定 <code class="docutils literal notranslate"><span class="pre">language</span></code> 列对应 x 轴，<code class="docutils literal notranslate"><span class="pre">mother_tongue</span></code> 列对应 y 轴。</p>
+<figure class="align-default" id="img-altair">
+<img alt="_images/altair_syntax.png" src="_images/altair_syntax.png" />
+<figcaption>
+<p><span class="caption-number">图 1.8 </span><span class="caption-text">用 <code class="docutils literal notranslate"><span class="pre">altair</span></code> 制作条形图的语法。</span><a class="headerlink" href="#img-altair" title="永久链接至图片">#</a></p>
+</figcaption>
+</figure>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">barplot_mother_tongue</span> <span class="o">=</span> <span class="p">(</span>
+  <span class="n">alt</span><span class="o">.</span><span class="n">Chart</span><span class="p">(</span><span class="n">ten_lang</span><span class="p">)</span><span class="o">.</span><span class="n">mark_bar</span><span class="p">()</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s2">"language"</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s2">"mother_tongue"</span><span class="p">)</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<figure class="align-default" id="barplot-mother-tongue" style="width: 700px">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>alt.Chart(...)
+</pre></div>
+</div>
+<figcaption>
+<p><span class="caption-number">图 1.9 </span><span class="caption-text">加拿大居民最常报告为母语的十种原住民语言的条形图。</span><a class="headerlink" href="#barplot-mother-tongue" title="永久链接至图片">#</a></p>
+</figcaption>
+</figure>
+</section>
+<section id="index-31">
+<span id="id22"></span><h3><span class="section-number">1.11.2. </span>设置 <code class="docutils literal notranslate"><span class="pre">altair</span></code> 图表的格式<a class="headerlink" href="#index-31" title="Permalink to this heading">#</a></h3>
+<p>我们已经能给数据做可视化，用来帮助回答自己的问题，这当然令人兴奋，不过我们的工作还没有做完！我们还能（也应该）做更多事情，提升自己所创建数据可视化的可解释性。例如，Python 默认把列名当作坐标轴标签。而这些列名通常并没有提供足够的信息来说明列中的变量。我们真该把这个默认标签换成信息量更大的标签。在上面的例子里，Python 把列名 <code class="docutils literal notranslate"><span class="pre">mother_tongue</span></code> 用作 y 轴标签，但多数人并不知道那是什么意思；即便他们知道，也不知道这个变量是如何测量的，更不知道测量对象是哪些人。如果坐标轴标签写成“Mother Tongue (Number of Canadian Residents)”，信息量就大得多。为了让代码更易读，我们把它拆成多行来写，就像上一节使用 pandas 时那样。</p>
+<p id="index-32">给我们在 <code class="docutils literal notranslate"><span class="pre">altair</span></code> 中创建的图形添加更多标签，是改进和完善数据可视化的一种常见而简便的做法。我们可以用 <code class="docutils literal notranslate"><span class="pre">alt.X</span></code> 和 <code class="docutils literal notranslate"><span class="pre">alt.Y</span></code> 配合 <code class="docutils literal notranslate"><span class="pre">title</span></code> 方法为 <code class="docutils literal notranslate"><span class="pre">altair</span></code> 对象的坐标轴添加标题，让轴标题包含更多信息（关于 <code class="docutils literal notranslate"><span class="pre">alt.X</span></code> 和 <code class="docutils literal notranslate"><span class="pre">alt.Y</span></code> 的更多内容，见<a class="reference internal" href="viz.html#viz"><span class="std std-numref">第 4 章</span></a>）。同样，由于我们是把文字（例如 <code class="docutils literal notranslate"><span class="pre">&quot;Mother</span> <span class="pre">Tongue</span> <span class="pre">(Number</span> <span class="pre">of</span> <span class="pre">Canadian</span> <span class="pre">Residents)&quot;</span></code>）作为参数传给 <code class="docutils literal notranslate"><span class="pre">title</span></code> 方法，所以要用引号把它们括起来。我们还能做许多其他修改来进一步设置图形的格式，这些内容将在<a class="reference internal" href="viz.html#viz"><span class="std std-numref">第 4 章</span></a>中介绍。</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">barplot_mother_tongue</span> <span class="o">=</span> <span class="n">alt</span><span class="o">.</span><span class="n">Chart</span><span class="p">(</span><span class="n">ten_lang</span><span class="p">)</span><span class="o">.</span><span class="n">mark_bar</span><span class="p">()</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span>
+    <span class="n">x</span><span class="o">=</span><span class="n">alt</span><span class="o">.</span><span class="n">X</span><span class="p">(</span><span class="s2">"language"</span><span class="p">)</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">"Language"</span><span class="p">),</span>
+    <span class="n">y</span><span class="o">=</span><span class="n">alt</span><span class="o">.</span><span class="n">Y</span><span class="p">(</span><span class="s2">"mother_tongue"</span><span class="p">)</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">"Mother Tongue (Number of Canadian Residents)"</span><span class="p">)</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<figure class="align-default" id="barplot-mother-tongue-labs" style="width: 700px">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>alt.Chart(...)
+</pre></div>
+</div>
+<figcaption>
+<p><span class="caption-number">图 1.10 </span><span class="caption-text">加拿大居民最常报告为母语的十种原住民语言的条形图，其中标注了 x 轴和 y 轴标签。注意，这个可视化还没有完成，仍有需要改进的地方。</span><a class="headerlink" href="#barplot-mother-tongue-labs" title="永久链接至图片">#</a></p>
+</figcaption>
+</figure>
+<p>结果见<a class="reference internal" href="#barplot-mother-tongue-labs"><span class="std std-numref">图 1.10</span></a>。这已经是相当大的改进了！接下来处理<a class="reference internal" href="#barplot-mother-tongue-labs"><span class="std std-numref">图 1.10</span></a> 中可视化的下一个主要问题：竖直方向的 x 轴标签目前让人很难读清各个语言名称。一个解决办法是旋转图形，让条形变成水平方向，而不是竖直方向。为此，我们把 x 轴和 y 轴对调：</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">barplot_mother_tongue_axis</span> <span class="o">=</span> <span class="n">alt</span><span class="o">.</span><span class="n">Chart</span><span class="p">(</span><span class="n">ten_lang</span><span class="p">)</span><span class="o">.</span><span class="n">mark_bar</span><span class="p">()</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span>
+    <span class="n">x</span><span class="o">=</span><span class="n">alt</span><span class="o">.</span><span class="n">X</span><span class="p">(</span><span class="s2">"mother_tongue"</span><span class="p">)</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">"Mother Tongue (Number of Canadian Residents)"</span><span class="p">),</span>
+    <span class="n">y</span><span class="o">=</span><span class="n">alt</span><span class="o">.</span><span class="n">Y</span><span class="p">(</span><span class="s2">"language"</span><span class="p">)</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">"Language"</span><span class="p">)</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<figure class="align-default" id="barplot-mother-tongue-labs-axis" style="width: 700px">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>alt.Chart(...)
+</pre></div>
+</div>
+<figcaption>
+<p><span class="caption-number">图 1.11 </span><span class="caption-text">加拿大居民最常报告为母语的十种原住民语言的水平条形图。这个可视化已经没有严重问题，但还可以进一步打磨。</span><a class="headerlink" href="#barplot-mother-tongue-labs-axis" title="永久链接至图片">#</a></p>
+</figcaption>
+</figure>
+<p id="index-33">如<a class="reference internal" href="#barplot-mother-tongue-labs-axis"><span class="std std-numref">图 1.11</span></a> 所示，我们又向前迈了一大步！这个可视化已经没有严重问题了。现在该对图形做进一步打磨，让它更适合回答我们在本章前面提出的问题。例如，如果按报告每种语言的加拿大居民人数来排列条形，而不是按字母顺序排列，图形就会更容易读懂。我们可以用 <code class="docutils literal notranslate"><span class="pre">sort</span></code> 方法重新排列条形，它根据变量（<code class="docutils literal notranslate"><span class="pre">mother_tongue</span></code>）在 <code class="docutils literal notranslate"><span class="pre">x-axis</span></code> 上的取值，给变量（这里是 <code class="docutils literal notranslate"><span class="pre">language</span></code>）排序。</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ordered_barplot_mother_tongue</span> <span class="o">=</span> <span class="n">alt</span><span class="o">.</span><span class="n">Chart</span><span class="p">(</span><span class="n">ten_lang</span><span class="p">)</span><span class="o">.</span><span class="n">mark_bar</span><span class="p">()</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span>
+    <span class="n">x</span><span class="o">=</span><span class="n">alt</span><span class="o">.</span><span class="n">X</span><span class="p">(</span><span class="s2">"mother_tongue"</span><span class="p">)</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">"Mother Tongue (Number of Canadian Residents)"</span><span class="p">),</span>
+    <span class="n">y</span><span class="o">=</span><span class="n">alt</span><span class="o">.</span><span class="n">Y</span><span class="p">(</span><span class="s2">"language"</span><span class="p">)</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="s2">"x"</span><span class="p">)</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">"Language"</span><span class="p">)</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<figure class="align-default" id="barplot-mother-tongue-reorder" style="width: 700px">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>alt.Chart(...)
+</pre></div>
+</div>
+<figcaption>
+<p><span class="caption-number">图 1.12 </span><span class="caption-text">加拿大居民最常报告为母语的十种原住民语言的条形图，其中的条形已重新排列。</span><a class="headerlink" href="#barplot-mother-tongue-reorder" title="永久链接至图片">#</a></p>
+</figcaption>
+</figure>
+<p><a class="reference internal" href="#barplot-mother-tongue-reorder"><span class="std std-numref">图 1.12</span></a> 为我们最初的问题提供了非常清晰、条理分明的答案：根据 2016 年加拿大人口普查，我们可以看到最常报告的原住民语言是哪十种，以及每种语言有多少人使用。例如，可以看到最常报告的原住民语言是 Cree n.o.s.，有超过 60,000 名加拿大居民把它报告为母语。</p>
+<div class="admonition note">
+<p class="admonition-title">备注</p>
+<p>“n.o.s.”表示“not otherwise specified”（未另行指明），所以 Cree n.o.s. 指的是那些把母语报告为克里语（Cree）的人。在这个数据集中，克里语各语言包含以下类别：Cree n.o.s.、Swampy Cree、Plains Cree、Woods Cree，以及一个“Cree not included elsewhere”（未在别处列出）类别（该类别包含 Moose Cree、Northern East Cree 和 Southern East Cree）<span id="id23">[<a class="reference internal" href="#id42" title="Statistics Canada. The Aboriginal languages of First Nations people, Métis and Inuit. 2016. URL: https://www12.statcan.gc.ca/census-recensement/2016/as-sa/98-200-x/2016022/98-200-x2016022-eng.cfm.">Statistics Canada, 2016</a>]</span>。</p>
+</div>
+</section>
+<section id="id24">
+<h3><span class="section-number">1.11.3. </span>融会贯通<a class="headerlink" href="#id24" title="Permalink to this heading">#</a></h3>
+<span class="target" id="index-34"></span><p id="index-35">下面这段代码把本章的全部内容整合到一起，并做了几处改动。具体来说，我们把所有步骤合并成一个表达式，并用左右圆括号符号 <code class="docutils literal notranslate"><span class="pre">(</span></code> 和 <code class="docutils literal notranslate"><span class="pre">)</span></code> 把它拆成多行书写。我们还用井号 <code class="docutils literal notranslate"><span class="pre">#</span></code> 在下面许多代码行旁边写了<em>注释</em>。Python 遇到 <code class="docutils literal notranslate"><span class="pre">#</span></code> 号时，会忽略该行中这个符号之后的所有文字。因此你可以用注释向别人解释代码，而且也许更重要的是，向未来的自己解释！养成给代码写注释的习惯能提高代码的可读性，这是很好的做法。</p>
+<p>这个练习展示了 Python 的强大之处。我们只用了相对很少的几行代码，就完成了一整套数据科学工作流，还做出了效果很好的数据可视化！我们提出了问题，把数据读入 Python，整理了数据（用到 <code class="docutils literal notranslate"><span class="pre">[]</span></code>、<code class="docutils literal notranslate"><span class="pre">loc[]</span></code>、<code class="docutils literal notranslate"><span class="pre">sort_values</span></code> 和 <code class="docutils literal notranslate"><span class="pre">head</span></code>），并创建数据可视化来帮助回答这个问题。本章让你初步体验了数据科学工作流；请继续学习后面几章，更深入地了解其中的每一个步骤！</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># load the data set</span>
+<span class="n">can_lang</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">"data/can_lang.csv"</span><span class="p">)</span>
+
+<span class="c1"># obtain the 10 most common Aboriginal languages</span>
+<span class="n">ten_lang</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="n">can_lang</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">can_lang</span><span class="p">[</span><span class="s2">"category"</span><span class="p">]</span> <span class="o">==</span> <span class="s2">"Aboriginal languages"</span><span class="p">,</span> <span class="p">[</span><span class="s2">"language"</span><span class="p">,</span> <span class="s2">"mother_tongue"</span><span class="p">]]</span>
+    <span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="n">by</span><span class="o">=</span><span class="s2">"mother_tongue"</span><span class="p">,</span> <span class="n">ascending</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+<span class="p">)</span>
+
+<span class="c1"># create the visualization</span>
+<span class="n">ten_lang_plot</span> <span class="o">=</span> <span class="n">alt</span><span class="o">.</span><span class="n">Chart</span><span class="p">(</span><span class="n">ten_lang</span><span class="p">)</span><span class="o">.</span><span class="n">mark_bar</span><span class="p">()</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span>
+    <span class="n">x</span><span class="o">=</span><span class="n">alt</span><span class="o">.</span><span class="n">X</span><span class="p">(</span><span class="s2">"mother_tongue"</span><span class="p">)</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">"Mother Tongue (Number of Canadian Residents)"</span><span class="p">),</span>
+    <span class="n">y</span><span class="o">=</span><span class="n">alt</span><span class="o">.</span><span class="n">Y</span><span class="p">(</span><span class="s2">"language"</span><span class="p">)</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="s2">"x"</span><span class="p">)</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">"Language"</span><span class="p">)</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<figure class="align-default" id="final-plot" style="width: 700px">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>alt.Chart(...)
+</pre></div>
+</div>
+<figcaption>
+<p><span class="caption-number">图 1.13 </span><span class="caption-text">加拿大居民最常报告为母语的十种原住民语言的条形图。</span><a class="headerlink" href="#final-plot" title="永久链接至图片">#</a></p>
+</figcaption>
+</figure>
+</section>
+</section>
+<section id="id25">
+<h2><span class="section-number">1.12. </span>查阅文档<a class="headerlink" href="#id25" title="Permalink to this heading">#</a></h2>
+<span class="target" id="index-36"></span><span class="target" id="index-37"></span><p id="index-38"><code class="docutils literal notranslate"><span class="pre">pandas</span></code> 包（以及其他包！）里的 Python 函数非常多，没有人能记住每一个函数的作用，也记不住我们必须传给它们的全部参数。好在 Python 提供了 <code class="docutils literal notranslate"><span class="pre">help</span></code> 函数，可以方便地快速调出大多数函数的文档。要用 <code class="docutils literal notranslate"><span class="pre">help</span></code> 函数查阅文档，只需把你感兴趣的函数名作为参数放进 <code class="docutils literal notranslate"><span class="pre">help</span></code> 函数即可。例如，如果你忘了 <code class="docutils literal notranslate"><span class="pre">pd.read_csv</span></code> 函数做什么，或者忘了到底该传入哪些参数，就可以运行下面的代码：</p>
+<div class="cell tag_remove-output docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">help</span><span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p><a class="reference internal" href="#help-read-csv"><span class="std std-numref">图 1.14</span></a> 展示了将会弹出的文档，其中包括函数的高层描述、它的参数、每个参数的说明，等等。注意，你现在可能会觉得文档里有些文字过于专业。别担心：随着你一步步读完本书，这些术语中有许多都会陆续介绍给你，你会慢慢变得更善于理解和查阅像<a class="reference internal" href="#help-read-csv"><span class="std std-numref">图 1.14</span></a> 那样的文档。不过请记住，文档并不是为了<em>教</em>你某个函数而写的，它只是一个参考，用来<em>提醒</em>你已经从别处学过的函数的各种参数和用法。</p>
+<figure class="align-default" id="help-read-csv">
+<a class="reference internal image-reference" href="_images/help_read_csv.png"><img alt="_images/help_read_csv.png" src="_images/help_read_csv.png" style="height: 700px;" /></a>
+<figcaption>
+<p><span class="caption-number">图 1.14 </span><span class="caption-text">read_csv 函数的文档，其中包括高层描述、参数列表及每个参数的含义，等等。</span><a class="headerlink" href="#help-read-csv" title="永久链接至图片">#</a></p>
+</figcaption>
+</figure>
+<p>如果你在 JupyterLab 环境中工作，还有一些便利功能可以帮助你查找函数名、查阅文档。首先，除了 <code class="docutils literal notranslate"><span class="pre">help</span></code>，你还可以使用更简洁的 <code class="docutils literal notranslate"><span class="pre">?</span></code> 字符。例如，想查看 <code class="docutils literal notranslate"><span class="pre">pd.read_csv</span></code> 函数的文档，可以运行下面的代码：</p>
+<div class="cell tag_remove-output docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">?</span>pd.read_csv
+</pre></div>
+</div>
+</div>
+</div>
+<p>你也可以先输入想用的函数的前几个字符，然后按 <kbd>Tab</kbd> 键，就会弹出一个小菜单，列出所有以这些字符开头的可用函数。这既有助于记住函数名，也能防止输入错误。</p>
+<figure class="align-default" id="completion-menu">
+<a class="reference internal image-reference" href="_images/completion_menu.png"><img alt="_images/completion_menu.png" src="_images/completion_menu.png" style="height: 400px;" /></a>
+<figcaption>
+<p><span class="caption-number">图 1.15 </span><span class="caption-text">输入 <code class="docutils literal notranslate"><span class="pre">pd.read</span></code> 并按下 <kbd>Tab</kbd> 键后显示的建议列表。</span><a class="headerlink" href="#completion-menu" title="永久链接至图片">#</a></p>
+</figcaption>
+</figure>
+<p>想进一步了解要使用的函数，你可以输入完整名称，然后按住 <kbd>Shift</kbd> 不放再按 <kbd>Tab</kbd>，就会弹出帮助对话框，其中包含的信息与使用 <code class="docutils literal notranslate"><span class="pre">help()</span></code> 时相同。</p>
+<figure class="align-default" id="help-dialog">
+<a class="reference internal image-reference" href="_images/help_dialog.png"><img alt="_images/help_dialog.png" src="_images/help_dialog.png" style="height: 400px;" /></a>
+<figcaption>
+<p><span class="caption-number">图 1.16 </span><span class="caption-text">输入 <code class="docutils literal notranslate"><span class="pre">pd.read_csv</span></code> 后再按 <kbd>Shift</kbd> + <kbd>Tab</kbd> 所显示的帮助对话框。</span><a class="headerlink" href="#help-dialog" title="永久链接至图片">#</a></p>
+</figcaption>
+</figure>
+<p>最后，让这个帮助对话框一直开着会很有用，尤其是在你刚开始学习编程和数据科学的时候。要做到这一点，可以点击顶部菜单栏中的 <code class="docutils literal notranslate"><span class="pre">Help</span></code>，然后选择 <code class="docutils literal notranslate"><span class="pre">Show</span> <span class="pre">Contextual</span> <span class="pre">Help</span></code>。</p>
+</section>
+<section id="id26">
+<h2><span class="section-number">1.13. </span>习题<a class="headerlink" href="#id26" title="Permalink to this heading">#</a></h2>
+<p>本章内容的练习题可以在配套的<a class="reference external" href="https://worksheets.python.datasciencebook.ca">练习册仓库</a>中“Python and Pandas”那一行找到。点击“查看练习册”（view worksheet）即可预览本章练习册的非交互版本。如果想以交互方式做这些习题，请按练习册仓库中的说明下载所有练习册，并按照<a class="reference internal" href="setup.html#move-to-your-own-machine"><span class="std std-numref">第 13 章</span></a>中给出的计算机配置说明操作。这样才能保证练习册提供的自动反馈和指导按预期工作。</p>
+</section>
+<section id="id27">
+<h2><span class="section-number">1.14. </span>参考文献<a class="headerlink" href="#id27" title="Permalink to this heading">#</a></h2>
+<div class="docutils container" id="id28">
+<dl class="citation">
+<dt class="label" id="id90"><span class="brackets"><a class="fn-backref" href="#id15">GvR01</a></span></dt>
+<dd><p>Nick Coghlan Guido van Rossum, Barry Warsaw. <em>PEP 8 – Style Guide for Python Code</em>. 2001. URL: <a class="reference external" href="https://peps.python.org/pep-0008/">https://peps.python.org/pep-0008/</a>.</p>
+</dd>
+<dt class="label" id="id43"><span class="brackets"><a class="fn-backref" href="#id12">LP15</a></span></dt>
+<dd><p>Jeffrey Leek and Roger Peng. What is the question? <em>Science</em>, 347(6228):1314–1315, 2015.</p>
+</dd>
+<dt class="label" id="id44"><span class="brackets"><a class="fn-backref" href="#id12">PM15</a></span></dt>
+<dd><p>Roger D Peng and Elizabeth Matsui. <em>The Art of Data Science: A Guide for Anyone Who Works with Data</em>. Skybrude Consulting, LLC, 2015. URL: <a class="reference external" href="https://bookdown.org/rdpeng/artofdatascience/">https://bookdown.org/rdpeng/artofdatascience/</a>.</p>
+</dd>
+<dt class="label" id="id48"><span class="brackets"><a class="fn-backref" href="#id9">Tim20</a></span></dt>
+<dd><p>Tiffany Timbers. <em>canlang: Canadian Census language data</em>. 2020. R package version 0.0.9. URL: <a class="reference external" href="https://ttimbers.github.io/canlang/">https://ttimbers.github.io/canlang/</a>.</p>
+</dd>
+<dt class="label" id="id61"><span class="brackets"><a class="fn-backref" href="#id6">Wal17</a></span></dt>
+<dd><p>Nick Walker. Mapping indigenous languages in Canada. <em>Canadian Geographic</em>, 2017. URL: <a class="reference external" href="https://www.canadiangeographic.ca/article/mapping-indigenous-languages-canada">https://www.canadiangeographic.ca/article/mapping-indigenous-languages-canada</a> (visited on 2021-05-27).</p>
+</dd>
+<dt class="label" id="id60"><span class="brackets"><a class="fn-backref" href="#id5">Wil18</a></span></dt>
+<dd><p>Kory Wilson. <em>Pulling Together: Foundations Guide</em>. BCcampus, 2018. URL: <a class="reference external" href="https://opentextbc.ca/indigenizationfoundations/">https://opentextbc.ca/indigenizationfoundations/</a> (visited on 2021-05-27).</p>
+</dd>
+<dt class="label" id="id40"><span class="brackets"><a class="fn-backref" href="#id10">StatisticsCanada16a</a></span></dt>
+<dd><p>Statistics Canada. Population census. 2016. URL: <a class="reference external" href="https://www12.statcan.gc.ca/census-recensement/2016/dp-pd/index-eng.cfm">https://www12.statcan.gc.ca/census-recensement/2016/dp-pd/index-eng.cfm</a>.</p>
+</dd>
+<dt class="label" id="id42"><span class="brackets"><a class="fn-backref" href="#id23">StatisticsCanada16b</a></span></dt>
+<dd><p>Statistics Canada. The Aboriginal languages of First Nations people, Métis and Inuit. 2016. URL: <a class="reference external" href="https://www12.statcan.gc.ca/census-recensement/2016/as-sa/98-200-x/2016022/98-200-x2016022-eng.cfm">https://www12.statcan.gc.ca/census-recensement/2016/as-sa/98-200-x/2016022/98-200-x2016022-eng.cfm</a>.</p>
+</dd>
+<dt class="label" id="id59"><span class="brackets"><a class="fn-backref" href="#id4">StatisticsCanada18</a></span></dt>
+<dd><p>Statistics Canada. The evolution of language populations in Canada, by mother tongue, from 1901 to 2016. 2018. URL: <a class="reference external" href="https://www150.statcan.gc.ca/n1/pub/11-630-x/11-630-x2018001-eng.htm">https://www150.statcan.gc.ca/n1/pub/11-630-x/11-630-x2018001-eng.htm</a> (visited on 2021-05-27).</p>
+</dd>
+<dt class="label" id="id88"><span class="brackets"><a class="fn-backref" href="#id14">ThePDTeam20</a></span></dt>
+<dd><p>The Pandas Development Team. <em>pandas-dev/pandas: Pandas</em>. February 2020. URL: <a class="reference external" href="https://doi.org/10.5281/zenodo.3509134">https://doi.org/10.5281/zenodo.3509134</a>, <a class="reference external" href="https://doi.org/10.5281/zenodo.3509134">doi:10.5281/zenodo.3509134</a>.</p>
+</dd>
+<dt class="label" id="id64"><span class="brackets"><a class="fn-backref" href="#id7">TruthaRCoCanada12</a></span></dt>
+<dd><p>Truth and Reconciliation Commission of Canada. <em>They Came for the Children: Canada, Aboriginal Peoples, and the Residential Schools</em>. Public Works &amp; Government Services Canada, 2012.</p>
+</dd>
+<dt class="label" id="id65"><span class="brackets"><a class="fn-backref" href="#id8">TruthaRCoCanada15</a></span></dt>
+<dd><p>Truth and Reconciliation Commission of Canada. Calls to Action. 2015. URL: <a class="reference external" href="https://www2.gov.bc.ca/assets/gov/british-columbians-our-governments/indigenous-people/aboriginal-peoples-documents/calls_to_action_english2.pdf">https://www2.gov.bc.ca/assets/gov/british-columbians-our-governments/indigenous-people/aboriginal-peoples-documents/calls_to_action_english2.pdf</a>.</p>
+</dd>
+<dt class="label" id="id89"><span class="brackets"><a class="fn-backref" href="#id14">WesMcKinney10</a></span></dt>
+<dd><p>Wes McKinney. Data Structures for Statistical Computing in Python. In Stéfan van der Walt and Jarrod Millman, editors, <em>Proceedings of the 9th Python in Science Conference</em>, 56 – 61. 2010. <a class="reference external" href="https://doi.org/10.25080/Majora-92bf1922-00a">doi:10.25080/Majora-92bf1922-00a</a>.</p>
+</dd>
+</dl>
+</div>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="authors.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">上一页</p>
+        <p class="prev-next-title">作者简介</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="reading.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">下一页</p>
+        <p class="prev-next-title"><span class="section-number">2. </span>从本地和网络读取数据</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> 目录
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">1.1. 概述</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">1.2. 本章学习目标</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">1.3. 加拿大语言数据集</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id11">1.4. 提出问题</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id13">1.5. 读入表格型数据集</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#python">1.6. 在 Python 中命名</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#loc">1.7. 用 <code class="docutils literal notranslate"><span class="pre">[]</span></code> 和 <code class="docutils literal notranslate"><span class="pre">loc[]</span></code> 创建数据框的子集</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id16">1.7.1. 用 <code class="docutils literal notranslate"><span class="pre">[]</span></code> 筛选行</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id17">1.7.2. 用 <code class="docutils literal notranslate"><span class="pre">[]</span></code> 选取列</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id18">1.7.3. 用 <code class="docutils literal notranslate"><span class="pre">loc[]</span></code> 筛选行并选取列</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#sort-values-head">1.8. 用 <code class="docutils literal notranslate"><span class="pre">sort_values</span></code> 和 <code class="docutils literal notranslate"><span class="pre">head</span></code> 按排序后的取值选取行</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#ch1-adding-modifying">1.9. 添加和修改列</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id20">1.10. 用链式调用和多行表达式合并步骤</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id21">1.11. 用可视化探索数据</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#altair">1.11.1. 用 <code class="docutils literal notranslate"><span class="pre">altair</span></code> 创建条形图</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#index-31">1.11.2. 设置 <code class="docutils literal notranslate"><span class="pre">altair</span></code> 图表的格式</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id24">1.11.3. 融会贯通</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id25">1.12. 查阅文档</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id26">1.13. 习题</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id27">1.14. 参考文献</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+作者： Tiffany Timbers, Trevor Campbell, Melissa Lee, Joel Ostblom, and Lindsey Heagy
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2022.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>
