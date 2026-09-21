@@ -100,6 +100,17 @@ def main() -> int:
                     })
 
     print(f"scanned {len(pages)} pages / {n_paras} rendered paragraphs")
+
+    # The report is written before any early return. Writing it only when findings exist
+    # would leave the *previous* run's report on disk after a clean run, so the artifact
+    # would claim defects that are no longer there — a stale green light is worse than
+    # no report at all.
+    if args.json:
+        args.json.parent.mkdir(parents=True, exist_ok=True)
+        args.json.write_text(json.dumps(
+            {"pages": len(pages), "paragraphs": n_paras, "findings": findings},
+            ensure_ascii=False, indent=2), encoding="utf-8")
+
     if not findings:
         print("OK   rendered book is clean")
         return 0
@@ -114,12 +125,6 @@ def main() -> int:
             print(f"      …{it['context']}…")
         if len(items) > args.max_show:
             print(f"   … and {len(items) - args.max_show} more")
-
-    if args.json:
-        args.json.parent.mkdir(parents=True, exist_ok=True)
-        args.json.write_text(json.dumps(
-            {"pages": len(pages), "paragraphs": n_paras, "findings": findings},
-            ensure_ascii=False, indent=2), encoding="utf-8")
     return 1
 
 

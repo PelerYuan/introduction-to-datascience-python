@@ -21,3 +21,4 @@ source/__pycache__
 .build-cache/
 .translation/seg/_mut.md
 .translation/seg/_lint.json
+.translation/review/
