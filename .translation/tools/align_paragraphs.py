@@ -1,13 +1,25 @@
 #!/usr/bin/env python3
-"""Align EN/ZH paragraph lists by their (byte-identical) role fingerprints.
+"""Prove that no role or inline construct was lost while the translation was edited.
 
-A mismatch pinpoints text that the translator lost or duplicated. Role-only lines have
-no roles themselves, so each paragraph's fingerprint also records whether it consists
-solely of a role — that is exactly the paragraph separator the verifier counts.
+This began as a one-off forensic tool for a real incident: a bug in `fix_spacing.py`
+mutated the line it was iterating over, and stale match offsets deleted arbitrary text.
+Paragraph counts alone did not reveal it, because the damage did not change how many
+paragraphs there were. Comparing paragraphs by the roles they contain did reveal it.
+
+The check it performs now is narrower and does not depend on how prose happens to wrap:
+
+* paragraph counts must match (that is also what verify_structure.py asserts), and
+* the chapter-wide multiset of MyST roles must match.
+
+Roles are compared as a multiset rather than in order, because Chinese legitimately
+reorders them within a sentence ("recall from {numref}`x` that ..." -> "回想一下
+{numref}`x` 中 ..."). Per-paragraph fingerprints are deliberately *not* compared: a
+paragraph holding only a role may legitimately be absorbed into its neighbour, since
+CommonMark would otherwise render the line break between them as a stray space.
 """
-import difflib
 import re
 import sys
+from collections import Counter
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
@@ -19,42 +31,56 @@ for _s in (sys.stdout, sys.stderr):
     except Exception:
         pass
 
-ROLE = re.compile(r"\{[a-zA-Z-]+\}`[^`]*`")
-ROLE_ONLY = re.compile(r"^(?:\{[a-zA-Z-]+\}`[^`]*`|`[^`]*`|\$[^$]*\$|[*_~]+|\s)+$")
+ROLE = re.compile(r"\{([a-zA-Z:-]+)\}`([^`]*)`")
+TARGET = re.compile(r"<([^>]*)>")
 
 
-def fp(p: str) -> str:
-    """Paragraph fingerprint: identical in both languages."""
-    stripped = p.strip()
-    if ROLE_ONLY.match(stripped):
-        return "<<ROLE-ONLY-SEPARATOR>>"
-    return " ".join(sorted(ROLE.findall(p)))
+def norm_role(m: re.Match) -> str:
+    """Fingerprint a role by its *target*, not its display text.
+
+    The book localises numref display text on purpose: the English source writes
+    ``{numref}`Chapter %s <wrangling>``` and the Chinese writes
+    ``{numref}`第 %s 章 <wrangling>```. Both point at the same target, so the target is
+    what must be identical on both sides — comparing the whole role would report that
+    deliberate localisation as content loss.
+    """
+    name, content = m.group(1), m.group(2)
+    target = TARGET.search(content)
+    return f"{{{name}}}<{target.group(1) if target else content.strip()}>"
 
 
-def load(path: str) -> list[str]:
-    return vs.structure(Path(path).read_text(encoding="utf-8"))["paragraph_list"]
+def load(path: str) -> tuple[int, Counter]:
+    """(paragraph count, role multiset) for one chapter."""
+    text = Path(path).read_text(encoding="utf-8")
+    info = vs.structure(text)
+    body = "\n".join(info["paragraph_list"])
+    return len(info["paragraph_list"]), Counter(norm_role(m) for m in ROLE.finditer(body))
 
 
 def main() -> int:
+    if len(sys.argv) < 3:
+        print(__doc__)
+        return 2
     en_path, zh_path = sys.argv[1], sys.argv[2]
-    en, zh = load(en_path), load(zh_path)
-    print(f"{Path(zh_path).name}: EN {len(en)} | ZH {len(zh)}")
-    if len(en) == len(zh) and all(fp(a) == fp(b) for a, b in zip(en, zh)):
-        print("  aligned: every paragraph matches by role content")
-        return 0
-    sm = difflib.SequenceMatcher(None, [fp(p) for p in en], [fp(p) for p in zh], autojunk=False)
-    bad = 0
-    for tag, i1, i2, j1, j2 in sm.get_opcodes():
-        if tag == "equal":
-            continue
-        bad += 1
-        print(f"\n  {tag}  EN[{i1}:{i2}] -> ZH[{j1}:{j2}]")
-        for k in range(i1, min(i2, i1 + 2)):
-            print(f"    EN[{k}] {en[k][:160]}")
-        for k in range(j1, min(j2, j1 + 2)):
-            print(f"    ZH[{k}] {zh[k][:160]}")
-    print(f"\n  {bad} mismatching region(s)")
-    return 1 if bad else 0
+    name = Path(zh_path).name
+    (en_n, en_roles), (zh_n, zh_roles) = load(en_path), load(zh_path)
+
+    problems = []
+    if en_n != zh_n:
+        problems.append(f"paragraphs: EN={en_n} ZH={zh_n}")
+    missing, extra = en_roles - zh_roles, zh_roles - en_roles
+    for role, count in sorted(missing.items()):
+        problems.append(f"missing x{count}: {role}")
+    for role, count in sorted(extra.items()):
+        problems.append(f"unexpected x{count}: {role}")
+
+    if problems:
+        print(f"FAIL {name}: {len(problems)} difference(s)")
+        for p in problems:
+            print(f"  - {p}")
+        return 1
+    print(f"OK   {name}: {zh_n} paragraphs, {sum(zh_roles.values())} roles, no content lost")
+    return 0
 
 
 if __name__ == "__main__":

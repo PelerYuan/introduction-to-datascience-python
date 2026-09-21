@@ -40,10 +40,17 @@ BLOCK_DIRECTIVE_RE = re.compile(
     r"important|caution|seealso|epigraph|dropdown|margin|sidebar|bibliography|"
     r"admonition|tableofcontents|glossary|exercise|solution|include|raw|math)[\s}]"
 )
-# A line that carries no prose at all — only roles, inline code or markup. Never absorb
-# it into the previous line: it is a paragraph of its own as far as the EN/ZH structure
-# comparison is concerned, and merging would desynchronise the paragraph counts.
+# A line that carries no prose at all — only roles, inline code or markup. Such a line is
+# *not* merged blindly, but it is not a barrier either: `……两个新列。` + newline +
+# `{numref}`fig:x`` renders a space after the full stop unless the lines are joined, and
+# the boundary rule below is what decides. Paragraph counts survive either way, because a
+# paragraph is a run of non-blank lines and joining two of them keeps the run intact.
 ROLE_ONLY_RE = re.compile(r"^(?:\{[a-zA-Z-]+\}`[^`]*`|`[^`]*`|\$[^$]*\$|[*_~]+|\s)+$")
+# A list item may be continued by lazily-indented prose lines, and the renderer turns each
+# of those line breaks into a space. Thresholds are checked in the same way as an ordinary
+# paragraph continuation, but the *item* line is STRUCT (it opens with `- `), so the merge
+# loop has to be entered for it explicitly.
+LIST_ITEM_RE = re.compile(r"^\s*(?:[-*+]|\d+\.)\s+\S")
 # Lines that open a block and must never be absorbed into the previous line.
 BLOCK_OPEN_RE = re.compile(
     r"^\s*(?:#{1,6}\s|\+\+\+\s*$|\([^)]*\)=\s*$|[-*+]\s|\d+\.\s|\* -|>\s|"
@@ -224,6 +231,21 @@ def label_kinds(text: str) -> dict[str, str]:
 _KINDS: dict[str, str] = {}
 
 
+def book_label_kinds(source_dir) -> dict[str, str]:
+    """Union of label_kinds() over every chapter.
+
+    Labels cross chapters: `wrangling` refers to `{numref}`ch1-adding-modifying``, which is
+    declared in `intro`. Resolving per file would leave that label unknown and send the
+    spacing rule the wrong way, so the map is built over the whole book.
+    """
+    from pathlib import Path as _Path
+
+    kinds: dict[str, str] = {}
+    for path in sorted(_Path(source_dir).glob("*.md")):
+        kinds.update(label_kinds(path.read_text(encoding="utf-8")))
+    return kinds
+
+
 def numref_edges(arg: str, kinds: dict[str, str] | None = None) -> tuple[bool, bool]:
     """What does this `{numref}` render at its first and last character?
 
@@ -283,8 +305,14 @@ def boundary_chars(cur: str, nxt: str) -> tuple[str, str]:
     return _trailing_visible(cur), _leading_visible(nxt)
 
 
+# Every (head, continuation) pair joined by the most recent unwrap() call, so callers can
+# review a join before it is written instead of trusting the count alone.
+LAST_JOINS: list[tuple[str, str]] = []
+
+
 def unwrap(text: str) -> tuple[str, int]:
     """Return (unwrapped_text, number_of_joins)."""
+    LAST_JOINS.clear()
     lines = text.split("\n")
     kinds = classify(lines)
     out: list[str] = []
@@ -292,7 +320,7 @@ def unwrap(text: str) -> tuple[str, int]:
     i = 0
     n = len(lines)
     while i < n:
-        if kinds[i] == STRUCT:
+        if kinds[i] == STRUCT and not LIST_ITEM_RE.match(lines[i]):
             out.append(lines[i])
             i += 1
             continue
@@ -303,7 +331,7 @@ def unwrap(text: str) -> tuple[str, int]:
             if ENDS_HARD_BREAK_RE.search(cur):
                 break
             stripped = nxt.strip()
-            if not stripped or ROLE_ONLY_RE.match(stripped):
+            if not stripped:
                 break
             last, first = boundary_chars(cur, stripped)
             # Join with "" only where Chinese typography forbids a space. Where the
@@ -318,6 +346,7 @@ def unwrap(text: str) -> tuple[str, int]:
             )
             if not merge:
                 break
+            LAST_JOINS.append((cur[-50:], stripped[:60]))
             cur = cur + stripped
             joins += 1
             j += 1
@@ -336,7 +365,7 @@ def main() -> int:
     newline = "\r\n" if raw.count("\r\n") > raw.count("\n") / 2 else "\n"
     body = raw.replace("\r\n", "\n")
     _KINDS.clear()
-    _KINDS.update(label_kinds(body))
+    _KINDS.update(book_label_kinds(args.path.parent))
     fixed, joins = unwrap(body)
     if args.check:
         print(f"{args.path.name}: would join {joins} soft break(s)")

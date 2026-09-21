@@ -78,8 +78,8 @@
 | 中文质量 | `lint_zh.py` | 0 项 | ✅ 18/18 章 |
 | 术语一致 | `term_audit.py` | 无跨章漂移（51 条，允许的义项分歧已在 `ACCEPTED_POLYSEMY` 中登记） | ✅ 0 项待处理 |
 | 排版（源层） | `fix_spacing.py` | 再次运行报告 `would tighten 0`（幂等） | ✅ 0 |
-| 段落对齐 | `align_paragraphs.py` | EN/ZH 段落数一致，且每段「角色指纹」相同 | ✅ 18/18 |
-| 排版（渲染层） | `html_qa.py` | 读 `source/_build/html`：无未解析 `{numref}`、无缺失中西文空格；中文间空格仅余 13 处（初测 503 处，收敛 97.4%） | ✅ |
+| 段落对齐 | `align_paragraphs.py` | 段落数一致，且按**角色目标**比较无缺失/无多余 | ✅ 0/18 不一致，`no content lost` |
+| 排版（渲染层） | `html_qa.py` | 读 `source/_build/html`：无未解析 `{numref}`、无缺失中西文空格、无中文间多余空格 | ✅ `OK rendered book is clean`（初测 503 → 0） |
 | 构建 | `build_book.ps1` | 退出码 0，20 个 HTML 页面全部生成，9 条警告（全部为上游原文固有，见 §5） | ✅ |
 
 ### 3.2 审校门禁（STYLE_GUIDE §8 八项）
@@ -119,6 +119,10 @@ R6 标点排版 · R7 可读性 · R8 代码零改动。
 | **`{numref}` 两侧空格方向相反** | 先用 `label_kinds()` 从文档本身解析每个标签的类型（`:name:` 选项、指令参数、`(label)=` 目标），再据此决定 | 角色的渲染结果由目标类型决定：图表目标是「图 5.1」（数字结尾，**要**留空格），节目标是「第 5.8 节」（汉字结尾，**不要**空格），自定义文本则看文本首尾。标签名不一定带 `fig:`/`tab:` 前缀（`confusion-matrix-table` 是表、`canadamap` 是图），只看前缀会判错方向 |
 | **段落数按「未剥离角色」的行统计** | `verify_structure.py` 的段落计数改用 `prose_all`，不再用剥掉角色的 `prose_wo_roles` | 只含角色的整行（`{numref}`fig:x``）剥离后会变成空行，被误当成段落分隔——但渲染时它在行内，并不分段。按原文行统计才对得上渲染结果，且两种语言用同一规则，比较依然有效 |
 | **承接行合并的幂等性** | `fix_spacing.py` 的 `{numref}` 处理改为**从右向左**应用 | 循环里会改写 `line`，若按 `finditer` 的正序取原始 span，右侧匹配的偏移已失效，会静默删掉该位置的任意文本。倒序处理时未处理的 span 全在左侧，始终有效 |
+| **保护掩码里的 URL 不能写 `\S+`** | `term_fix.py` 的 `PROTECTED` 中 URL 规则改为 `https?://[^\s<CJK>]+` | 中文没有空格，`\S+` 会从 URL 一路吞掉后面整句话直到下一个空格，把整段中文都标记为「受保护」——于是任何 URL 之后的排版修复都被**静默否决**。这一条是最后 13 处残留的主因，从 503 收敛到 2 就是靠它 |
+| **列表项续行也要解折行** | `unwrap_cjk.py` 新增 `LIST_ITEM_RE`：`- ` 开头的项行虽然算 STRUCT，仍允许吸收其后缩进的散文续行 | 渲染器把项内换行也渲染成空格，于是 `- …属性，` + 换行 + `需要借助…` 会出现多余空格。此前只从 TEXT 行起才尝试合并，这类续行全部漏掉 |
+| **只含角色的整行可以合并** | 取消 `ROLE_ONLY_RE` 的拦截，改由边界规则决定 | 原来拦截是为了配合旧的段落模型（剥掉角色后空行会被当成段落分隔）。模型已改为按原文行计数，段落是「连续非空行的游程」，合并其中两行不改变游程数，因此拦截已无必要——而它能修掉「……两个新列。」+ 换行 + `{numref}` 产生的多余空格 |
+| **标签表要按整本书构建** | `book_label_kinds(source_dir)` 汇总全部章节 | 标签会跨章引用：`wrangling` 里的 `{numref}`ch1-adding-modifying`` 声明在 `intro`。只按单章解析会解析不到，判定方向就反了 |
 
 ---
 
@@ -201,8 +205,13 @@ $env:UV_CACHE_DIR="$PWD\.uv-cache"; $env:UV_LINK_MODE="copy"
       verify_structure.py   结构比对
       lint_zh.py            中文质量 lint
       assemble.py           装配（接缝精确 + 解折行）+ 门禁
-      unwrap_cjk.py         中文段落解折行
+      unwrap_cjk.py         中文段落解折行（围栏分类、`{numref}` 渲染方向、列表续行）
       diff_paragraphs.py    段落级差异定位
+      fix_spacing.py        排版归一：中文间空格、`{numref}`/链接两侧、缺失的中西文空格
+      html_qa.py            渲染层终检（读 source/_build/html，唯一能看见排版缺陷的地方）
+      align_paragraphs.py   内容零丢失证明（段落数 + 角色目标多重集，按整本书）
+      blocked_joins.py      诊断：哪些该合并的散文行被 classify() 判成了结构行
+      trace_findings.py     诊断：把 html_qa 的渲染层发现反查回源文件行
       status.py             全书状态看板
       term_audit.py         跨章术语审计（按段对齐）
       term_fix.py           定点术语统一（跳过代码/角色/公式）

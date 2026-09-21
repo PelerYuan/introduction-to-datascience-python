@@ -1,67 +1,12 @@
 {
   "pages": 18,
-  "paragraphs": 2030,
+  "paragraphs": 2029,
   "findings": {
     "RENDERED_CJK_SPACE": [
-      {
-        "page": "classification2.html",
-        "match": "节 以",
-        "context": "scikit-learn 网站是查阅前两章各项函数与包的更多细节 以及进阶用法时极好的参考资料。除此之外，网站还提供了许多实用的教程，帮助你快速上手。值得注意"
-      },
       {
         "page": "index.html",
         "match": "享 署",
         "context": "ssa Lee、Joel Ostblom 和 Lindsey Heagy 创作，采用知识共享 署名—非商业性使用—相同方式共享 4.0 国际许可协议（Creative Commons A"
-      },
-      {
-        "page": "regression2.html",
-        "match": "的 教",
-        "context": "阅前两章各项函数与包的更多细节以及进阶用法时极好的参考资料。除此之外，网站还提供了许多实用的 教程和 一份内容丰富的进阶示例清单，你可以借助它们继续学习本书范围之外的内容。"
-      },
-      {
-        "page": "regression2.html",
-        "match": "和 一",
-        "context": "各项函数与包的更多细节以及进阶用法时极好的参考资料。除此之外，网站还提供了许多实用的 教程和 一份内容丰富的进阶示例清单，你可以借助它们继续学习本书范围之外的内容。"
-      },
-      {
-        "page": "viz.html",
-        "match": "。 例",
-        "context": "中的比例大得惊人——约 1% 到 10%，具体取决于性别和血统 [Deeb, 2005]）。 例如，配色方案功能让你可以选择这类配色方案；图形画好之后，你还可以上传到色盲模拟器之类的在线"
-      },
-      {
-        "page": "viz.html",
-        "match": "， 在",
-        "context": "这里我们把图形的 x 轴设为 date_measured 变量， 在 y 轴上绘制 ppm 变量。"
-      },
-      {
-        "page": "viz.html",
-        "match": "， 需",
-        "context": "要改变编码通道的属性， 需要借助辅助函数 alt.Y 和 alt.X。这些辅助函数用来定制顺序、标题和标度等内容。这"
-      },
-      {
-        "page": "viz.html",
-        "match": "， 那",
-        "context": "x 就是正相关关系（positive relationship）。x 增大时 y 往往减小， 那么 y 与 x 就是负相关关系。如果 x 增大时 y 没有明显的增大或减小，那么 y 与 "
-      },
-      {
-        "page": "viz.html",
-        "match": "， 这",
-        "context": "强度： x 增大时 y 变量稳定地增大、减小或保持不变， 这种关系就是强相关关系；否则就是弱相关关系。直观地说，散点靠得比较近、整体看起来更像一条“线"
-      },
-      {
-        "page": "viz.html",
-        "match": "？ 趋",
-        "context": "势吗？如果能，趋势就是线性的；如果不能，趋势就是非线性的。趋势是上升、下降，还是两者都不是？ 趋势中是否有周期性振荡（摆动）？趋势是有噪声的（也就是线条频繁“跳来跳去”）还是平滑的？"
-      },
-      {
-        "page": "viz.html",
-        "match": "出 关",
-        "context": "系是清晰 / 强的（点落在明显的模式中）、弱的（点落在某种模式中但带有一些噪声），还是看不出 关系（数据噪声太大，无法得出任何结论）？"
-      },
-      {
-        "page": "wrangling.html",
-        "match": "。 图",
-        "context": "messy_longer 数据框中删掉，然后把 str.split 得到的两列赋给两个新列。 图 3.11 列出了使用 str.split 需要指定的内容。"
       },
       {
         "page": "wrangling.html",

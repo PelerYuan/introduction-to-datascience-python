@@ -511,8 +511,7 @@ lang_messy_longer
 "50/0".split("/")
 ```
 
-`pandas` 包提供了类似的函数，可以通过 `str` 方法访问。所以，要拆分数据框中整列的所有条目，我们会用 `str.split` 方法。该方法的输出是一个数据框，其中包含两列：一列只有每个地区中在家里最常使用该语言的加拿大人数，另一列只有在工作中最常使用该语言的加拿大人数。我们把不再需要的 `value` 列从 `lang_messy_longer` 数据框中删掉，然后把 `str.split` 得到的两列赋给两个新列。
-{numref}`fig:img-separate`
+`pandas` 包提供了类似的函数，可以通过 `str` 方法访问。所以，要拆分数据框中整列的所有条目，我们会用 `str.split` 方法。该方法的输出是一个数据框，其中包含两列：一列只有每个地区中在家里最常使用该语言的加拿大人数，另一列只有在工作中最常使用该语言的加拿大人数。我们把不再需要的 `value` 列从 `lang_messy_longer` 数据框中删掉，然后把 `str.split` 得到的两列赋给两个新列。{numref}`fig:img-separate`
 列出了使用 `str.split` 需要指定的内容。
 
 +++ {"tags": []}
@@ -543,7 +542,7 @@ tidy_lang.info()
 
 `pandas` 数据框中的 object 列，要么是字符串列，要么是混合类型的列。在前面{numref}`pivot-wider`那个例子里，`most_at_home` 和 `most_at_work` 两个变量是 `int64`（整数），属于数值型数据。类型发生变化，是因为读取这份混乱数据集时出现了分隔符（`/`）。Python 把这些列读成了字符串类型，而 `str.split` 默认返回 `object` 数据类型的列。
 
-`region`、`category` 和 `language` 存放的是分类取值，把它们存成 `object` 类型是合理的。不过，假设我们想用一些把 `most_at_home` 和 `most_at_work` 列当作数字处理的函数（例如找出某列中高于某个数值阈值的行），如果变量存成 `object`，这些函数就用不了。好在 `pandas` 的 `astype` 方法能很自然地解决这类问题：它会把列转换成指定的数据类型。这里我们选择 `int` 数据类型，表示这些变量存放的是整数计数。注意，下面我们会把新的数值序列*赋值*给 `tidy_lang` 中的 `most_at_home` 和 `most_at_work` 列；这种语法我们之前在{numref}`ch1-adding-modifying` 中见过，本章后面在{numref}`pandas-assign`中还会更深入地讨论。
+`region`、`category` 和 `language` 存放的是分类取值，把它们存成 `object` 类型是合理的。不过，假设我们想用一些把 `most_at_home` 和 `most_at_work` 列当作数字处理的函数（例如找出某列中高于某个数值阈值的行），如果变量存成 `object`，这些函数就用不了。好在 `pandas` 的 `astype` 方法能很自然地解决这类问题：它会把列转换成指定的数据类型。这里我们选择 `int` 数据类型，表示这些变量存放的是整数计数。注意，下面我们会把新的数值序列*赋值*给 `tidy_lang` 中的 `most_at_home` 和 `most_at_work` 列；这种语法我们之前在{numref}`ch1-adding-modifying`中见过，本章后面在{numref}`pandas-assign`中还会更深入地讨论。
 
 ```{code-cell} ipython3
 :tags: ["output_scroll"]

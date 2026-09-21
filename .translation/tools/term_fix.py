@@ -20,6 +20,12 @@ ROOT = Path(__file__).resolve().parents[2]
 FENCE_RE = re.compile(r"^(\s*)(`{3,}|~{3,})(.*)$")
 
 # Spans that must never be edited (order matters: multi-char forms first)
+#
+# The URL rule cannot use `\S+`: Chinese prose has no spaces, so `\S+` would run from the
+# URL straight through the rest of the sentence up to the next space — masking whole
+# sentences and silently vetoing every spacing fix after any link. A URL ends where CJK
+# begins, which is exactly what the character class below encodes.
+_CJK_RANGE = r"\u3000-\u303f\u3400-\u4dbf\u4e00-\u9fff\uf900-\ufaff\uff00-\uffef"
 PROTECTED = [
     re.compile(r"\{[a-z]+(?::[a-z]+)?\}`[^`]*`"),   # MyST roles
     re.compile(r"``[^`]*``|`[^`\n]+`"),              # inline code
@@ -27,7 +33,7 @@ PROTECTED = [
     re.compile(r"!\[[^\]]*\]\([^)]*\)"),             # images
     re.compile(r"\[[^\]]*\]\([^)\s]+[^)]*\)"),       # links
     re.compile(r"<[^>]+>"),                          # html tags
-    re.compile(r"https?://\S+"),                     # bare urls
+    re.compile(rf"https?://[^\s{_CJK_RANGE}]+"),     # bare urls (stop at CJK)
 ]
 
 CHAPTERS = [

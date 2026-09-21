@@ -30,7 +30,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from term_fix import protected_mask  # noqa: E402
-from unwrap_cjk import _KINDS, fence_kind, label_kinds, numref_edges  # noqa: E402
+from unwrap_cjk import _KINDS, book_label_kinds, fence_kind, numref_edges  # noqa: E402
 
 for _stream in (sys.stdout, sys.stderr):
     try:
@@ -276,8 +276,9 @@ def process(path: Path, apply: bool, show: int, context: int) -> int:
     raw = path.read_text(encoding="utf-8")
     newline = "\r\n" if raw.count("\r\n") > raw.count("\n") / 2 else "\n"
     lines = raw.replace("\r\n", "\n").split("\n")
+    # Book-wide, not per file: labels are referenced across chapters.
     _KINDS.clear()
-    _KINDS.update(label_kinds("\n".join(lines)))
+    _KINDS.update(book_label_kinds(path.parent))
     in_fence = False
     fence_char = ""
     fence = ""            # "" | "code" | "prose"

@@ -37,5 +37,5 @@ kernelspec:
 
 <img src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png">
 
-本作品由 [Tiffany Timbers](https://www.tiffanytimbers.com/)、[Trevor Campbell](https://trevorcampbell.me/)、[Melissa Lee](https://www.stat.ubc.ca/users/melissa-lee)、[Joel Ostblom](https://joelostblom.com/) 和 [Lindsey Heagy](https://lindseyjh.ca/) 创作，采用[知识共享 署名—非商业性使用—相同方式共享 4.0 国际许可协议](http://creativecommons.org/licenses/by-nc-sa/4.0/)（Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License）授权。
+本作品由 [Tiffany Timbers](https://www.tiffanytimbers.com/)、[Trevor Campbell](https://trevorcampbell.me/)、[Melissa Lee](https://www.stat.ubc.ca/users/melissa-lee)、[Joel Ostblom](https://joelostblom.com/) 和 [Lindsey Heagy](https://lindseyjh.ca/) 创作，采用[知识共享署名—非商业性使用—相同方式共享 4.0 国际许可协议](http://creativecommons.org/licenses/by-nc-sa/4.0/)（Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License）授权。
 
