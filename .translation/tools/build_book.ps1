@@ -17,6 +17,12 @@ $root = Split-Path -Parent (Split-Path -Parent $PSScriptRoot)
 Set-Location $root
 
 $env:PYTHONIOENCODING   = "utf-8"
+# UTF-8 mode, for the kernels as much as for this process. One book cell opens an HTML
+# file without naming an encoding: correct on Linux, where UTF-8 is the default, but on
+# Windows it dies with `UnicodeDecodeError: 'charmap' codec can't decode byte 0x8d` and
+# pastes the traceback into the page. PYTHONUTF8 makes the interpreter behave the way it
+# does on the author's machine, so the cell runs instead of failing.
+$env:PYTHONUTF8         = "1"
 $env:UV_CACHE_DIR       = Join-Path $root ".uv-cache"
 $env:MPLCONFIGDIR       = Join-Path $root ".build-cache\mpl"
 $env:JUPYTER_CONFIG_DIR = Join-Path $root ".build-cache\jupyter-config"

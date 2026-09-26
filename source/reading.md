@@ -743,10 +743,10 @@ no_official_lang_data.to_csv("data/no_official_languages.csv", index=False)
 
 #### HTML 和 CSS 选择器
 
-```{index} 网页抓取, HTML; 选择器, CSS; 选择器, Craiglist
+```{index} 网页抓取, HTML; 选择器, CSS; 选择器, Craigslist
 ```
 
-在浏览器里输入一个 URL 时，浏览器会连接到该 URL 上的网络服务器，索要网站的*源代码*。浏览器就是把这些数据转换成你能看到的样子。所以，如果我们打算通过抓取网站来自己造数据，就必须先弄明白这些数据长什么样！举个例子，假设我们想知道 [Craiglist](https://vancouver.craigslist.org) 上温哥华最新挂出的一居室公寓的平均租金（按每平方英尺计）。访问温哥华 Craigslist 网站并搜索一居室公寓时，我们应该会看到与{numref}`fig:craigslist-human` 类似的内容。
+在浏览器里输入一个 URL 时，浏览器会连接到该 URL 上的网络服务器，索要网站的*源代码*。浏览器就是把这些数据转换成你能看到的样子。所以，如果我们打算通过抓取网站来自己造数据，就必须先弄明白这些数据长什么样！举个例子，假设我们想知道 [Craigslist](https://vancouver.craigslist.org) 上温哥华最新挂出的一居室公寓的平均租金（按每平方英尺计）。访问温哥华 Craigslist 网站并搜索一居室公寓时，我们应该会看到与{numref}`fig:craigslist-human` 类似的内容。
 
 +++
 
@@ -806,7 +806,7 @@ Craigslist 上的一居室公寓出租广告网页。
 ```{figure} img/reading/sg1.png
 :name: fig:sg1
 
-在 Craigslist 网页上使用 SelectorGadget，得到可用于获取公寓价格的 CCS 选择器。
+在 Craigslist 网页上使用 SelectorGadget，得到可用于获取公寓价格的 CSS 选择器。
 ```
 
 如果我们接着点击某套房源的面积，SelectorGadget 会显示出 `span` 选择器，并高亮页面上的许多行；这说明 `span` 选择器不够具体，无法只取到公寓面积（{numref}`fig:sg3`）。
@@ -814,7 +814,7 @@ Craigslist 上的一居室公寓出租广告网页。
 ```{figure} img/reading/sg3.png
 :name: fig:sg3
 
-在 Craigslist 网页上使用 SelectorGadget，得到可用于获取公寓面积的 CCS 选择器。
+在 Craigslist 网页上使用 SelectorGadget，得到可用于获取公寓面积的 CSS 选择器。
 ```
 
 要缩小选择器的范围，我们可以点击某个被高亮、但我们*不*想要的元素。例如，取消选中“pic/map”链接，结果就只有我们想要的数据被高亮，此时用的是 `.housing` 选择器（{numref}`fig:sg2`）。
@@ -822,7 +822,7 @@ Craigslist 上的一居室公寓出租广告网页。
 ```{figure} img/reading/sg2.png
 :name: fig:sg2
 
-在 Craigslist 网页上使用 SelectorGadget，把 CCS 选择器细化为最适合获取公寓面积的那一个。
+在 Craigslist 网页上使用 SelectorGadget，把 CSS 选择器细化为最适合获取公寓面积的那一个。
 ```
 
 因此，要抓取房源的面积和租金信息，我们需要分别使用 `.housing` 和 `.result-price` 这两个 CSS 选择器。选择器工具会把它们以逗号分隔的列表形式返回给我们（这里是 `.housing , .result-price`）；如果我们要使用不止一个 CSS 选择器，这正是需要提供给 Python 的格式。
@@ -1101,8 +1101,8 @@ nasa_df
 
 ## 习题
 
-本章内容的练习题可以在配套的[练习册仓库](https://worksheets.python.datasciencebook.ca)中“Reading in data locally and
-from the web”一行找到。点击“查看练习册”即可预览本章练习册的非交互版本。若要以交互方式做这些习题，请按练习册仓库中的说明下载全部练习册，再按{numref}`第 %s 章 <move-to-your-own-machine>`中的说明配置计算机环境。这样才能保证练习册提供的自动反馈与指导按预期工作。
+本章内容的练习题可以在配套的[练习册仓库](https://worksheets.python.datasciencebook.ca)中“从本地和网络读取数据（Reading in data locally and
+from the web）”一行找到。点击“查看练习册（view worksheet）”即可预览本章练习册的非交互版本。若要以交互方式做这些习题，请按练习册仓库中的说明下载全部练习册，再按{numref}`第 %s 章 <move-to-your-own-machine>`中的说明配置计算机环境。这样才能保证练习册提供的自动反馈与指导按预期工作。
 
 
 

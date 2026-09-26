@@ -1,5 +1,17 @@
 {
   "pages": 18,
-  "paragraphs": 2029,
+  "paragraphs": 2035,
+  "vega_embed_total": 101,
+  "plotly_total": 9,
+  "vega_embed_pages": {
+    "classification1.html": 14,
+    "classification2.html": 8,
+    "clustering.html": 13,
+    "inference.html": 13,
+    "intro.html": 5,
+    "regression1.html": 9,
+    "regression2.html": 11,
+    "viz.html": 28
+  },
   "findings": {}
 }

@@ -225,7 +225,7 @@ name: new-repository-02
 ---
 name: new-repository-03
 ---
-公开项目并已用 README.md 模板文件初始化的仓库配置。
+创建完成、带 README.md 的公开仓库页面（译注：原文此处图题与上一张图完全相同）。
 ```
 
 +++
@@ -581,7 +581,7 @@ GitHub 界面会显示最后向远程仓库推送提交的人的名字、对应�
 ---
 name: git-pull-01
 ---
-Jupyter Git 扩展的克隆按钮。
+Jupyter Git 扩展的拉取按钮（译注：原文此处误作“克隆按钮”）。
 ```
 
 文件成功地从 GitHub 拉取之后，你需要点击“忽略”才能继续工作（{numref}`git-pull-02`）。

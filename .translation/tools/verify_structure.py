@@ -56,6 +56,25 @@ def h(s: str) -> str:
     return hashlib.sha256(s.encode("utf-8")).hexdigest()[:12]
 
 
+# URLs the translation changes on purpose, because the English source points at a page
+# that has since moved. The upstream address stays in `.translation/source_en`, so without
+# this map a *correct* fix reports as a structural difference and the check has to be
+# waived by hand — and a check that gets waived is a check that stops being read.
+# Normalising both sides through the map keeps the comparison strict: any other URL that
+# appears on one side only still fails.
+URL_FIXES = {
+    # upstream 404 at the time of translation
+    "https://scikit-learn.org/stable/tutorial/index.html": "https://scikit-learn.org/stable/",
+    "https://altair-viz.github.io/user_guide/marks.html":
+        "https://altair-viz.github.io/user_guide/marks/index.html",
+}
+
+
+def canon_url(url: str) -> str:
+    """Fold a deliberately-moved URL onto the address the translation uses."""
+    return URL_FIXES.get(url, url)
+
+
 def strip_front_matter(text: str) -> tuple[str, str]:
     m = FRONT_MATTER_RE.match(text)
     if not m:
@@ -166,8 +185,8 @@ def structure(text: str) -> dict:
     math_src = prose_wo_roles.replace(ESCAPED_DOLLAR, "\\\x00")
     inline_codes = Counter(m.group(2).strip() for m in INLINE_CODE_RE.finditer(prose_wo_roles))
     math = Counter(m.group(0).strip() for m in MATH_RE.finditer(math_src))
-    urls = Counter(m.group(1) for m in LINK_RE.finditer(prose_all))
-    urls.update(IMG_SRC_RE.findall(prose_all))
+    urls = Counter(canon_url(m.group(1)) for m in LINK_RE.finditer(prose_all))
+    urls.update(canon_url(u) for u in IMG_SRC_RE.findall(prose_all))
     headings = [len(m.group(1)) for m in (HEADING_RE.match(l) for l in prose_all.splitlines()) if m]
     plusplus = sum(1 for l in prose_all.splitlines() if l.strip() == "+++")
     # Paragraphs are counted on the *unmodified* prose lines. Roles are stripped to

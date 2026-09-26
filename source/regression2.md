@@ -27,7 +27,7 @@ import plotly.graph_objects as go
 ```
 
 ## 概述
-到目前为止，我们解决所有预测性问题——无论是分类还是回归——用的都是基于 k 近邻（K-NN）的方法。在回归问题中，还有一种常用方法，叫作*线性回归*。本章介绍线性回归的基本概念，演示如何用 `scikit-learn` 在 Python 中做线性回归，并说明它与 k 近邻回归相比有哪些长处和不足。和往常一样，重点放在只有一个预测变量和一个响应变量的情形；不过本章最后会用一个*多元线性回归（multivariable linear regression）*的例子，说明预测变量不止一个时该怎么办。
+到目前为止，我们解决所有预测性问题——无论是分类还是回归——用的都是基于 k 近邻（K-NN）的方法。在回归问题中，还有一种常用方法，叫作*线性回归*。本章介绍线性回归的基本概念，演示如何用 `scikit-learn` 在 Python 中做线性回归，并说明它与 k 近邻回归相比有哪些长处和不足。和往常一样，重点放在只有一个预测变量和一个响应变量的情形；不过本章最后会用一个*多元线性回归*（multivariable linear regression）的例子，说明预测变量不止一个时该怎么办。
 
 ## 本章学习目标
 学完本章后，你将能够：
@@ -1096,7 +1096,7 @@ glue("fig:08-predictor-design-2", curve_plt2)
 
 ## 拓展资源
 
-- [`scikit-learn` 网站](https://scikit-learn.org/stable/)是查阅前两章各项函数与包的更多细节以及进阶用法时极好的参考资料。除此之外，网站还提供了许多实用的[教程](https://scikit-learn.org/stable/tutorial/index.html)和[一份内容丰富的进阶示例清单](https://scikit-learn.org/stable/auto_examples/index.html#general-examples)，你可以借助它们继续学习本书范围之外的内容。
+- [`scikit-learn` 网站](https://scikit-learn.org/stable/)是查阅前两章各项函数与包的更多细节以及进阶用法时极好的参考资料。除此之外，网站还提供了许多实用的[教程](https://scikit-learn.org/stable/)和[一份内容丰富的进阶示例清单](https://scikit-learn.org/stable/auto_examples/index.html#general-examples)，你可以借助它们继续学习本书范围之外的内容。
 - 《An Introduction to Statistical Learning》{cite:p}`james2013introduction` 是学习回归过程中极好的下一站。第 3 章讲解线性回归，数学程度比本书稍高，但跨度不算太大，可以作为一块很好的垫脚石。第 6 章讨论当数据集包含很多预测变量、而你预期其中只有少数几个真正有用时，如何选出“有信息量的”预测变量子集。第 7 章介绍的回归模型比线性回归模型更灵活，同时又保留了线性回归的计算效率。相比之下，我们前面讲过的 k 近邻方法确实更灵活，但数据量一大就会变得非常慢。
 
 +++

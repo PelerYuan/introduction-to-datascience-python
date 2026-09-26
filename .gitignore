@@ -23,3 +23,6 @@ source/__pycache__
 .translation/seg/_lint.json
 .translation/review/
 .pages-deploy/
+
+# build logs from the review-response rebuild
+.translation/logs/

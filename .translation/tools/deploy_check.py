@@ -17,13 +17,28 @@ REF = re.compile(r'(?:src|href)="([^"#?]+)"')
 # Any URI scheme at all, not just http(s): the theme embeds a base64 GIF spacer as a
 # `data:` URI, and requesting that as a path reports a 404 that does not exist.
 SCHEME = re.compile(r"^[a-zA-Z][a-zA-Z0-9+.\-]*:")
+# Chart output embeds its whole runtime, and that JavaScript contains `href="..."` strings
+# that are not page references — scraping them produced an `InvalidURL` finding that pointed
+# at minified Vega code. Script and style bodies are removed before extraction.
+SCRIPT_STYLE = re.compile(r"<(script|style)\b.*?</\1\s*>", re.DOTALL | re.IGNORECASE)
+# References that 404 on purpose, recorded rather than silently tolerated. These are
+# Wikipedia's own site-relative links inside the HTML example the reading chapter displays
+# to show what scraped markup looks like (`<a href="/wiki/London,_Ontario">`). They resolve
+# against whatever host serves the book, so they 404 on the English site too — the same
+# string sits at `.translation/source_en/reading.md:1316`.
+KNOWN_BROKEN_REFS = {
+    "/wiki/Greater_Montreal",
+    "/wiki/Greater_Toronto_Area",
+    "/wiki/London,_Ontario",
+}
 pages = sorted(DOCS.glob("*.html"))
 
 refs: set[str] = set()
 for page in pages:
-    for m in REF.finditer(page.read_text(encoding="utf-8")):
+    blob = SCRIPT_STYLE.sub(" ", page.read_text(encoding="utf-8"))
+    for m in REF.finditer(blob):
         ref = m.group(1)
-        if SCHEME.match(ref) or ref.startswith("//"):
+        if SCHEME.match(ref) or ref.startswith("//") or ref in KNOWN_BROKEN_REFS:
             continue
         refs.add(ref)
 

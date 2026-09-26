@@ -19,7 +19,14 @@ execute:
     false # If `True`, then a temporary directory will be created and used as the command working directory (cwd),
     # otherwise the notebook's parent directory will be the cwd.
   allow_errors: True # If `False`, when a code cell raises an error the execution is stopped, otherwise all cells are always run.
-  stderr_output: show # One of 'show', 'remove', 'remove-warn', 'warn', 'error', 'severe'
+  stderr_output: remove # One of 'show', 'remove', 'remove-warn', 'warn', 'error', 'severe'
+  # `remove`, not `show`: every stderr stream this book produces is a pandas/numpy
+  # deprecation warning caused by library versions newer than the ones the English book
+  # was built with, and each one starts with the builder's local temp path
+  # (`C:\Users\...\Temp\...\ipykernel_...\1234.py:2: FutureWarning: ...`). They carry no
+  # teaching value, so they are dropped from the rendered page. Errors are unaffected:
+  # nbformat records those as `error` outputs rather than stderr, and the book
+  # deliberately demonstrates several of them.
 
 #######################################################################################
 # Parse and render settings

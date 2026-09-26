@@ -1,8 +1,34 @@
 # Build environment for the book (mirrors the project's Dockerfile, but pip-installable on Python 3.10)
-numpy
+#
+# The versions marked "pin" are not cosmetic. Each one was chosen after the external review
+# found 104 charts rendering blank, and each unpinned alternative silently breaks something:
+#
+#   numpy        NumPy 2 prints `np.float64(0.12)` instead of `0.12` (NEP 51), so nine
+#                outputs stopped matching the English book.
+#   altair       Altair >= 5.5 serialises chart data through narwhals -> Arrow, so it needs
+#                pyarrow; 6.x also moves away from what myst-nb 0.17.2 expects.
+#   pyarrow      NOT optional: without it every Altair cell raises
+#                `ImportError: Missing optional dependency 'pyarrow'` and no chart reaches
+#                the page. It is also what `Chart.save()` uses to write a PNG.
+#   pyarrow-hotfix  the ibis sqlite backend imports `ibis.formats.pyarrow`, which imports
+#                this module; without it `ibis.sqlite.connect()` fails outright.
+#   plotly       myst-nb has no handler for `application/vnd.plotly.v1+json`. Plotly only
+#                reaches the page through the `text/html` bundle the notebook renderer
+#                emits, and plotly 7 no longer emits it, so the 3-D scatter plots vanish.
+#   tzdata       pyarrow's Windows dependency.
+#   tenacity     plotly 5.x's own dependency.
+#
+# Install with tools/fetch_wheel.py, because pip cannot reach the index from this sandbox:
+#   python .translation/tools/fetch_wheel.py --install \
+#       pyarrow==25.0.1 tzdata "altair==5.5.0" "plotly==5.24.1" "numpy==1.26.4" \
+#       "pyarrow-hotfix==0.7" tenacity
+numpy==1.26.4                                 # pin (NEP 51 repr)
 pandas>=2.1.3
 jinja2
-altair>=5.1.2
+altair==5.5.0                                 # pin
+pyarrow==25.0.1                               # pin (required by Altair >= 5.5)
+pyarrow-hotfix==0.7                           # pin (required by the ibis sqlite backend)
+tzdata                                        # pin (pyarrow on Windows)
 vl-convert-python>=0.14
 vegafusion[embed]
 click
@@ -10,9 +36,11 @@ ghp-import
 jupytext
 jupyter-book==0.15.1
 scikit-learn>=1.3.2
-plotly
+plotly==5.24.1                                # pin (myst-nb cannot render the vnd mime)
+tenacity                                      # pin (plotly 5.x dependency)
 lxml
 referencing
 docutils==0.17.1
 openpyxl
-ibis-framework
+ibis-framework==12.0.0                        # pin (12.x still has Expr.compile(); >=9 the
+                                              # book's `str(table.count().compile())` breaks)
