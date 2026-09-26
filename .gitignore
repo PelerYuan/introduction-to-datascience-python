@@ -28,3 +28,6 @@ source/__pycache__
 .translation/logs/
 
 .translation/tools/__pycache__/
+
+# scratch space used while proving the path-sanitizer fix
+.translation/work/
