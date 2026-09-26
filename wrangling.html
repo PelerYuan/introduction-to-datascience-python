@@ -185,7 +185,7 @@ const thebe_selector_output = ".output, .cell_output"
 <li class="toctree-l1"><a class="reference internal" href="viz.html">4. 有效的数据可视化</a></li>
 <li class="toctree-l1"><a class="reference internal" href="classification1.html">5. 分类 I：训练与预测</a></li>
 <li class="toctree-l1"><a class="reference internal" href="classification2.html">6. 分类 II：评估与调优</a></li>
-<li class="toctree-l1"><a class="reference internal" href="regression1.html">7. 回归 I：k 近邻回归</a></li>
+<li class="toctree-l1"><a class="reference internal" href="regression1.html">7. 回归 I：K 近邻回归</a></li>
 <li class="toctree-l1"><a class="reference internal" href="regression2.html">8. 回归 II：线性回归</a></li>
 <li class="toctree-l1"><a class="reference internal" href="clustering.html">9. 聚类</a></li>
 <li class="toctree-l1"><a class="reference internal" href="inference.html">10. 统计推断</a></li>
@@ -342,45 +342,45 @@ document.write(`
                 <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">3.1. 概述</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">3.2. 本章学习目标</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id4">3.3. 数据框与序列</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id5">3.3.1. 什么是数据框？</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id6">3.3.2. 什么是序列？</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id7">3.3.3. 这与数据框有什么关系？</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#series">3.3. 数据框与 Series</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id4">3.3.1. 什么是数据框？</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id5">3.3.2. 什么是 Series？</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id6">3.3.3. 这与数据框有什么关系？</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#python">3.3.4. Python 中的数据结构</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id8">3.4. 整洁数据</a><ul class="nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id7">3.4. 整洁数据</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#melt">3.4.1. 整理数据：用 <code class="docutils literal notranslate"><span class="pre">melt</span></code> 从宽格式变成长格式</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pivot">3.4.2. 整理数据：用 <code class="docutils literal notranslate"><span class="pre">pivot</span></code> 从长格式变为宽格式</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#str-split">3.4.3. 整理数据：用 <code class="docutils literal notranslate"><span class="pre">str.split</span></code> 处理多个分隔符</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id11">3.5. 用 <code class="docutils literal notranslate"><span class="pre">[]</span></code> 提取行或列</a><ul class="nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id10">3.5. 用 <code class="docutils literal notranslate"><span class="pre">[]</span></code> 提取行或列</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#index-27">3.5.1. 按列名提取列</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id13">3.5.2. 用 <code class="docutils literal notranslate"><span class="pre">==</span></code> 提取具有特定取值的行</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id14">3.5.3. 用 <code class="docutils literal notranslate"><span class="pre">!=</span></code> 提取不具有特定取值的行</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id12">3.5.2. 用 <code class="docutils literal notranslate"><span class="pre">==</span></code> 提取具有特定取值的行</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id13">3.5.3. 用 <code class="docutils literal notranslate"><span class="pre">!=</span></code> 提取不具有特定取值的行</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#filter-and">3.5.4. 用 <code class="docutils literal notranslate"><span class="pre">&amp;</span></code> 提取同时满足多个条件的行</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id16">3.5.5. 用 <code class="docutils literal notranslate"><span class="pre">|</span></code> 提取至少满足一个条件的行</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id15">3.5.5. 用 <code class="docutils literal notranslate"><span class="pre">|</span></code> 提取至少满足一个条件的行</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#isin">3.5.6. 用 <code class="docutils literal notranslate"><span class="pre">isin</span></code> 提取取值属于某个列表的行</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id17">3.5.7. 用 <code class="docutils literal notranslate"><span class="pre">&gt;</span></code> 和 <code class="docutils literal notranslate"><span class="pre">&lt;</span></code> 提取高于或低于阈值的行</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id16">3.5.7. 用 <code class="docutils literal notranslate"><span class="pre">&gt;</span></code> 和 <code class="docutils literal notranslate"><span class="pre">&lt;</span></code> 提取高于或低于阈值的行</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#query">3.5.8. 用 <code class="docutils literal notranslate"><span class="pre">query</span></code> 提取行</a></li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#loc">3.6. 用 <code class="docutils literal notranslate"><span class="pre">loc[]</span></code> 筛选行并选取列</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#iloc">3.7. 用 <code class="docutils literal notranslate"><span class="pre">iloc[]</span></code> 按位置提取行和列</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#index-47">3.8. 聚合数据</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id19">3.8.1. 计算单个列的汇总统计量</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id20">3.8.2. 在数据框上计算汇总统计量</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id18">3.8.1. 计算单个列的汇总统计量</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id19">3.8.2. 在数据框上计算汇总统计量</a></li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#groupby">3.9. 使用 <code class="docutils literal notranslate"><span class="pre">groupby</span></code> 对分组后的行执行操作</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id21">3.10. 跨列应用函数</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id20">3.10. 跨列应用函数</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pandas-assign">3.11. 修改和添加列</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#merge">3.12. 用 <code class="docutils literal notranslate"><span class="pre">merge</span></code> 合并数据框</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id23">3.13. 小结</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id24">3.14. 习题</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id25">3.15. 拓展资源</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id28">3.16. 参考文献</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id22">3.13. 小结</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id23">3.14. 习题</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id24">3.15. 拓展资源</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id27">3.16. 参考文献</a></li>
 </ul>
             </nav>
         </div>
@@ -404,7 +404,7 @@ document.write(`
 <ul class="simple">
 <li><p>定义“整洁数据”这一术语。</p></li>
 <li><p>讨论用整洁数据格式存储数据的优势。</p></li>
-<li><p>定义 Python 中的序列（series）和数据框（data frame），并说明二者的关系。</p></li>
+<li><p>定义 Python 中的 Series（序列）和数据框（data frame），并说明二者的关系。</p></li>
 <li><p>描述 Python 中常见的数据类型及其用途。</p></li>
 <li><p>在数据整理任务中按各自的预期用途使用以下函数：</p>
 <ul>
@@ -428,11 +428,11 @@ document.write(`
 </li>
 </ul>
 </section>
-<section id="id4">
-<h2><span class="section-number">3.3. </span>数据框与序列<a class="headerlink" href="#id4" title="Permalink to this heading">#</a></h2>
+<section id="series">
+<h2><span class="section-number">3.3. </span>数据框与 Series<a class="headerlink" href="#series" title="Permalink to this heading">#</a></h2>
 <p>在<a class="reference internal" href="intro.html#intro"><span class="std std-numref">第 1 章</span></a>和<a class="reference internal" href="reading.html#reading"><span class="std std-numref">第 2 章</span></a>中，重点是<em>数据框</em>：我们学会了如何把数据导入 Python 并成为一个数据框，以及如何在 Python 中对数据框做基本操作。在本书余下的部分里，这个模式会一直延续。我们用到的大多数工具都会要求数据在 Python 中以 <code class="docutils literal notranslate"><span class="pre">pandas</span></code> <strong>数据框</strong>的形式表示。因此，本节会深入探讨数据框究竟是什么，以及它在 Python 中如何表示。掌握这些知识，有助于我们在数据分析中更有效地运用这些对象。</p>
-<section id="id5">
-<h3><span class="section-number">3.3.1. </span>什么是数据框？<a class="headerlink" href="#id5" title="Permalink to this heading">#</a></h3>
+<section id="id4">
+<h3><span class="section-number">3.3.1. </span>什么是数据框？<a class="headerlink" href="#id4" title="Permalink to this heading">#</a></h3>
 <span class="target" id="index-0"></span><span class="target" id="index-1"></span><p id="index-2">数据框是 Python 中存储数据的表格状结构。数据框值得学习，因为你在实践中遇到的大多数数据都能自然地存成一张表。为了精确定义数据框，我们需要先引入几个技术术语：</p>
 <ul class="simple" id="index-3">
 <li><p><strong>变量（variable）</strong>：可以被测量的一种特征、数值或数量。</p></li>
@@ -448,10 +448,10 @@ document.write(`
 </figcaption>
 </figure>
 </section>
-<section id="id6">
-<h3><span class="section-number">3.3.2. </span>什么是序列？<a class="headerlink" href="#id6" title="Permalink to this heading">#</a></h3>
-<p id="index-4">在 Python 中，<code class="docutils literal notranslate"><span class="pre">pandas</span></code> 的<strong>序列</strong>是像列表一样可以包含一个或多个元素的对象。它只有一列，是有序的，可以被索引，并且可以存放任意数据类型。<code class="docutils literal notranslate"><span class="pre">pandas</span></code> 包用 <code class="docutils literal notranslate"><span class="pre">Series</span></code> 对象来表示数据框中的各列。<code class="docutils literal notranslate"><span class="pre">Series</span></code> 里可以混放多种数据类型，但良好的做法是让一个序列只包含一种类型，因为同一个变量的所有观测都应该是同一类型。Python 有若干种不同的基本数据类型，如<a class="reference internal" href="#tab-datatype-table"><span class="std std-numref">表 3.1</span></a> 所示。你可以用
-<code class="docutils literal notranslate"><span class="pre">pd.Series()</span></code> 函数创建 <code class="docutils literal notranslate"><span class="pre">pandas</span></code> 序列。例如，要创建<a class="reference internal" href="#fig-02-series"><span class="std std-numref">图 3.2</span></a> 中所示的序列 <code class="docutils literal notranslate"><span class="pre">region</span></code>，可以这样写。</p>
+<section id="id5">
+<h3><span class="section-number">3.3.2. </span>什么是 Series？<a class="headerlink" href="#id5" title="Permalink to this heading">#</a></h3>
+<p id="index-4">在 Python 中，<code class="docutils literal notranslate"><span class="pre">pandas</span></code> 的 <strong>Series</strong> 是像列表一样可以包含一个或多个元素的对象。它只有一列，是有序的，可以被索引，并且可以存放任意数据类型。<code class="docutils literal notranslate"><span class="pre">pandas</span></code> 包用 <code class="docutils literal notranslate"><span class="pre">Series</span></code> 对象来表示数据框中的各列。<code class="docutils literal notranslate"><span class="pre">Series</span></code> 里可以混放多种数据类型，但良好的做法是让一个 Series 只包含一种类型，因为同一个变量的所有观测都应该是同一类型。Python 有若干种不同的基本数据类型，如<a class="reference internal" href="#tab-datatype-table"><span class="std std-numref">表 3.1</span></a> 所示。你可以用
+<code class="docutils literal notranslate"><span class="pre">pd.Series()</span></code> 函数创建 <code class="docutils literal notranslate"><span class="pre">pandas</span></code> 的 Series。例如，要创建<a class="reference internal" href="#fig-02-series"><span class="std std-numref">图 3.2</span></a> 中所示的 Series <code class="docutils literal notranslate"><span class="pre">region</span></code>，可以这样写。</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
@@ -475,7 +475,7 @@ dtype: object
 <figure class="figure align-default" id="fig-02-series">
 <img alt="_images/pandas_dataframe_series.png" src="_images/pandas_dataframe_series.png" />
 <figcaption>
-<p><span class="caption-number">图 3.2 </span><span class="caption-text">类型为字符串的 <code class="docutils literal notranslate"><span class="pre">pandas</span></code> 序列示例。</span><a class="headerlink" href="#fig-02-series" title="永久链接至图片">#</a></p>
+<p><span class="caption-number">图 3.2 </span><span class="caption-text">类型为字符串的 <code class="docutils literal notranslate"><span class="pre">pandas</span></code> Series 示例。</span><a class="headerlink" href="#fig-02-series" title="永久链接至图片">#</a></p>
 </figcaption>
 </figure>
 <span class="target" id="index-5"></span><span class="target" id="index-6"></span><span class="target" id="index-7"></span><span class="target" id="index-8"></span><span class="target" id="index-9"></span><div class="pst-scrollable-table-container"><span id="index-10"></span><table class="colwidths-auto table" id="tab-datatype-table">
@@ -519,13 +519,13 @@ dtype: object
 <p>在 Python 中，务必用正确的类型来表示数据。本书用到的许多
 <code class="docutils literal notranslate"><span class="pre">pandas</span></code> 函数对不同的数据类型有不同的处理方式。你应该用 <code class="docutils literal notranslate"><span class="pre">int</span></code> 和 <code class="docutils literal notranslate"><span class="pre">float</span></code> 类型表示数值，并用它们做算术运算。<code class="docutils literal notranslate"><span class="pre">int</span></code> 类型用于没有小数点的整数，而 <code class="docutils literal notranslate"><span class="pre">float</span></code> 类型用于带小数点的数。<code class="docutils literal notranslate"><span class="pre">bool</span></code> 类型表示布尔变量，只能取两个值之一：<code class="docutils literal notranslate"><span class="pre">True</span></code> 或 <code class="docutils literal notranslate"><span class="pre">False</span></code>。<code class="docutils literal notranslate"><span class="pre">string</span></code> 类型用来表示应当被看作“文本”的数据，例如单词、名称、路径和 URL 等等。<code class="docutils literal notranslate"><span class="pre">NoneType</span></code> 是 Python 中的一种特殊类型，用来表示没有取值；例如，数据缺失时就可能出现这种情况。Python 还有其他基本数据类型，但本书一般不会用到。</p>
 </section>
-<section id="id7">
-<h3><span class="section-number">3.3.3. </span>这与数据框有什么关系？<a class="headerlink" href="#id7" title="Permalink to this heading">#</a></h3>
-<p id="index-11">数据框其实就是若干序列拼在一起形成的集合，其中每个序列对应一列，而且所有序列的长度必须相同。不过，数据框中的列不必都是同一类型。<a class="reference internal" href="#fig-02-dataframe"><span class="std std-numref">图 3.3</span></a> 展示了一个数据框，其中各列是不同类型的序列。但同一列<em>内部</em>的每个元素通常应该是同一类型，因为同一个变量的取值通常都是同一类型。例如，如果变量是城市名称，这个名称应该是字符串；如果变量是年份，那它应该是整数。所以，尽管序列允许你放不同类型的数据，最常见的做法（也是良好实践！）仍是每列只用一种类型。</p>
+<section id="id6">
+<h3><span class="section-number">3.3.3. </span>这与数据框有什么关系？<a class="headerlink" href="#id6" title="Permalink to this heading">#</a></h3>
+<p id="index-11">数据框其实就是若干 Series 拼在一起形成的集合，其中每个 Series 对应一列，而且所有 Series 的长度必须相同。不过，数据框中的列不必都是同一类型。<a class="reference internal" href="#fig-02-dataframe"><span class="std std-numref">图 3.3</span></a> 展示了一个数据框，其中各列是不同类型的 Series。但同一列<em>内部</em>的每个元素通常应该是同一类型，因为同一个变量的取值通常都是同一类型。例如，如果变量是城市名称，这个名称应该是字符串；如果变量是年份，那它应该是整数。所以，尽管 Series 允许你放不同类型的数据，最常见的做法（也是良好实践！）仍是每列只用一种类型。</p>
 <figure class="figure align-default" id="fig-02-dataframe">
 <img alt="_images/pandas_dataframe_series-3.png" src="_images/pandas_dataframe_series-3.png" />
 <figcaption>
-<p><span class="caption-number">图 3.3 </span><span class="caption-text">数据框与序列的类型。</span><a class="headerlink" href="#fig-02-dataframe" title="永久链接至图片">#</a></p>
+<p><span class="caption-number">图 3.3 </span><span class="caption-text">数据框与 Series 的类型。</span><a class="headerlink" href="#fig-02-dataframe" title="永久链接至图片">#</a></p>
 </figcaption>
 </figure>
 <div class="admonition note" id="index-12">
@@ -552,7 +552,7 @@ dtype: object
 <p><code class="docutils literal notranslate"><span class="pre">Series</span></code> 和 <code class="docutils literal notranslate"><span class="pre">DataFrame</span></code> 是 Python 中的<em>数据结构</em>，它们对大多数数据分析来说都是核心概念。我们用到的 <code class="docutils literal notranslate"><span class="pre">pandas</span></code> 函数往往根据具体操作返回 <code class="docutils literal notranslate"><span class="pre">DataFrame</span></code>
 或 <code class="docutils literal notranslate"><span class="pre">Series</span></code>。由于
 <code class="docutils literal notranslate"><span class="pre">Series</span></code> 本质上就是简单的 <code class="docutils literal notranslate"><span class="pre">DataFrames</span></code>，本书正文里会把
-<code class="docutils literal notranslate"><span class="pre">DataFrames</span></code> 和 <code class="docutils literal notranslate"><span class="pre">Series</span></code> 都称作“数据框”（译注：严格来说，序列只有单列，数据框可以有多列；原文此处把两者都笼统称作“数据框”，只是为了口语上的简便）。Python 中还有其他表示数据结构的类型。最常见的几种汇总在<a class="reference internal" href="#tab-datastruc-table"><span class="std std-numref">表 3.2</span></a> 中。</p>
+<code class="docutils literal notranslate"><span class="pre">DataFrames</span></code> 和 <code class="docutils literal notranslate"><span class="pre">Series</span></code> 都称作“数据框”（译注：严格来说，Series 只有单列，数据框可以有多列；原文此处把两者都笼统称作“数据框”，只是为了口语上的简便）。Python 中还有其他表示数据结构的类型。最常见的几种汇总在<a class="reference internal" href="#tab-datastruc-table"><span class="std std-numref">表 3.2</span></a> 中。</p>
 <span class="target" id="index-13"></span><div class="pst-scrollable-table-container"><span id="index-14"></span><table class="colwidths-auto table" id="tab-datastruc-table">
 <caption><span class="caption-number">表 3.2 </span><span class="caption-text">Python 的基本数据结构</span><a class="headerlink" href="#tab-datastruc-table" title="永久链接至表格">#</a></caption>
 <thead>
@@ -771,9 +771,9 @@ dtype: object
 </div>
 </section>
 </section>
-<section id="id8">
-<h2><span class="section-number">3.4. </span>整洁数据<a class="headerlink" href="#id8" title="Permalink to this heading">#</a></h2>
-<p id="index-15">表格型数据集可以有多种组织方式。我们前面看过的数据框采用的都是<strong>整洁数据</strong>这种组织格式。本章将重点介绍整洁数据格式，以及如何把原始（而且很可能混乱）的数据整理整洁。整洁数据框满足以下三条标准 <span id="id9">[<a class="reference internal" href="#id47" title="Hadley Wickham. Tidy data. Journal of Statistical Software, 59(10):1–23, 2014.">Wickham, 2014</a>]</span>：</p>
+<section id="id7">
+<h2><span class="section-number">3.4. </span>整洁数据<a class="headerlink" href="#id7" title="Permalink to this heading">#</a></h2>
+<p id="index-15">表格型数据集可以有多种组织方式。我们前面看过的数据框采用的都是<strong>整洁数据</strong>这种组织格式。本章将重点介绍整洁数据格式，以及如何把原始（而且很可能混乱）的数据整理整洁。整洁数据框满足以下三条标准 <span id="id8">[<a class="reference internal" href="#id46" title="Hadley Wickham. Tidy data. Journal of Statistical Software, 59(10):1–23, 2014.">Wickham, 2014</a>]</span>：</p>
 <ul class="simple">
 <li><p>每一行是一条观测，</p></li>
 <li><p>每一列是一个变量，</p></li>
@@ -1394,7 +1394,7 @@ dtype: object
 <p>1070 rows × 5 columns</p>
 </div></div></div>
 </div>
-<p id="index-22">第一步中请注意，我们加了一次 <code class="docutils literal notranslate"><span class="pre">reset_index</span></code> 调用。当传给 <code class="docutils literal notranslate"><span class="pre">pivot</span></code> 的 <code class="docutils literal notranslate"><span class="pre">index</span></code> 是多个列名时，这些列名会成为每一行的“名字”；用 <code class="docutils literal notranslate"><span class="pre">[]</span></code> 或 <code class="docutils literal notranslate"><span class="pre">loc</span></code> 筛选行时依据的就是这些名字，而不是简单的数字。这可能让人困惑……<code class="docutils literal notranslate"><span class="pre">reset_index</span></code> 的作用是回到我们熟悉的常规行为：每一行用整数“命名”。这一点比较微妙，但要点是：调用 <code class="docutils literal notranslate"><span class="pre">pivot</span></code> 之后，最好接着调用 <code class="docutils literal notranslate"><span class="pre">reset_index</span></code>。</p>
+<p id="index-22">第一步中请注意，我们加了一次 <code class="docutils literal notranslate"><span class="pre">reset_index</span></code> 调用。当传给 <code class="docutils literal notranslate"><span class="pre">pivot</span></code> 的 <code class="docutils literal notranslate"><span class="pre">index</span></code> 是多个列名时，这几列的取值会成为行索引（MultiIndex），也就是每一行的“名字”；用 <code class="docutils literal notranslate"><span class="pre">[]</span></code> 或 <code class="docutils literal notranslate"><span class="pre">loc</span></code> 筛选行时依据的就是这些名字，而不是简单的数字。这可能让人困惑……<code class="docutils literal notranslate"><span class="pre">reset_index</span></code> 的作用是回到我们熟悉的常规行为：每一行用整数“命名”。这一点比较微妙，但要点是：调用 <code class="docutils literal notranslate"><span class="pre">pivot</span></code> 之后，最好接着调用 <code class="docutils literal notranslate"><span class="pre">reset_index</span></code>。</p>
 <p>第二步操作是给列重命名。执行 <code class="docutils literal notranslate"><span class="pre">pivot</span></code> 操作时，它会保留原来的列名 <code class="docutils literal notranslate"><span class="pre">&quot;count&quot;</span></code>，并把 <code class="docutils literal notranslate"><span class="pre">&quot;type&quot;</span></code> 作为第二个列名加上去。一列有两个名字，很容易让人困惑！所以我们重新命名，让每列只有一个名字。</p>
 <p id="index-23">我们可以用 <code class="docutils literal notranslate"><span class="pre">info</span></code> 函数打印出数据框的一些有用信息。第一行告诉了我们 <code class="docutils literal notranslate"><span class="pre">lang_home_tidy</span></code> 的 <code class="docutils literal notranslate"><span class="pre">type</span></code>（它是一个 <code class="docutils literal notranslate"><span class="pre">pandas</span></code> 的 <code class="docutils literal notranslate"><span class="pre">DataFrame</span></code>）。第二行告诉我们数据有多少行：1070 行，并且可以用 0 到 1069 之间的数字为这些行建立索引（记住，Python 从 0 开始计数！）。接着是关于各列的打印输出。这里总共有 5 列。它打印出的那张小表格会告诉你每一列的名字、非空取值的个数（也就是不是缺失值的条目数），以及这些取值的类型。最后两行汇总了每一列的类型，以及数据框在你的计算机上占用的内存大小。</p>
 <div class="cell docutils container">
@@ -1429,7 +1429,7 @@ memory usage: 41.9+ KB
 <p>你可能注意到，整洁数据集中的列数与混乱数据集中的列数相同。所以 <code class="docutils literal notranslate"><span class="pre">pivot</span></code> 其实并没有把数据“变宽”。原因只是原来的 <code class="docutils literal notranslate"><span class="pre">type</span></code> 列里只有两个类别。如果它有两个以上类别，<code class="docutils literal notranslate"><span class="pre">pivot</span></code> 就会创建更多列，我们也能看到数据集“变宽”了。</p>
 </section>
 <section id="str-split">
-<span id="id10"></span><h3><span class="section-number">3.4.3. </span>整理数据：用 <code class="docutils literal notranslate"><span class="pre">str.split</span></code> 处理多个分隔符<a class="headerlink" href="#str-split" title="Permalink to this heading">#</a></h3>
+<span id="id9"></span><h3><span class="section-number">3.4.3. </span>整理数据：用 <code class="docutils literal notranslate"><span class="pre">str.split</span></code> 处理多个分隔符<a class="headerlink" href="#str-split" title="Permalink to this heading">#</a></h3>
 <span class="target" id="index-24"></span><p id="index-25">同一个单元格里存放多个取值时，数据同样不算整洁。下面展示的数据集比上面处理过的那些还要混乱：<code class="docutils literal notranslate"><span class="pre">Toronto</span></code>、<code class="docutils literal notranslate"><span class="pre">Montréal</span></code>、<code class="docutils literal notranslate"><span class="pre">Vancouver</span></code>、<code class="docutils literal notranslate"><span class="pre">Calgary</span></code> 和 <code class="docutils literal notranslate"><span class="pre">Edmonton</span></code> 这几列中，加拿大人把某种语言作为在家和工作中主要使用语言的人数被放在同一列里，中间用分隔符（separator，也就是 <code class="docutils literal notranslate"><span class="pre">/</span></code>）隔开。列名本身就是某个变量的取值，<em>而且</em>每个取值并没有自己独立的单元格！要把这份混乱数据变成整洁数据，我们必须解决这些问题。</p>
 <div class="cell tag_output_scroll docutils container">
 <div class="cell_input docutils container">
@@ -1883,7 +1883,7 @@ memory usage: 41.9+ KB
 </div>
 </div>
 <p><code class="docutils literal notranslate"><span class="pre">pandas</span></code> 数据框中的 object 列，要么是字符串列，要么是混合类型的列。在前面<a class="reference internal" href="#pivot-wider"><span class="std std-numref">第 3.4.2 节</span></a>那个例子里，<code class="docutils literal notranslate"><span class="pre">most_at_home</span></code> 和 <code class="docutils literal notranslate"><span class="pre">most_at_work</span></code> 两个变量是 <code class="docutils literal notranslate"><span class="pre">int64</span></code>（整数），属于数值型数据。类型发生变化，是因为读取这份混乱数据集时出现了分隔符（<code class="docutils literal notranslate"><span class="pre">/</span></code>）。Python 把这些列读成了字符串类型，而 <code class="docutils literal notranslate"><span class="pre">str.split</span></code> 默认返回 <code class="docutils literal notranslate"><span class="pre">object</span></code> 数据类型的列。</p>
-<p><code class="docutils literal notranslate"><span class="pre">region</span></code>、<code class="docutils literal notranslate"><span class="pre">category</span></code> 和 <code class="docutils literal notranslate"><span class="pre">language</span></code> 存放的是分类取值，把它们存成 <code class="docutils literal notranslate"><span class="pre">object</span></code> 类型是合理的。不过，假设我们想用一些把 <code class="docutils literal notranslate"><span class="pre">most_at_home</span></code> 和 <code class="docutils literal notranslate"><span class="pre">most_at_work</span></code> 列当作数字处理的函数（例如找出某列中高于某个数值阈值的行），如果变量存成 <code class="docutils literal notranslate"><span class="pre">object</span></code>，这些函数就用不了。好在 <code class="docutils literal notranslate"><span class="pre">pandas</span></code> 的 <code class="docutils literal notranslate"><span class="pre">astype</span></code> 方法能很自然地解决这类问题：它会把列转换成指定的数据类型。这里我们选择 <code class="docutils literal notranslate"><span class="pre">int</span></code> 数据类型，表示这些变量存放的是整数计数。注意，下面我们会把新的数值序列<em>赋值</em>给 <code class="docutils literal notranslate"><span class="pre">tidy_lang</span></code> 中的 <code class="docutils literal notranslate"><span class="pre">most_at_home</span></code> 和 <code class="docutils literal notranslate"><span class="pre">most_at_work</span></code> 列；这种语法我们之前在<a class="reference internal" href="intro.html#ch1-adding-modifying"><span class="std std-numref">第 1.9 节</span></a>中见过，本章后面在<a class="reference internal" href="#pandas-assign"><span class="std std-numref">第 3.11 节</span></a>中还会更深入地讨论。</p>
+<p><code class="docutils literal notranslate"><span class="pre">region</span></code>、<code class="docutils literal notranslate"><span class="pre">category</span></code> 和 <code class="docutils literal notranslate"><span class="pre">language</span></code> 存放的是分类取值，把它们存成 <code class="docutils literal notranslate"><span class="pre">object</span></code> 类型是合理的。不过，假设我们想用一些把 <code class="docutils literal notranslate"><span class="pre">most_at_home</span></code> 和 <code class="docutils literal notranslate"><span class="pre">most_at_work</span></code> 列当作数字处理的函数（例如找出某列中高于某个数值阈值的行），如果变量存成 <code class="docutils literal notranslate"><span class="pre">object</span></code>，这些函数就用不了。好在 <code class="docutils literal notranslate"><span class="pre">pandas</span></code> 的 <code class="docutils literal notranslate"><span class="pre">astype</span></code> 方法能很自然地解决这类问题：它会把列转换成指定的数据类型。这里我们选择 <code class="docutils literal notranslate"><span class="pre">int</span></code> 数据类型，表示这些变量存放的是整数计数。注意，下面我们会把新的数值 Series <em>赋值</em>给 <code class="docutils literal notranslate"><span class="pre">tidy_lang</span></code> 中的 <code class="docutils literal notranslate"><span class="pre">most_at_home</span></code> 和 <code class="docutils literal notranslate"><span class="pre">most_at_work</span></code> 列；这种语法我们之前在<a class="reference internal" href="intro.html#ch1-adding-modifying"><span class="std std-numref">第 1.9 节</span></a>中见过，本章后面在<a class="reference internal" href="#pandas-assign"><span class="std std-numref">第 3.11 节</span></a>中还会更深入地讨论。</p>
 <div class="cell tag_output_scroll docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">tidy_lang</span><span class="p">[</span><span class="s2">"most_at_home"</span><span class="p">]</span> <span class="o">=</span> <span class="n">tidy_lang</span><span class="p">[</span><span class="s2">"most_at_home"</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s2">"int"</span><span class="p">)</span>
@@ -2038,11 +2038,11 @@ memory usage: 33.6+ KB
 <p>现在我们看到 <code class="docutils literal notranslate"><span class="pre">most_at_home</span></code> 和 <code class="docutils literal notranslate"><span class="pre">most_at_work</span></code> 列都是 <code class="docutils literal notranslate"><span class="pre">int64</span></code> 数据类型，说明它们是整数类型（也就是数字）！</p>
 </section>
 </section>
-<section id="id11">
-<h2><span class="section-number">3.5. </span>用 <code class="docutils literal notranslate"><span class="pre">[]</span></code> 提取行或列<a class="headerlink" href="#id11" title="Permalink to this heading">#</a></h2>
+<section id="id10">
+<h2><span class="section-number">3.5. </span>用 <code class="docutils literal notranslate"><span class="pre">[]</span></code> 提取行或列<a class="headerlink" href="#id10" title="Permalink to this heading">#</a></h2>
 <p>既然 <code class="docutils literal notranslate"><span class="pre">tidy_lang</span></code> 数据确实<em>整洁</em>了，我们就可以开始用 <code class="docutils literal notranslate"><span class="pre">pandas</span></code> 那一整套强大的函数来操作它。我们先回顾一下<a class="reference internal" href="intro.html#intro"><span class="std std-numref">第 1 章</span></a>里的 <code class="docutils literal notranslate"><span class="pre">[]</span></code>，它可以取出数据框中行<strong>或</strong>列的子集。本节将重点介绍 <code class="docutils literal notranslate"><span class="pre">[]</span></code> 更高级的用法，并深入讲解在 <code class="docutils literal notranslate"><span class="pre">[]</span></code> 中筛选行子集时可以使用的各种逻辑表达式（logical statement）。</p>
 <span class="target" id="index-26"></span><section id="index-27">
-<span id="id12"></span><h3><span class="section-number">3.5.1. </span>按列名提取列<a class="headerlink" href="#index-27" title="Permalink to this heading">#</a></h3>
+<span id="id11"></span><h3><span class="section-number">3.5.1. </span>按列名提取列<a class="headerlink" href="#index-27" title="Permalink to this heading">#</a></h3>
 <p>回忆一下，如果传入一个列名列表，<code class="docutils literal notranslate"><span class="pre">[]</span></code> 就会返回由这些列名构成的列子集，形式是数据框。假设我们想从 <code class="docutils literal notranslate"><span class="pre">tidy_lang</span></code> 数据集中选取 <code class="docutils literal notranslate"><span class="pre">language</span></code>、<code class="docutils literal notranslate"><span class="pre">region</span></code>、<code class="docutils literal notranslate"><span class="pre">most_at_home</span></code> 和 <code class="docutils literal notranslate"><span class="pre">most_at_work</span></code> 这几列，就可以用在<a class="reference internal" href="intro.html#intro"><span class="std std-numref">第 1 章</span></a>中学到的方法，把这些列名全部传进方括号。</p>
 <div class="cell tag_output_scroll docutils container">
 <div class="cell_input docutils container">
@@ -2237,7 +2237,7 @@ memory usage: 33.6+ KB
 <p>1070 rows × 1 columns</p>
 </div></div></div>
 </div>
-<p>如果需要提取的只有单独一列，我们也可以传入列名字符串，而不传列表。这时返回的数据类型是序列。在本书中，我们大多这样提取单独的列，不过也会指出少数几处，说明把单独的列作为数据框提取出来更有优势。</p>
+<p>如果需要提取的只有单独一列，我们也可以传入列名字符串，而不传列表。这时返回的数据类型是 Series。在本书中，我们大多这样提取单独的列，不过也会指出少数几处，说明把单独的列作为数据框提取出来更有优势。</p>
 <div class="cell tag_output_scroll docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">tidy_lang</span><span class="p">[</span><span class="s2">"language"</span><span class="p">]</span>
@@ -2262,8 +2262,8 @@ Name: language, Length: 1070, dtype: object
 </div>
 </div>
 </section>
-<section id="id13">
-<h3><span class="section-number">3.5.2. </span>用 <code class="docutils literal notranslate"><span class="pre">==</span></code> 提取具有特定取值的行<a class="headerlink" href="#id13" title="Permalink to this heading">#</a></h3>
+<section id="id12">
+<h3><span class="section-number">3.5.2. </span>用 <code class="docutils literal notranslate"><span class="pre">==</span></code> 提取具有特定取值的行<a class="headerlink" href="#id12" title="Permalink to this heading">#</a></h3>
 <span class="target" id="index-28"></span><p id="index-29">假设我们只关心 <code class="docutils literal notranslate"><span class="pre">tidy_lang</span></code> 中与加拿大官方语言（英语和法语）对应的那部分行。我们可以用<em>相等运算符</em>（equivalency operator，即 <code class="docutils literal notranslate"><span class="pre">==</span></code>）把 <code class="docutils literal notranslate"><span class="pre">category</span></code> 列的取值与 <code class="docutils literal notranslate"><span class="pre">&quot;Official</span> <span class="pre">languages&quot;</span></code> 做比较，从而取出这些行。传入这些参数后，<code class="docutils literal notranslate"><span class="pre">[]</span></code> 返回的数据框包含输入数据框的所有列，但只保留逻辑表达式中指定的那些行，也就是 <code class="docutils literal notranslate"><span class="pre">category</span></code> 列取值为 <code class="docutils literal notranslate"><span class="pre">&quot;Official</span> <span class="pre">languages&quot;</span></code> 的行。我们把这个数据框命名为 <code class="docutils literal notranslate"><span class="pre">official_langs</span></code>。</p>
 <div class="cell tag_output_scroll docutils container">
 <div class="cell_input docutils container">
@@ -2384,8 +2384,8 @@ Name: language, Length: 1070, dtype: object
 </div></div></div>
 </div>
 </section>
-<section id="id14">
-<h3><span class="section-number">3.5.3. </span>用 <code class="docutils literal notranslate"><span class="pre">!=</span></code> 提取不具有特定取值的行<a class="headerlink" href="#id14" title="Permalink to this heading">#</a></h3>
+<section id="id13">
+<h3><span class="section-number">3.5.3. </span>用 <code class="docutils literal notranslate"><span class="pre">!=</span></code> 提取不具有特定取值的行<a class="headerlink" href="#id13" title="Permalink to this heading">#</a></h3>
 <span class="target" id="index-30"></span><p id="index-31">如果我们想要数据集中<em>除</em> <code class="docutils literal notranslate"><span class="pre">&quot;Official</span> <span class="pre">languages&quot;</span></code> 类别之外的所有其他语言类别呢？这可以用<em>不等运算符</em>（inequivalency operator，即 <code class="docutils literal notranslate"><span class="pre">!=</span></code>）实现，它表示“不等于”。因此，若要找出 <code class="docutils literal notranslate"><span class="pre">category</span></code> <em>不</em>等于 <code class="docutils literal notranslate"><span class="pre">&quot;Official</span> <span class="pre">languages&quot;</span></code> 的所有行，就写下方的代码。</p>
 <div class="cell tag_output_scroll docutils container">
 <div class="cell_input docutils container">
@@ -2515,7 +2515,7 @@ Name: language, Length: 1070, dtype: object
 </div>
 </section>
 <section id="filter-and">
-<span id="id15"></span><h3><span class="section-number">3.5.4. </span>用 <code class="docutils literal notranslate"><span class="pre">&amp;</span></code> 提取同时满足多个条件的行<a class="headerlink" href="#filter-and" title="Permalink to this heading">#</a></h3>
+<span id="id14"></span><h3><span class="section-number">3.5.4. </span>用 <code class="docutils literal notranslate"><span class="pre">&amp;</span></code> 提取同时满足多个条件的行<a class="headerlink" href="#filter-and" title="Permalink to this heading">#</a></h3>
 <span class="target" id="index-32"></span><p id="index-33">现在假设我们只想查看 Montréal 中法语的那些行。为此需要筛选数据集，找出同时满足多个条件的行。这可以用逻辑与运算符（ampersand，即 <code class="docutils literal notranslate"><span class="pre">&amp;</span></code> 符号）实现，Python 把它解释为“与”。我们按下方所示的代码对 <code class="docutils literal notranslate"><span class="pre">official_langs</span></code> 数据框做筛选，取出 <code class="docutils literal notranslate"><span class="pre">region</span> <span class="pre">==</span> <span class="pre">&quot;Montréal&quot;</span></code> <em>并且</em> <code class="docutils literal notranslate"><span class="pre">language</span> <span class="pre">==</span> <span class="pre">&quot;French&quot;</span></code> 的行。</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -2566,8 +2566,8 @@ Name: language, Length: 1070, dtype: object
 </div></div></div>
 </div>
 </section>
-<section id="id16">
-<h3><span class="section-number">3.5.5. </span>用 <code class="docutils literal notranslate"><span class="pre">|</span></code> 提取至少满足一个条件的行<a class="headerlink" href="#id16" title="Permalink to this heading">#</a></h3>
+<section id="id15">
+<h3><span class="section-number">3.5.5. </span>用 <code class="docutils literal notranslate"><span class="pre">|</span></code> 提取至少满足一个条件的行<a class="headerlink" href="#id15" title="Permalink to this heading">#</a></h3>
 <span class="target" id="index-34"></span><p id="index-35">假设我们只关心 <code class="docutils literal notranslate"><span class="pre">official_langs</span></code> 数据集中阿尔伯塔省的两个城市 Edmonton（埃德蒙顿）和 Calgary（卡尔加里）对应的行。这里不能用上面那种 <code class="docutils literal notranslate"><span class="pre">&amp;</span></code>，因为 <code class="docutils literal notranslate"><span class="pre">region</span></code> 不可能同时是 “Edmonton” <em>和</em> “Calgary”。可以改用逻辑或运算符（vertical pipe，即 <code class="docutils literal notranslate"><span class="pre">|</span></code>），它给出的情形是：满足一个条件<em>或</em>另一个条件<em>或</em>两个条件都满足。在下方代码中，我们让 Python 返回 <code class="docutils literal notranslate"><span class="pre">region</span></code> 列等于 “Calgary” <em>或</em> “Edmonton” 的行。</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -2854,7 +2854,7 @@ Name: language, Length: 1070, dtype: object
 </div>
 <div class="admonition note">
 <p class="admonition-title">备注</p>
-<p><code class="docutils literal notranslate"><span class="pre">==</span></code> 与 <code class="docutils literal notranslate"><span class="pre">isin</span></code> 有什么区别？假设有两个 Series，<code class="docutils literal notranslate"><span class="pre">seriesA</span></code> 和 <code class="docutils literal notranslate"><span class="pre">seriesB</span></code>。在 Python 里输入 <code class="docutils literal notranslate"><span class="pre">seriesA</span> <span class="pre">==</span> <span class="pre">seriesB</span></code>，它会逐元素地比较这两个序列：Python 检查 <code class="docutils literal notranslate"><span class="pre">seriesA</span></code> 的第一个元素是否等于 <code class="docutils literal notranslate"><span class="pre">seriesB</span></code> 的第一个元素，<code class="docutils literal notranslate"><span class="pre">seriesA</span></code> 的第二个元素是否等于 <code class="docutils literal notranslate"><span class="pre">seriesB</span></code> 的第二个元素，依此类推。而 <code class="docutils literal notranslate"><span class="pre">seriesA.isin(seriesB)</span></code> 会把 <code class="docutils literal notranslate"><span class="pre">seriesA</span></code> 的第一个元素与 <code class="docutils literal notranslate"><span class="pre">seriesB</span></code> 中的所有元素比较，接着把 <code class="docutils literal notranslate"><span class="pre">seriesA</span></code> 的第二个元素与 <code class="docutils literal notranslate"><span class="pre">seriesB</span></code> 中的所有元素比较，依此类推。请注意下例中 <code class="docutils literal notranslate"><span class="pre">==</span></code> 与 <code class="docutils literal notranslate"><span class="pre">isin</span></code> 的区别。</p>
+<p><code class="docutils literal notranslate"><span class="pre">==</span></code> 与 <code class="docutils literal notranslate"><span class="pre">isin</span></code> 有什么区别？假设有两个 Series，<code class="docutils literal notranslate"><span class="pre">seriesA</span></code> 和 <code class="docutils literal notranslate"><span class="pre">seriesB</span></code>。在 Python 里输入 <code class="docutils literal notranslate"><span class="pre">seriesA</span> <span class="pre">==</span> <span class="pre">seriesB</span></code>，它会逐元素地比较这两个 Series：Python 检查 <code class="docutils literal notranslate"><span class="pre">seriesA</span></code> 的第一个元素是否等于 <code class="docutils literal notranslate"><span class="pre">seriesB</span></code> 的第一个元素，<code class="docutils literal notranslate"><span class="pre">seriesA</span></code> 的第二个元素是否等于 <code class="docutils literal notranslate"><span class="pre">seriesB</span></code> 的第二个元素，依此类推。而 <code class="docutils literal notranslate"><span class="pre">seriesA.isin(seriesB)</span></code> 会把 <code class="docutils literal notranslate"><span class="pre">seriesA</span></code> 的第一个元素与 <code class="docutils literal notranslate"><span class="pre">seriesB</span></code> 中的所有元素比较，接着把 <code class="docutils literal notranslate"><span class="pre">seriesA</span></code> 的第二个元素与 <code class="docutils literal notranslate"><span class="pre">seriesB</span></code> 中的所有元素比较，依此类推。请注意下例中 <code class="docutils literal notranslate"><span class="pre">==</span></code> 与 <code class="docutils literal notranslate"><span class="pre">isin</span></code> 的区别。</p>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -2885,8 +2885,8 @@ dtype: bool
 </div>
 </div>
 </section>
-<section id="id17">
-<h3><span class="section-number">3.5.7. </span>用 <code class="docutils literal notranslate"><span class="pre">&gt;</span></code> 和 <code class="docutils literal notranslate"><span class="pre">&lt;</span></code> 提取高于或低于阈值的行<a class="headerlink" href="#id17" title="Permalink to this heading">#</a></h3>
+<section id="id16">
+<h3><span class="section-number">3.5.7. </span>用 <code class="docutils literal notranslate"><span class="pre">&gt;</span></code> 和 <code class="docutils literal notranslate"><span class="pre">&lt;</span></code> 提取高于或低于阈值的行<a class="headerlink" href="#id16" title="Permalink to this heading">#</a></h3>
 <span class="target" id="index-38"></span><span class="target" id="index-39"></span><span class="target" id="index-40"></span><span class="target" id="index-41"></span><p id="index-42">我们在<a class="reference internal" href="#filter-and"><span class="std std-numref">第 3.5.4 节</span></a>中看到，有 <span class="pasted-text">2,669,195</span> 人报告自己在 Montréal 把法语作为在家主要使用的语言。如果我们要找的是这样的地区：在那里，把某种官方语言作为在家主要使用语言的人数多于 Montréal 的法语人数，就可以用 <code class="docutils literal notranslate"><span class="pre">[]</span></code> 取出 <code class="docutils literal notranslate"><span class="pre">most_at_home</span></code> 的取值大于 <span class="pasted-text">2,669,195</span> 的行。我们用 <code class="docutils literal notranslate"><span class="pre">&gt;</span></code> 符号查找<em>高于</em>阈值的取值，用 <code class="docutils literal notranslate"><span class="pre">&lt;</span></code> 符号查找<em>低于</em>阈值的取值；<code class="docutils literal notranslate"><span class="pre">&gt;=</span></code> 和 <code class="docutils literal notranslate"><span class="pre">&lt;=</span></code> 符号同样分别查找<em>大于或等于</em>阈值、<em>小于或等于</em>阈值的取值。</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -3945,14 +3945,14 @@ Name: language, Length: 1070, dtype: object
 <p>请注意，<code class="docutils literal notranslate"><span class="pre">iloc[]</span></code> 方法并不常用，而且必须谨慎使用。例如，很容易不小心写错整数索引！如果你没记准 <code class="docutils literal notranslate"><span class="pre">language</span></code> 列的索引是 <code class="docutils literal notranslate"><span class="pre">1</span></code>，而用了 <code class="docutils literal notranslate"><span class="pre">2</span></code>，代码里就可能留下一个很难排查的缺陷（bug）。</p>
 </section>
 <section id="index-47">
-<span id="id18"></span><h2><span class="section-number">3.8. </span>聚合数据<a class="headerlink" href="#index-47" title="Permalink to this heading">#</a></h2>
-<section id="id19">
-<h3><span class="section-number">3.8.1. </span>计算单个列的汇总统计量<a class="headerlink" href="#id19" title="Permalink to this heading">#</a></h3>
+<span id="id17"></span><h2><span class="section-number">3.8. </span>聚合数据<a class="headerlink" href="#index-47" title="Permalink to this heading">#</a></h2>
+<section id="id18">
+<h3><span class="section-number">3.8.1. </span>计算单个列的汇总统计量<a class="headerlink" href="#id18" title="Permalink to this heading">#</a></h3>
 <p id="index-48">在许多数据分析中，我们都需要为数据算出一个汇总值（<em>汇总统计量</em>）。可能要计算的汇总统计量包括观测的个数、某一列的平均数／均值、最小值等。这种汇总统计量通常根据数据框某一列或若干列的取值算出，如<a class="reference internal" href="#fig-summarize"><span class="std std-numref">图 3.12</span></a> 所示。</p>
 <figure class="figure align-default" id="fig-summarize">
 <img alt="_images/summarize.001.png" src="_images/summarize.001.png" />
 <figcaption>
-<p><span class="caption-number">图 3.12 </span><span class="caption-text">在 <code class="docutils literal notranslate"><span class="pre">pandas</span></code> 中对一列或多列计算汇总统计量，通常会生成一个序列或数据框，其中含有每个被汇总列的汇总统计量。每张表格颜色较深的最上面一行代表表头。</span><a class="headerlink" href="#fig-summarize" title="永久链接至图片">#</a></p>
+<p><span class="caption-number">图 3.12 </span><span class="caption-text">在 <code class="docutils literal notranslate"><span class="pre">pandas</span></code> 中对一列或多列计算汇总统计量，通常会生成一个 Series 或数据框，其中含有每个被汇总列的汇总统计量。每张表格颜色较深的最上面一行代表表头。</span><a class="headerlink" href="#fig-summarize" title="永久链接至图片">#</a></p>
 </figcaption>
 </figure>
 <p>我们先来看看如何计算把某种特定语言作为在家主要使用语言的加拿大人数的最小值和最大值。首先回顾一下 <code class="docutils literal notranslate"><span class="pre">region_lang</span></code> 的样子：</p>
@@ -4107,7 +4107,7 @@ Name: language, Length: 1070, dtype: object
 <p>7490 rows × 7 columns</p>
 </div></div></div>
 </div>
-<p id="index-49">对于任一地区，我们用 <code class="docutils literal notranslate"><span class="pre">.min</span></code> 算出把某种特定语言作为在家主要使用语言的加拿大人数最少是多少，用 <code class="docutils literal notranslate"><span class="pre">.max</span></code> 算出最多是多少。</p>
+<p id="index-49">在所有地区中，我们用 <code class="docutils literal notranslate"><span class="pre">.min</span></code> 算出把某种特定语言作为在家主要使用语言的加拿大人数最少是多少，用 <code class="docutils literal notranslate"><span class="pre">.max</span></code> 算出最多是多少。</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">region_lang</span><span class="p">[</span><span class="s2">"most_at_home"</span><span class="p">]</span><span class="o">.</span><span class="n">min</span><span class="p">()</span>
@@ -4225,8 +4225,8 @@ Name: most_at_home, dtype: float64
 <p>在 <code class="docutils literal notranslate"><span class="pre">pandas</span></code> 中，<code class="docutils literal notranslate"><span class="pre">NaN</span></code> 这个取值常用来表示缺失数据。默认情况下，<code class="docutils literal notranslate"><span class="pre">pandas</span></code> 计算汇总统计量（如 <code class="docutils literal notranslate"><span class="pre">max</span></code>、<code class="docutils literal notranslate"><span class="pre">min</span></code>、<code class="docutils literal notranslate"><span class="pre">sum</span></code> 等）时会忽略这些取值。如果你查看这些函数的文档，会看到一个输入变量 <code class="docutils literal notranslate"><span class="pre">skipna</span></code>，它默认被设为 <code class="docutils literal notranslate"><span class="pre">skipna=True</span></code>。也就是说，<code class="docutils literal notranslate"><span class="pre">pandas</span></code> 在计算统计量时会跳过 <code class="docutils literal notranslate"><span class="pre">NaN</span></code> 取值。</p>
 </div>
 </section>
-<section id="id20">
-<h3><span class="section-number">3.8.2. </span>在数据框上计算汇总统计量<a class="headerlink" href="#id20" title="Permalink to this heading">#</a></h3>
+<section id="id19">
+<h3><span class="section-number">3.8.2. </span>在数据框上计算汇总统计量<a class="headerlink" href="#id19" title="Permalink to this heading">#</a></h3>
 <p>如果你想在整张数据框上计算汇总统计量，该怎么办？其实，<a class="reference internal" href="#tab-basic-summary-statistics"><span class="std std-numref">表 3.3</span></a>
 里的函数可以直接用在整个数据框上！例如，我们可以用 <code class="docutils literal notranslate"><span class="pre">max</span></code> 求出每一列的最大值。</p>
 <div class="cell docutils container">
@@ -4353,7 +4353,7 @@ dtype: float64
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;pandas.core.groupby.generic.DataFrameGroupBy object at 0x000001117004ECB0&gt;
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;pandas.core.groupby.generic.DataFrameGroupBy object at 0x00000283EFBFED70&gt;
 </pre></div>
 </div>
 </div>
@@ -5090,8 +5090,8 @@ Name: proportion, Length: 35, dtype: float64
 </div>
 </div>
 </section>
-<section id="id21">
-<h2><span class="section-number">3.10. </span>跨列应用函数<a class="headerlink" href="#id21" title="Permalink to this heading">#</a></h2>
+<section id="id20">
+<h2><span class="section-number">3.10. </span>跨列应用函数<a class="headerlink" href="#id20" title="Permalink to this heading">#</a></h2>
 <p>计算汇总统计量并不是唯一需要跨列应用函数的情形。另外还有两类常见的数据整理任务也要跨列应用函数。第一类是：想把某种变换（如测量单位的换算）应用到多个列上。<a class="reference internal" href="#fig-mutate-across"><span class="std std-numref">图 3.14</span></a> 展示了这样一次数据变换；请注意，这种变换不会改变数据框的形状。</p>
 <figure class="figure align-default" id="fig-mutate-across">
 <img alt="_images/summarize.005.png" src="_images/summarize.005.png" />
@@ -5307,15 +5307,15 @@ Length: 7490, dtype: int32
 </div>
 </div>
 </div>
-<p>可以看到，我们得到的是一个序列，其中包含数据框每一行在 <code class="docutils literal notranslate"><span class="pre">mother_tongue</span></code>、<code class="docutils literal notranslate"><span class="pre">most_at_home</span></code>、<code class="docutils literal notranslate"><span class="pre">most_at_work</span></code> 和 <code class="docutils literal notranslate"><span class="pre">lang_known</span></code> 之间的最大值。我们常常希望把按行计算得到的结果作为新列加入数据框，以便作图或继续分析。为此，我们将使用列赋值或 <code class="docutils literal notranslate"><span class="pre">assign</span></code> 函数来新建一列。下一节会讨论这种做法。</p>
+<p>可以看到，我们得到的是一个 Series，其中包含数据框每一行在 <code class="docutils literal notranslate"><span class="pre">mother_tongue</span></code>、<code class="docutils literal notranslate"><span class="pre">most_at_home</span></code>、<code class="docutils literal notranslate"><span class="pre">most_at_work</span></code> 和 <code class="docutils literal notranslate"><span class="pre">lang_known</span></code> 之间的最大值。我们常常希望把按行计算得到的结果作为新列加入数据框，以便作图或继续分析。为此，我们将使用列赋值或 <code class="docutils literal notranslate"><span class="pre">assign</span></code> 函数来新建一列。下一节会讨论这种做法。</p>
 <div class="admonition note">
 <p class="admonition-title">备注</p>
 <p><code class="docutils literal notranslate"><span class="pre">pandas</span></code> 提供了许多可以应用到数据框上的方法（例如 <code class="docutils literal notranslate"><span class="pre">max</span></code>、<code class="docutils literal notranslate"><span class="pre">astype</span></code> 等），但有时你可能想把自己的函数应用到数据框的多个列上。这时你可以使用更通用的 <a class="reference external" href="https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.apply.html"><code class="docutils literal notranslate"><span class="pre">apply</span></code></a> 方法。</p>
 </div>
 </section>
 <section id="pandas-assign">
-<span id="id22"></span><h2><span class="section-number">3.11. </span>修改和添加列<a class="headerlink" href="#pandas-assign" title="Permalink to this heading">#</a></h2>
-<p id="index-57">计算汇总统计量或应用函数时，都会生成新的数据框或序列。但如果我们想把这份信息追加到已有的数据框上呢？例如，假设我们要计算 <code class="docutils literal notranslate"><span class="pre">region_lang_nums</span></code> 数据框每一行的最大值，再把它作为 <code class="docutils literal notranslate"><span class="pre">region_lang</span></code> 数据框的一个新列追加进去。这时有两种选择：要么在 <code class="docutils literal notranslate"><span class="pre">region_lang</span></code> 数据框里新建一列，要么用 <code class="docutils literal notranslate"><span class="pre">assign</span></code> 方法新建一个数据框。第一种做法我们在前面几章已经见过，也是实践中更常用的模式：</p>
+<span id="id21"></span><h2><span class="section-number">3.11. </span>修改和添加列<a class="headerlink" href="#pandas-assign" title="Permalink to this heading">#</a></h2>
+<p id="index-57">计算汇总统计量或应用函数时，都会生成新的数据框或 Series。但如果我们想把这份信息追加到已有的数据框上呢？例如，假设我们要计算 <code class="docutils literal notranslate"><span class="pre">region_lang_nums</span></code> 数据框每一行的最大值，再把它作为 <code class="docutils literal notranslate"><span class="pre">region_lang</span></code> 数据框的一个新列追加进去。这时有两种选择：要么在 <code class="docutils literal notranslate"><span class="pre">region_lang</span></code> 数据框里新建一列，要么用 <code class="docutils literal notranslate"><span class="pre">assign</span></code> 方法新建一个数据框。第一种做法我们在前面几章已经见过，也是实践中更常用的模式：</p>
 <div class="cell tag_output_scroll docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">region_lang</span><span class="p">[</span><span class="s2">"maximum"</span><span class="p">]</span> <span class="o">=</span> <span class="n">region_lang_nums</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
@@ -6392,8 +6392,8 @@ See the caveats in the documentation: https://pandas.pydata.org/pandas-docs/stab
 </div>
 <p>可以看到，每个城市的人口都是正确的（例如 Montréal：4098927，Toronto：5928040），从这里就可以接着做我们的分析了。</p>
 </section>
-<section id="id23">
-<h2><span class="section-number">3.13. </span>小结<a class="headerlink" href="#id23" title="Permalink to this heading">#</a></h2>
+<section id="id22">
+<h2><span class="section-number">3.13. </span>小结<a class="headerlink" href="#id22" title="Permalink to this heading">#</a></h2>
 <p>清洗和整理数据可能非常耗时。不过，这是任何数据分析中至关重要的一步。我们探索了许多把数据清洗、整理成整洁格式的函数。<a class="reference internal" href="#tab-summary-functions-table"><span class="std std-numref">表 3.4</span></a> 汇总了本章学到的一些关键整理函数。后续各章会讲到，你可以拿这份整洁数据做更多的事情，去回答那些让你迫切想找到答案的数据科学问题！</p>
 <div class="pst-scrollable-table-container"><table class="colwidths-auto table" id="tab-summary-functions-table">
 <caption><span class="caption-number">表 3.4 </span><span class="caption-text">数据整理函数汇总</span><a class="headerlink" href="#tab-summary-functions-table" title="永久链接至表格">#</a></caption>
@@ -6434,28 +6434,28 @@ See the caveats in the documentation: https://pandas.pydata.org/pandas-docs/stab
 </table>
 </div>
 </section>
-<section id="id24">
-<h2><span class="section-number">3.14. </span>习题<a class="headerlink" href="#id24" title="Permalink to this heading">#</a></h2>
-<p>本章内容的练习题可以在配套的<a class="reference external" href="https://worksheets.python.datasciencebook.ca">练习册仓库</a>的“数据清洗与整理（Cleaning and wrangling data）”一行中找到。你可以预览本章练习册（worksheet）的非交互版本，只需点击“查看练习册（view worksheet）”。如果要交互式地做习题，请按照练习册仓库中的说明下载所有练习册，并按照<a class="reference internal" href="setup.html#move-to-your-own-machine"><span class="std std-numref">第 13 章</span></a>中的计算机环境配置说明操作。这样才能保证练习册提供的自动反馈和指导按预期正常工作。</p>
+<section id="id23">
+<h2><span class="section-number">3.14. </span>习题<a class="headerlink" href="#id23" title="Permalink to this heading">#</a></h2>
+<p>本章内容的练习题可以在配套的<a class="reference external" href="https://worksheets.python.datasciencebook.ca">练习册仓库</a>的“Cleaning and wrangling data（数据清洗与整理）”一行中找到。你可以预览本章练习册（worksheet）的非交互版本，只需点击“查看练习册（view worksheet）”。如果要交互式地做习题，请按照练习册仓库中的说明下载所有练习册，并按照<a class="reference internal" href="setup.html#move-to-your-own-machine"><span class="std std-numref">第 13 章</span></a>中的计算机环境配置说明操作。这样才能保证练习册提供的自动反馈和指导按预期正常工作。</p>
 </section>
-<section id="id25">
-<h2><span class="section-number">3.15. </span>拓展资源<a class="headerlink" href="#id25" title="Permalink to this heading">#</a></h2>
+<section id="id24">
+<h2><span class="section-number">3.15. </span>拓展资源<a class="headerlink" href="#id24" title="Permalink to this heading">#</a></h2>
 <ul class="simple">
 <li><p><a class="reference external" href="https://pandas.pydata.org/docs/reference/index.html"><code class="docutils literal notranslate"><span class="pre">pandas</span></code> 包文档</a>是另一份资源，可以进一步了解本章的函数、可以使用的全部参数，以及其他相关函数。</p></li>
-<li><p><a class="reference external" href="https://wesmckinney.com/book/">《Python for Data Analysis》</a> <span id="id26">[<a class="reference internal" href="#id77" title="Wes McKinney. Python for data analysis: Data wrangling with Pandas, NumPy, and IPython. &quot; O'Reilly Media, Inc.&quot;, 2012.">McKinney, 2012</a>]</span> 有几章与数据整理有关，比本书讲得更深入。例如，<a class="reference external" href="https://wesmckinney.com/book/data-wrangling.html">数据整理一章</a>介绍了整洁数据、<code class="docutils literal notranslate"><span class="pre">melt</span></code> 和 <code class="docutils literal notranslate"><span class="pre">pivot</span></code>，也介绍了缺失值和更多整理函数（如 <code class="docutils literal notranslate"><span class="pre">stack</span></code>）。<a class="reference external" href="https://wesmckinney.com/book/data-aggregation.html">数据聚合一章</a>介绍了
+<li><p><a class="reference external" href="https://wesmckinney.com/book/">《Python for Data Analysis》</a> <span id="id25">[<a class="reference internal" href="#id76" title="Wes McKinney. Python for data analysis: Data wrangling with Pandas, NumPy, and IPython. &quot; O'Reilly Media, Inc.&quot;, 2012.">McKinney, 2012</a>]</span> 有几章与数据整理有关，比本书讲得更深入。例如，<a class="reference external" href="https://wesmckinney.com/book/data-wrangling.html">数据整理一章</a>介绍了整洁数据、<code class="docutils literal notranslate"><span class="pre">melt</span></code> 和 <code class="docutils literal notranslate"><span class="pre">pivot</span></code>，也介绍了缺失值和更多整理函数（如 <code class="docutils literal notranslate"><span class="pre">stack</span></code>）。<a class="reference external" href="https://wesmckinney.com/book/data-aggregation.html">数据聚合一章</a>介绍了
 <code class="docutils literal notranslate"><span class="pre">groupby</span></code>、聚合函数、<code class="docutils literal notranslate"><span class="pre">apply</span></code> 等。</p></li>
 <li><p>偶尔你会遇到需要遍历数据框中各个条目的情形，而上面这些函数都不够灵活，做不到你想要的效果。这时可以考虑使用
-<a class="reference external" href="https://wesmckinney.com/book/python-basics.html#control_for">for 循环</a> <span id="id27">[<a class="reference internal" href="#id77" title="Wes McKinney. Python for data analysis: Data wrangling with Pandas, NumPy, and IPython. &quot; O'Reilly Media, Inc.&quot;, 2012.">McKinney, 2012</a>]</span>。</p></li>
+<a class="reference external" href="https://wesmckinney.com/book/python-basics.html#control_for">for 循环</a> <span id="id26">[<a class="reference internal" href="#id76" title="Wes McKinney. Python for data analysis: Data wrangling with Pandas, NumPy, and IPython. &quot; O'Reilly Media, Inc.&quot;, 2012.">McKinney, 2012</a>]</span>。</p></li>
 </ul>
 </section>
-<section id="id28">
-<h2><span class="section-number">3.16. </span>参考文献<a class="headerlink" href="#id28" title="Permalink to this heading">#</a></h2>
-<div class="docutils container" id="id29">
+<section id="id27">
+<h2><span class="section-number">3.16. </span>参考文献<a class="headerlink" href="#id27" title="Permalink to this heading">#</a></h2>
+<div class="docutils container" id="id28">
 <dl class="citation">
-<dt class="label" id="id77"><span class="brackets">McK12</span><span class="fn-backref">(<a href="#id26">1</a>,<a href="#id27">2</a>)</span></dt>
+<dt class="label" id="id76"><span class="brackets">McK12</span><span class="fn-backref">(<a href="#id25">1</a>,<a href="#id26">2</a>)</span></dt>
 <dd><p>Wes McKinney. <em>Python for data analysis: Data wrangling with Pandas, NumPy, and IPython</em>. &quot; O'Reilly Media, Inc.&quot;, 2012.</p>
 </dd>
-<dt class="label" id="id47"><span class="brackets"><a class="fn-backref" href="#id9">Wic14</a></span></dt>
+<dt class="label" id="id46"><span class="brackets"><a class="fn-backref" href="#id8">Wic14</a></span></dt>
 <dd><p>Hadley Wickham. Tidy data. <em>Journal of Statistical Software</em>, 59(10):1–23, 2014.</p>
 </dd>
 </dl>
@@ -6529,45 +6529,45 @@ See the caveats in the documentation: https://pandas.pydata.org/pandas-docs/stab
     <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">3.1. 概述</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">3.2. 本章学习目标</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id4">3.3. 数据框与序列</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id5">3.3.1. 什么是数据框？</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id6">3.3.2. 什么是序列？</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id7">3.3.3. 这与数据框有什么关系？</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#series">3.3. 数据框与 Series</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id4">3.3.1. 什么是数据框？</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id5">3.3.2. 什么是 Series？</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id6">3.3.3. 这与数据框有什么关系？</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#python">3.3.4. Python 中的数据结构</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id8">3.4. 整洁数据</a><ul class="nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id7">3.4. 整洁数据</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#melt">3.4.1. 整理数据：用 <code class="docutils literal notranslate"><span class="pre">melt</span></code> 从宽格式变成长格式</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pivot">3.4.2. 整理数据：用 <code class="docutils literal notranslate"><span class="pre">pivot</span></code> 从长格式变为宽格式</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#str-split">3.4.3. 整理数据：用 <code class="docutils literal notranslate"><span class="pre">str.split</span></code> 处理多个分隔符</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id11">3.5. 用 <code class="docutils literal notranslate"><span class="pre">[]</span></code> 提取行或列</a><ul class="nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id10">3.5. 用 <code class="docutils literal notranslate"><span class="pre">[]</span></code> 提取行或列</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#index-27">3.5.1. 按列名提取列</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id13">3.5.2. 用 <code class="docutils literal notranslate"><span class="pre">==</span></code> 提取具有特定取值的行</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id14">3.5.3. 用 <code class="docutils literal notranslate"><span class="pre">!=</span></code> 提取不具有特定取值的行</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id12">3.5.2. 用 <code class="docutils literal notranslate"><span class="pre">==</span></code> 提取具有特定取值的行</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id13">3.5.3. 用 <code class="docutils literal notranslate"><span class="pre">!=</span></code> 提取不具有特定取值的行</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#filter-and">3.5.4. 用 <code class="docutils literal notranslate"><span class="pre">&amp;</span></code> 提取同时满足多个条件的行</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id16">3.5.5. 用 <code class="docutils literal notranslate"><span class="pre">|</span></code> 提取至少满足一个条件的行</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id15">3.5.5. 用 <code class="docutils literal notranslate"><span class="pre">|</span></code> 提取至少满足一个条件的行</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#isin">3.5.6. 用 <code class="docutils literal notranslate"><span class="pre">isin</span></code> 提取取值属于某个列表的行</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id17">3.5.7. 用 <code class="docutils literal notranslate"><span class="pre">&gt;</span></code> 和 <code class="docutils literal notranslate"><span class="pre">&lt;</span></code> 提取高于或低于阈值的行</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id16">3.5.7. 用 <code class="docutils literal notranslate"><span class="pre">&gt;</span></code> 和 <code class="docutils literal notranslate"><span class="pre">&lt;</span></code> 提取高于或低于阈值的行</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#query">3.5.8. 用 <code class="docutils literal notranslate"><span class="pre">query</span></code> 提取行</a></li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#loc">3.6. 用 <code class="docutils literal notranslate"><span class="pre">loc[]</span></code> 筛选行并选取列</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#iloc">3.7. 用 <code class="docutils literal notranslate"><span class="pre">iloc[]</span></code> 按位置提取行和列</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#index-47">3.8. 聚合数据</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id19">3.8.1. 计算单个列的汇总统计量</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id20">3.8.2. 在数据框上计算汇总统计量</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id18">3.8.1. 计算单个列的汇总统计量</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id19">3.8.2. 在数据框上计算汇总统计量</a></li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#groupby">3.9. 使用 <code class="docutils literal notranslate"><span class="pre">groupby</span></code> 对分组后的行执行操作</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id21">3.10. 跨列应用函数</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id20">3.10. 跨列应用函数</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pandas-assign">3.11. 修改和添加列</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#merge">3.12. 用 <code class="docutils literal notranslate"><span class="pre">merge</span></code> 合并数据框</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id23">3.13. 小结</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id24">3.14. 习题</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id25">3.15. 拓展资源</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id28">3.16. 参考文献</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id22">3.13. 小结</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id23">3.14. 习题</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id24">3.15. 拓展资源</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id27">3.16. 参考文献</a></li>
 </ul>
   </nav></div>
 

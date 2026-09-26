@@ -184,7 +184,7 @@ const thebe_selector_output = ".output, .cell_output"
 <li class="toctree-l1"><a class="reference internal" href="viz.html">4. 有效的数据可视化</a></li>
 <li class="toctree-l1"><a class="reference internal" href="classification1.html">5. 分类 I：训练与预测</a></li>
 <li class="toctree-l1"><a class="reference internal" href="classification2.html">6. 分类 II：评估与调优</a></li>
-<li class="toctree-l1"><a class="reference internal" href="regression1.html">7. 回归 I：k 近邻回归</a></li>
+<li class="toctree-l1"><a class="reference internal" href="regression1.html">7. 回归 I：K 近邻回归</a></li>
 <li class="toctree-l1"><a class="reference internal" href="regression2.html">8. 回归 II：线性回归</a></li>
 <li class="toctree-l1"><a class="reference internal" href="clustering.html">9. 聚类</a></li>
 <li class="toctree-l1"><a class="reference internal" href="inference.html">10. 统计推断</a></li>
@@ -407,15 +407,15 @@ document.write(`
 <p>初次在 Windows 上运行 Docker 时，偶尔会遇到报错信息。下面是一些你可能遇到的常见报错：</p>
 <ul class="simple">
 <li><p>如果需要更新 WSL，可以在开始菜单（Start menu）中输入 <code class="docutils literal notranslate"><span class="pre">cmd.exe</span></code> 打开命令行，输入 <code class="docutils literal notranslate"><span class="pre">wsl</span> <span class="pre">--update</span></code> 更新 WSL。</p></li>
-<li><p>如果计算机上的管理员账户与你的用户账户不同，就必须把该用户加入“docker-users”组。以管理员身份运行计算机管理（Computer Management），进入 <code class="docutils literal notranslate"><span class="pre">Local</span> <span class="pre">Users</span></code> 和 <code class="docutils literal notranslate"><span class="pre">Groups</span> <span class="pre">-&gt;</span> <span class="pre">Groups</span> <span class="pre">-&gt;</span> <span class="pre">docker-users</span></code>。在 <code class="docutils literal notranslate"><span class="pre">docker-users</span></code> 组上右键单击，把该用户加入该组。注销后重新登录，更改才会生效。</p></li>
+<li><p>如果计算机上的管理员账户与你的用户账户不同，就必须把该用户加入“docker-users”组。以管理员身份运行计算机管理（Computer Management），打开本地用户和组（Local Users and Groups）→ 组（Groups）→ <code class="docutils literal notranslate"><span class="pre">docker-users</span></code>。在 <code class="docutils literal notranslate"><span class="pre">docker-users</span></code> 上右键单击，把该用户加入该组。注销后重新登录，更改才会生效。</p></li>
 <li><p>如果需要启用虚拟化，就必须修改 BIOS。重启计算机，按热键进入 BIOS（通常是 Delete、Esc 或某个 F# 键）。找到“高级（Advanced）”菜单，在 CPU 设置下把“虚拟化（Virtualization）”选项设为“已启用（enabled）”。然后保存更改并重启计算机。如果你不熟悉 BIOS 修改，最好请一位专家来帮忙，因为改 BIOS 有风险。具体步骤超出本书范围。</p></li>
 </ul>
 </div>
-<p id="index-2"><strong>运行 JupyterLab</strong>：运行 Docker Desktop。等它启动之后，需要下载并运行我们为练习册准备好的 Docker <em>镜像</em>（image）：<em>镜像</em>就像一台预先装好全部正确软件包的计算机的“快照”（snapshot）。这一步只需做一次；下次再运行 Docker Desktop 时，镜像依然会保留。在 Docker Desktop 的搜索栏中输入 <code class="docutils literal notranslate"><span class="pre">ubcdsci/py-dsci-100</span></code>，这就是镜像的名称。列表里会出现 <code class="docutils literal notranslate"><span class="pre">ubcdsci/py-dsci-100</span></code> 镜像（<a class="reference internal" href="#docker-desktop-search"><span class="std std-numref">图 13.1</span></a>），标签（Tag）下拉菜单中显示的是“latest”。继续之前，我们需要把“latest”改成正确的镜像版本。要找到正确的标签，请打开<a class="reference external" href="https://raw.githubusercontent.com/UBC-DSCI/data-science-a-first-intro-python-worksheets/main/Dockerfile">练习册仓库中的 <code class="docutils literal notranslate"><span class="pre">Dockerfile</span></code></a>，找到以 <code class="docutils literal notranslate"><span class="pre">FROM</span> <span class="pre">ubcdsci/py-dsci-100:</span></code> 开头的那一行，其后跟着由一串数字和字母组成的标签。回到 Docker Desktop，在标签下拉菜单中点击该标签，选中正确的镜像版本。然后点击“拉取（Pull）”按钮下载镜像。</p>
+<p id="index-2"><strong>运行 JupyterLab</strong>：运行 Docker Desktop。等它启动之后，需要下载并运行我们为练习册准备好的 Docker <em>镜像</em>（image）：<em>镜像</em>就像一台预先装好全部正确软件包的计算机的“快照”（snapshot）。这一步只需做一次；下次再运行 Docker Desktop 时，镜像依然会保留。在 Docker Desktop 的搜索栏中输入 <code class="docutils literal notranslate"><span class="pre">ubcdsci/py-dsci-100</span></code>，这就是镜像的名称。列表里会出现 <code class="docutils literal notranslate"><span class="pre">ubcdsci/py-dsci-100</span></code> 镜像（<a class="reference internal" href="#docker-desktop-search"><span class="std std-numref">图 13.1</span></a>），标签（Tag）下拉菜单中显示的是“latest”。继续之前，我们需要把“latest”改成正确的镜像版本。要找到正确的标签，请打开<a class="reference external" href="https://raw.githubusercontent.com/UBC-DSCI/data-science-a-first-intro-python-worksheets/main/Dockerfile">练习册仓库中的 <code class="docutils literal notranslate"><span class="pre">Dockerfile</span></code></a>，找到以 <code class="docutils literal notranslate"><span class="pre">FROM</span> <span class="pre">ubcdsci/py-dsci-100:</span></code> 开头的那一行，其后跟着由一串数字和字母组成的标签。回到 Docker Desktop，在标签（Tag）下拉菜单中点击该标签，选中正确的镜像版本。然后点击“拉取”（Pull）按钮下载镜像。</p>
 <figure class="align-default" id="docker-desktop-search">
 <a class="reference internal image-reference" href="_images/docker-1.png"><img alt="_images/docker-1.png" src="_images/docker-1.png" style="height: 400px;" /></a>
 <figcaption>
-<p><span class="caption-number">图 13.1 </span><span class="caption-text">Docker Desktop 搜索窗口。下载镜像之前，务必点击标签下拉菜单，找到正确的镜像版本，再点击“拉取”按钮下载。</span><a class="headerlink" href="#docker-desktop-search" title="永久链接至图片">#</a></p>
+<p><span class="caption-number">图 13.1 </span><span class="caption-text">Docker Desktop 搜索窗口。下载镜像之前，务必点击标签（Tag）下拉菜单，找到正确的镜像版本，再点击“拉取”（Pull）按钮下载。</span><a class="headerlink" href="#docker-desktop-search" title="永久链接至图片">#</a></p>
 </figcaption>
 </figure>
 <p>镜像下载完成后，点击 Docker Desktop 窗口左侧的“镜像（Images）”按钮（<a class="reference internal" href="#docker-desktop-images"><span class="std std-numref">图 13.2</span></a>）。在“本地（Local）”标签页下可以看到刚下载的镜像。</p>
@@ -432,7 +432,7 @@ document.write(`
 <p><span class="caption-number">图 13.3 </span><span class="caption-text">Docker Desktop 的容器运行配置菜单。</span><a class="headerlink" href="#docker-desktop-runconfig" title="永久链接至图片">#</a></p>
 </figcaption>
 </figure>
-<p>点击“运行”按钮后，你会看到一个终端。Docker 容器启动时，终端会打印一些文本。等文本不再滚动，在终端里找到以 <code class="docutils literal notranslate"><span class="pre">http://127.0.0.1:8888</span></code> 开头的 URL（在<a class="reference internal" href="#docker-desktop-url"><span class="std std-numref">图 13.4</span></a> 中用红框标出），把它粘贴到浏览器中即可启动 JupyterLab。</p>
+<p>点击“运行”（Run）按钮后，你会看到一个终端。Docker 容器启动时，终端会打印一些文本。等文本不再滚动，在终端里找到以 <code class="docutils literal notranslate"><span class="pre">http://127.0.0.1:8888</span></code> 开头的 URL（在<a class="reference internal" href="#docker-desktop-url"><span class="std std-numref">图 13.4</span></a> 中用红框标出），把它粘贴到浏览器中即可启动 JupyterLab。</p>
 <figure class="align-default" id="docker-desktop-url">
 <a class="reference internal image-reference" href="_images/docker-4.png"><img alt="_images/docker-4.png" src="_images/docker-4.png" style="height: 400px;" /></a>
 <figcaption>
@@ -443,7 +443,7 @@ document.write(`
 </section>
 <section id="macos">
 <h3><span class="section-number">13.4.2. </span>macOS<a class="headerlink" href="#macos" title="Permalink to this heading">#</a></h3>
-<p><strong>安装</strong>：要在 macOS 上安装 Docker，请访问<a class="reference external" href="https://docs.docker.com/desktop/install/mac-install/">在线 Docker 文档</a>，下载适合你计算机的 <code class="docutils literal notranslate"><span class="pre">Docker.dmg</span></code> 安装文件。要确定哪种安装程序适合你的机器，就得先弄清计算机用的是 Intel 处理器（较老的机器）还是 Apple 处理器（较新的机器）；<a class="reference external" href="https://support.apple.com/en-ca/HT211814">Apple 支持页面</a>上有帮助你判断处理器型号的信息。下载完成后，双击该文件打开安装程序，然后把 Docker 图标拖到“应用程序（Applications）”文件夹。双击“应用程序”文件夹中的图标即可启动 Docker。在安装窗口中，采用推荐设置。</p>
+<p><strong>安装</strong>：要在 macOS 上安装 Docker，请访问<a class="reference external" href="https://docs.docker.com/desktop/install/mac-install/">在线 Docker 文档</a>，下载适合你计算机的 <code class="docutils literal notranslate"><span class="pre">Docker.dmg</span></code> 安装文件。要确定哪种安装程序适合你的机器，就得先弄清计算机用的是 Intel 处理器（较老的机器）还是 Apple 处理器（较新的机器）；<a class="reference external" href="https://support.apple.com/en-ca/HT211814">Apple 支持页面</a>上有帮助你判断处理器型号的信息。下载完成后，双击该文件打开安装程序，然后把 Docker 图标拖到“应用程序（Applications）”文件夹。双击“应用程序”（Applications）文件夹中的图标即可启动 Docker。在安装窗口中，采用推荐设置。</p>
 <p><strong>运行 JupyterLab</strong>：运行 Docker Desktop。等它启动之后，按上面 Windows 一节中<em>运行 JupyterLab</em> 的说明操作（用户界面完全相同）。有关在 macOS 上安装和运行 Docker 的更多信息以及故障排除技巧，参见<a class="reference external" href="https://docs.docker.com/desktop/install/mac-install/">在线 Docker 文档</a>。</p>
 </section>
 <section id="ubuntu">
@@ -483,7 +483,7 @@ document.write(`
 <p>本节将介绍如何安装 JupyterLab Desktop、Git 以及 JupyterLab Git 扩展（用于版本控制，见<a class="reference internal" href="version-control.html#getting-started-with-version-control"><span class="std std-numref">第 12 章</span></a>），还有运行本书代码所需的全部 Python 包。</p>
 <section id="index-3">
 <span id="id5"></span><h3><span class="section-number">13.5.1. </span>Windows<a class="headerlink" href="#index-3" title="Permalink to this heading">#</a></h3>
-<p><strong>安装</strong>：首先安装用于版本控制的 Git。打开 <a class="reference external" href="https://git-scm.com/download/win">Git 下载页面</a>，下载 Windows 版 Git。下载完成后，运行安装程序，所有页面都接受默认配置。接着访问 <a class="reference external" href="https://github.com/jupyterlab/jupyterlab-desktop#installation">JupyterLab Desktop 主页的“安装”一节</a>。下载适用于 Windows 的 <code class="docutils literal notranslate"><span class="pre">JupyterLab-Setup-Windows.exe</span></code> 安装文件。双击安装程序运行，采用默认设置。点击桌面上的图标即可运行 JupyterLab Desktop。</p>
+<p><strong>安装</strong>：首先安装用于版本控制的 Git。打开 <a class="reference external" href="https://git-scm.com/download/win">Git 下载页面</a>，下载 Windows 版 Git。下载完成后，运行安装程序，所有页面都接受默认配置。接着访问 <a class="reference external" href="https://github.com/jupyterlab/jupyterlab-desktop#installation">JupyterLab Desktop 主页的“安装”（Installation）一节</a>。下载适用于 Windows 的 <code class="docutils literal notranslate"><span class="pre">JupyterLab-Setup-Windows.exe</span></code> 安装文件。双击安装程序运行，采用默认设置。点击桌面上的图标即可运行 JupyterLab Desktop。</p>
 <p><strong>配置 JupyterLab Desktop</strong>：接下来，在弹出的 JupyterLab Desktop 图形界面中（<a class="reference internal" href="#setup-jlab-gui"><span class="std std-numref">图 13.6</span></a>），底部会显示“未找到 Python 环境（Python environment not found）”这段文字。点击“使用自带安装程序安装（Install using the bundled installer）”来配置环境。</p>
 <figure class="align-default" id="setup-jlab-gui">
 <a class="reference internal image-reference" href="_images/jlab-1.png"><img alt="_images/jlab-1.png" src="_images/jlab-1.png" style="height: 400px;" /></a>
@@ -519,7 +519,7 @@ document.write(`
 </div>
 </div>
 </div>
-<p>接着访问 <a class="reference external" href="https://github.com/jupyterlab/jupyterlab-desktop#installation">JupyterLab Desktop 主页的“安装”一节</a>。下载 <code class="docutils literal notranslate"><span class="pre">JupyterLab-Setup-MacOS-x64.dmg</span></code> 或 <code class="docutils literal notranslate"><span class="pre">JupyterLab-Setup-MacOS-arm64.dmg</span></code> 安装文件。要确定哪种安装程序适合你的机器，得先弄清计算机用的是 Intel 处理器（较老的机器）还是 Apple 处理器（较新的机器）；<a class="reference external" href="https://support.apple.com/en-ca/HT211814">Apple 支持页面</a>上有帮助你判断处理器型号的信息。下载完成后，双击该文件打开安装程序，然后把 JupyterLab Desktop 图标拖到“应用程序”文件夹。双击“应用程序”文件夹中的图标即可启动 JupyterLab Desktop。</p>
+<p>接着访问 <a class="reference external" href="https://github.com/jupyterlab/jupyterlab-desktop#installation">JupyterLab Desktop 主页的“安装”（Installation）一节</a>。下载 <code class="docutils literal notranslate"><span class="pre">JupyterLab-Setup-MacOS-x64.dmg</span></code> 或 <code class="docutils literal notranslate"><span class="pre">JupyterLab-Setup-MacOS-arm64.dmg</span></code> 安装文件。要确定哪种安装程序适合你的机器，得先弄清计算机用的是 Intel 处理器（较老的机器）还是 Apple 处理器（较新的机器）；<a class="reference external" href="https://support.apple.com/en-ca/HT211814">Apple 支持页面</a>上有帮助你判断处理器型号的信息。下载完成后，双击该文件打开安装程序，然后把 JupyterLab Desktop 图标拖到“应用程序”（Applications）文件夹。双击“应用程序”（Applications）文件夹中的图标即可启动 JupyterLab Desktop。</p>
 <p><strong>配置 JupyterLab Desktop</strong>：从这里往后，请让 JupyterLab Desktop 保持运行，按 Windows 一节中<em>配置 JupyterLab Desktop</em> 的说明来配置环境、安装 JupyterLab Git 扩展，并安装练习册所需的各种 Python 软件包。</p>
 </section>
 <section id="id7">
@@ -533,7 +533,7 @@ document.write(`
 </div>
 </div>
 </div>
-<p>接着访问 <a class="reference external" href="https://github.com/jupyterlab/jupyterlab-desktop#installation">JupyterLab Desktop 主页的“安装”一节</a>。下载适用于 Ubuntu/Debian 的 <code class="docutils literal notranslate"><span class="pre">JupyterLab-Setup-Debian.deb</span></code> 安装文件。打开终端，切换到安装文件下载到的位置，然后运行命令</p>
+<p>接着访问 <a class="reference external" href="https://github.com/jupyterlab/jupyterlab-desktop#installation">JupyterLab Desktop 主页的“安装”（Installation）一节</a>。下载适用于 Ubuntu/Debian 的 <code class="docutils literal notranslate"><span class="pre">JupyterLab-Setup-Debian.deb</span></code> 安装文件。打开终端，切换到安装文件下载到的位置，然后运行命令</p>
 <div class="cell tag_remove-output docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sudo</span> <span class="n">dpkg</span> <span class="o">-</span><span class="n">i</span> <span class="n">JupyterLab</span><span class="o">-</span><span class="n">Setup</span><span class="o">-</span><span class="n">Debian</span><span class="o">.</span><span class="n">deb</span>

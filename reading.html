@@ -185,7 +185,7 @@ const thebe_selector_output = ".output, .cell_output"
 <li class="toctree-l1"><a class="reference internal" href="viz.html">4. 有效的数据可视化</a></li>
 <li class="toctree-l1"><a class="reference internal" href="classification1.html">5. 分类 I：训练与预测</a></li>
 <li class="toctree-l1"><a class="reference internal" href="classification2.html">6. 分类 II：评估与调优</a></li>
-<li class="toctree-l1"><a class="reference internal" href="regression1.html">7. 回归 I：k 近邻回归</a></li>
+<li class="toctree-l1"><a class="reference internal" href="regression1.html">7. 回归 I：K 近邻回归</a></li>
 <li class="toctree-l1"><a class="reference internal" href="regression2.html">8. 回归 II：线性回归</a></li>
 <li class="toctree-l1"><a class="reference internal" href="clustering.html">9. 聚类</a></li>
 <li class="toctree-l1"><a class="reference internal" href="inference.html">10. 统计推断</a></li>
@@ -1804,7 +1804,7 @@ X?a??4VT?,D?Jq
 <p id="index-26">另一种很常见的数据存储形式是关系数据库。数据量很大，或者有多个用户一起做同一个项目时，数据库就很有用。关系数据库管理系统有很多，比如 SQLite、MySQL、PostgreSQL、Oracle 等等。这些不同的关系数据库管理系统各有各的优点和局限。它们几乎都用 SQL（<em>结构化查询语言</em>，structured query language）从数据库中取数据。不过，要分析数据库中的数据并不需要懂 SQL：已经有人写好了一些包，让你可以连接关系数据库，并用 Python 语言取数据。本书会举例说明如何用 Python 配合 SQLite 和 PostgreSQL 数据库来做这件事。</p>
 <section id="sqlite">
 <h3><span class="section-number">2.6.1. </span>从 SQLite 数据库读取数据<a class="headerlink" href="#sqlite" title="Permalink to this heading">#</a></h3>
-<p id="index-27">SQLite 大概是最简单的关系数据库系统，也最容易和 Python 搭配使用。SQLite 数据库是自包含的，通常以 <code class="docutils literal notranslate"><span class="pre">.db</span></code> 扩展名（有时是 <code class="docutils literal notranslate"><span class="pre">.sqlite</span></code> 扩展名）的文件形式存放在某台计算机上，并从本地访问。和 Excel 文件一样，它们不是纯文本文件，无法在纯文本编辑器中读取。</p>
+<p id="index-27">SQLite 大概是能与 Python 搭配使用的最简单的关系数据库系统。SQLite 数据库是自包含的，通常以 <code class="docutils literal notranslate"><span class="pre">.db</span></code> 扩展名（有时是 <code class="docutils literal notranslate"><span class="pre">.sqlite</span></code> 扩展名）的文件形式存放在某台计算机上，并从本地访问。和 Excel 文件一样，它们不是纯文本文件，无法在纯文本编辑器中读取。</p>
 <span class="target" id="index-28"></span><span class="target" id="index-29"></span><p id="index-30">要从数据库把数据读入 Python，第一步是连接数据库。对 SQLite 数据库，我们使用 <code class="docutils literal notranslate"><span class="pre">ibis</span></code> 包中 <code class="docutils literal notranslate"><span class="pre">sqlite</span></code> 后端的 <code class="docutils literal notranslate"><span class="pre">connect</span></code> 函数来建立连接。这条命令并不读取数据，只是告诉 Python 数据库在哪里，并打开一条通信通道，让 Python 可以向数据库发送 SQL 命令。</p>
 <div class="admonition note">
 <p class="admonition-title">备注</p>
@@ -2556,7 +2556,7 @@ td:nth-child(4) ,
 </div>
 </div>
 </div>
-<p>太好了！看来我们已经从原始 HTML 源代码中提取出了感兴趣的数据。但事情还没完：这些数据的格式还不适合直接做数据分析。城市名和人口都被编码成字符，放在同一个向量里，而不是放在一个数据框中——城市占一个字符串列、人口占一个数值列（就像电子表格那样）。此外，人口数字中带有逗号（不利于用程序处理数字），有些末尾还有换行符（<code class="docutils literal notranslate"><span class="pre">\n</span></code>）。在<a class="reference internal" href="wrangling.html#wrangling"><span class="std std-numref">第 3 章</span></a>中，我们将进一步学习如何用 Python 把这类数据<em>整理</em>成更适合数据分析的格式。</p>
+<p>太好了！看来我们已经从原始 HTML 源代码中提取出了感兴趣的数据。但事情还没完：这些数据的格式还不适合直接做数据分析。城市名和人口都被编码成字符，放在同一个向量里（译注：原文沿用 R 语言的说法，把这个容器称作“向量”；在 Python 中这里实际是一个字符串列表，并不是 R 语言里的向量），而不是放在一个数据框中——城市占一个字符串列、人口占一个数值列（就像电子表格那样）。此外，人口数字中带有逗号（不利于用程序处理数字），有些末尾还有换行符（<code class="docutils literal notranslate"><span class="pre">\n</span></code>）。在<a class="reference internal" href="wrangling.html#wrangling"><span class="std std-numref">第 3 章</span></a>中，我们将进一步学习如何用 Python 把这类数据<em>整理</em>成更适合数据分析的格式。</p>
 </section>
 <section id="read-html">
 <h4>用 <code class="docutils literal notranslate"><span class="pre">read_html</span></code> 抓取<a class="headerlink" href="#read-html" title="Permalink to this heading">#</a></h4>
@@ -2995,14 +2995,14 @@ of the nasa_data object. But you can reproduce this using the DEMO_KEY key --><d
 </section>
 <section id="id15">
 <h2><span class="section-number">2.9. </span>习题<a class="headerlink" href="#id15" title="Permalink to this heading">#</a></h2>
-<p>本章内容的练习题可以在配套的<a class="reference external" href="https://worksheets.python.datasciencebook.ca">练习册仓库</a>中“从本地和网络读取数据（Reading in data locally and
-from the web）”一行找到。点击“查看练习册（view worksheet）”即可预览本章练习册的非交互版本。若要以交互方式做这些习题，请按练习册仓库中的说明下载全部练习册，再按<a class="reference internal" href="setup.html#move-to-your-own-machine"><span class="std std-numref">第 13 章</span></a>中的说明配置计算机环境。这样才能保证练习册提供的自动反馈与指导按预期工作。</p>
+<p>本章内容的练习题可以在配套的<a class="reference external" href="https://worksheets.python.datasciencebook.ca">练习册仓库</a>中“Reading in data locally and
+from the web（从本地和网络读取数据）”一行找到。点击“查看练习册（view worksheet）”即可预览本章练习册的非交互版本。若要以交互方式做这些习题，请按练习册仓库中的说明下载全部练习册，再按<a class="reference internal" href="setup.html#move-to-your-own-machine"><span class="std std-numref">第 13 章</span></a>中的说明配置计算机环境。这样才能保证练习册提供的自动反馈与指导按预期工作。</p>
 </section>
 <section id="id16">
 <h2><span class="section-number">2.10. </span>拓展资源<a class="headerlink" href="#id16" title="Permalink to this heading">#</a></h2>
 <ul class="simple">
 <li><p><a class="reference external" href="https://pandas.pydata.org/docs/getting_started/index.html"><code class="docutils literal notranslate"><span class="pre">pandas</span></code> 文档</a>给出了本章所讲各个函数的说明。如果你想进一步了解这些函数、可以使用的全部参数以及其他相关函数，就应该查阅这份文档。</p></li>
-<li><p>有时你会遇到质量太差的数据，本章介绍的读取函数处理不了。遇到这种情况，可以查阅 <a class="reference external" href="https://wesmckinney.com/book/"><em>Python for Data Analysis</em></a> 中的<a class="reference external" href="https://wesmckinney.com/book/accessing-data.html#io_flat_files">数据加载一章</a> <span id="id17">[<a class="reference internal" href="wrangling.html#id77" title="Wes McKinney. Python for data analysis: Data wrangling with Pandas, NumPy, and IPython. &quot; O'Reilly Media, Inc.&quot;, 2012.">McKinney, 2012</a>]</span>，其中更详细地讲述了 Python 如何把文件中的文本解析成数据框。</p></li>
+<li><p>有时你会遇到质量太差的数据，本章介绍的读取函数处理不了。遇到这种情况，可以查阅 <a class="reference external" href="https://wesmckinney.com/book/"><em>Python for Data Analysis</em></a> 中的<a class="reference external" href="https://wesmckinney.com/book/accessing-data.html#io_flat_files">数据加载一章</a> <span id="id17">[<a class="reference internal" href="wrangling.html#id76" title="Wes McKinney. Python for data analysis: Data wrangling with Pandas, NumPy, and IPython. &quot; O'Reilly Media, Inc.&quot;, 2012.">McKinney, 2012</a>]</span>，其中更详细地讲述了 Python 如何把文件中的文本解析成数据框。</p></li>
 <li><p>Udacity 课程 <em>Linux Command Line Basics</em> 中有一段<a class="reference external" href="https://www.youtube.com/embed/ephId3mYu9o">视频</a>，很好地讲解了绝对路径与相对路径的区别。</p></li>
 <li><p>如果你读过通过网页抓取和 API 从网络获取数据那一小节，我们还提供了两个配套的教学视频，讲解如何用 SelectorGadget 工具取得所需的 CSS 选择器：</p>
 <ul>
