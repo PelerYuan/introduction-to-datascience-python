@@ -313,7 +313,7 @@ sacramento_train, sacramento_test = train_test_split(
 ```{index} see: 均方根预测误差; RMSPE
 ```
 
-接下来，我们用交叉验证来选择 $K$。在 K 近邻分类中，我们用准确率来衡量预测结果与真实标签的吻合程度；在回归的场景下则不能沿用同一个指标，因为我们的预测几乎不可能与响应变量的真实取值*完全*一致。因此在 K 近邻回归中，我们改用均方根预测误差（root mean square prediction error，RMSPE）。计算 RMSPE 的数学公式为：
+接下来，我们用交叉验证来选择 $K$。在 K 近邻分类中，我们用准确率来衡量预测结果与真实标签的吻合程度；在回归的场景下则不能沿用同一个指标，因为我们的预测几乎不可能与响应变量的真实取值*完全*一致。因此在 K 近邻回归中，我们改用均方根预测误差（root mean squared prediction error，RMSPE）。计算 RMSPE 的数学公式为：
 
 $$\text{RMSPE} = \sqrt{\frac{1}{n}\sum\limits_{i=1}^{n}(y_i - \hat{y}_i)^2}$$
 

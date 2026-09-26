@@ -146,7 +146,7 @@ region
 +++
 
 在 Python 中，务必用正确的类型来表示数据。本书用到的许多
-`pandas` 函数对不同的数据类型有不同的处理方式。你应该用 `int` 和 `float` 类型表示数值，并用它们做算术运算。`int` 类型用于没有小数点的整数，而 `float` 类型用于带小数点的数。`bool` 类型表示布尔变量，只能取两个值之一：`True` 或 `False`。`string` 类型用来表示应当被看作“文本”的数据，例如单词、名称、路径和 URL 等等。`NoneType` 是 Python 中的一种特殊类型，用来表示没有取值；例如，数据缺失时就可能出现这种情况。Python 还有其他基本数据类型，但本书一般不会用到。
+`pandas` 函数对不同的数据类型有不同的处理方式。你应该用 `int` 和 `float` 类型表示数值，并用它们做算术运算。`int` 类型用于没有小数点的整数，而 `float` 类型用于带小数点的数。`bool` 类型表示布尔变量，只能取两个值之一：`True` 或 `False`。`str` 类型用来表示应当被看作“文本”的数据，例如单词、名称、路径和 URL 等等。`NoneType` 是 Python 中的一种特殊类型，用来表示没有取值；例如，数据缺失时就可能出现这种情况。Python 还有其他基本数据类型，但本书一般不会用到。
 
 
 ### 这与数据框有什么关系？
@@ -1026,7 +1026,7 @@ region_lang["most_at_home":"lang_known"].groupby("region").max()
 print('KeyError: "region"')
 ```
 
-这是因为用 `[]` 只选出了 `"most_at_home"` 到 `"lang_known"` 之间的列，其中并不包含 `"region"`！因此，正确的做法是先用 `groupby`，再用 `[]` 传入一个包含 `region` 的列名列表；这种写法总是行得通。
+这是因为用 `[]` 只选出了 `"most_at_home"` 到 `"lang_known"` 之间的列，其中并不包含 `"region"`！因此，正确的做法是先用 `groupby`，再用 `[]` 传入一个包含 `region` 的列名列表；这种写法总是行得通。（译注：原文对报错原因的解释并不准确。在 pandas 中，“df["a":"b"]”这种写法是按行标签切片，而不是选取列范围；本例的行索引是整数 RangeIndex，所以会直接抛出 TypeError，与选出的列是否包含 region 无关。要按列名选取一段范围，应使用 “.loc[:, "most_at_home":"lang_known"]”。）
 
 ```{code-cell} ipython3
 :tags: ["output_scroll"]

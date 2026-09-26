@@ -517,7 +517,7 @@ dtype: object
 </table>
 </div>
 <p>在 Python 中，务必用正确的类型来表示数据。本书用到的许多
-<code class="docutils literal notranslate"><span class="pre">pandas</span></code> 函数对不同的数据类型有不同的处理方式。你应该用 <code class="docutils literal notranslate"><span class="pre">int</span></code> 和 <code class="docutils literal notranslate"><span class="pre">float</span></code> 类型表示数值，并用它们做算术运算。<code class="docutils literal notranslate"><span class="pre">int</span></code> 类型用于没有小数点的整数，而 <code class="docutils literal notranslate"><span class="pre">float</span></code> 类型用于带小数点的数。<code class="docutils literal notranslate"><span class="pre">bool</span></code> 类型表示布尔变量，只能取两个值之一：<code class="docutils literal notranslate"><span class="pre">True</span></code> 或 <code class="docutils literal notranslate"><span class="pre">False</span></code>。<code class="docutils literal notranslate"><span class="pre">string</span></code> 类型用来表示应当被看作“文本”的数据，例如单词、名称、路径和 URL 等等。<code class="docutils literal notranslate"><span class="pre">NoneType</span></code> 是 Python 中的一种特殊类型，用来表示没有取值；例如，数据缺失时就可能出现这种情况。Python 还有其他基本数据类型，但本书一般不会用到。</p>
+<code class="docutils literal notranslate"><span class="pre">pandas</span></code> 函数对不同的数据类型有不同的处理方式。你应该用 <code class="docutils literal notranslate"><span class="pre">int</span></code> 和 <code class="docutils literal notranslate"><span class="pre">float</span></code> 类型表示数值，并用它们做算术运算。<code class="docutils literal notranslate"><span class="pre">int</span></code> 类型用于没有小数点的整数，而 <code class="docutils literal notranslate"><span class="pre">float</span></code> 类型用于带小数点的数。<code class="docutils literal notranslate"><span class="pre">bool</span></code> 类型表示布尔变量，只能取两个值之一：<code class="docutils literal notranslate"><span class="pre">True</span></code> 或 <code class="docutils literal notranslate"><span class="pre">False</span></code>。<code class="docutils literal notranslate"><span class="pre">str</span></code> 类型用来表示应当被看作“文本”的数据，例如单词、名称、路径和 URL 等等。<code class="docutils literal notranslate"><span class="pre">NoneType</span></code> 是 Python 中的一种特殊类型，用来表示没有取值；例如，数据缺失时就可能出现这种情况。Python 还有其他基本数据类型，但本书一般不会用到。</p>
 </section>
 <section id="id6">
 <h3><span class="section-number">3.3.3. </span>这与数据框有什么关系？<a class="headerlink" href="#id6" title="Permalink to this heading">#</a></h3>
@@ -4353,7 +4353,7 @@ dtype: float64
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;pandas.core.groupby.generic.DataFrameGroupBy object at 0x0000029F0AF0FFD0&gt;
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;pandas.core.groupby.generic.DataFrameGroupBy object at 0x0000029C48CA4070&gt;
 </pre></div>
 </div>
 </div>
@@ -4924,7 +4924,7 @@ Official（官方），在不同地区家庭中的使用情况，就要给 <code
 </div>
 </div>
 </div>
-<p>这是因为用 <code class="docutils literal notranslate"><span class="pre">[]</span></code> 只选出了 <code class="docutils literal notranslate"><span class="pre">&quot;most_at_home&quot;</span></code> 到 <code class="docutils literal notranslate"><span class="pre">&quot;lang_known&quot;</span></code> 之间的列，其中并不包含 <code class="docutils literal notranslate"><span class="pre">&quot;region&quot;</span></code>！因此，正确的做法是先用 <code class="docutils literal notranslate"><span class="pre">groupby</span></code>，再用 <code class="docutils literal notranslate"><span class="pre">[]</span></code> 传入一个包含 <code class="docutils literal notranslate"><span class="pre">region</span></code> 的列名列表；这种写法总是行得通。</p>
+<p>这是因为用 <code class="docutils literal notranslate"><span class="pre">[]</span></code> 只选出了 <code class="docutils literal notranslate"><span class="pre">&quot;most_at_home&quot;</span></code> 到 <code class="docutils literal notranslate"><span class="pre">&quot;lang_known&quot;</span></code> 之间的列，其中并不包含 <code class="docutils literal notranslate"><span class="pre">&quot;region&quot;</span></code>！因此，正确的做法是先用 <code class="docutils literal notranslate"><span class="pre">groupby</span></code>，再用 <code class="docutils literal notranslate"><span class="pre">[]</span></code> 传入一个包含 <code class="docutils literal notranslate"><span class="pre">region</span></code> 的列名列表；这种写法总是行得通。（译注：原文对报错原因的解释并不准确。在 pandas 中，“df[“a”:”b”]”这种写法是按行标签切片，而不是选取列范围；本例的行索引是整数 RangeIndex，所以会直接抛出 TypeError，与选出的列是否包含 region 无关。要按列名选取一段范围，应使用 “.loc[:, “most_at_home”:”lang_known”]”。）</p>
 <div class="cell tag_output_scroll docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">region_lang</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s2">"region"</span><span class="p">)[[</span><span class="s2">"most_at_home"</span><span class="p">,</span> <span class="s2">"most_at_work"</span><span class="p">,</span> <span class="s2">"lang_known"</span><span class="p">]]</span><span class="o">.</span><span class="n">max</span><span class="p">()</span><span class="o">.</span><span class="n">reset_index</span><span class="p">()</span>
