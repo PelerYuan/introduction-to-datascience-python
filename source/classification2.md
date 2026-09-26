@@ -230,7 +230,7 @@ random_numbers2_different
 ````{note}
 使用 `np.random.seed` 时，你设置的其实是 `numpy` 包的*默认随机数生成器*的种子。使用全局默认随机数生成器比其他方法更简单，但也有一些潜在缺点。例如，你可能没有注意到的其他代码（比如藏在某个包内部的代码）有可能*也*调用 `np.random.seed`，从而以你不希望的方式改变分析结果。此外，并非*所有*函数都使用 `numpy` 的随机数生成器，有些可能用的是完全不同的生成器。这种情况下，设置 `np.random.seed` 也许并不能让整个分析可复现。
 
-在本书中，我们一般只使用能与 `numpy` 默认随机数生成器很好配合的包，所以沿用 `np.random.seed` 即可。如果你希望对分析中的随机性有更精细的控制，可以在分析开始时创建一个 `numpy` 的 [`Generator` 对象](https://numpy.org/doc/stable/reference/random/generator.html)，再把它传给许多 `pandas` 和 `scikit-learn` 函数都提供的 `random_state` 参数。这些函数会用你的 `Generator` 生成随机数，而不用 `numpy` 的默认生成器。例如，用一个 `seed` 值设为 1 的 `Generator` 对象就能重现前面的例子，我们再次得到相同的数字列表。
+在本书中，我们一般只使用能与 `numpy` 默认随机数生成器很好配合的包，所以沿用 `np.random.seed` 即可。如果你希望对分析中的随机性有更精细的控制，可以在分析开始时创建一个 `numpy` 的 [`Generator` 对象](https://numpy.org/doc/stable/reference/random/generator.html)，再把它传给许多 `pandas` 和 `scikit-learn` 函数都提供的 `random_state` 参数。这些函数会用你的 `Generator` 生成随机数，而不用 `numpy` 的默认生成器。例如，用一个 `seed` 值设为 1 的 `Generator` 对象就能重现前面的例子，我们再次得到相同的数字列表。（译注：to_list() 返回的是 Python 列表，原文此处把输出误写成了 array([...])，译文已改为列表形式。）
 ```python
 from numpy.random import Generator, PCG64
 rng = Generator(PCG64(seed=1))
@@ -238,14 +238,14 @@ random_numbers1_third = nums_0_to_9.sample(n=10, random_state=rng).to_list()
 random_numbers1_third
 ```
 ```text
-array([2, 9, 6, 4, 0, 3, 1, 7, 8, 5])
+[2, 9, 6, 4, 0, 3, 1, 7, 8, 5]
 ```
 ```python
 random_numbers2_third = nums_0_to_9.sample(n=10, random_state=rng).to_list()
 random_numbers2_third
 ```
 ```text
-array([9, 5, 3, 0, 8, 4, 2, 1, 6, 7])
+[9, 5, 3, 0, 8, 4, 2, 1, 6, 7]
 ```
 
 ````

@@ -41,6 +41,12 @@ TITLED_DIRECTIVES = {
 }
 ROLE_RE = re.compile(r"\{([a-z]+(?::[a-z]+)?)\}`([^`]*)`")
 INLINE_CODE_RE = re.compile(r"(?<!`)(`+)(?!`)(.+?)(?<!`)\1(?!`)")
+# The English source has a typo the Chinese side corrects: pandas has no `string` dtype in
+# this context, the book means `str`. Both sides are normalised, so every other code span is
+# still compared exactly.
+INLINE_CODE_FIXES = {
+    "string": "str",
+}
 MATH_RE = re.compile(r"\${1,2}[^$]+\${1,2}")
 # An English ordinal superscript has no Chinese counterpart: "the $i^\text{th}$ observation"
 # is 「第 $i$ 个观测」, and keeping \text{th} next to 「第」 would repeat the ordinal. Both
@@ -191,7 +197,8 @@ def structure(text: str) -> dict:
     # neutralising them the MATH_RE pairs two escaped dollars and swallows the prose
     # between them, which makes the `math` field compare translatable text.
     math_src = prose_wo_roles.replace(ESCAPED_DOLLAR, "\\\x00")
-    inline_codes = Counter(m.group(2).strip() for m in INLINE_CODE_RE.finditer(prose_wo_roles))
+    inline_codes = Counter(INLINE_CODE_FIXES.get(m.group(2).strip(), m.group(2).strip())
+                           for m in INLINE_CODE_RE.finditer(prose_wo_roles))
     math = Counter(MATH_FIXES.get(m.group(0).strip(), m.group(0).strip())
                for m in MATH_RE.finditer(math_src))
     urls = Counter(canon_url(m.group(1)) for m in LINK_RE.finditer(prose_all))
