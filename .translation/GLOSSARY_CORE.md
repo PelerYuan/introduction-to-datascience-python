@@ -8,7 +8,7 @@
 ```
 data frame | 数据框 | 首见加注（data frame）
 DataFrame | DataFrame | [保留英文]
-series | 序列 | 首见加注（series）；特指 pandas 对象时写 `Series`
+series | Series | 首见写「Series（序列）」，其后一律写 Series；不译作“序列”；正文中不加反引号
 Series | Series | [保留英文]
 variable | 变量 |
 observation | 观测 |
@@ -34,7 +34,7 @@ string | 字符串 |
 integer | 整数 |
 float | 浮点数 |
 boolean | 布尔值 |
-categorical | 分类的／类别型 |
+categorical | 类别型变量 | 名词形式一律作“类别型变量”，不译作“分类变量”
 missing value | 缺失值 |
 NaN | NaN | [保留英文]
 ```
@@ -112,8 +112,8 @@ response variable | 响应变量 |
 target | 目标变量 |
 feature | 特征 |
 observation | 观测 |
-k-nearest neighbours | k 近邻 | 全书写法统一为 k 近邻，方法名 k-nearest neighbours 保留英文
-k-means | k 均值 | 算法名 k-means 保留英文，叙述中用"k 均值聚类"
+k-nearest neighbours | K 近邻 | 全书写法统一为 K 近邻（大写 K，与公式 $K$ 对应）；方法名 k-nearest neighbours 保留英文
+k-means | K 均值 | 算法名 k-means 保留英文，叙述中用“K 均值聚类”
 tuning parameter | 调优参数 |
 hyperparameter | 超参数 |
 overfitting | 过拟合 |
@@ -259,6 +259,8 @@ Chapters | 正文章节 |
 learning objective | 学习目标 |
 good practices | 良好实践 |
 case study | 案例分析 |
+worksheets repository | 练习册仓库 | 练习册行名格式统一为「英文原名（中文）」，如「Cleaning and wrangling data（数据清洗与整理）」；中文括注须与本书该章标题一致
+界面按钮／菜单项 | 中文（English） | **每次出现**都保留英文，加粗用 **中文**（English）；写成 **中文（English）**菜单 会因右边界规则失效
 ```
 
 ## H. 跨节冲突裁决（强制，优先级高于后续任何章节的术语条目）
@@ -285,16 +287,27 @@ Indigenous peoples / Aboriginal | 原住民 | 不用「土著」；Aboriginal �
 First Nations | 第一民族 | 首见加注（First Nations）
 residential schools | 寄宿学校 | 指加拿大原住民寄宿学校，首见加注（residential schools）
 sample distribution | 样本分布 | 与「抽样分布」（sampling distribution）严格区分
-界面菜单项 | 中文（English） | 如「运行全部单元格（Run All Cells）」；同一章内首见处括注英文，其后只用中文
+界面菜单项 | 中文（English） | 如「运行全部单元格（Run All Cells）」；**每次出现**都保留英文（GitHub 无中文界面，JupyterLab 默认也是英文）
 multivariable linear regression | 多元线性回归 | 中文统计学界通行译法（多元回归分析）；不采用「多变量线性回归」
 multivariate | 多变量 | 与 multivariable 区分：multivariate 指多个响应/多个变量并存，multivariable 指多个预测变量
 ```
 
-**界面菜单项规则**：书中截图是英文界面。菜单项、按钮名译成中文，**该章首次出现**时以「中文（English）」形式括注英文原文，同一章内后续出现只写中文。例：
+**界面菜单项规则**：书中截图是英文界面（GitHub 没有中文界面，JupyterLab 默认也是英文）。菜单项、按钮名译成中文，**每次出现**都以「中文（English）」形式保留英文原文，不要只在首次出现时括注。加粗时用 `**中文**（English）` 的形式，不要写成 `**中文（English）**菜单`（收尾 `**` 之后紧跟汉字会触发右边界规则，星号原样显示）。例：
 
-- `Run All Cells` → `运行全部单元格（Run All Cells）`，同章后续写「运行全部单元格」
-- `Restart Kernel and Run All Cells` → `重启内核并运行全部单元格（Restart Kernel and Run All Cells）`
-- `Commit changes` → `提交更改（Commit changes）`
+- `Run All Cells` → `**运行全部单元格**（Run All Cells）`
+- `Restart Kernel and Run All Cells` → `**重启内核并运行全部单元格**（Restart Kernel and Run All Cells）`
+- `Commit changes` → `**提交更改**（Commit changes）`
+
+## J. 第二轮裁定（FIX_SPEC_2，优先级高于上表）
+
+```
+series / Series 正文 | 首次写「Series（序列）」，其后一律写 Series；不译作「序列」；正文中不加反引号
+categorical / categorical variable | 一律作「类别型变量」，不译作「分类变量」
+k-nearest neighbours / k-means 正文 | 一律作「K 近邻」「K 均值」（大写 K，与公式 $K$ 对应）
+练习册行名 | 一律作「英文原名（中文）」（英文在前），如「Classification I: training and prediction（分类 I：训练与预测）」；中文括注须与本书该章标题一致
+界面按钮／菜单项 | **每次出现**都写「中文（English）」，加粗用 **中文**（English）；练习册这类文档链接保持不加粗
+译注引号 | 译注中一律用 “ ”，不用 「」；译注内不用行内代码
+```
 
 ---
 
@@ -307,10 +320,15 @@ multivariate | 多变量 | 与 multivariable 区分：multivariate 指多个响�
 | `scale`（变量量纲 / altair 的 Scale 对象 / 对数标度） | 一律作**标度**，不用「尺度」 | 全书普查 标度 23 : 尺度 4；统一比择词更重要 |
 | WDBC 特征 `smoothness` | 作**光滑度** | 与乳腺癌数据集通行中文特征名一致；原「平滑度」已全库回改 |
 | `concavity` | 作**凹度**（不用「凹陷度」） | 全书已统一 27 处 |
-| `k-nearest neighbours` 正文 | 一律作**k 近邻**；英文串 `K-NN` 只作为首见括注出现一次 | 避免同一章「k 近邻 / K-NN」混排 |
+| `k-nearest neighbours` 正文 | 一律作**K 近邻**；英文串 `K-NN` 只作为首见括注出现一次 | 避免同一章「K 近邻 / K-NN」混排；大写 K 与公式 $K$ 对应 |
 | 裸 `{numref}`fig:…`` | 渲染结果已自带「图 N」（见 `_config.yml` 的 `numfig_format`），正文**不得再写「图」**；正确写法「如 {numref}`fig:x` 所示」 | 避免出现「图 图 6.5」 |
 | 粗体行内小标题（run-in heading） | 标签以**标点结尾**（`**中心更新：**`）→ 后面不留空格；标签以**文字结尾**（`**安装**`）→ 保留一个空格作分隔 | 前者标点已起分隔作用，后者没有分隔会粘连 |
 | 中文之间／中文标点之后的空格 | 一律删除（`称为 **训练集**` → `称为**训练集**`）。行内代码、角色、数学、URL 两侧的空格保留 | 渲染后中文句中不该出现空格 |
 | 英文著作名 | 用书名号保留英文原名：《Data Science: A First Introduction》 | 不硬译书名，读者据此检索原著 |
 | 原文笔误 | 照译并在交付报告中列出，不加译者注、不擅自修正 | 忠实性优先 |
 | `{index}` 条目 | 术语译中文、结构与 `;`/`see:` 前缀保持；条目须与正文用词一致，否则索引无法合并 | 索引是功能结构 |
+| `series` / `Series` 正文 | 首次出现写**「Series（序列）」**，其后一律写 **Series**；不译作「序列」 | 与 sequence、日常说的“数字序列”区分；正文中不加反引号，避免改变行内代码计数 |
+| `categorical` / `categorical variable` | 一律作**「类别型变量」**，不译作「分类变量」 | 全库不得两词混用 |
+| `k-means` 正文 | 一律作**K 均值**（大写 K）；算法名 `k-means` 保留英文 | 与 K 近邻的大写 K 保持一致 |
+| 练习册行名 | 一律作「**英文原名（中文）**」，如「Classification I: training and prediction（分类 I：训练与预测）」 | 练习册网站行名是英文，读者要照着英文找；中文括注须与本书该章标题一致，不另造写法 |
+| 界面按钮／菜单项 | **每次出现**都写「中文（English）」，加粗用 `**中文**（English）` | 覆盖旧裁决「同章首见括注、其后只用中文」；GitHub 没有中文界面，JupyterLab 默认也是英文 |

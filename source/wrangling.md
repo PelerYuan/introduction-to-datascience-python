@@ -35,7 +35,7 @@ pd.set_option("display.max_rows", 20)
 
 - 定义“整洁数据”这一术语。
 - 讨论用整洁数据格式存储数据的优势。
-- 定义 Python 中的序列（series）和数据框（data frame），并说明二者的关系。
+- 定义 Python 中的 Series（序列）和数据框（data frame），并说明二者的关系。
 - 描述 Python 中常见的数据类型及其用途。
 - 在数据整理任务中按各自的预期用途使用以下函数：
     - `melt`
@@ -52,7 +52,7 @@ pd.set_option("display.max_rows", 20)
     - `&` 和 `|`
     - `[]`、`loc[]` 和 `iloc[]`
 
-## 数据框与序列
+## 数据框与 Series
 
 在{numref}`第 %s 章 <intro>`和{numref}`第 %s 章 <reading>`中，重点是*数据框*：我们学会了如何把数据导入 Python 并成为一个数据框，以及如何在 Python 中对数据框做基本操作。在本书余下的部分里，这个模式会一直延续。我们用到的大多数工具都会要求数据在 Python 中以 `pandas` **数据框**的形式表示。因此，本节会深入探讨数据框究竟是什么，以及它在 Python 中如何表示。掌握这些知识，有助于我们在数据分析中更有效地运用这些对象。
 
@@ -90,13 +90,13 @@ pd.set_option("display.max_rows", 20)
 存储加拿大各地区人口数据的数据框。在这个示例数据框中，与 Vancouver 市这条观测对应的行用黄色标出，与 population 变量对应的列用蓝色标出。
 ```
 
-### 什么是序列？
+### 什么是 Series？
 
 ```{index} Series
 ```
 
-在 Python 中，`pandas` 的**序列**是像列表一样可以包含一个或多个元素的对象。它只有一列，是有序的，可以被索引，并且可以存放任意数据类型。`pandas` 包用 `Series` 对象来表示数据框中的各列。`Series` 里可以混放多种数据类型，但良好的做法是让一个序列只包含一种类型，因为同一个变量的所有观测都应该是同一类型。Python 有若干种不同的基本数据类型，如{numref}`tab:datatype-table` 所示。你可以用
-`pd.Series()` 函数创建 `pandas` 序列。例如，要创建{numref}`fig:02-series` 中所示的序列 `region`，可以这样写。
+在 Python 中，`pandas` 的 **Series** 是像列表一样可以包含一个或多个元素的对象。它只有一列，是有序的，可以被索引，并且可以存放任意数据类型。`pandas` 包用 `Series` 对象来表示数据框中的各列。`Series` 里可以混放多种数据类型，但良好的做法是让一个 Series 只包含一种类型，因为同一个变量的所有观测都应该是同一类型。Python 有若干种不同的基本数据类型，如{numref}`tab:datatype-table` 所示。你可以用
+`pd.Series()` 函数创建 `pandas` 的 Series。例如，要创建{numref}`fig:02-series` 中所示的 Series `region`，可以这样写。
 
 ```{code-cell} ipython3
 import pandas as pd
@@ -111,7 +111,7 @@ region
 :name: fig:02-series
 :figclass: figure
 
-类型为字符串的 `pandas` 序列示例。
+类型为字符串的 `pandas` Series 示例。
 ```
 
 ```{index} 数据类型; 字符串 (str), 数据类型; 整数 (int), 数据类型; 浮点数 (float), 数据类型; 布尔值 (bool), 数据类型; NoneType (none)
@@ -156,7 +156,7 @@ region
 ```{index} 数据框; 定义
 ```
 
-数据框其实就是若干序列拼在一起形成的集合，其中每个序列对应一列，而且所有序列的长度必须相同。不过，数据框中的列不必都是同一类型。{numref}`fig:02-dataframe` 展示了一个数据框，其中各列是不同类型的序列。但同一列*内部*的每个元素通常应该是同一类型，因为同一个变量的取值通常都是同一类型。例如，如果变量是城市名称，这个名称应该是字符串；如果变量是年份，那它应该是整数。所以，尽管序列允许你放不同类型的数据，最常见的做法（也是良好实践！）仍是每列只用一种类型。
+数据框其实就是若干 Series 拼在一起形成的集合，其中每个 Series 对应一列，而且所有 Series 的长度必须相同。不过，数据框中的列不必都是同一类型。{numref}`fig:02-dataframe` 展示了一个数据框，其中各列是不同类型的 Series。但同一列*内部*的每个元素通常应该是同一类型，因为同一个变量的取值通常都是同一类型。例如，如果变量是城市名称，这个名称应该是字符串；如果变量是年份，那它应该是整数。所以，尽管 Series 允许你放不同类型的数据，最常见的做法（也是良好实践！）仍是每列只用一种类型。
 
 +++ {"tags": []}
 
@@ -164,7 +164,7 @@ region
 :name: fig:02-dataframe
 :figclass: figure
 
-数据框与序列的类型。
+数据框与 Series 的类型。
 ```
 
 
@@ -187,7 +187,7 @@ type(can_lang)
 `Series` 和 `DataFrame` 是 Python 中的*数据结构*，它们对大多数数据分析来说都是核心概念。我们用到的 `pandas` 函数往往根据具体操作返回 `DataFrame`
 或 `Series`。由于
 `Series` 本质上就是简单的 `DataFrames`，本书正文里会把
-`DataFrames` 和 `Series` 都称作“数据框”（译注：严格来说，序列只有单列，数据框可以有多列；原文此处把两者都笼统称作“数据框”，只是为了口语上的简便）。Python 中还有其他表示数据结构的类型。最常见的几种汇总在{numref}`tab:datastruc-table` 中。
+`DataFrames` 和 `Series` 都称作“数据框”（译注：严格来说，Series 只有单列，数据框可以有多列；原文此处把两者都笼统称作“数据框”，只是为了口语上的简便）。Python 中还有其他表示数据结构的类型。最常见的几种汇总在{numref}`tab:datastruc-table` 中。
 
 ```{index} 数据结构; 列表, 数据结构; 集合, 数据结构; 字典 (dict), 数据结构; 元组
 ```
@@ -454,7 +454,7 @@ lang_home_tidy
 ```{index} DataFrame; reset_index
 ```
 
-第一步中请注意，我们加了一次 `reset_index` 调用。当传给 `pivot` 的 `index` 是多个列名时，这些列名会成为每一行的“名字”；用 `[]` 或 `loc` 筛选行时依据的就是这些名字，而不是简单的数字。这可能让人困惑……`reset_index` 的作用是回到我们熟悉的常规行为：每一行用整数“命名”。这一点比较微妙，但要点是：调用 `pivot` 之后，最好接着调用 `reset_index`。
+第一步中请注意，我们加了一次 `reset_index` 调用。当传给 `pivot` 的 `index` 是多个列名时，这几列的取值会成为行索引（MultiIndex），也就是每一行的“名字”；用 `[]` 或 `loc` 筛选行时依据的就是这些名字，而不是简单的数字。这可能让人困惑……`reset_index` 的作用是回到我们熟悉的常规行为：每一行用整数“命名”。这一点比较微妙，但要点是：调用 `pivot` 之后，最好接着调用 `reset_index`。
 
 第二步操作是给列重命名。执行 `pivot` 操作时，它会保留原来的列名 `"count"`，并把 `"type"` 作为第二个列名加上去。一列有两个名字，很容易让人困惑！所以我们重新命名，让每列只有一个名字。
 
@@ -542,7 +542,7 @@ tidy_lang.info()
 
 `pandas` 数据框中的 object 列，要么是字符串列，要么是混合类型的列。在前面{numref}`pivot-wider`那个例子里，`most_at_home` 和 `most_at_work` 两个变量是 `int64`（整数），属于数值型数据。类型发生变化，是因为读取这份混乱数据集时出现了分隔符（`/`）。Python 把这些列读成了字符串类型，而 `str.split` 默认返回 `object` 数据类型的列。
 
-`region`、`category` 和 `language` 存放的是分类取值，把它们存成 `object` 类型是合理的。不过，假设我们想用一些把 `most_at_home` 和 `most_at_work` 列当作数字处理的函数（例如找出某列中高于某个数值阈值的行），如果变量存成 `object`，这些函数就用不了。好在 `pandas` 的 `astype` 方法能很自然地解决这类问题：它会把列转换成指定的数据类型。这里我们选择 `int` 数据类型，表示这些变量存放的是整数计数。注意，下面我们会把新的数值序列*赋值*给 `tidy_lang` 中的 `most_at_home` 和 `most_at_work` 列；这种语法我们之前在{numref}`ch1-adding-modifying`中见过，本章后面在{numref}`pandas-assign`中还会更深入地讨论。
+`region`、`category` 和 `language` 存放的是分类取值，把它们存成 `object` 类型是合理的。不过，假设我们想用一些把 `most_at_home` 和 `most_at_work` 列当作数字处理的函数（例如找出某列中高于某个数值阈值的行），如果变量存成 `object`，这些函数就用不了。好在 `pandas` 的 `astype` 方法能很自然地解决这类问题：它会把列转换成指定的数据类型。这里我们选择 `int` 数据类型，表示这些变量存放的是整数计数。注意，下面我们会把新的数值 Series *赋值*给 `tidy_lang` 中的 `most_at_home` 和 `most_at_work` 列；这种语法我们之前在{numref}`ch1-adding-modifying`中见过，本章后面在{numref}`pandas-assign`中还会更深入地讨论。
 
 ```{code-cell} ipython3
 :tags: ["output_scroll"]
@@ -587,7 +587,7 @@ tidy_lang[["language", "region", "most_at_home", "most_at_work"]]
 tidy_lang[["language"]]
 ```
 
-如果需要提取的只有单独一列，我们也可以传入列名字符串，而不传列表。这时返回的数据类型是序列。在本书中，我们大多这样提取单独的列，不过也会指出少数几处，说明把单独的列作为数据框提取出来更有优势。
+如果需要提取的只有单独一列，我们也可以传入列名字符串，而不传列表。这时返回的数据类型是 Series。在本书中，我们大多这样提取单独的列，不过也会指出少数几处，说明把单独的列作为数据框提取出来更有优势。
 
 ```{code-cell} ipython3
 :tags: ["output_scroll"]
@@ -688,7 +688,7 @@ five_cities
 ```
 
 ```{note}
-`==` 与 `isin` 有什么区别？假设有两个 Series，`seriesA` 和 `seriesB`。在 Python 里输入 `seriesA == seriesB`，它会逐元素地比较这两个序列：Python 检查 `seriesA` 的第一个元素是否等于 `seriesB` 的第一个元素，`seriesA` 的第二个元素是否等于 `seriesB` 的第二个元素，依此类推。而 `seriesA.isin(seriesB)` 会把 `seriesA` 的第一个元素与 `seriesB` 中的所有元素比较，接着把 `seriesA` 的第二个元素与 `seriesB` 中的所有元素比较，依此类推。请注意下例中 `==` 与 `isin` 的区别。
+`==` 与 `isin` 有什么区别？假设有两个 Series，`seriesA` 和 `seriesB`。在 Python 里输入 `seriesA == seriesB`，它会逐元素地比较这两个 Series：Python 检查 `seriesA` 的第一个元素是否等于 `seriesB` 的第一个元素，`seriesA` 的第二个元素是否等于 `seriesB` 的第二个元素，依此类推。而 `seriesA.isin(seriesB)` 会把 `seriesA` 的第一个元素与 `seriesB` 中的所有元素比较，接着把 `seriesA` 的第二个元素与 `seriesB` 中的所有元素比较，依此类推。请注意下例中 `==` 与 `isin` 的区别。
 ```
 
 ```{code-cell} ipython3
@@ -852,7 +852,7 @@ tidy_lang.iloc[:5, 1:]
 :name: fig:summarize
 :figclass: figure
 
-在 `pandas` 中对一列或多列计算汇总统计量，通常会生成一个序列或数据框，其中含有每个被汇总列的汇总统计量。每张表格颜色较深的最上面一行代表表头。
+在 `pandas` 中对一列或多列计算汇总统计量，通常会生成一个 Series 或数据框，其中含有每个被汇总列的汇总统计量。每张表格颜色较深的最上面一行代表表头。
 ```
 
 +++
@@ -868,7 +868,7 @@ region_lang
 ```{index} Series; 最小, Series; 最大
 ```
 
-对于任一地区，我们用 `.min` 算出把某种特定语言作为在家主要使用语言的加拿大人数最少是多少，用 `.max` 算出最多是多少。
+在所有地区中，我们用 `.min` 算出把某种特定语言作为在家主要使用语言的加拿大人数最少是多少，用 `.max` 算出最多是多少。
 
 ```{code-cell} ipython3
 region_lang["most_at_home"].min()
@@ -1100,7 +1100,7 @@ region_lang_nums.info()
 region_lang_nums.max(axis=1)
 ```
 
-可以看到，我们得到的是一个序列，其中包含数据框每一行在 `mother_tongue`、`most_at_home`、`most_at_work` 和 `lang_known` 之间的最大值。我们常常希望把按行计算得到的结果作为新列加入数据框，以便作图或继续分析。为此，我们将使用列赋值或 `assign` 函数来新建一列。下一节会讨论这种做法。
+可以看到，我们得到的是一个 Series，其中包含数据框每一行在 `mother_tongue`、`most_at_home`、`most_at_work` 和 `lang_known` 之间的最大值。我们常常希望把按行计算得到的结果作为新列加入数据框，以便作图或继续分析。为此，我们将使用列赋值或 `assign` 函数来新建一列。下一节会讨论这种做法。
 
 ```{note}
 `pandas` 提供了许多可以应用到数据框上的方法（例如 `max`、`astype` 等），但有时你可能想把自己的函数应用到数据框的多个列上。这时你可以使用更通用的 [`apply`](https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.apply.html) 方法。
@@ -1113,7 +1113,7 @@ region_lang_nums.max(axis=1)
 ```{index} DataFrame; [], 列赋值, assign
 ```
 
-计算汇总统计量或应用函数时，都会生成新的数据框或序列。但如果我们想把这份信息追加到已有的数据框上呢？例如，假设我们要计算 `region_lang_nums` 数据框每一行的最大值，再把它作为 `region_lang` 数据框的一个新列追加进去。这时有两种选择：要么在 `region_lang` 数据框里新建一列，要么用 `assign` 方法新建一个数据框。第一种做法我们在前面几章已经见过，也是实践中更常用的模式：
+计算汇总统计量或应用函数时，都会生成新的数据框或 Series。但如果我们想把这份信息追加到已有的数据框上呢？例如，假设我们要计算 `region_lang_nums` 数据框每一行的最大值，再把它作为 `region_lang` 数据框的一个新列追加进去。这时有两种选择：要么在 `region_lang` 数据框里新建一列，要么用 `assign` 方法新建一个数据框。第一种做法我们在前面几章已经见过，也是实践中更常用的模式：
 ```{code-cell} ipython3
 :tags: ["output_scroll"]
 region_lang["maximum"] = region_lang_nums.max(axis=1)
@@ -1291,7 +1291,7 @@ english_lang
 
 ## 习题
 
-本章内容的练习题可以在配套的[练习册仓库](https://worksheets.python.datasciencebook.ca)的“数据清洗与整理（Cleaning and wrangling data）”一行中找到。你可以预览本章练习册（worksheet）的非交互版本，只需点击“查看练习册（view worksheet）”。如果要交互式地做习题，请按照练习册仓库中的说明下载所有练习册，并按照{numref}`第 %s 章 <move-to-your-own-machine>`中的计算机环境配置说明操作。这样才能保证练习册提供的自动反馈和指导按预期正常工作。
+本章内容的练习题可以在配套的[练习册仓库](https://worksheets.python.datasciencebook.ca)的“Cleaning and wrangling data（数据清洗与整理）”一行中找到。你可以预览本章练习册（worksheet）的非交互版本，只需点击“查看练习册（view worksheet）”。如果要交互式地做习题，请按照练习册仓库中的说明下载所有练习册，并按照{numref}`第 %s 章 <move-to-your-own-machine>`中的计算机环境配置说明操作。这样才能保证练习册提供的自动反馈和指导按预期正常工作。
 
 +++ {"tags": []}
 

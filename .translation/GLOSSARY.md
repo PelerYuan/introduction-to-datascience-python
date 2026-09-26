@@ -19,7 +19,7 @@
 ```
 data frame | 数据框 | 首见加注（data frame）
 DataFrame | DataFrame | [保留英文]
-series | 序列 | 首见加注（series）；特指 pandas 对象时写 `Series`
+series | Series | 首见写「Series（序列）」，其后一律写 Series；不译作“序列”；正文中不加反引号
 Series | Series | [保留英文]
 variable | 变量 |
 observation | 观测 |
@@ -45,7 +45,7 @@ string | 字符串 |
 integer | 整数 |
 float | 浮点数 |
 boolean | 布尔值 |
-categorical | 分类的／类别型 |
+categorical | 类别型变量 | 名词形式一律作“类别型变量”，不译作“分类变量”
 missing value | 缺失值 |
 NaN | NaN | [保留英文]
 ```
@@ -123,8 +123,8 @@ response variable | 响应变量 |
 target | 目标变量 |
 feature | 特征 |
 observation | 观测 |
-k-nearest neighbours | k 近邻 | 全书写法统一为 k 近邻，方法名 k-nearest neighbours 保留英文
-k-means | k 均值 | 算法名 k-means 保留英文，叙述中用"k 均值聚类"
+k-nearest neighbours | K 近邻 | 全书写法统一为 K 近邻（大写 K，与公式 $K$ 对应）；方法名 k-nearest neighbours 保留英文
+k-means | K 均值 | 算法名 k-means 保留英文，叙述中用“K 均值聚类”
 tuning parameter | 调优参数 |
 hyperparameter | 超参数 |
 overfitting | 过拟合 |
@@ -270,6 +270,8 @@ Chapters | 正文章节 |
 learning objective | 学习目标 |
 good practices | 良好实践 |
 case study | 案例分析 |
+worksheets repository | 练习册仓库 | 练习册行名格式统一为「英文原名（中文）」，如「Cleaning and wrangling data（数据清洗与整理）」；中文括注须与本书该章标题一致
+界面按钮／菜单项 | 中文（English） | **每次出现**都保留英文，加粗用 **中文**（English）；写成 **中文（English）**菜单 会因右边界规则失效
 ```
 
 ## H. 跨节冲突裁决（强制，优先级高于后续任何章节的术语条目）
@@ -296,16 +298,27 @@ Indigenous peoples / Aboriginal | 原住民 | 不用「土著」；Aboriginal �
 First Nations | 第一民族 | 首见加注（First Nations）
 residential schools | 寄宿学校 | 指加拿大原住民寄宿学校，首见加注（residential schools）
 sample distribution | 样本分布 | 与「抽样分布」（sampling distribution）严格区分
-界面菜单项 | 中文（English） | 如「运行全部单元格（Run All Cells）」；同一章内首见处括注英文，其后只用中文
+界面菜单项 | 中文（English） | 如「运行全部单元格（Run All Cells）」；**每次出现**都保留英文（GitHub 无中文界面，JupyterLab 默认也是英文）
 multivariable linear regression | 多元线性回归 | 中文统计学界通行译法（多元回归分析）；不采用「多变量线性回归」
 multivariate | 多变量 | 与 multivariable 区分：multivariate 指多个响应/多个变量并存，multivariable 指多个预测变量
 ```
 
-**界面菜单项规则**：书中截图是英文界面。菜单项、按钮名译成中文，**该章首次出现**时以「中文（English）」形式括注英文原文，同一章内后续出现只写中文。例：
+**界面菜单项规则**：书中截图是英文界面（GitHub 没有中文界面，JupyterLab 默认也是英文）。菜单项、按钮名译成中文，**每次出现**都以「中文（English）」形式保留英文原文，不要只在首次出现时括注。加粗时用 `**中文**（English）` 的形式，不要写成 `**中文（English）**菜单`（收尾 `**` 之后紧跟汉字会触发右边界规则，星号原样显示）。例：
 
-- `Run All Cells` → `运行全部单元格（Run All Cells）`，同章后续写「运行全部单元格」
-- `Restart Kernel and Run All Cells` → `重启内核并运行全部单元格（Restart Kernel and Run All Cells）`
-- `Commit changes` → `提交更改（Commit changes）`
+- `Run All Cells` → `**运行全部单元格**（Run All Cells）`
+- `Restart Kernel and Run All Cells` → `**重启内核并运行全部单元格**（Restart Kernel and Run All Cells）`
+- `Commit changes` → `**提交更改**（Commit changes）`
+
+## J. 第二轮裁定（FIX_SPEC_2，优先级高于上表）
+
+```
+series / Series 正文 | 首次写「Series（序列）」，其后一律写 Series；不译作「序列」；正文中不加反引号
+categorical / categorical variable | 一律作「类别型变量」，不译作「分类变量」
+k-nearest neighbours / k-means 正文 | 一律作「K 近邻」「K 均值」（大写 K，与公式 $K$ 对应）
+练习册行名 | 一律作「英文原名（中文）」（英文在前），如「Classification I: training and prediction（分类 I：训练与预测）」；中文括注须与本书该章标题一致
+界面按钮／菜单项 | **每次出现**都写「中文（English）」，加粗用 **中文**（English）；练习册这类文档链接保持不加粗
+译注引号 | 译注中一律用 “ ”，不用 「」；译注内不用行内代码
+```
 
 ---
 
@@ -593,8 +606,8 @@ informative missingness | 有信息量的缺失 | 原文指缺失本身可能与
 synthetic values | 合成取值 |
 numerical variable | 数值变量 |
 quantitative variable | 定量变量 |
-categorical variable | 分类变量 | 与 categorical（类别型）同义，正文两词都出现
-K-NN | K-NN | [保留英文]
+categorical variable | 类别型变量 | 与 categorical 同一条目，一律作“类别型变量”，不译作“分类变量”
+K-NN | K 近邻 | 叙述中一律作 K 近邻；英文串 K-NN 仅作首见括注出现一次
 supervised task | 有监督任务 |
 unsupervised task | 无监督任务 |
 
@@ -641,7 +654,7 @@ malignant | 恶性的 | 乳腺癌案例的类别名；数据列取值 Malignant 
 
 ## 三、回归
 regression problem | 回归问题 |
-K-NN regression | k 近邻回归 |
+K-NN regression | K 近邻回归 |
 linear regression | 线性回归 |
 simple linear regression | 简单线性回归 |
 multivariable linear regression | 多变量线性回归 | 首见加注（multivariable linear regression）；指含多个预测变量的情形，备选：多元线性回归
@@ -654,7 +667,7 @@ slope | 斜率 |
 coefficient | 系数 |
 linear relationship | 线性关系 |
 non-linear relationship | 非线性关系 |
-flexible | 灵活的 | 形容 k 近邻拟合线可随数据起伏；原文亦用 wiggly
+flexible | 灵活的 | 形容 K 近邻拟合线可随数据起伏；原文亦用 wiggly
 extrapolation | 外推 | 首见加注（extrapolation）
 average squared vertical distance | 纵向距离平方的平均值 | 原文对最小二乘拟合的直观解释
 RMSPE | 均方根预测误差 | 首见加注（root mean squared prediction error）；缩写 RMSPE 保留英文，备选：根均方预测误差
@@ -681,12 +694,12 @@ cluster assignment | 簇归属 | 正文亦称 assignment，指数据点被分到
 initial centers | 初始中心 |
 random initialization | 随机初始化 |
 random restart | 随机重启 | 本书小节标题 Random restarts
-bad solution | 劣质解 | 原文指 k 均值因初始化不佳而"卡住"的较差结果
-center update | 中心更新 | k 均值算法两步之一
-label update | 标签更新 | k 均值算法两步之一
+bad solution | 劣质解 | 原文指 K 均值因初始化不佳而“卡住”的较差结果
+center update | 中心更新 | K 均值算法两步之一
+label update | 标签更新 | K 均值算法两步之一
 WSSD | 簇内平方距离和 | 缩写 WSSD 保留英文；全称 within-cluster sum-of-squared-distances
 within-cluster sum-of-squared-distances | 簇内平方距离和 | 首见加注（within-cluster sum-of-squared-distances）
-total WSSD | 总 WSSD | 所有簇的 WSSD 之和，k 均值的目标即最小化该量；图中亦称 total within-cluster sum of squares
+total WSSD | 总 WSSD | 所有簇的 WSSD 之和，K 均值的目标即最小化该量；图中亦称 total within-cluster sum of squares
 inertia | 惯性 | scikit-learn 中 inertia_ 属性即总 WSSD；属性名保留英文
 cluster quality | 聚类质量 |
 elbow method | 肘部法则 | 首见加注（elbow method）
@@ -864,11 +877,11 @@ file extension | 文件扩展名 |
 hidden dependency | 隐含依赖 | 备选：隐藏依赖
 list comprehension | 列表推导式 | 首见加注（list comprehension）
 web browser | 网页浏览器 | Firefox、Safari、Chrome、Edge 等名称保留英文
-Run All Cells | 运行全部单元格 | 界面菜单项，首见加注（Run All Cells）
-Restart Kernel and Run All Cells | 重启内核并运行全部单元格 | 界面菜单项
-Interrupt Kernel | 中断内核 | 界面菜单项
-Restart Kernel | 重启内核 | 界面菜单项
-Save Notebook | 保存笔记本 | 界面菜单项
+Run All Cells | 运行全部单元格 | 界面菜单项，**每次出现**都写「运行全部单元格（Run All Cells）」
+Restart Kernel and Run All Cells | 重启内核并运行全部单元格 | 界面菜单项，**每次出现**都保留英文
+Interrupt Kernel | 中断内核 | 界面菜单项，**每次出现**都保留英文
+Restart Kernel | 重启内核 | 界面菜单项，**每次出现**都保留英文
+Save Notebook | 保存笔记本 | 界面菜单项，**每次出现**都保留英文
 Docker | Docker | [保留英文]
 Docker Desktop | Docker Desktop | [保留英文]
 container | 容器 | 首见加注（container）
@@ -919,20 +932,20 @@ negative results | 负面结果 | 指未能成功的分析尝试
 bug | 缺陷 | 首见加注（bug）
 HTTPS method | HTTPS 方式 | [保留英文]
 GitLab | GitLab | [保留英文]
-pen tool | 铅笔工具 | GitHub 界面工具，首见加注（pen tool）
-Commit changes | 提交更改 | GitHub 界面按钮
-Add file | 添加文件 | GitHub 界面菜单
-Upload files | 上传文件 | GitHub 界面菜单项
-Manage access | 管理访问权限 | GitHub 界面
-Invite a collaborator | 邀请协作者 | GitHub 界面按钮
-New issue | 新建议题 | GitHub 界面按钮
-Close issue | 关闭议题 | GitHub 界面按钮
-Generate new token | 生成新令牌 | GitHub 界面按钮
+pen tool | 铅笔工具 | GitHub 界面工具，**每次出现**都保留英文（pen tool）
+Commit changes | 提交更改 | GitHub 界面按钮，**每次出现**都写「提交更改（Commit changes）」
+Add file | 添加文件 | GitHub 界面菜单，**每次出现**都保留英文
+Upload files | 上传文件 | GitHub 界面菜单项，**每次出现**都保留英文
+Manage access | 管理访问权限 | GitHub 界面，**每次出现**都保留英文
+Invite a collaborator | 邀请协作者 | GitHub 界面按钮，**每次出现**都保留英文
+New issue | 新建议题 | GitHub 界面按钮，**每次出现**都保留英文
+Close issue | 关闭议题 | GitHub 界面按钮，**每次出现**都保留英文
+Generate new token | 生成新令牌 | GitHub 界面按钮，**每次出现**都保留英文
 
 ## 四、课程组织与教学用语
 worksheet | 练习册 | 指配套的 Jupyter 笔记本习题文件，首见加注（worksheet）
-worksheets repository | 练习册仓库 |
-view worksheet | 查看练习册 |
+worksheets repository | 练习册仓库 | 行名格式统一为「英文原名（中文）」，如「Reading in data locally and from the web（从本地和网络读取数据）」；中文括注须与本书该章标题一致
+view worksheet | 查看练习册 | 文档链接按钮，**不加粗**；每次出现都写「查看练习册（view worksheet）」
 exercise | 习题 | 章节小节名 Exercises 译"习题"
 non-interactive version | 非交互版本 |
 automated feedback | 自动反馈 |

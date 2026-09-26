@@ -26,3 +26,5 @@ source/__pycache__
 
 # build logs from the review-response rebuild
 .translation/logs/
+
+.translation/tools/__pycache__/

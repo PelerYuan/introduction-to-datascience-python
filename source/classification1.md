@@ -27,7 +27,7 @@ import plotly.graph_objects as go
 # 分类 I：训练与预测
 
 ## 概述
-前面几章只讨论了描述性和探索性的数据分析问题。本章与下一章一起，是我们第一次尝试回答关于数据的*预测性*问题（predictive question）。具体来说，我们关注*分类*（classification），也就是用一个或多个变量去预测我们关心的某个分类变量的取值。本章会介绍分类的基础知识、如何预处理数据才能用于分类器，以及如何用观测到的数据做出预测。下一章则讨论如何评估分类器给出的预测有多准确，以及如何（只要条件允许）改进分类器，把准确率提到最高。
+前面几章只讨论了描述性和探索性的数据分析问题。本章与下一章一起，是我们第一次尝试回答关于数据的*预测性*问题（predictive question）。具体来说，我们关注*分类*（classification），也就是用一个或多个变量去预测我们关心的某个类别型变量的取值。本章会介绍分类的基础知识、如何预处理数据才能用于分类器，以及如何用观测到的数据做出预测。下一章则讨论如何评估分类器给出的预测有多准确，以及如何（只要条件允许）改进分类器，把准确率提到最高。
 
 ## 本章学习目标
 
@@ -37,8 +37,8 @@ import plotly.graph_objects as go
 - 说明什么是训练数据集，以及它在分类中如何使用。
 - 解读分类器的输出。
 - 当图上只有两个预测变量时，手算两点之间的直线距离（欧氏距离）。
-- 解释 k 近邻（k-nearest neighbours）分类算法。
-- 使用 `scikit-learn` 在 Python 中完成 k 近邻分类。
+- 解释 K 近邻（k-nearest neighbours）分类算法。
+- 使用 `scikit-learn` 在 Python 中完成 K 近邻分类。
 - 作为预处理步骤，用 `scikit-learn` 中的方法对数据做中心化、缩放、平衡和插补。
 - 用 `make_pipeline` 把预处理与模型训练组合成一个 `Pipeline`。
 
@@ -46,7 +46,7 @@ import plotly.graph_objects as go
 
 ## 分类问题
 
-```{index} 预测性问题, 分类, 类别, 分类变量
+```{index} 预测性问题, 分类, 类别, 类别型变量
 ```
 
 ```{index} see: 特征 ; 预测变量
@@ -59,11 +59,11 @@ import plotly.graph_objects as go
 
 一般来说，分类器会把一条类别未知的观测（例如一位新病人）归入某个类别（例如患病或健康），依据是它与类别已知的其他观测（例如以往症状明确、诊断已知的病人）有多相似。这些类别已知、被我们用作预测依据的观测称为**训练集**（training set）；这个名字来自我们用这些数据来训练（也就是“教”）分类器这一事实。教好之后，我们就可以用这个分类器，对类别未知的新数据做出预测。
 
-```{index} k 近邻, 分类; 二分类
+```{index} K 近邻, 分类; 二分类
 ```
 
 可以用来预测一条观测所属类别或标签的方法有很多。本书聚焦于应用广泛的
-**k 近邻**算法 {cite:p}`knnfix,knncover`。在以后的学习中，你可能会遇到决策树、支持向量机（SVM）、逻辑回归、神经网络等更多方法；这些方法该从哪里学起，可以看下一章末尾的拓展资源一节。另外值得一提的是，基本分类问题还有许多变体。例如，我们关注只涉及两个类别的**二分类**（binary classification）情形（例如诊断为健康或患病），但你也可能遇到类别多于两个的多分类（multiclass classification）问题（例如诊断为健康、支气管炎、肺炎或普通感冒）。
+**K 近邻**算法 {cite:p}`knnfix,knncover`。在以后的学习中，你可能会遇到决策树、支持向量机（SVM）、逻辑回归、神经网络等更多方法；这些方法该从哪里学起，可以看下一章末尾的拓展资源一节。另外值得一提的是，基本分类问题还有许多变体。例如，我们关注只涉及两个类别的**二分类**（binary classification）情形（例如诊断为健康或患病），但你也可能遇到类别多于两个的多分类（multiclass classification）问题（例如诊断为健康、支气管炎、肺炎或普通感冒）。
 
 ## 探索数据集
 
@@ -177,7 +177,7 @@ glue("malignant_pct", "{:0.0f}".format(100*cancer["Class"].value_counts(normaliz
 ```{index} Series; value_counts
 ```
 
-`pandas` 包还提供了更方便的专用方法 `value_counts`，用来统计一列中每个取值出现的次数。不给它传参数时，它输出一个序列（series），其中包含每个取值出现的次数；如果传入参数 `normalize=True`，它输出的则是每个取值出现的比例。
+`pandas` 包还提供了更方便的专用方法 `value_counts`，用来统计一列中每个取值出现的次数。不给它传参数时，它输出一个 Series（序列），其中包含每个取值出现的次数；如果传入参数 `normalize=True`，它输出的则是每个取值出现的比例。
 
 ```{code-cell} ipython3
 cancer["Class"].value_counts()
@@ -219,7 +219,7 @@ glue("fig:05-scatter", perim_concav)
 
 +++
 
-## 用 k 近邻做分类
+## 用 K 近邻做分类
 
 ```{code-cell} ipython3
 :tags: [remove-cell]
@@ -239,12 +239,12 @@ my_distances = euclidean_distances(perim_concav_with_new_point_df[attrs])[
 ][:-1]
 ```
 
-```{index} k 近邻; 分类
+```{index} K 近邻; 分类
 ```
 
-要在实践中真正对新观测做出预测，我们需要一个分类算法。本书使用 k 近邻分类算法。为了预测一条新观测的标签（在这里，就是把它判为良性还是恶性），k 近邻分类器一般会在训练集中找出 $K$ 条“最近”或“最相似”的观测，再根据它们的诊断结果，为新观测的诊断做出预测。$K$ 是一个我们必须事先选定的数；目前先假设 $K$ 已经由别人替我们选好。如何自己选择 $K$，我们会在下一章介绍。
+要在实践中真正对新观测做出预测，我们需要一个分类算法。本书使用 K 近邻分类算法。为了预测一条新观测的标签（在这里，就是把它判为良性还是恶性），K 近邻分类器一般会在训练集中找出 $K$ 条“最近”或“最相似”的观测，再根据它们的诊断结果，为新观测的诊断做出预测。$K$ 是一个我们必须事先选定的数；目前先假设 $K$ 已经由别人替我们选好。如何自己选择 $K$，我们会在下一章介绍。
 
-为了说明 k 近邻分类的思路，我们来看一个例子。假设有一条新观测，标准化周长为 {glue:text}`new_point_1_0`，标准化凹度为 {glue:text}`new_point_1_1`，它的“Class”诊断未知。这条新观测在{numref}`fig:05-knn-2` 中用红色菱形点表示。
+为了说明 K 近邻分类的思路，我们来看一个例子。假设有一条新观测，标准化周长为 {glue:text}`new_point_1_0`，标准化凹度为 {glue:text}`new_point_1_1`，它的“Class”诊断未知。这条新观测在{numref}`fig:05-knn-2` 中用红色菱形点表示。
 
 ```{code-cell} ipython3
 :tags: [remove-cell]
@@ -418,7 +418,7 @@ glue("fig:05-knn-5", (perim_concav_with_new_point2 + line2 + line3 + line4), dis
 
 ### 点与点之间的距离
 
-```{index} 距离; k 近邻, 直线; 距离
+```{index} 距离; K 近邻, 直线; 距离
 ```
 
 我们依据*直线距离*（straight-line distance）——它也叫*欧氏距离*（Euclidean distance）——判断哪些点是新观测的 $K$ 个“最近”邻点（后文常直接简称为*距离*）。假设有两个观测 $a$ 和 $b$，各自都有两个预测变量 $x$ 和 $y$。记 $a_x$ 和 $a_y$ 为观测 $a$ 在变量 $x$ 和 $y$ 上的取值；$b_x$ 和 $b_y$ 的含义与观测 $b$ 类似。那么观测 $a$ 与 $b$ 在 x-y 平面上的直线距离可以用下面的公式计算：
@@ -563,7 +563,7 @@ glue("fig:05-multiknn-3", (perim_concav_with_new_point3 + circle))
 
 ### 多于两个解释变量
 
-上面的介绍针对的是两个预测变量，但预测变量更多时，完全相同的 k 近邻算法同样适用。每个预测变量都可能提供新信息，帮助我们建立分类器。唯一的区别在于点与点之间的距离公式。假设两个观测 $a$ 和 $b$ 各有 $m$ 个预测变量，即 $a = (a_{1}, a_{2}, \dots, a_{m})$ 和 $b = (b_{1}, b_{2}, \dots, b_{m})$。
+上面的介绍针对的是两个预测变量，但预测变量更多时，完全相同的 K 近邻算法同样适用。每个预测变量都可能提供新信息，帮助我们建立分类器。唯一的区别在于点与点之间的距离公式。假设两个观测 $a$ 和 $b$ 各有 $m$ 个预测变量，即 $a = (a_{1}, a_{2}, \dots, a_{m})$ 和 $b = (b_{1}, b_{2}, \dots, b_{m})$。
 
 ```{index} 距离; 多于两个变量
 ```
@@ -705,9 +705,9 @@ else:
 
 +++
 
-### k 近邻算法小结
+### K 近邻算法小结
 
-要用 k 近邻分类器判断一个新观测的类别，需要完成以下步骤：
+要用 K 近邻分类器判断一个新观测的类别，需要完成以下步骤：
 
 1. 计算新观测与训练集中每个观测之间的距离。
 2. 找出与 $K$ 个最小距离相对应的 $K$ 行。
@@ -715,14 +715,14 @@ else:
 
 +++
 
-## 用 `scikit-learn` 实现 k 近邻
+## 用 `scikit-learn` 实现 K 近邻
 
 ```{index} scikit-learn
 ```
 
-自己动手用 Python 编写 k 近邻算法会变得相当复杂，尤其是在还想处理多个类别、两个以上的变量，或者要为多个新观测预测类别时。好在 Python 里的
+自己动手用 Python 编写 K 近邻算法会变得相当复杂，尤其是在还想处理多个类别、两个以上的变量，或者要为多个新观测预测类别时。好在 Python 里的
 [`scikit-learn` Python 包](https://scikit-learn.org/stable/index.html) {cite:p}`sklearn_api`
-已经实现了 k 近邻算法，这个包还提供了许多[其他模型](https://scikit-learn.org/stable/user_guide.html)，你在本章和本书后续各章都会遇到。使用 `scikit-learn` 包（在 Python 中名为 `sklearn`）里的函数，能让代码更简单、更易读、也更准确；我们自己要写的代码越少，犯的错误通常也越少。开始使用 k 近邻之前，需要先用 `set_config` 函数告诉 `sklearn` 包：我们希望使用 `pandas` 数据框，而不是普通的数组。
+已经实现了 K 近邻算法，这个包还提供了许多[其他模型](https://scikit-learn.org/stable/user_guide.html)，你在本章和本书后续各章都会遇到。使用 `scikit-learn` 包（在 Python 中名为 `sklearn`）里的函数，能让代码更简单、更易读、也更准确；我们自己要写的代码越少，犯的错误通常也越少。开始使用 K 近邻之前，需要先用 `set_config` 函数告诉 `sklearn` 包：我们希望使用 `pandas` 数据框，而不是普通的数组。
 ```{note}
 你会发现下面代码里有一种新的函数导入写法：`from ... import ...`。这样我们就能从 `sklearn` 中*只*导入 `set_config`，之后调用 `set_config` 时也不必写包名前缀。本章和后续各章会大量使用 `from`
 来导入函数，免得 `scikit-learn` 那些很长的名字把代码弄得杂乱不堪（比如 `sklearn.neighbors.KNeighborsClassifier`，足足有 38 个字符！）。
@@ -735,13 +735,13 @@ from sklearn import set_config
 set_config(transform_output="pandas")
 ```
 
-现在可以开始使用 k 近邻了。第一步是从 `sklearn.neighbors` 模块导入 `KNeighborsClassifier`。
+现在可以开始使用 K 近邻了。第一步是从 `sklearn.neighbors` 模块导入 `KNeighborsClassifier`。
 
 ```{code-cell} ipython3
 from sklearn.neighbors import KNeighborsClassifier
 ```
 
-下面我们来看看如何用 `KNeighborsClassifier` 完成 k 近邻分类。我们沿用前面的 `cancer` 数据集，以周长和凹度作为预测变量、取 $K = 5$ 个近邻来构建分类器。然后用这个分类器预测一个新观测的诊断标签：该观测的周长为 0、凹度为 3.5，诊断标签未知。我们先选出需要的两个预测变量和类别标签，存成 `cancer_train`：
+下面我们来看看如何用 `KNeighborsClassifier` 完成 K 近邻分类。我们沿用前面的 `cancer` 数据集，以周长和凹度作为预测变量、取 $K = 5$ 个近邻来构建分类器。然后用这个分类器预测一个新观测的诊断标签：该观测的周长为 0、凹度为 3.5，诊断标签未知。我们先选出需要的两个预测变量和类别标签，存成 `cancer_train`：
 
 ```{code-cell} ipython3
 cancer_train = cancer[["Class", "Perimeter", "Concavity"]]
@@ -751,7 +751,7 @@ cancer_train
 ```{index} scikit-learn; 模型对象, scikit-learn; KNeighborsClassifier
 ```
 
-接下来，我们创建一个 `KNeighborsClassifier` 实例，得到用于 k 近邻分类的*模型对象*（model object），并指定使用 $K = 5$ 个近邻；如何选择 $K$ 留到下一章讨论。
+接下来，我们创建一个 `KNeighborsClassifier` 实例，得到用于 K 近邻分类的*模型对象*（model object），并指定使用 $K = 5$ 个近邻；如何选择 $K$ 留到下一章讨论。
 
 ```{note}
 你可以指定 `weights` 参数，来控制分类新观测时近邻如何投票。默认取值是 `"uniform"`，也就是前面说的：$K$ 个最近邻每个各投 1 票。其他取值会让每个近邻的投票权重有所不同，具体见
@@ -768,7 +768,7 @@ knn
 
 要在乳腺癌数据上拟合模型，需要调用模型对象的 `fit` 方法。`X` 参数用来指定预测变量的数据，`y` 参数用来指定响应变量的数据。所以下面我们设置 `X=cancer_train[["Perimeter", "Concavity"]]` 和
 `y=cancer_train["Class"]`，表示 `Class` 是响应变量（也就是我们要预测的变量），而 `Perimeter` 和
-`Concavity` 都作为预测变量。注意，`fit` 函数从外面看似乎没做什么，实际上训练 k 近邻模型的苦活累活全是它干的，它还会修改 `knn` 模型对象。
+`Concavity` 都作为预测变量。注意，`fit` 函数从外面看似乎没做什么，实际上训练 K 近邻模型的苦活累活全是它干的，它还会修改 `knn` 模型对象。
 
 ```{code-cell} ipython3
 knn.fit(X=cancer_train[["Perimeter", "Concavity"]], y=cancer_train["Class"]);
@@ -777,7 +777,7 @@ knn.fit(X=cancer_train[["Perimeter", "Concavity"]], y=cancer_train["Class"]);
 ```{index} scikit-learn; predict
 ```
 
-用过 `fit` 函数之后，只要把新观测本身传给分类器对象并调用 `predict`，就能对它做出预测。和前面手工运行 k 近邻分类算法一样，`knn` 模型对象把这个新观测判为“Malignant”。注意，`predict` 函数输出的是装着模型预测结果的 `array`；你其实可以用 `predict` 一次预测多个观测，输出之所以存成 `array` 就是这个原因。
+用过 `fit` 函数之后，只要把新观测本身传给分类器对象并调用 `predict`，就能对它做出预测。和前面手工运行 K 近邻分类算法一样，`knn` 模型对象把这个新观测判为“Malignant”。注意，`predict` 函数输出的是装着模型预测结果的 `array`；你其实可以用 `predict` 一次预测多个观测，输出之所以存成 `array` 就是这个原因。
 
 ```{code-cell} ipython3
 new_obs = pd.DataFrame({"Perimeter": [0], "Concavity": [3.5]})
@@ -795,7 +795,7 @@ knn.predict(new_obs)
 ```{index} 缩放
 ```
 
-使用 k 近邻分类时，每个变量的*标度*（即取值的大小与范围）都起作用。分类器靠找出离新观测最近的观测来判定类别，所以标度大的变量，影响会远大于标度小的变量。但变量标度大，*并不意味着*它对做出准确预测更重要。举个例子，假设有个数据集包含两个特征：工资（以美元计）和受教育年限，你想预测相应的工作类型。计算近邻距离时，1000 美元的差别与 10 年受教育年限的差别相比要大得多。但就理解问题、回答问题的需要而言，情况恰恰相反：与年薪相差 1000 美元相比，10 年的受教育年限差别才是巨大的！
+使用 K 近邻分类时，每个变量的*标度*（即取值的大小与范围）都起作用。分类器靠找出离新观测最近的观测来判定类别，所以标度大的变量，影响会远大于标度小的变量。但变量标度大，*并不意味着*它对做出准确预测更重要。举个例子，假设有个数据集包含两个特征：工资（以美元计）和受教育年限，你想预测相应的工作类型。计算近邻距离时，1000 美元的差别与 10 年受教育年限的差别相比要大得多。但就理解问题、回答问题的需要而言，情况恰恰相反：与年薪相差 1000 美元相比，10 年的受教育年限差别才是巨大的！
 
 +++
 
@@ -803,12 +803,12 @@ knn.predict(new_obs)
 ```
 
 在许多其他预测模型里，每个变量的*中心*（例如它的均值）同样重要。举例来说，假设有一份数据集，其中的温度以开尔文（Kelvin）为单位；另有一份内容相同的数据集，温度以摄氏度为单位，这两个变量就相差一个常数 273（尽管它们包含的信息完全相同）。同样，在前面那个假设的工作分类例子里，我们多半会看到工资变量的中心在数万这一量级，而受教育年限变量的中心只有个位数。这一点虽然不影响
-k 近邻分类算法，但这么大的平移却会改变许多其他预测模型的结果。
+K 近邻分类算法，但这么大的平移却会改变许多其他预测模型的结果。
 
-```{index} 标准化; k 近邻
+```{index} 标准化; K 近邻
 ```
 
-要对数据做缩放和中心化，需要先求出变量的*均值*（也就是平均数，用来刻画一组数值的“中心”位置）和*标准差*（用来衡量取值有多分散）。对变量的每个观测值，都减去均值（即对变量做中心化），再除以标准差（即对变量做缩放）。做完这一步，数据就称为*标准化*数据，数据集中所有变量的均值都是 0、标准差都是 1。为了展示标准化会给 k 近邻算法带来什么影响，我们读取未经标准化的原始威斯康星乳腺癌数据集；在此之前，我们用的都是标准化之后的版本。我们采用与前面相同的初始整理步骤，并且为了简单起见，只用 `Area`、`Smoothness` 和 `Class` 这三个变量：
+要对数据做缩放和中心化，需要先求出变量的*均值*（也就是平均数，用来刻画一组数值的“中心”位置）和*标准差*（用来衡量取值有多分散）。对变量的每个观测值，都减去均值（即对变量做中心化），再除以标准差（即对变量做缩放）。做完这一步，数据就称为*标准化*数据，数据集中所有变量的均值都是 0、标准差都是 1。为了展示标准化会给 K 近邻算法带来什么影响，我们读取未经标准化的原始威斯康星乳腺癌数据集；在此之前，我们用的都是标准化之后的版本。我们采用与前面相同的初始整理步骤，并且为了简单起见，只用 `Area`、`Smoothness` 和 `Class` 这三个变量：
 
 ```{code-cell} ipython3
 unscaled_cancer = pd.read_csv("data/wdbc_unscaled.csv")[["Class", "Area", "Smoothness"]]
@@ -899,7 +899,7 @@ scaled_cancer_all = preprocessor_keep_all.transform(unscaled_cancer)
 scaled_cancer_all
 ```
 
-你可能会奇怪：为了给变量做中心化和缩放，何必费这么大劲？难道不能在构建 k 近邻模型之前，自己动手把 `Area` 和 `Smoothness` 变量缩放、中心化吗？严格说，*可以*；但这样做容易出错。特别是，我们可能在预测时忘了套用同样的中心化／缩放，也可能不小心用了与训练时*不同*的中心化／缩放。正确使用 `ColumnTransformer`，能让代码更简单、更易读、也不易出错。另外请注意，只有你想亲自查看预处理步骤的结果时，才需要在预处理器上调用 `fit` 和 `transform`。稍后在{numref}`08:puttingittogetherworkflow`中你会看到，`scikit-learn` 提供了一些工具，可以自动把预处理器和模型衔接好，这样你就能按需在 `Pipeline` 上调用 `fit` 和 `transform`，不必额外写代码。
+你可能会奇怪：为了给变量做中心化和缩放，何必费这么大劲？难道不能在构建 K 近邻模型之前，自己动手把 `Area` 和 `Smoothness` 变量缩放、中心化吗？严格说，*可以*；但这样做容易出错。特别是，我们可能在预测时忘了套用同样的中心化／缩放，也可能不小心用了与训练时*不同*的中心化／缩放。正确使用 `ColumnTransformer`，能让代码更简单、更易读、也不易出错。另外请注意，只有你想亲自查看预处理步骤的结果时，才需要在预处理器上调用 `fit` 和 `transform`。稍后在{numref}`08:puttingittogetherworkflow`中你会看到，`scikit-learn` 提供了一些工具，可以自动把预处理器和模型衔接好，这样你就能按需在 `Pipeline` 上调用 `fit` 和 `transform`，不必额外写代码。
 
 {numref}`fig:05-scaling-plt` 并排展示了两张散点图——一张对应 `unscaled_cancer`，一张对应 `scaled_cancer`。两张图都标出了同一个新观测以及它的 $K=3$ 个最近邻。在未标准化数据那张图里，三个最近邻选得有些奇怪。这些“近邻”从图上看明显落在良性观测的密集区域内部，而且都与新观测近乎排成一条垂直线（所以这张图看起来只有一条黑线）。{numref}`fig:05-scaling-plt-zoomed` 放大了未标准化图上这一区域的细节。在这里，最近邻的计算被标度大得多的面积变量主导了。{numref}`fig:05-scaling-plt` 右侧标准化数据的图，所选的最近邻就直观合理得多。可见，在使用预测算法时，对数据做标准化可能会带来重要改变。标准化应当成为你预测建模之前预处理工作的一部分，并且你始终要仔细考虑自己面对的问题领域，想清楚是否需要标准化数据。
 
@@ -1099,7 +1099,7 @@ glue("fig:05-scaling-plt-zoomed", (zoom_area_smoothness_new_point + line1 + line
 ```{index} 平衡, 不平衡
 ```
 
-分类器所用的数据集还可能存在另一个问题：*类别不平衡（class imbalance）*，也就是某个标签比另一个标签常见得多。像 k 近邻算法这样的分类器，会用附近数据点的标签来预测新数据点的标签；因此，如果总体上看带某个标签的数据点数量多得多，算法总体上就更可能选中这个标签（即使数据呈现的“模式”提示的并非如此）。类别不平衡其实相当常见，也很重要：从罕见病诊断到恶意邮件识别，很多场景中真正需要识别出的那个“重要”类别（患病、恶意邮件）都比“不重要”的类别（未患病、正常邮件）稀有得多。
+分类器所用的数据集还可能存在另一个问题：*类别不平衡（class imbalance）*，也就是某个标签比另一个标签常见得多。像 K 近邻算法这样的分类器，会用附近数据点的标签来预测新数据点的标签；因此，如果总体上看带某个标签的数据点数量多得多，算法总体上就更可能选中这个标签（即使数据呈现的“模式”提示的并非如此）。类别不平衡其实相当常见，也很重要：从罕见病诊断到恶意邮件识别，很多场景中真正需要识别出的那个“重要”类别（患病、恶意邮件）都比“不重要”的类别（未患病、正常邮件）稀有得多。
 
 ```{index} concat
 ```
@@ -1138,7 +1138,7 @@ rare_cancer["Class"].value_counts()
 
 +++
 
-假设现在我们决定在 k 近邻分类中取 $K = 7$。恶性肿瘤只有 3 条观测，于是分类器*无论肿瘤的凹度和周长是多少，都会预测它是良性的*！这是因为在 7 条观测的多数投票中，最多只有 3 条是恶性的（恶性肿瘤观测总共只有 3 条），所以至少 4 条必然是良性的，良性一方总会胜出。例如，{numref}`fig:05-upsample` 展示了一个新肿瘤观测的情形：它与训练数据中被标为恶性的 3 条观测相当接近。
+假设现在我们决定在 K 近邻分类中取 $K = 7$。恶性肿瘤只有 3 条观测，于是分类器*无论肿瘤的凹度和周长是多少，都会预测它是良性的*！这是因为在 7 条观测的多数投票中，最多只有 3 条是恶性的（恶性肿瘤观测总共只有 3 条），所以至少 4 条必然是良性的，良性一方总会胜出。例如，{numref}`fig:05-upsample` 展示了一个新肿瘤观测的情形：它与训练数据中被标为恶性的 3 条观测相当接近。
 
 ```{code-cell} ipython3
 :tags: [remove-cell]
@@ -1204,7 +1204,7 @@ glue("fig:05-upsample", rare_plot)
 
 +++
 
-{numref}`fig:05-upsample-2` 展示了另一种情形：把图中每个区域的背景颜色设为 k 近邻分类器对该位置的新观测会给出的预测。可以看到，判别结果始终是“良性”，对应蓝色。
+{numref}`fig:05-upsample-2` 展示了另一种情形：把图中每个区域的背景颜色设为 K 近邻分类器对该位置的新观测会给出的预测。可以看到，判别结果始终是“良性”，对应蓝色。
 
 ```{code-cell} ipython3
 :tags: [remove-cell]
@@ -1283,7 +1283,7 @@ glue("fig:05-upsample-2", (rare_plot + prediction_plot))
 ```{index} 过采样, DataFrame; sample
 ```
 
-这个问题虽然简单，但要把它处理得在统计上站得住脚，其实相当微妙；真要讲清楚，所需的细节和数学远超本书的范围。就目前的目的而言，只要对稀有类做*过采样（oversampling）*来重新平衡数据就足够了。也就是说，我们在数据集中把稀有观测重复若干次，让它们在 k 近邻算法中获得更大的表决权。为此，我们先用筛选把各个类别拆成各自的数据框；然后对稀有类的数据框使用 `sample` 方法，把 `Malignant` 观测的条数增加到与 `Benign` 观测相同：把 `n` 参数设为想要的 `Malignant` 观测条数，并设 `replace=True` 表示有放回抽样（with replacement）。最后用 `value_counts` 方法查看各类别现在是否已经平衡。注意，`sample` 是*随机*挑选要复制哪些数据的；如何正确处理数据分析中的随机性，我们将在{numref}`第 %s 章 <classification2>`中进一步学习。
+这个问题虽然简单，但要把它处理得在统计上站得住脚，其实相当微妙；真要讲清楚，所需的细节和数学远超本书的范围。就目前的目的而言，只要对稀有类做*过采样（oversampling）*来重新平衡数据就足够了。也就是说，我们在数据集中把稀有观测重复若干次，让它们在 K 近邻算法中获得更大的表决权。为此，我们先用筛选把各个类别拆成各自的数据框；然后对稀有类的数据框使用 `sample` 方法，把 `Malignant` 观测的条数增加到与 `Benign` 观测相同：把 `n` 参数设为想要的 `Malignant` 观测条数，并设 `replace=True` 表示有放回抽样（with replacement）。最后用 `value_counts` 方法查看各类别现在是否已经平衡。注意，`sample` 是*随机*挑选要复制哪些数据的；如何正确处理数据分析中的随机性，我们将在{numref}`第 %s 章 <classification2>`中进一步学习。
 
 ```{code-cell} ipython3
 :tags: [remove-cell]
@@ -1303,7 +1303,7 @@ upsampled_cancer = pd.concat((malignant_cancer_upsample, benign_cancer))
 upsampled_cancer["Class"].value_counts()
 ```
 
-现在假设我们在这个*平衡*数据上用 $K=7$ 训练 k 近邻分类器。这时再把散点图每个区域的背景颜色设为 k 近邻分类器会给出的判别结果，就得到{numref}`fig:05-upsample-plot` 所示的情形。可以看到，判别结果合理多了：点靠近标为恶性的观测时，分类器就预测为恶性肿瘤；反过来，点更接近良性肿瘤观测时，就预测为良性。
+现在假设我们在这个*平衡*数据上用 $K=7$ 训练 K 近邻分类器。这时再把散点图每个区域的背景颜色设为 K 近邻分类器会给出的判别结果，就得到{numref}`fig:05-upsample-plot` 所示的情形。可以看到，判别结果合理多了：点靠近标为恶性的观测时，分类器就预测为恶性肿瘤；反过来，点更接近良性肿瘤观测时，就预测为良性。
 
 ```{code-cell} ipython3
 :tags: [remove-cell]
@@ -1360,7 +1360,7 @@ glue("fig:05-upsample-plot", (rare_plot + upsampled_plot))
 :::{glue:figure} fig:05-upsample-plot
 :name: fig:05-upsample-plot
 
-上采样（upsampling）后的数据，背景颜色表示分类器的判别结果。
+过采样（oversampling）后的数据，背景颜色表示分类器的判别结果。
 :::
 
 ### 缺失数据
@@ -1381,7 +1381,7 @@ missing_cancer["Class"] = missing_cancer["Class"].replace({
 missing_cancer
 ```
 
-回想一下，k 近邻分类通过计算到附近训练观测的直线距离来做预测，因此需要用到训练数据中*所有*观测的*所有*变量取值。那么，数据存在缺失时该怎么用 k 近邻分类呢？既然带缺失项的观测并不算多，一种办法就是在构建 k 近邻分类器之前直接把这些观测删掉。要做到这一点，只需在开始处理数据之前使用 `dropna` 方法。
+回想一下，K 近邻分类通过计算到附近训练观测的直线距离来做预测，因此需要用到训练数据中*所有*观测的*所有*变量取值。那么，数据存在缺失时该怎么用 K 近邻分类呢？既然带缺失项的观测并不算多，一种办法就是在构建 K 近邻分类器之前直接把这些观测删掉。要做到这一点，只需在开始处理数据之前使用 `dropna` 方法。
 
 ```{index} 缺失数据; dropna
 ```
@@ -1448,8 +1448,8 @@ preprocessor = make_column_transformer(
 ```
 
 接下来，我们用
-[`make_pipeline`](https://scikit-learn.org/stable/modules/generated/sklearn.pipeline.make_pipeline.html#sklearn.pipeline.make_pipeline) 函数把这些步骤放进一个 `Pipeline`。`make_pipeline` 函数接收一个步骤列表，按顺序应用到数据分析中；这里我们只有
-`preprocessor` 和 `knn` 两个步骤。最后，我们对流水线调用 `fit`。注意，我们不需要分别对 `preprocessor` 调用 `fit` 和 `transform`，流水线会替我们妥善完成这件事。还请注意，对流水线调用 `fit` 时，可以把整个 `unscaled_cancer` 数据框传给 `X` 参数，因为预处理步骤会丢弃我们列出的两个变量之外的所有变量，也就是 `Area` 和 `Smoothness`。`y` 响应变量参数则和之前一样，传入 `unscaled_cancer["Class"]` 序列。
+[`make_pipeline`](https://scikit-learn.org/stable/modules/generated/sklearn.pipeline.make_pipeline.html#sklearn.pipeline.make_pipeline) 函数把这些步骤放进一个 `Pipeline`。`make_pipeline` 函数接收一个步骤列表，按顺序应用到数据分析中（译注：实际上 make_pipeline 接收的是多个位置参数，例如 make_pipeline(preprocessor, knn)，而不是一个列表）；这里我们只有
+`preprocessor` 和 `knn` 两个步骤。最后，我们对流水线调用 `fit`。注意，我们不需要分别对 `preprocessor` 调用 `fit` 和 `transform`，流水线会替我们妥善完成这件事。还请注意，对流水线调用 `fit` 时，可以把整个 `unscaled_cancer` 数据框传给 `X` 参数，因为预处理步骤会丢弃我们列出的两个变量之外的所有变量，也就是 `Area` 和 `Smoothness`。`y` 响应变量参数则和之前一样，传入 `unscaled_cancer["Class"]` Series。
 
 ```{code-cell} ipython3
 from sklearn.pipeline import make_pipeline
@@ -1470,7 +1470,7 @@ prediction = knn_pipeline.predict(new_observation)
 prediction
 ```
 
-分类器预测第一个观测为良性，第二个为恶性。{numref}`fig:05-workflow-plot` 展示了这个训练好的 k 近邻模型在大量新观测上会做出的预测。你已经见过好几次这样的彩色预测图了，但我们一直没有提供生成它们的代码，因为代码有点复杂。如果你有兴趣挑战一下自己，我们现在把它列在下面。基本思路是：用 `numpy` 的 `meshgrid` 函数造出由合成新观测构成的网格，预测每个点的标签，再用一张透明度很高（`opacity` 取值很小）、点半径很大的彩色散点图把这些预测画出来。看看你能不能弄明白每一行代码在做什么！
+分类器预测第一个观测为良性，第二个为恶性。{numref}`fig:05-workflow-plot` 展示了这个训练好的 K 近邻模型在大量新观测上会做出的预测。你已经见过好几次这样的彩色预测图了，但我们一直没有提供生成它们的代码，因为代码有点复杂。如果你有兴趣挑战一下自己，我们现在把它列在下面。基本思路是：用 `numpy` 的 `meshgrid` 函数造出由合成新观测构成的网格，预测每个点的标签，再用一张透明度很高（`opacity` 取值很小）、点半径很大的彩色散点图把这些预测画出来。看看你能不能弄明白每一行代码在做什么！
 
 ```{note}
 理解这段代码并不是读懂本书后续内容的必需条件。把它列在这里，是供那些希望在自己的数据分析中使用类似可视化的人参考。
@@ -1551,7 +1551,7 @@ glue("fig:05-workflow-plot", (unscaled_plot + prediction_plot))
 
 ## 习题
 
-本章内容的练习题可以在配套的[练习册仓库](https://worksheets.python.datasciencebook.ca)的“分类一：训练与预测（Classification I: training and predicting）”一行中找到。你可以预览本章练习册（worksheet）的非交互版本，只需点击“查看练习册（view worksheet）”。如果要交互式地做习题，请按照练习册仓库中的说明下载所有练习册，并按照{numref}`第 %s 章 <move-to-your-own-machine>`中的计算机环境配置说明操作。这样就能确保练习册提供的自动反馈与引导能按预期正常工作。
+本章内容的练习题可以在配套的[练习册仓库](https://worksheets.python.datasciencebook.ca)的“Classification I: training and predicting（分类 I：训练与预测）”一行中找到。你可以预览本章练习册（worksheet）的非交互版本，只需点击“查看练习册（view worksheet）”。如果要交互式地做习题，请按照练习册仓库中的说明下载所有练习册，并按照{numref}`第 %s 章 <move-to-your-own-machine>`中的计算机环境配置说明操作。这样就能确保练习册提供的自动反馈与引导能按预期正常工作。
 
 
 +++

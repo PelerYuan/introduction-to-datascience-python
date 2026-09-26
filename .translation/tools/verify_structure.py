@@ -63,8 +63,10 @@ def h(s: str) -> str:
 # Normalising both sides through the map keeps the comparison strict: any other URL that
 # appears on one side only still fails.
 URL_FIXES = {
-    # upstream 404 at the time of translation
-    "https://scikit-learn.org/stable/tutorial/index.html": "https://scikit-learn.org/stable/",
+    # upstream 404 at the time of translation; pointed at the User Guide, which is what the
+    # surrounding sentence calls it ("网站还提供了许多实用的[用户指南]...")
+    "https://scikit-learn.org/stable/tutorial/index.html":
+        "https://scikit-learn.org/stable/user_guide.html",
     "https://altair-viz.github.io/user_guide/marks.html":
         "https://altair-viz.github.io/user_guide/marks/index.html",
 }
