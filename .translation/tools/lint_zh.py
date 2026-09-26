@@ -48,6 +48,12 @@ ITALIC_RE = re.compile(r"\*[^*\n]+\*")
 # inside Chinese book-title marks, e.g. 《Good enough practices in scientific computing》.
 # Such spans are deliberate, so they are exempt from the untranslated-prose check.
 BOOK_TITLE_RE = re.compile(r"《[^》\n]*》")
+# A UI label keeps its English so readers can find the button ("GitHub has no Chinese UI"),
+# written as `**中文**（English）` with the gloss outside the bold. That gloss is deliberate
+# English, so it is exempt from the untranslated-prose check. Without the exemption the
+# longest JupyterLab menu item — six Latin words — fails the gate, which forces its gloss
+# inside the bold and makes the book's label formatting inconsistent.
+UI_GLOSS_RE = re.compile(r"\*\*[^*\n]+\*\*（[A-Za-z][^）\n]*）")
 TARGET_RE = re.compile(r"^\([A-Za-z0-9_:\-\.]+\)=\s*$", re.M)
 ESCAPED_DOLLAR = "\\$"
 
@@ -161,7 +167,11 @@ def lint(zh_body: str, allow: set[str]) -> list[dict]:
 
     # 1. untranslated English runs (italic spans exempt)
     for i, line in enumerate(no_roles.splitlines(), 1):
-        scrubbed = ITALIC_RE.sub(" ", line)
+        # UI_GLOSS_RE must run BEFORE ITALIC_RE: ITALIC_RE pairs the inner stars of a
+        # `**bold**` span, so `**中文**（English）` becomes `* *（English）` and the
+        # `**...**（` adjacency this exemption needs is already gone.
+        scrubbed = UI_GLOSS_RE.sub(" ", line)
+        scrubbed = ITALIC_RE.sub(" ", scrubbed)
         scrubbed = BOOK_TITLE_RE.sub(" ", scrubbed)
         for m in WORDS_RE.finditer(scrubbed):
             words = [w.lower().strip("'-") for w in m.group(0).split()]

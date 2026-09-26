@@ -66,14 +66,14 @@ kernelspec:
 
 ```{index} Docker;镜像, Docker;标签
 ```
-**运行 JupyterLab**：运行 Docker Desktop。等它启动之后，需要下载并运行我们为练习册准备好的 Docker *镜像*（image）：*镜像*就像一台预先装好全部正确软件包的计算机的“快照”（snapshot）。这一步只需做一次；下次再运行 Docker Desktop 时，镜像依然会保留。在 Docker Desktop 的搜索栏中输入 `ubcdsci/py-dsci-100`，这就是镜像的名称。列表里会出现 `ubcdsci/py-dsci-100` 镜像（{numref}`docker-desktop-search`），标签（Tag）下拉菜单中显示的是“latest”。继续之前，我们需要把“latest”改成正确的镜像版本。要找到正确的标签，请打开[练习册仓库中的 `Dockerfile`](https://raw.githubusercontent.com/UBC-DSCI/data-science-a-first-intro-python-worksheets/main/Dockerfile)，找到以 `FROM ubcdsci/py-dsci-100:` 开头的那一行，其后跟着由一串数字和字母组成的标签。回到 Docker Desktop，在标签（Tag）下拉菜单中点击该标签，选中正确的镜像版本。然后点击“拉取”（Pull）按钮下载镜像。
+**运行 JupyterLab**：运行 Docker Desktop。等它启动之后，需要下载并运行我们为练习册准备好的 Docker *镜像*（image）：*镜像*就像一台预先装好全部正确软件包的计算机的“快照（snapshot）”。这一步只需做一次；下次再运行 Docker Desktop 时，镜像依然会保留。在 Docker Desktop 的搜索栏中输入 `ubcdsci/py-dsci-100`，这就是镜像的名称。列表里会出现 `ubcdsci/py-dsci-100` 镜像（{numref}`docker-desktop-search`），标签（Tag）下拉菜单中显示的是“latest”。继续之前，我们需要把“latest”改成正确的镜像版本。要找到正确的标签，请打开[练习册仓库中的 `Dockerfile`](https://raw.githubusercontent.com/UBC-DSCI/data-science-a-first-intro-python-worksheets/main/Dockerfile)，找到以 `FROM ubcdsci/py-dsci-100:` 开头的那一行，其后跟着由一串数字和字母组成的标签。回到 Docker Desktop，在标签（Tag）下拉菜单中点击该标签，选中正确的镜像版本。然后点击“拉取（Pull）”按钮下载镜像。
 
 ```{figure} img/setup/docker-1.png
 ---
 height: 400px
 name: docker-desktop-search
 ---
-Docker Desktop 搜索窗口。下载镜像之前，务必点击标签（Tag）下拉菜单，找到正确的镜像版本，再点击“拉取”（Pull）按钮下载。
+Docker Desktop 搜索窗口。下载镜像之前，务必点击标签（Tag）下拉菜单，找到正确的镜像版本，再点击“拉取（Pull）”按钮下载。
 ```
 
 镜像下载完成后，点击 Docker Desktop 窗口左侧的“镜像（Images）”按钮（{numref}`docker-desktop-images`）。在“本地（Local）”标签页下可以看到刚下载的镜像。
@@ -96,7 +96,7 @@ name: docker-desktop-runconfig
 Docker Desktop 的容器运行配置菜单。
 ```
 
-点击“运行”（Run）按钮后，你会看到一个终端。Docker 容器启动时，终端会打印一些文本。等文本不再滚动，在终端里找到以 `http://127.0.0.1:8888` 开头的 URL（在{numref}`docker-desktop-url` 中用红框标出），把它粘贴到浏览器中即可启动 JupyterLab。
+点击“运行（Run）”按钮后，你会看到一个终端。Docker 容器启动时，终端会打印一些文本。等文本不再滚动，在终端里找到以 `http://127.0.0.1:8888` 开头的 URL（在{numref}`docker-desktop-url` 中用红框标出），把它粘贴到浏览器中即可启动 JupyterLab。
 
 ```{figure} img/setup/docker-4.png
 ---
@@ -110,7 +110,7 @@ name: docker-desktop-url
 
 ### macOS
 
-**安装**：要在 macOS 上安装 Docker，请访问[在线 Docker 文档](https://docs.docker.com/desktop/install/mac-install/)，下载适合你计算机的 `Docker.dmg` 安装文件。要确定哪种安装程序适合你的机器，就得先弄清计算机用的是 Intel 处理器（较老的机器）还是 Apple 处理器（较新的机器）；[Apple 支持页面](https://support.apple.com/en-ca/HT211814)上有帮助你判断处理器型号的信息。下载完成后，双击该文件打开安装程序，然后把 Docker 图标拖到“应用程序（Applications）”文件夹。双击“应用程序”（Applications）文件夹中的图标即可启动 Docker。在安装窗口中，采用推荐设置。
+**安装**：要在 macOS 上安装 Docker，请访问[在线 Docker 文档](https://docs.docker.com/desktop/install/mac-install/)，下载适合你计算机的 `Docker.dmg` 安装文件。要确定哪种安装程序适合你的机器，就得先弄清计算机用的是 Intel 处理器（较老的机器）还是 Apple 处理器（较新的机器）；[Apple 支持页面](https://support.apple.com/en-ca/HT211814)上有帮助你判断处理器型号的信息。下载完成后，双击该文件打开安装程序，然后把 Docker 图标拖到“应用程序（Applications）”文件夹。双击“应用程序（Applications）”文件夹中的图标即可启动 Docker。在安装窗口中，采用推荐设置。
 
 **运行 JupyterLab**：运行 Docker Desktop。等它启动之后，按上面 Windows 一节中*运行 JupyterLab* 的说明操作（用户界面完全相同）。有关在 macOS 上安装和运行 Docker 的更多信息以及故障排除技巧，参见[在线 Docker 文档](https://docs.docker.com/desktop/install/mac-install/)。
 
@@ -152,7 +152,7 @@ name: ubuntu-docker-terminal
 
 ### Windows
 
-**安装**：首先安装用于版本控制的 Git。打开 [Git 下载页面](https://git-scm.com/download/win)，下载 Windows 版 Git。下载完成后，运行安装程序，所有页面都接受默认配置。接着访问 [JupyterLab Desktop 主页的“安装”（Installation）一节](https://github.com/jupyterlab/jupyterlab-desktop#installation)。下载适用于 Windows 的 `JupyterLab-Setup-Windows.exe` 安装文件。双击安装程序运行，采用默认设置。点击桌面上的图标即可运行 JupyterLab Desktop。
+**安装**：首先安装用于版本控制的 Git。打开 [Git 下载页面](https://git-scm.com/download/win)，下载 Windows 版 Git。下载完成后，运行安装程序，所有页面都接受默认配置。接着访问 [JupyterLab Desktop 主页的“安装（Installation）”一节](https://github.com/jupyterlab/jupyterlab-desktop#installation)。下载适用于 Windows 的 `JupyterLab-Setup-Windows.exe` 安装文件。双击安装程序运行，采用默认设置。点击桌面上的图标即可运行 JupyterLab Desktop。
 
 
 **配置 JupyterLab Desktop**：接下来，在弹出的 JupyterLab Desktop 图形界面中（{numref}`setup-jlab-gui`），底部会显示“未找到 Python 环境（Python environment not found）”这段文字。点击“使用自带安装程序安装（Install using the bundled installer）”来配置环境。
@@ -193,7 +193,7 @@ conda env update --file https://raw.githubusercontent.com/UBC-DSCI/data-science-
 :tags: ["remove-output"]
 xcode-select --install
 ```
-接着访问 [JupyterLab Desktop 主页的“安装”（Installation）一节](https://github.com/jupyterlab/jupyterlab-desktop#installation)。下载 `JupyterLab-Setup-MacOS-x64.dmg` 或 `JupyterLab-Setup-MacOS-arm64.dmg` 安装文件。要确定哪种安装程序适合你的机器，得先弄清计算机用的是 Intel 处理器（较老的机器）还是 Apple 处理器（较新的机器）；[Apple 支持页面](https://support.apple.com/en-ca/HT211814)上有帮助你判断处理器型号的信息。下载完成后，双击该文件打开安装程序，然后把 JupyterLab Desktop 图标拖到“应用程序”（Applications）文件夹。双击“应用程序”（Applications）文件夹中的图标即可启动 JupyterLab Desktop。
+接着访问 [JupyterLab Desktop 主页的“安装（Installation）”一节](https://github.com/jupyterlab/jupyterlab-desktop#installation)。下载 `JupyterLab-Setup-MacOS-x64.dmg` 或 `JupyterLab-Setup-MacOS-arm64.dmg` 安装文件。要确定哪种安装程序适合你的机器，得先弄清计算机用的是 Intel 处理器（较老的机器）还是 Apple 处理器（较新的机器）；[Apple 支持页面](https://support.apple.com/en-ca/HT211814)上有帮助你判断处理器型号的信息。下载完成后，双击该文件打开安装程序，然后把 JupyterLab Desktop 图标拖到“应用程序（Applications）”文件夹。双击“应用程序（Applications）”文件夹中的图标即可启动 JupyterLab Desktop。
 
 **配置 JupyterLab Desktop**：从这里往后，请让 JupyterLab Desktop 保持运行，按 Windows 一节中*配置 JupyterLab Desktop* 的说明来配置环境、安装 JupyterLab Git 扩展，并安装练习册所需的各种 Python 软件包。
 
@@ -205,7 +205,7 @@ xcode-select --install
 sudo apt update
 sudo apt install git
 ```
-接着访问 [JupyterLab Desktop 主页的“安装”（Installation）一节](https://github.com/jupyterlab/jupyterlab-desktop#installation)。下载适用于 Ubuntu/Debian 的 `JupyterLab-Setup-Debian.deb` 安装文件。打开终端，切换到安装文件下载到的位置，然后运行命令
+接着访问 [JupyterLab Desktop 主页的“安装（Installation）”一节](https://github.com/jupyterlab/jupyterlab-desktop#installation)。下载适用于 Ubuntu/Debian 的 `JupyterLab-Setup-Debian.deb` 安装文件。打开终端，切换到安装文件下载到的位置，然后运行命令
 ```{code-cell}
 :tags: ["remove-output"]
 sudo dpkg -i JupyterLab-Setup-Debian.deb

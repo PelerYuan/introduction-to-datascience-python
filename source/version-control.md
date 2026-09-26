@@ -197,7 +197,7 @@ name: vc7-pull
 ---
 name: new-repository-01
 ---
-在 GitHub 上，点击 + 菜单中的“新建仓库”（New Repository）即可创建新仓库。
+在 GitHub 上，点击 + 菜单中的“新建仓库（New Repository）”即可创建新仓库。
 ```
 
 ```{index} 仓库;公开, 仓库;私有
@@ -257,7 +257,7 @@ name: pen-tool-02
 
 修改完成后，可以通过*提交*更改把它们“保存”下来。在仓库中*提交文件*时，版本控制系统会为这个文件当时的样子拍一张快照。随着项目不断推进，你可能会对同一个文件做出许多次提交，这就为该文件生成了一份有用的版本历史。在 GitHub 上，点击绿色的“提交更改（Commit changes）”按钮，就会保存文件并完成一次提交（{numref}`pen-tool-03`）。
 
-回想{numref}`commit-changes`讲过的内容：通常必须先把文件加入暂存区，然后才能提交。那么直接在 GitHub 上操作时，为什么不必这么做呢？因为在幕后，你点击绿色的“提交更改”（Commit changes）按钮时，GitHub 确实在提交之前把这个文件加入了暂存区。不过请注意，在 GitHub 上一次只能提交一个文件的更改。而在自己的本地仓库中工作时，你可以同时提交多个文件的更改。如果项目的一次“改进”要改动多个文件，这一点尤其有用。在本地仓库中工作时，你还能运行代码，这在 GitHub 上是做不到的。一般来说，在 GitHub 上编辑只适合对纯文本文件做小幅修改。
+回想{numref}`commit-changes`讲过的内容：通常必须先把文件加入暂存区，然后才能提交。那么直接在 GitHub 上操作时，为什么不必这么做呢？因为在幕后，你点击绿色的“提交更改（Commit changes）”按钮时，GitHub 确实在提交之前把这个文件加入了暂存区。不过请注意，在 GitHub 上一次只能提交一个文件的更改。而在自己的本地仓库中工作时，你可以同时提交多个文件的更改。如果项目的一次“改进”要改动多个文件，这一点尤其有用。在本地仓库中工作时，你还能运行代码，这在 GitHub 上是做不到的。一般来说，在 GitHub 上编辑只适合对纯文本文件做小幅修改。
 
 ```{figure} img/version-control/pen-tool_03.png
 ---
@@ -266,12 +266,12 @@ name: pen-tool-03
 用铅笔工具保存更改时，必须提交这些更改并附上相应的提交信息。
 ```
 
-### 用“添加文件”（Add file）菜单在 GitHub 上创建文件
+### 用“添加文件（Add file）”菜单在 GitHub 上创建文件
 
 ```{index} GitHub; 添加文件
 ```
 
-“添加文件”（Add file）菜单可以用来创建新的纯文本文件，也可以从你的电脑上传文件。要新建纯文本文件，请点击“添加文件”（Add file）下拉菜单，选择“新建文件”（Create new file）选项（{numref}`create-new-file-01`）。
+“添加文件（Add file）”菜单可以用来创建新的纯文本文件，也可以从你的电脑上传文件。要新建纯文本文件，请点击“添加文件（Add file）”下拉菜单，选择“新建文件（Create new file）”选项（{numref}`create-new-file-01`）。
 
 ```{figure} img/version-control/create-new-file_01.png
 ---
@@ -283,7 +283,7 @@ name: create-new-file-01
 ```{index} markdown
 ```
 
-页面打开后，会有一个填写文件名的小文本框，还有一个填写文件内容的大文本框。注意“编辑新文件（Edit new file）”和“预览（Preview）”这两个标签页。在两者之间切换，就能分别输入、编辑文本，以及查看文本渲染后的样子（{numref}`create-new-file-02`）。GitHub 能够识别并渲染 `.md` 文件，它使用的 markdown 语法与 Jupyter 笔记本非常相似，所以“预览”（Preview）标签页对检查 markdown 代码是否正确特别有帮助。
+页面打开后，会有一个填写文件名的小文本框，还有一个填写文件内容的大文本框。注意“编辑新文件（Edit new file）”和“预览（Preview）”这两个标签页。在两者之间切换，就能分别输入、编辑文本，以及查看文本渲染后的样子（{numref}`create-new-file-02`）。GitHub 能够识别并渲染 `.md` 文件，它使用的 markdown 语法与 Jupyter 笔记本非常相似，所以“预览（Preview）”标签页对检查 markdown 代码是否正确特别有帮助。
 
 ```{figure} img/version-control/create-new-file_02.png
 ---
@@ -292,7 +292,7 @@ name: create-new-file-02
 新建纯文本文件时，需要在红圈标出的文本框中填写文件名，并在较大的文本框中填写文件内容（红色箭头）。
 ```
 
-点击页面底部绿色的“提交更改”（Commit changes）按钮，即可保存并提交你的更改（{numref}`create-new-file-03`）。
+点击页面底部绿色的“提交更改（Commit changes）”按钮，即可保存并提交你的更改（{numref}`create-new-file-03`）。
 
 ```{figure} img/version-control/create-new-file_03.png
 ---
@@ -301,7 +301,7 @@ name: create-new-file-03
 新建的文件必须连同相应的提交信息一起提交，才能保存下来。
 ```
 
-你也可以用“添加文件”（Add file）下拉菜单，选择“上传文件”（Upload files），把在本地电脑上创建的文件上传上去（{numref}`upload-files-01`）。要从本地电脑选择要上传的文件，你可以把它们拖放到{numref}`upload-files-02` 所示的灰色方框区域，也可以点击“选择文件（choose your files）”链接，打开文件浏览对话框。选好要上传的文件后，点击页面底部绿色的“提交更改”（Commit changes）按钮（{numref}`upload-files-02`）。
+你也可以用“添加文件（Add file）”下拉菜单，选择“上传文件（Upload files）”，把在本地电脑上创建的文件上传上去（{numref}`upload-files-01`）。要从本地电脑选择要上传的文件，你可以把它们拖放到{numref}`upload-files-02` 所示的灰色方框区域，也可以点击“选择文件（choose your files）”链接，打开文件浏览对话框。选好要上传的文件后，点击页面底部绿色的“提交更改（Commit changes）”按钮（{numref}`upload-files-02`）。
 
 ```{figure} img/version-control/upload-files_01.png
 ---
@@ -314,7 +314,7 @@ name: upload-files-01
 ---
 name: upload-files-02
 ---
-将要上传的文件拖入 GitHub 网站（红圈处），或者点击“选择文件”（choose your files），即可指定要上传的文件。上传的文件同样必须连同相应的提交信息一起提交。
+将要上传的文件拖入 GitHub 网站（红圈处），或者点击“选择文件（choose your files）”，即可指定要上传的文件。上传的文件同样必须连同相应的提交信息一起提交。
 ```
 
 
@@ -340,7 +340,7 @@ name: upload-files-02
 ---
 name: generate-pat-01
 ---
-用于发起创建新个人访问令牌的“生成新令牌”（Generate new token）按钮。它位于账户设置的“开发者设置（Developer settings）”页面中的“个人访问令牌”（Personal access tokens）部分。
+用于发起创建新个人访问令牌的“生成新令牌（Generate new token）”按钮。它位于账户设置的“开发者设置（Developer settings）”页面中的“个人访问令牌（Personal access tokens）”部分。
 ```
 
 
@@ -374,7 +374,7 @@ name: generate-pat-03
 ---
 name: clone-02
 ---
-绿色的“代码”（Code）下拉菜单中包含与 GitHub 远程仓库位置对应的远程地址（URL）。
+绿色的“代码（Code）”下拉菜单中包含与 GitHub 远程仓库位置对应的远程地址（URL）。
 ```
 
 打开 Jupyter，点击文件浏览器标签页上的 Git+ 图标（{numref}`clone-01`）。
@@ -423,7 +423,7 @@ Jupyter Git 扩展图标（红圈标出）。
 
 这会打开 Jupyter Git 图形用户界面面板。接下来，点击想要“添加”的文件旁边的加号（+）（{numref}`git-add-02`）。注意，由于这是该文件的第一次改动，它出现在“未跟踪（Untracked）”分组下。不过下次你再编辑这个文件并想添加更改时，会在“已修改（Changed）”分组下找到它。
 
-你还会在“未跟踪”（Untracked）分组下看到一个 `eda-checkpoint.ipynb` 文件。这是你在编辑 `eda.ipynb` 时由 Jupyter 创建的临时“检查点文件（checkpoint file）”。一般来说，不要把自动生成的文件添加到 Git 仓库中；只添加你自己直接创建和编辑的文件。
+你还会在“未跟踪（Untracked）”分组下看到一个 `eda-checkpoint.ipynb` 文件。这是你在编辑 `eda.ipynb` 时由 Jupyter 创建的临时“检查点文件（checkpoint file）”。一般来说，不要把自动生成的文件添加到 Git 仓库中；只添加你自己直接创建和编辑的文件。
 
 ```{figure} img/version-control/git_add_02.png
 ---
@@ -432,7 +432,7 @@ name: git-add-02
 用加号（+）把 `eda.ipynb` 加入暂存区。
 ```
 
-点击加号（+）会把文件从“未跟踪”（Untracked）分组移到“已暂存”（Staged）分组，这样 Git 就知道你想把文件当前的状态拍成快照，作为一次提交（{numref}`git-add-03`）。现在你可以“提交”这些更改了。记得写一句（清楚、有用的！）说明，讲清改动了什么，好让你的协作者（以及未来的你）了解这次提交做了什么。
+点击加号（+）会把文件从“未跟踪（Untracked）”分组移到“已暂存（Staged）”分组，这样 Git 就知道你想把文件当前的状态拍成快照，作为一次提交（{numref}`git-add-03`）。现在你可以“提交”这些更改了。记得写一句（清楚、有用的！）说明，讲清改动了什么，好让你的协作者（以及未来的你）了解这次提交做了什么。
 
 
 ```{figure} img/version-control/git_add_03.png
@@ -448,16 +448,16 @@ name: git-add-03
 ```{index} git;提交
 ```
 
-要把更改连同相应的提交信息保存为快照，你必须在 Git 面板底部的文本框中填写一条信息，然后点击蓝色的“提交（Commit）”按钮（{numref}`git-commit-01`）。强烈建议写下有用、有意义的信息，说明改动了什么。今后如果需要查看或取回文件的某个历史版本，或者把项目回退到更早的状态，这些提交信息以及每次提交的日期时间戳就是浏览项目历史的主要依据。第一次点击“提交”（Commit）按钮时，系统会提示你输入姓名和电子邮件。每台使用 Git 的机器只需设置一次。
+要把更改连同相应的提交信息保存为快照，你必须在 Git 面板底部的文本框中填写一条信息，然后点击蓝色的“提交（Commit）”按钮（{numref}`git-commit-01`）。强烈建议写下有用、有意义的信息，说明改动了什么。今后如果需要查看或取回文件的某个历史版本，或者把项目回退到更早的状态，这些提交信息以及每次提交的日期时间戳就是浏览项目历史的主要依据。第一次点击“提交（Commit）”按钮时，系统会提示你输入姓名和电子邮件。每台使用 Git 的机器只需设置一次。
 
 ```{figure} img/version-control/git_commit_01.png
 ---
 name: git-commit-01
 ---
-必须先在 Jupyter Git 扩展的提交文本框中填写提交信息，才能用蓝色的“提交”（Commit）按钮记录这次提交。
+必须先在 Jupyter Git 扩展的提交文本框中填写提交信息，才能用蓝色的“提交（Commit）”按钮记录这次提交。
 ```
 
-“提交”文件之后，你会看到“已暂存”（Staged）文件的数目是 0。现在你可以把更改推送到 GitHub 上的远程仓库了（{numref}`git-commit-03`）。
+“提交”文件之后，你会看到“已暂存（Staged）”文件的数目是 0。现在你可以把更改推送到 GitHub 上的远程仓库了（{numref}`git-commit-03`）。
 
 ```{figure} img/version-control/git_commit_03.png
 ---
@@ -520,7 +520,7 @@ GitHub 网页界面会显示提交信息的预览，以及每个文件最近一�
 ---
 name: add-collab-01
 ---
-GitHub 网页界面上的“设置”（Settings）选项卡。
+GitHub 网页界面上的“设置（Settings）”选项卡。
 ```
 
 然后点击“管理访问权限（Manage access）”（{numref}`add-collab-02`）。
@@ -529,7 +529,7 @@ GitHub 网页界面上的“设置”（Settings）选项卡。
 ---
 name: add-collab-02
 ---
-GitHub 网页界面上的“管理访问权限”（Manage access）选项卡。
+GitHub 网页界面上的“管理访问权限（Manage access）”选项卡。
 ```
 
 然后点击绿色的“邀请协作者（Invite a collaborator）”按钮（{numref}`add-collab-03`）。
@@ -538,7 +538,7 @@ GitHub 网页界面上的“管理访问权限”（Manage access）选项卡。
 ---
 name: add-collab-03
 ---
-GitHub 网页界面上的“邀请协作者”（Invite a collaborator）按钮。
+GitHub 网页界面上的“邀请协作者（Invite a collaborator）”按钮。
 ```
 
 输入协作者的 GitHub 用户名或邮箱，名字出现时选中它（{numref}`add-collab-04`）。
@@ -559,7 +559,7 @@ name: add-collab-05
 GitHub 网页界面上把协作者添加到仓库的确认按钮。
 ```
 
-完成之后，你应该能在“管理访问权限”（Manage access）选项卡下看到刚添加的协作者。他们应该会收到一封电子邮件邀请，邀请他们作为协作者加入该 GitHub 仓库。他们需要接受邀请，写权限才会生效。
+完成之后，你应该能在“管理访问权限（Manage access）”选项卡下看到刚添加的协作者。他们应该会收到一封电子邮件邀请，邀请他们作为协作者加入该 GitHub 仓库。他们需要接受邀请，写权限才会生效。
 
 ### 用 Jupyter 从 GitHub 拉取更改
 
@@ -584,7 +584,7 @@ name: git-pull-01
 Jupyter Git 扩展的拉取按钮（译注：原文此处误作“克隆按钮”）。
 ```
 
-文件成功地从 GitHub 拉取之后，你需要点击“关闭”（Dismiss）才能继续工作（{numref}`git-pull-02`）。
+文件成功地从 GitHub 拉取之后，你需要点击“关闭（Dismiss）”才能继续工作（{numref}`git-pull-02`）。
 
 ```{figure} img/version-control/git_pull_02.png
 ---
@@ -676,13 +676,13 @@ name: merge-conflict-06
 
 GitHub 的*议题*是电子邮件和即时通讯应用之外的另一种书面沟通媒介，专门为方便项目内的沟通而设计。议题从项目 GitHub 页面上的“议题（Issues）”选项卡*发起*，即使对话结束、议题被*关闭*，它们也会留在那里（与电子邮件不同，议题通常不会被删除）。通常每个话题建一个议题讨论串，用 GitHub 的搜索工具很容易找到它们。所有议题对所有协作者都可见，因此没有人会被排除在对话之外。最后，议题还可以设置成让团队成员在有人创建新议题或在议题讨论串中发帖时收到电子邮件通知。也可以直接从电子邮件回复议题。既然有这么多好处，我们强烈建议在项目沟通中使用议题。
 
-要发起 GitHub 议题，先点击“议题”（Issues）选项卡（{numref}`issue-01`）。
+要发起 GitHub 议题，先点击“议题（Issues）”选项卡（{numref}`issue-01`）。
 
 ```{figure} img/version-control/issue_01.png
 ---
 name: issue-01
 ---
-GitHub 网页界面上的“议题”（Issues）选项卡。
+GitHub 网页界面上的“议题（Issues）”选项卡。
 ```
 
 接着点击“新建议题（New issue）”按钮（{numref}`issue-02`）。
@@ -691,7 +691,7 @@ GitHub 网页界面上的“议题”（Issues）选项卡。
 ---
 name: issue-02
 ---
-GitHub 网页界面上的“新建议题”（New issue）按钮。
+GitHub 网页界面上的“新建议题（New issue）”按钮。
 ```
 
 填写议题标题（作用类似电子邮件的主题行），然后在较大的文本框中填写正文。最后点击“提交新议题（Submit new issue）”发布议题，与其他人分享（{numref}`issue-03`）。
@@ -713,13 +713,13 @@ name: issue-04
 ```
 
 
-对话结束后，可以点击“关闭议题（Close issue）”。已关闭的议题以后可以通过“议题”（Issues）选项卡中的“已关闭”（Closed）标题链接查看（{numref}`issue-06`）。
+对话结束后，可以点击“关闭议题（Close issue）”。已关闭的议题以后可以通过“议题（Issues）”选项卡中的“已关闭（Closed）”标题链接查看（{numref}`issue-06`）。
 
 ```{figure} img/version-control/issue_06.png
 ---
 name: issue-06
 ---
-GitHub 网页界面上的“已关闭”（Closed）议题选项卡。
+GitHub 网页界面上的“已关闭（Closed）”议题选项卡。
 ```
 
 ## 习题

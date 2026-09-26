@@ -1023,7 +1023,7 @@ Airbnb 房源每晚价格的样本均值为 \${glue:text}`one_sample_mean`，而
 
 ## 习题
 
-本章内容的配套练习题见[练习册仓库](https://worksheets.python.datasciencebook.ca)中“Statistical inference（统计推断）”那两行。点击“查看练习册”（view worksheet）即可预览本章每份练习册的非交互版本。若要交互式地做这些习题，请按照练习册仓库中的说明下载全部练习册，并按{numref}`第 %s 章 <move-to-your-own-machine>`中给出的计算机环境配置说明操作。这样才能确保练习册提供的自动反馈与指导按预期正常工作。
+本章内容的配套练习题见[练习册仓库](https://worksheets.python.datasciencebook.ca)中“Statistical inference（统计推断）”那两行。点击“查看练习册（view worksheet）”即可预览本章每份练习册的非交互版本。若要交互式地做这些习题，请按照练习册仓库中的说明下载全部练习册，并按{numref}`第 %s 章 <move-to-your-own-machine>`中给出的计算机环境配置说明操作。这样才能确保练习册提供的自动反馈与指导按预期正常工作。
 
 +++
 

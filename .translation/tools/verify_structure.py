@@ -42,6 +42,12 @@ TITLED_DIRECTIVES = {
 ROLE_RE = re.compile(r"\{([a-z]+(?::[a-z]+)?)\}`([^`]*)`")
 INLINE_CODE_RE = re.compile(r"(?<!`)(`+)(?!`)(.+?)(?<!`)\1(?!`)")
 MATH_RE = re.compile(r"\${1,2}[^$]+\${1,2}")
+# An English ordinal superscript has no Chinese counterpart: "the $i^\text{th}$ observation"
+# is 「第 $i$ 个观测」, and keeping \text{th} next to 「第」 would repeat the ordinal. Both
+# sides are normalised, so the gate stays strict about every other formula.
+MATH_FIXES = {
+    r"$i^\text{th}$": "$i$",
+}
 ESCAPED_DOLLAR = "\\$"
 # Translators may append a provisional terminology register; the assembler strips it
 # before the chapter is written, so the verifier must ignore it too.
@@ -186,7 +192,8 @@ def structure(text: str) -> dict:
     # between them, which makes the `math` field compare translatable text.
     math_src = prose_wo_roles.replace(ESCAPED_DOLLAR, "\\\x00")
     inline_codes = Counter(m.group(2).strip() for m in INLINE_CODE_RE.finditer(prose_wo_roles))
-    math = Counter(m.group(0).strip() for m in MATH_RE.finditer(math_src))
+    math = Counter(MATH_FIXES.get(m.group(0).strip(), m.group(0).strip())
+               for m in MATH_RE.finditer(math_src))
     urls = Counter(canon_url(m.group(1)) for m in LINK_RE.finditer(prose_all))
     urls.update(canon_url(u) for u in IMG_SRC_RE.findall(prose_all))
     headings = [len(m.group(1)) for m in (HEADING_RE.match(l) for l in prose_all.splitlines()) if m]
