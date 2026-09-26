@@ -433,7 +433,7 @@ document.write(`
 <section id="id7">
 <h3><span class="section-number">11.4.1. </span>运行代码单元格<a class="headerlink" href="#id7" title="Permalink to this heading">#</a></h3>
 <p id="index-3">代码单元格既可以单独运行，也可以作为运行整个笔记本的一部分来执行——后者要用到 Jupyter 的<strong>运行</strong>（Run）菜单或<strong>内核</strong>（Kernel）菜单里的“<strong>运行全部单元格</strong>（Run All Cells）”命令。单独运行一个代码单元格，通常是在编辑或编写自己的 Python 代码时采用的做法。运行整个笔记本，通常是为了在把分析分享给别人之前确认它能完整运行，另外也用于把笔记本纳入自动化流程的场合。</p>
-<p>要单独运行某个代码单元格，先要激活它：用光标点击该单元格即可。Jupyter 会在单元格左侧用一个蓝色矩形框把它高亮出来，表示已经激活。单元格激活后（<a class="reference internal" href="#activate-and-run-button"><span class="std std-numref">图 11.4</span></a>），既可以按工具栏上的<strong>运行</strong>（Run）（⏵）按钮来运行，也可以使用键盘快捷键 <code class="docutils literal notranslate"><span class="pre">Shift</span> <span class="pre">+</span> <span class="pre">Enter</span></code>。</p>
+<p>要单独运行某个代码单元格，先要激活它：用光标点击该单元格即可。Jupyter 会在单元格左侧用一个蓝色矩形框把它高亮出来，表示已经激活。单元格激活后（<a class="reference internal" href="#activate-and-run-button"><span class="std std-numref">图 11.4</span></a>），既可以按工具栏上的<strong>运行</strong>（Run，⏵）按钮来运行，也可以使用键盘快捷键 <code class="docutils literal notranslate"><span class="pre">Shift</span> <span class="pre">+</span> <span class="pre">Enter</span></code>。</p>
 <figure class="align-default" id="activate-and-run-button">
 <img alt="_images/activate-and-run-button-annotated.png" src="_images/activate-and-run-button-annotated.png" />
 <figcaption>
@@ -443,14 +443,14 @@ document.write(`
 <p>要运行整个笔记本中的全部代码单元格，有三种办法：</p>
 <ol class="arabic simple">
 <li><p>在菜单中选择<strong>运行</strong>（Run） &gt;&gt; <strong>运行全部单元格</strong>（Run All Cells）。</p></li>
-<li><p>在菜单中选择<strong>内核</strong>（Kernel） &gt;&gt; <strong>重启内核并运行全部单元格（Restart Kernel and Run All Cells…）</strong>（<a class="reference internal" href="#restart-kernel-run-all"><span class="std std-numref">图 11.5</span></a>）。</p></li>
+<li><p>在菜单中选择<strong>内核</strong>（Kernel） &gt;&gt; <strong>重启内核并运行全部单元格</strong>（Restart Kernel and Run All Cells…）（<a class="reference internal" href="#restart-kernel-run-all"><span class="std std-numref">图 11.5</span></a>）。</p></li>
 <li><p>点击工具栏上的（⏭）按钮。</p></li>
 </ol>
 <p>这些命令都会运行笔记本中的全部代码单元格。不过它们之间有一点细微差别：只有上面第 2 种和第 3 种办法会在运行所有单元格之前重启 Python 会话，第 1 种不会重启会话。重启 Python 会话意味着，在这条命令执行之前由运行单元格创建的所有对象都会被删除。换句话说，先重启会话再运行所有单元格（第 2 种或第 3 种办法），相当于在运行整个笔记本之前把 Jupyter 完全重启了一遍。</p>
 <figure class="align-default" id="restart-kernel-run-all">
 <img alt="_images/restart-kernel-run-all.png" src="_images/restart-kernel-run-all.png" />
 <figcaption>
-<p><span class="caption-number">图 11.5 </span><span class="caption-text">点击<strong>重启内核并运行全部单元格……（Restart Kernel and Run All Cells…）</strong>，即可重启 Python 会话。</span><a class="headerlink" href="#restart-kernel-run-all" title="永久链接至图片">#</a></p>
+<p><span class="caption-number">图 11.5 </span><span class="caption-text">点击<strong>重启内核并运行全部单元格……</strong>（Restart Kernel and Run All Cells…），即可重启 Python 会话。</span><a class="headerlink" href="#restart-kernel-run-all" title="永久链接至图片">#</a></p>
 </figcaption>
 </figure>
 </section>
@@ -480,7 +480,7 @@ document.write(`
 <p id="index-6">Jupyter 笔记本中存放文本的单元格称为 Markdown 单元格。Markdown 单元格是富文本（rich text）单元格，也就是说，你可以把文字<strong>加粗</strong>、<em>设为斜体</em>，创建各级标题，创建项目符号列表和编号列表，等等。这些单元格之所以叫“Markdown”，是因为它们用 <em>Markdown 语言</em>来指定富文本格式。在 Jupyter 的 Markdown 单元格里写文字，并不需要先学会 Markdown；直接用纯文本也完全没问题。不过，你以后可能还是想了解一点 Markdown，这样才能做出格式美观的分析文档。从哪里开始学 Markdown，可以看本章末尾的拓展资源。</p>
 <section id="id10">
 <h3><span class="section-number">11.5.1. </span>编辑 Markdown 单元格<a class="headerlink" href="#id10" title="Permalink to this heading">#</a></h3>
-<p>要编辑 Jupyter 中的 Markdown 单元格，需要双击该单元格。双击之后，会显示未格式化的文本，也就是<em>未渲染</em>（unrendered）的版本（<a class="reference internal" href="#markdown-cell-not-run"><span class="std std-numref">图 11.7</span></a>）。然后就可以用键盘编辑文本了。要查看格式化（即<em>已渲染</em>）后的文本（<a class="reference internal" href="#markdown-cell-run"><span class="std std-numref">图 11.8</span></a>），点击工具栏上的<strong>运行</strong>（Run）（⏵）按钮，或使用 <code class="docutils literal notranslate"><span class="pre">Shift</span> <span class="pre">+</span> <span class="pre">Enter</span></code> 快捷键。</p>
+<p>要编辑 Jupyter 中的 Markdown 单元格，需要双击该单元格。双击之后，会显示未格式化的文本，也就是<em>未渲染</em>（unrendered）的版本（<a class="reference internal" href="#markdown-cell-not-run"><span class="std std-numref">图 11.7</span></a>）。然后就可以用键盘编辑文本了。要查看格式化（即<em>已渲染</em>）后的文本（<a class="reference internal" href="#markdown-cell-run"><span class="std std-numref">图 11.8</span></a>），点击工具栏上的<strong>运行</strong>（Run，⏵）按钮，或使用 <code class="docutils literal notranslate"><span class="pre">Shift</span> <span class="pre">+</span> <span class="pre">Enter</span></code> 快捷键。</p>
 <figure class="align-default" id="markdown-cell-not-run">
 <img alt="_images/markdown-cell-not-run.png" src="_images/markdown-cell-not-run.png" />
 <figcaption>
@@ -513,7 +513,7 @@ document.write(`
 <h2><span class="section-number">11.7. </span>运行笔记本的最佳实践<a class="headerlink" href="#id13" title="Permalink to this heading">#</a></h2>
 <section id="id14">
 <h3><span class="section-number">11.7.1. </span>运行代码单元格的最佳实践<a class="headerlink" href="#id14" title="Permalink to this heading">#</a></h3>
-<p id="index-7">读到这里，你大概已经知道（至少能想到），Jupyter 笔记本非常擅长交互式地编辑、编写和运行 Python 代码——它们本来就是为此设计的！因此，Jupyter 笔记本在代码单元格的执行顺序上很灵活。这种灵活性意味着，用<strong>运行</strong>（Run）（⏵）按钮可以按任意顺序运行代码单元格。但这种灵活性也有代价：可能让笔记本的代码无法按线性顺序（从笔记本顶部到底部）执行。非线性笔记本会带来麻烦，因为代码文档习惯上都按线性顺序运行，别人运行你的笔记本时也会这样期待。最后，如果代码要用在某种自动化流程中，就必须按线性顺序、从笔记本顶部到底部运行。</p>
+<p id="index-7">读到这里，你大概已经知道（至少能想到），Jupyter 笔记本非常擅长交互式地编辑、编写和运行 Python 代码——它们本来就是为此设计的！因此，Jupyter 笔记本在代码单元格的执行顺序上很灵活。这种灵活性意味着，用<strong>运行</strong>（Run，⏵）按钮可以按任意顺序运行代码单元格。但这种灵活性也有代价：可能让笔记本的代码无法按线性顺序（从笔记本顶部到底部）执行。非线性笔记本会带来麻烦，因为代码文档习惯上都按线性顺序运行，别人运行你的笔记本时也会这样期待。最后，如果代码要用在某种自动化流程中，就必须按线性顺序、从笔记本顶部到底部运行。</p>
 <p>最容易在不经意间做出非线性笔记本的做法，就是只靠（⏵）按钮来运行单元格。例如，假设你写了一段 Python 代码来创建一个 Python 对象，比如名为 <code class="docutils literal notranslate"><span class="pre">y</span></code> 的变量。运行该单元格、创建出 <code class="docutils literal notranslate"><span class="pre">y</span></code> 之后，它会一直存在，直到你用 Python 代码特意删除它，或者 Jupyter 笔记本的 Python 会话（<em>即</em>内核）被停止或重启。它也可以被另一个不同的代码单元格引用（<a class="reference internal" href="#out-of-order-1"><span class="std std-numref">图 11.10</span></a>）。这两点合起来意味着：你可以在笔记本更靠前的位置写一个引用 <code class="docutils literal notranslate"><span class="pre">y</span></code> 的单元格，并在当前会话中顺利运行而不报错（<a class="reference internal" href="#out-of-order-2"><span class="std std-numref">图 11.11</span></a>）。在以后的会话中，只有当你按同样不合常规的顺序运行这些单元格，才可能成功。可是这种不合常规的顺序很难记住，也不是别人期望的执行顺序。所以以后按常规的线性顺序运行这个笔记本时，就会出错（<a class="reference internal" href="#out-of-order-3"><span class="std std-numref">图 11.12</span></a>）。</p>
 <figure class="align-default" id="out-of-order-1">
 <img alt="_images/out-of-order-1.png" src="_images/out-of-order-1.png" />
@@ -530,12 +530,12 @@ document.write(`
 <figure class="align-default" id="out-of-order-3">
 <img alt="_images/out-of-order-3.png" src="_images/out-of-order-3.png" />
 <figcaption>
-<p><span class="caption-number">图 11.12 </span><span class="caption-text">乱序编写，并用“<strong>重启内核并运行全部单元格……（Restart Kernel and Run All Cells…）</strong>”按线性顺序运行的代码。结果第二个代码单元格运行时出错，没能把笔记本中的全部代码单元格都运行完。</span><a class="headerlink" href="#out-of-order-3" title="永久链接至图片">#</a></p>
+<p><span class="caption-number">图 11.12 </span><span class="caption-text">乱序编写，并用“<strong>重启内核并运行全部单元格……</strong>（Restart Kernel and Run All Cells…）”按线性顺序运行的代码。结果第二个代码单元格运行时出错，没能把笔记本中的全部代码单元格都运行完。</span><a class="headerlink" href="#out-of-order-3" title="永久链接至图片">#</a></p>
 </figcaption>
 </figure>
 <p>你还可能无意中做出一个不能正常运行的笔记本：在某个单元格里创建了一个对象，而这个对象后来被删除了。这种情形下，该对象只在那一个 Python 会话中存在，笔记本重启后再运行就不存在了。如果笔记本中另有单元格引用了这个对象，那么在新会话中重新运行整个笔记本时就会报错。</p>
 <p>编写代码时，这些情况可能不会给当前 Python 会话带来负面影响；但你现在应该看出来了，以后在新的会话中运行该笔记本时，它们很可能导致报错。经常在全新的 Python 会话中运行整个笔记本，有助于避免这类问题。如果你重启会话后，按线性顺序运行所有单元格时冒出新的报错，至少你能意识到存在问题。越早发现，就越能及时修好问题，确保笔记本可以从头到尾线性运行。</p>
-<p>我们建议的最佳实践是：在每一段工作中，至少在全新的 Python 会话里完整运行整个笔记本 2–3 次。请注意，这一点很关键：你<em>必须在全新的 Python 会话中做这件事</em>，也就是要重启内核。我们建议使用<strong>内核</strong>（Kernel） &gt;&gt; <strong>重启内核并运行全部单元格……（Restart Kernel and Run All Cells…）</strong>，或者工具栏上的 ⏭ 按钮。注意，<strong>运行</strong>（Run） &gt;&gt; <strong>运行全部单元格</strong>（Run All Cells）菜单项不会重启内核，所以它不足以防范这类错误。</p>
+<p>我们建议的最佳实践是：在每一段工作中，至少在全新的 Python 会话里完整运行整个笔记本 2–3 次。请注意，这一点很关键：你<em>必须在全新的 Python 会话中做这件事</em>，也就是要重启内核。我们建议使用<strong>内核</strong>（Kernel） &gt;&gt; <strong>重启内核并运行全部单元格……</strong>（Restart Kernel and Run All Cells…），或者工具栏上的 ⏭ 按钮。注意，<strong>运行</strong>（Run） &gt;&gt; <strong>运行全部单元格</strong>（Run All Cells）菜单项不会重启内核，所以它不足以防范这类错误。</p>
 </section>
 <section id="python">
 <h3><span class="section-number">11.7.2. </span>在笔记本中引入 Python 包的最佳实践<a class="headerlink" href="#python" title="Permalink to this heading">#</a></h3>
@@ -547,7 +547,7 @@ document.write(`
 <h3><span class="section-number">11.7.3. </span>运行笔记本的最佳实践小结<a class="headerlink" href="#id15" title="Permalink to this heading">#</a></h3>
 <ol class="arabic simple">
 <li><p>编写代码时，保证它能按线性顺序执行。</p></li>
-<li><p>在 Jupyter 笔记本中写代码的过程中，经常按线性顺序完整运行笔记本（每段工作 2–3 次），做法是使用 Jupyter 菜单中的<strong>内核</strong>（Kernel） &gt;&gt; <strong>重启内核并运行全部单元格……（Restart Kernel and Run All Cells…）</strong>，或者工具栏上的 ⏭ 按钮。</p></li>
+<li><p>在 Jupyter 笔记本中写代码的过程中，经常按线性顺序完整运行笔记本（每段工作 2–3 次），做法是使用 Jupyter 菜单中的<strong>内核</strong>（Kernel） &gt;&gt; <strong>重启内核并运行全部单元格……</strong>（Restart Kernel and Run All Cells…），或者工具栏上的 ⏭ 按钮。</p></li>
 <li><p>把加载外部 Python 包的代码写在 Jupyter 笔记本靠前的位置。</p></li>
 </ol>
 </section>
