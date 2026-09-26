@@ -435,11 +435,11 @@ document.write(`
 <h3><span class="section-number">3.3.1. </span>什么是数据框？<a class="headerlink" href="#id5" title="Permalink to this heading">#</a></h3>
 <span class="target" id="index-0"></span><span class="target" id="index-1"></span><p id="index-2">数据框是 Python 中存储数据的表格状结构。数据框值得学习，因为你在实践中遇到的大多数数据都能自然地存成一张表。为了精确定义数据框，我们需要先引入几个技术术语：</p>
 <ul class="simple" id="index-3">
-<li><p>**变量（variable）：**可以被测量的一种特征、数值或数量。</p></li>
-<li><p>**观测（observation）：**给定实体的全部测量值。</p></li>
-<li><p>**取值（value）：**给定实体在单个变量上的一次测量值。</p></li>
+<li><p><strong>变量（variable）</strong>：可以被测量的一种特征、数值或数量。</p></li>
+<li><p><strong>观测（observation）</strong>：给定实体的全部测量值。</p></li>
+<li><p><strong>取值（value）</strong>：给定实体在单个变量上的一次测量值。</p></li>
 </ul>
-<p>有了这些定义，<strong>数据框</strong>就是 Python 中一种用来存放观测、变量及其取值的表格型数据结构。最常见的情形是，数据框的每一列对应一个变量，每一行对应一条观测。例如，<a class="reference internal" href="#fig-02-obs"><span class="std std-numref">图 3.1</span></a> 展示了一份城市人口数据集。这里，变量是“region、year、population”；它们每一个都是可以收集或测量的属性。第一条观测是“多伦多, 2016, 2235145”；这些就是三个变量在数据集中第一个实体上各自的取值。该数据集共有
+<p>有了这些定义，<strong>数据框</strong>就是 Python 中一种用来存放观测、变量及其取值的表格型数据结构。最常见的情形是，数据框的每一列对应一个变量，每一行对应一条观测。例如，<a class="reference internal" href="#fig-02-obs"><span class="std std-numref">图 3.1</span></a> 展示了一份城市人口数据集。这里，变量是“region、year、population”；它们每一个都是可以收集或测量的属性。第一条观测是“Toronto, 2016, 2235145”（多伦多，2016 年，2235145）；这些就是三个变量在数据集中第一个实体上各自的取值。该数据集共有
 13 个实体，对应<a class="reference internal" href="#fig-02-obs"><span class="std std-numref">图 3.1</span></a> 中的 13 行。</p>
 <figure class="figure align-default" id="fig-02-obs">
 <img alt="_images/data_frame_slides_cdn.004.png" src="_images/data_frame_slides_cdn.004.png" />
@@ -552,7 +552,7 @@ dtype: object
 <p><code class="docutils literal notranslate"><span class="pre">Series</span></code> 和 <code class="docutils literal notranslate"><span class="pre">DataFrame</span></code> 是 Python 中的<em>数据结构</em>，它们对大多数数据分析来说都是核心概念。我们用到的 <code class="docutils literal notranslate"><span class="pre">pandas</span></code> 函数往往根据具体操作返回 <code class="docutils literal notranslate"><span class="pre">DataFrame</span></code>
 或 <code class="docutils literal notranslate"><span class="pre">Series</span></code>。由于
 <code class="docutils literal notranslate"><span class="pre">Series</span></code> 本质上就是简单的 <code class="docutils literal notranslate"><span class="pre">DataFrames</span></code>，本书正文里会把
-<code class="docutils literal notranslate"><span class="pre">DataFrames</span></code> 和 <code class="docutils literal notranslate"><span class="pre">Series</span></code> 都称作“数据框”。Python 中还有其他表示数据结构的类型。最常见的几种汇总在<a class="reference internal" href="#tab-datastruc-table"><span class="std std-numref">表 3.2</span></a> 中。</p>
+<code class="docutils literal notranslate"><span class="pre">DataFrames</span></code> 和 <code class="docutils literal notranslate"><span class="pre">Series</span></code> 都称作“数据框”（译注：严格来说，序列只有单列，数据框可以有多列；原文此处把两者都笼统称作“数据框”，只是为了口语上的简便）。Python 中还有其他表示数据结构的类型。最常见的几种汇总在<a class="reference internal" href="#tab-datastruc-table"><span class="std std-numref">表 3.2</span></a> 中。</p>
 <span class="target" id="index-13"></span><div class="pst-scrollable-table-container"><span id="index-14"></span><table class="colwidths-auto table" id="tab-datastruc-table">
 <caption><span class="caption-number">表 3.2 </span><span class="caption-text">Python 的基本数据结构</span><a class="headerlink" href="#tab-datastruc-table" title="永久链接至表格">#</a></caption>
 <thead>
@@ -804,7 +804,7 @@ dtype: object
 </figure>
 <p id="index-18">在 Python 中，我们可以用 <code class="docutils literal notranslate"><span class="pre">pandas</span></code> 包里的 <code class="docutils literal notranslate"><span class="pre">melt</span></code> 函数实现这一效果。<code class="docutils literal notranslate"><span class="pre">melt</span></code> 函数会把多列合并起来，通常在整理数据、需要让数据框变长变窄时使用。为了学会使用 <code class="docutils literal notranslate"><span class="pre">melt</span></code>，我们来看一个使用
 <code class="docutils literal notranslate"><span class="pre">region_lang_top5_cities_wide.csv</span></code> 数据集的例子。这份数据集给出
-2016 年加拿大人口普查中，多伦多、蒙特利尔、温哥华、卡尔加里和埃德蒙顿五个加拿大主要城市里，有多少加拿大人把每种语言列为母语的计数。开始之前，我们先用 <code class="docutils literal notranslate"><span class="pre">pd.read_csv</span></code> 读入这份（不整洁的）数据。</p>
+2016 年加拿大人口普查中，Toronto（多伦多）、Montréal（蒙特利尔）、Vancouver（温哥华）、Calgary（卡尔加里）和 Edmonton（埃德蒙顿）五个加拿大主要城市里，有多少加拿大人把每种语言列为母语的计数。开始之前，我们先用 <code class="docutils literal notranslate"><span class="pre">pd.read_csv</span></code> 读入这份（不整洁的）数据。</p>
 <div class="cell tag_output_scroll docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">lang_wide</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">"data/region_lang_top5_cities_wide.csv"</span><span class="p">)</span>
@@ -957,7 +957,7 @@ dtype: object
 </div></div></div>
 </div>
 <p>上面这种不整洁格式有什么问题？<a class="reference internal" href="#fig-img-pivot-longer-with-table"><span class="std std-numref">图 3.6</span></a> 中左边的表格以“宽”（混乱）格式表示数据。从数据分析的角度看，这种格式并不理想，因为
-<em>region</em> 变量（多伦多、蒙特利尔、温哥华、卡尔加里和埃德蒙顿）的取值被存成了列名。因此，后面要对数据集使用的那些数据分析函数，无法方便地取到这些取值。另外，<em>母语</em>变量的取值分散在多列中，在我们把它们合并成一列之前，就无法完成任何想要的可视化或统计任务。举例来说，假设我们想知道在全部五个地区中，被最多加拿大人作为母语报告的语言是哪些。用当前格式的数据回答这个问题会很困难。用这种格式的数据我们<em>确实</em>能找到答案，但如果先把数据整理整洁，回答起来会容易得多。假如母语改存成一列，如<a class="reference internal" href="#fig-img-pivot-longer-with-table"><span class="std std-numref">图 3.6</span></a> 右边整洁数据所示，我们只需一行代码（<code class="docutils literal notranslate"><span class="pre">df[&quot;mother_tongue&quot;].max()</span></code>）就能得到最大值。</p>
+<em>region</em> 变量（Toronto、Montréal、Vancouver、Calgary 和 Edmonton）的取值被存成了列名。因此，后面要对数据集使用的那些数据分析函数，无法方便地取到这些取值。另外，<em>母语</em>变量的取值分散在多列中，在我们把它们合并成一列之前，就无法完成任何想要的可视化或统计任务。举例来说，假设我们想知道在全部五个地区中，被最多加拿大人作为母语报告的语言是哪些。用当前格式的数据回答这个问题会很困难。用这种格式的数据我们<em>确实</em>能找到答案，但如果先把数据整理整洁，回答起来会容易得多。假如母语改存成一列，如<a class="reference internal" href="#fig-img-pivot-longer-with-table"><span class="std std-numref">图 3.6</span></a> 右边整洁数据所示，我们只需一行代码（<code class="docutils literal notranslate"><span class="pre">df[&quot;mother_tongue&quot;].max()</span></code>）就能得到最大值。</p>
 <figure class="figure align-default" id="fig-img-pivot-longer-with-table">
 <img alt="_images/pandas_melt_wide-long.png" src="_images/pandas_melt_wide-long.png" />
 <figcaption>
@@ -971,7 +971,7 @@ dtype: object
 <p><span class="caption-number">图 3.7 </span><span class="caption-text"><code class="docutils literal notranslate"><span class="pre">melt</span></code> 函数的语法。</span><a class="headerlink" href="#fig-img-pivot-longer" title="永久链接至图片">#</a></p>
 </figcaption>
 </figure>
-<span class="target" id="index-19"></span><p id="index-20">我们用 <code class="docutils literal notranslate"><span class="pre">melt</span></code> 把多伦多、蒙特利尔、温哥华、卡尔加里和埃德蒙顿这几列合并成一列，列名为 <code class="docutils literal notranslate"><span class="pre">region</span></code>；同时新建一列 <code class="docutils literal notranslate"><span class="pre">mother_tongue</span></code>，存放每个大都市区中把各语言报告为母语的加拿大人数。</p>
+<span class="target" id="index-19"></span><p id="index-20">我们用 <code class="docutils literal notranslate"><span class="pre">melt</span></code> 把 Toronto、Montréal、Vancouver、Calgary 和 Edmonton 这几列合并成一列，列名为 <code class="docutils literal notranslate"><span class="pre">region</span></code>；同时新建一列 <code class="docutils literal notranslate"><span class="pre">mother_tongue</span></code>，存放每个大都市区中把各语言报告为母语的加拿大人数。</p>
 <div class="cell tag_output_scroll docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">lang_mother_tidy</span> <span class="o">=</span> <span class="n">lang_wide</span><span class="o">.</span><span class="n">melt</span><span class="p">(</span>
@@ -1112,7 +1112,7 @@ dtype: object
 <p><span class="caption-number">图 3.8 </span><span class="caption-text">从长格式变为宽格式。</span><a class="headerlink" href="#fig-long-to-wide" title="永久链接至图片">#</a></p>
 </figcaption>
 </figure>
-<p>在 Python 里整理这类数据，可以用 <code class="docutils literal notranslate"><span class="pre">pivot</span></code> 函数。<code class="docutils literal notranslate"><span class="pre">pivot</span></code> 函数通常会增加数据集的列数（把数据变宽），同时减少行数。为了学会使用 <code class="docutils literal notranslate"><span class="pre">pivot</span></code>，我们用一个例子来演示，用的是 <code class="docutils literal notranslate"><span class="pre">region_lang_top5_cities_long.csv</span></code> 数据集。这份数据集记录的是五个大城市（多伦多、蒙特利尔、温哥华、卡尔加里和埃德蒙顿）中有多少加拿大人把某种语言作为在家和工作中主要使用的语言。</p>
+<p>在 Python 里整理这类数据，可以用 <code class="docutils literal notranslate"><span class="pre">pivot</span></code> 函数。<code class="docutils literal notranslate"><span class="pre">pivot</span></code> 函数通常会增加数据集的列数（把数据变宽），同时减少行数。为了学会使用 <code class="docutils literal notranslate"><span class="pre">pivot</span></code>，我们用一个例子来演示，用的是 <code class="docutils literal notranslate"><span class="pre">region_lang_top5_cities_long.csv</span></code> 数据集。这份数据集记录的是五个大城市（Toronto、Montréal、Vancouver、Calgary 和 Edmonton）中有多少加拿大人把某种语言作为在家和工作中主要使用的语言。</p>
 <div class="cell tag_output_scroll docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">lang_long</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">"data/region_lang_top5_cities_long.csv"</span><span class="p">)</span>
@@ -2027,10 +2027,10 @@ Data columns (total 5 columns):
  0   category      1070 non-null   object
  1   language      1070 non-null   object
  2   region        1070 non-null   object
- 3   most_at_home  1070 non-null   int64 
- 4   most_at_work  1070 non-null   int64 
-dtypes: int64(2), object(3)
-memory usage: 41.9+ KB
+ 3   most_at_home  1070 non-null   int32 
+ 4   most_at_work  1070 non-null   int32 
+dtypes: int32(2), object(3)
+memory usage: 33.6+ KB
 </pre></div>
 </div>
 </div>
@@ -2516,7 +2516,7 @@ Name: language, Length: 1070, dtype: object
 </section>
 <section id="filter-and">
 <span id="id15"></span><h3><span class="section-number">3.5.4. </span>用 <code class="docutils literal notranslate"><span class="pre">&amp;</span></code> 提取同时满足多个条件的行<a class="headerlink" href="#filter-and" title="Permalink to this heading">#</a></h3>
-<span class="target" id="index-32"></span><p id="index-33">现在假设我们只想查看蒙特利尔中法语的那些行。为此需要筛选数据集，找出同时满足多个条件的行。这可以用逻辑与运算符（ampersand，即 <code class="docutils literal notranslate"><span class="pre">&amp;</span></code> 符号）实现，Python 把它解释为“与”。我们按下方所示的代码对 <code class="docutils literal notranslate"><span class="pre">official_langs</span></code> 数据框做筛选，取出 <code class="docutils literal notranslate"><span class="pre">region</span> <span class="pre">==</span> <span class="pre">&quot;Montréal&quot;</span></code> <em>并且</em> <code class="docutils literal notranslate"><span class="pre">language</span> <span class="pre">==</span> <span class="pre">&quot;French&quot;</span></code> 的行。</p>
+<span class="target" id="index-32"></span><p id="index-33">现在假设我们只想查看 Montréal 中法语的那些行。为此需要筛选数据集，找出同时满足多个条件的行。这可以用逻辑与运算符（ampersand，即 <code class="docutils literal notranslate"><span class="pre">&amp;</span></code> 符号）实现，Python 把它解释为“与”。我们按下方所示的代码对 <code class="docutils literal notranslate"><span class="pre">official_langs</span></code> 数据框做筛选，取出 <code class="docutils literal notranslate"><span class="pre">region</span> <span class="pre">==</span> <span class="pre">&quot;Montréal&quot;</span></code> <em>并且</em> <code class="docutils literal notranslate"><span class="pre">language</span> <span class="pre">==</span> <span class="pre">&quot;French&quot;</span></code> 的行。</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">tidy_lang</span><span class="p">[</span>
@@ -2568,7 +2568,7 @@ Name: language, Length: 1070, dtype: object
 </section>
 <section id="id16">
 <h3><span class="section-number">3.5.5. </span>用 <code class="docutils literal notranslate"><span class="pre">|</span></code> 提取至少满足一个条件的行<a class="headerlink" href="#id16" title="Permalink to this heading">#</a></h3>
-<span class="target" id="index-34"></span><p id="index-35">假设我们只关心 <code class="docutils literal notranslate"><span class="pre">official_langs</span></code> 数据集中阿尔伯塔省的城市（埃德蒙顿和卡尔加里）对应的行。这里不能用上面那种 <code class="docutils literal notranslate"><span class="pre">&amp;</span></code>，因为 <code class="docutils literal notranslate"><span class="pre">region</span></code> 不可能同时是埃德蒙顿<em>和</em>卡尔加里。可以改用逻辑或运算符（vertical pipe，即 <code class="docutils literal notranslate"><span class="pre">|</span></code>），它给出的情形是：满足一个条件<em>或</em>另一个条件<em>或</em>两个条件都满足。在下方代码中，我们让 Python 返回 <code class="docutils literal notranslate"><span class="pre">region</span></code> 列等于“卡尔加里”<em>或</em>“埃德蒙顿”的行。</p>
+<span class="target" id="index-34"></span><p id="index-35">假设我们只关心 <code class="docutils literal notranslate"><span class="pre">official_langs</span></code> 数据集中阿尔伯塔省的两个城市 Edmonton（埃德蒙顿）和 Calgary（卡尔加里）对应的行。这里不能用上面那种 <code class="docutils literal notranslate"><span class="pre">&amp;</span></code>，因为 <code class="docutils literal notranslate"><span class="pre">region</span></code> 不可能同时是 “Edmonton” <em>和</em> “Calgary”。可以改用逻辑或运算符（vertical pipe，即 <code class="docutils literal notranslate"><span class="pre">|</span></code>），它给出的情形是：满足一个条件<em>或</em>另一个条件<em>或</em>两个条件都满足。在下方代码中，我们让 Python 返回 <code class="docutils literal notranslate"><span class="pre">region</span></code> 列等于 “Calgary” <em>或</em> “Edmonton” 的行。</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">official_langs</span><span class="p">[</span>
@@ -2772,7 +2772,7 @@ Name: language, Length: 1070, dtype: object
 <p>35 rows × 5 columns</p>
 </div></div></div>
 </div>
-<p>要得到这五座城市的人口，可以用 <code class="docutils literal notranslate"><span class="pre">isin</span></code> 方法筛选数据集。<code class="docutils literal notranslate"><span class="pre">isin</span></code> 方法用来判断某个元素是否属于一个列表。这里我们筛选的是 <code class="docutils literal notranslate"><span class="pre">region</span></code> 列的取值与我们关注的五座城市中任意一座相同的行：多伦多、蒙特利尔、温哥华、卡尔加里和埃德蒙顿。</p>
+<p>要得到这五座城市的人口，可以用 <code class="docutils literal notranslate"><span class="pre">isin</span></code> 方法筛选数据集。<code class="docutils literal notranslate"><span class="pre">isin</span></code> 方法用来判断某个元素是否属于一个列表。这里我们筛选的是 <code class="docutils literal notranslate"><span class="pre">region</span></code> 列的取值与我们关注的五座城市中任意一座相同的行：Toronto、Montréal、Vancouver、Calgary 和 Edmonton。</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">city_names</span> <span class="o">=</span> <span class="p">[</span><span class="s2">"Toronto"</span><span class="p">,</span> <span class="s2">"Montréal"</span><span class="p">,</span> <span class="s2">"Vancouver"</span><span class="p">,</span> <span class="s2">"Calgary"</span><span class="p">,</span> <span class="s2">"Edmonton"</span><span class="p">]</span>
@@ -2887,7 +2887,7 @@ dtype: bool
 </section>
 <section id="id17">
 <h3><span class="section-number">3.5.7. </span>用 <code class="docutils literal notranslate"><span class="pre">&gt;</span></code> 和 <code class="docutils literal notranslate"><span class="pre">&lt;</span></code> 提取高于或低于阈值的行<a class="headerlink" href="#id17" title="Permalink to this heading">#</a></h3>
-<span class="target" id="index-38"></span><span class="target" id="index-39"></span><span class="target" id="index-40"></span><span class="target" id="index-41"></span><p id="index-42">我们在<a class="reference internal" href="#filter-and"><span class="std std-numref">第 3.5.4 节</span></a>中看到，有 <span class="pasted-text">2,669,195</span> 人报告自己在蒙特利尔把法语作为在家主要使用的语言。如果我们要找的是这样的地区：在那里，把某种官方语言作为在家主要使用语言的人数多于蒙特利尔的法语人数，就可以用 <code class="docutils literal notranslate"><span class="pre">[]</span></code> 取出 <code class="docutils literal notranslate"><span class="pre">most_at_home</span></code> 的取值大于 <span class="pasted-text">2,669,195</span> 的行。我们用 <code class="docutils literal notranslate"><span class="pre">&gt;</span></code> 符号查找<em>高于</em>阈值的取值，用 <code class="docutils literal notranslate"><span class="pre">&lt;</span></code> 符号查找<em>低于</em>阈值的取值；<code class="docutils literal notranslate"><span class="pre">&gt;=</span></code> 和 <code class="docutils literal notranslate"><span class="pre">&lt;=</span></code> 符号同样分别查找<em>大于或等于</em>阈值、<em>小于或等于</em>阈值的取值。</p>
+<span class="target" id="index-38"></span><span class="target" id="index-39"></span><span class="target" id="index-40"></span><span class="target" id="index-41"></span><p id="index-42">我们在<a class="reference internal" href="#filter-and"><span class="std std-numref">第 3.5.4 节</span></a>中看到，有 <span class="pasted-text">2,669,195</span> 人报告自己在 Montréal 把法语作为在家主要使用的语言。如果我们要找的是这样的地区：在那里，把某种官方语言作为在家主要使用语言的人数多于 Montréal 的法语人数，就可以用 <code class="docutils literal notranslate"><span class="pre">[]</span></code> 取出 <code class="docutils literal notranslate"><span class="pre">most_at_home</span></code> 的取值大于 <span class="pasted-text">2,669,195</span> 的行。我们用 <code class="docutils literal notranslate"><span class="pre">&gt;</span></code> 符号查找<em>高于</em>阈值的取值，用 <code class="docutils literal notranslate"><span class="pre">&lt;</span></code> 符号查找<em>低于</em>阈值的取值；<code class="docutils literal notranslate"><span class="pre">&gt;=</span></code> 和 <code class="docutils literal notranslate"><span class="pre">&lt;=</span></code> 符号同样分别查找<em>大于或等于</em>阈值、<em>小于或等于</em>阈值的取值。</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">official_langs</span><span class="p">[</span><span class="n">official_langs</span><span class="p">[</span><span class="s2">"most_at_home"</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">2669195</span><span class="p">]</span>
@@ -2933,7 +2933,7 @@ dtype: bool
 </table>
 </div></div></div>
 </div>
-<p>这个操作返回的数据框只有一行，说明在考虑官方语言时，根据 2016 年加拿大人口普查，只有多伦多的英语作为在家主要使用语言的人数多于蒙特利尔的法语。</p>
+<p>这个操作返回的数据框只有一行，说明在考虑官方语言时，根据 2016 年加拿大人口普查，只有 Toronto 的英语作为在家主要使用语言的人数多于 Montréal 的法语。</p>
 </section>
 <section id="query">
 <h3><span class="section-number">3.5.8. </span>用 <code class="docutils literal notranslate"><span class="pre">query</span></code> 提取行<a class="headerlink" href="#query" title="Permalink to this heading">#</a></h3>
@@ -2988,7 +2988,7 @@ dtype: bool
 </section>
 <section id="loc">
 <span id="loc-iloc"></span><h2><span class="section-number">3.6. </span>用 <code class="docutils literal notranslate"><span class="pre">loc[]</span></code> 筛选行并选取列<a class="headerlink" href="#loc" title="Permalink to this heading">#</a></h2>
-<p id="index-44"><code class="docutils literal notranslate"><span class="pre">[]</span></code> 操作只用于筛选行<strong>或</strong>选取列这两件事中的一件，不能同时完成两件。这正是 <code class="docutils literal notranslate"><span class="pre">loc[]</span></code> 的用武之地。先看第一个例子：回忆一下<a class="reference internal" href="intro.html#intro"><span class="std std-numref">第 1 章</span></a>中的 <code class="docutils literal notranslate"><span class="pre">loc[]</span></code>，我们可以用它取出 <code class="docutils literal notranslate"><span class="pre">tidy_lang</span></code> 数据框中行与列的子集。<code class="docutils literal notranslate"><span class="pre">loc[]</span></code> 的第一个参数给出一个逻辑表达式，把行筛选到只保留与多伦多地区有关的那些；第二个参数给出按列名保留的列列表。</p>
+<p id="index-44"><code class="docutils literal notranslate"><span class="pre">[]</span></code> 操作只用于筛选行<strong>或</strong>选取列这两件事中的一件，不能同时完成两件。这正是 <code class="docutils literal notranslate"><span class="pre">loc[]</span></code> 的用武之地。先看第一个例子：回忆一下<a class="reference internal" href="intro.html#intro"><span class="std std-numref">第 1 章</span></a>中的 <code class="docutils literal notranslate"><span class="pre">loc[]</span></code>，我们可以用它取出 <code class="docutils literal notranslate"><span class="pre">tidy_lang</span></code> 数据框中行与列的子集。<code class="docutils literal notranslate"><span class="pre">loc[]</span></code> 的第一个参数给出一个逻辑表达式，把行筛选到只保留与 Toronto 地区有关的那些；第二个参数给出按列名保留的列列表。</p>
 <div class="cell tag_output_scroll docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">tidy_lang</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span>
@@ -4115,7 +4115,7 @@ Name: language, Length: 1070, dtype: object
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>np.int64(0)
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0
 </pre></div>
 </div>
 </div>
@@ -4127,7 +4127,7 @@ Name: language, Length: 1070, dtype: object
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>np.int64(3836770)
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>3836770
 </pre></div>
 </div>
 </div>
@@ -4140,7 +4140,7 @@ Name: language, Length: 1070, dtype: object
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>np.int64(23171710)
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>23171710
 </pre></div>
 </div>
 </div>
@@ -4353,7 +4353,7 @@ dtype: float64
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;pandas.core.groupby.generic.DataFrameGroupBy object at 0x0000025559CEFC70&gt;
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;pandas.core.groupby.generic.DataFrameGroupBy object at 0x000001117004ECB0&gt;
 </pre></div>
 </div>
 </div>
@@ -5048,17 +5048,17 @@ Official（官方），在不同地区家庭中的使用情况，就要给 <code
 </div>
 <div class="cell_output docutils container">
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>region
-Abbotsford - Mission    214
-Barrie                  214
-Belleville              214
-Brantford               214
-Calgary                 214
-                       ... 
-Trois-Rivières          214
-Vancouver               214
-Victoria                214
-Windsor                 214
-Winnipeg                214
+Abbotsford - Mission                214
+St. Catharines - Niagara            214
+Québec                              214
+Regina                              214
+Saguenay                            214
+                                   ... 
+Kitchener - Cambridge - Waterloo    214
+Lethbridge                          214
+London                              214
+Moncton                             214
+Winnipeg                            214
 Name: count, Length: 35, dtype: int64
 </pre></div>
 </div>
@@ -5073,17 +5073,17 @@ Name: count, Length: 35, dtype: int64
 </div>
 <div class="cell_output docutils container">
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>region
-Abbotsford - Mission    0.028571
-Barrie                  0.028571
-Belleville              0.028571
-Brantford               0.028571
-Calgary                 0.028571
-                          ...   
-Trois-Rivières          0.028571
-Vancouver               0.028571
-Victoria                0.028571
-Windsor                 0.028571
-Winnipeg                0.028571
+Abbotsford - Mission                0.028571
+St. Catharines - Niagara            0.028571
+Québec                              0.028571
+Regina                              0.028571
+Saguenay                            0.028571
+                                      ...   
+Kitchener - Cambridge - Waterloo    0.028571
+Lethbridge                          0.028571
+London                              0.028571
+Moncton                             0.028571
+Winnipeg                            0.028571
 Name: proportion, Length: 35, dtype: float64
 </pre></div>
 </div>
@@ -5646,8 +5646,8 @@ Length: 7490, dtype: int32
 </div></div></div>
 </div>
 <p>这个数据框看起来和上一个完全一样，区别在于它是 <code class="docutils literal notranslate"><span class="pre">region_lang</span></code> 的副本，而不是 <code class="docutils literal notranslate"><span class="pre">region_lang</span></code> 本身；继续修改这个数据框不会影响原来的 <code class="docutils literal notranslate"><span class="pre">region_lang</span></code> 数据框。</p>
-<p>再举一个例子。我们可能会问：“2016 年人口普查中，报告把英语作为在家主要使用语言的人占多大比例？”例如在多伦多，有 <span class="pasted-text">3,836,770</span> 人报告自己把英语作为在家主要使用的语言，而多伦多的人口为 <span class="pasted-text">5,928,040</span> 人。所以，2016 年人口普查中多伦多报告把英语作为在家主要使用语言的人口比例为 <span class="pasted-text">0.65</span>。那么，从 <code class="docutils literal notranslate"><span class="pre">region_lang</span></code> 数据框出发，我们该怎么算出这个结果呢？</p>
-<p>首先，我们需要筛选 <code class="docutils literal notranslate"><span class="pre">region_lang</span></code> 数据框，只保留语言为英语的行。我们还要把范围限定在 <code class="docutils literal notranslate"><span class="pre">five_cities</span></code> 数据框中的五个主要城市：多伦多、蒙特利尔、温哥华、卡尔加里和埃德蒙顿。筛选时只保留与英语有关、并且属于上述五个城市的行。要把这两个逻辑表达式组合起来，我们用 <code class="docutils literal notranslate"><span class="pre">&amp;</span></code> 符号。再用 <code class="docutils literal notranslate"><span class="pre">[]</span></code> 操作，以 <code class="docutils literal notranslate"><span class="pre">&quot;English&quot;</span></code> 作为 <code class="docutils literal notranslate"><span class="pre">language</span></code> 筛选行，并把新数据框命名为 <code class="docutils literal notranslate"><span class="pre">english_langs</span></code>。</p>
+<p>再举一个例子。我们可能会问：“2016 年人口普查中，报告把英语作为在家主要使用语言的人占多大比例？”例如在 Toronto，有 <span class="pasted-text">3,836,770</span> 人报告自己把英语作为在家主要使用的语言，而 Toronto 的人口为 <span class="pasted-text">5,928,040</span> 人。所以，2016 年人口普查中 Toronto 报告把英语作为在家主要使用语言的人口比例为 <span class="pasted-text">0.65</span>。那么，从 <code class="docutils literal notranslate"><span class="pre">region_lang</span></code> 数据框出发，我们该怎么算出这个结果呢？</p>
+<p>首先，我们需要筛选 <code class="docutils literal notranslate"><span class="pre">region_lang</span></code> 数据框，只保留语言为英语的行。我们还要把范围限定在 <code class="docutils literal notranslate"><span class="pre">five_cities</span></code> 数据框中的五个主要城市：Toronto、Montréal、Vancouver、Calgary 和 Edmonton。筛选时只保留与英语有关、并且属于上述五个城市的行。要把这两个逻辑表达式组合起来，我们用 <code class="docutils literal notranslate"><span class="pre">&amp;</span></code> 符号。再用 <code class="docutils literal notranslate"><span class="pre">[]</span></code> 操作，以 <code class="docutils literal notranslate"><span class="pre">&quot;English&quot;</span></code> 作为 <code class="docutils literal notranslate"><span class="pre">language</span></code> 筛选行，并把新数据框命名为 <code class="docutils literal notranslate"><span class="pre">english_langs</span></code>。</p>
 <div class="cell tag_output_scroll docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">english_lang</span> <span class="o">=</span> <span class="n">region_lang</span><span class="p">[</span>
@@ -5820,7 +5820,7 @@ Length: 7490, dtype: int32
 </div></div></div>
 </div>
 <p>上面的数据框显示，2016 年这五个城市的人口分别是
-5928040（多伦多）、4098927（蒙特利尔）、2463431（温哥华）、1392609（卡尔加里）和 1321426（埃德蒙顿）。接下来，我们把这份信息加到数据框的一个新列 <code class="docutils literal notranslate"><span class="pre">city_pops</span></code> 中。这里我们同样用 <code class="docutils literal notranslate"><span class="pre">assign</span></code> 方法和常规列赋值各演示一遍做法。我们把新列名（<code class="docutils literal notranslate"><span class="pre">city_pops</span></code>）作为参数，后面跟等号 <code class="docutils literal notranslate"><span class="pre">=</span></code>，最后是该列的数据。注意，<code class="docutils literal notranslate"><span class="pre">english_lang</span></code> 数据框中各行的顺序是蒙特利尔、多伦多、卡尔加里、埃德蒙顿、温哥华。所以我们要新建一个名为 <code class="docutils literal notranslate"><span class="pre">city_pops</span></code> 的列，按这个顺序列出这些城市的人口，再把它加到数据框中。还要记住，和其他 <code class="docutils literal notranslate"><span class="pre">pandas</span></code> 函数一样，<code class="docutils literal notranslate"><span class="pre">assign</span></code> 默认不会直接修改原数据框，所以 <code class="docutils literal notranslate"><span class="pre">english_lang</span></code> 数据框不会改变！</p>
+5928040（Toronto）、4098927（Montréal）、2463431（Vancouver）、1392609（Calgary）和 1321426（Edmonton）。接下来，我们把这份信息加到数据框的一个新列 <code class="docutils literal notranslate"><span class="pre">city_pops</span></code> 中。这里我们同样用 <code class="docutils literal notranslate"><span class="pre">assign</span></code> 方法和常规列赋值各演示一遍做法。我们把新列名（<code class="docutils literal notranslate"><span class="pre">city_pops</span></code>）作为参数，后面跟等号 <code class="docutils literal notranslate"><span class="pre">=</span></code>，最后是该列的数据。注意，<code class="docutils literal notranslate"><span class="pre">english_lang</span></code> 数据框中各行的顺序是 Montréal、Toronto、Calgary、Edmonton、Vancouver。所以我们要新建一个名为 <code class="docutils literal notranslate"><span class="pre">city_pops</span></code> 的列，按这个顺序列出这些城市的人口，再把它加到数据框中。还要记住，和其他 <code class="docutils literal notranslate"><span class="pre">pandas</span></code> 函数一样，<code class="docutils literal notranslate"><span class="pre">assign</span></code> 默认不会直接修改原数据框，所以 <code class="docutils literal notranslate"><span class="pre">english_lang</span></code> 数据框不会改变！</p>
 <div class="cell tag_output_scroll docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">english_lang</span><span class="o">.</span><span class="n">assign</span><span class="p">(</span>
@@ -6045,16 +6045,6 @@ See the caveats in the documentation: https://pandas.pydata.org/pandas-docs/stab
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>C:\Users\peler\AppData\Local\Temp\dsh-Xle6S8\ipykernel_11548\1485919265.py:1: FutureWarning: Setting an item of incompatible dtype is deprecated and will raise in a future error of pandas. Value '[0.10855402 0.51649786 0.67287731 0.70409164 0.53447204]' has dtype incompatible with int64, please explicitly cast to a compatible dtype first.
-  english_lang.loc[:, "mother_tongue":"lang_known"] = english_lang.loc[
-C:\Users\peler\AppData\Local\Temp\dsh-Xle6S8\ipykernel_11548\1485919265.py:1: FutureWarning: Setting an item of incompatible dtype is deprecated and will raise in a future error of pandas. Value '[0.15138352 0.64722404 0.76480189 0.79490641 0.65872963]' has dtype incompatible with int64, please explicitly cast to a compatible dtype first.
-  english_lang.loc[:, "mother_tongue":"lang_known"] = english_lang.loc[
-C:\Users\peler\AppData\Local\Temp\dsh-Xle6S8\ipykernel_11548\1485919265.py:1: FutureWarning: Setting an item of incompatible dtype is deprecated and will raise in a future error of pandas. Value '[0.10054339 0.54296614 0.60658807 0.59988225 0.5401227 ]' has dtype incompatible with int64, please explicitly cast to a compatible dtype first.
-  english_lang.loc[:, "mother_tongue":"lang_known"] = english_lang.loc[
-C:\Users\peler\AppData\Local\Temp\dsh-Xle6S8\ipykernel_11548\1485919265.py:1: FutureWarning: Setting an item of incompatible dtype is deprecated and will raise in a future error of pandas. Value '[0.61005966 0.94474396 0.96461749 0.96506728 0.9294009 ]' has dtype incompatible with int64, please explicitly cast to a compatible dtype first.
-  english_lang.loc[:, "mother_tongue":"lang_known"] = english_lang.loc[
-</pre></div>
-</div>
 <div class="output text_html"><div>
 <style scoped>
     .dataframe tbody tr th:only-of-type {
@@ -6146,7 +6136,7 @@ C:\Users\peler\AppData\Local\Temp\dsh-Xle6S8\ipykernel_11548\1485919265.py:1: Fu
 </section>
 <section id="merge">
 <h2><span class="section-number">3.12. </span>用 <code class="docutils literal notranslate"><span class="pre">merge</span></code> 合并数据框<a class="headerlink" href="#merge" title="Permalink to this heading">#</a></h2>
-<p id="index-60">我们回到给 <code class="docutils literal notranslate"><span class="pre">english_lang</span></code> 数据框加入多伦多、蒙特利尔、温哥华、卡尔加里和埃德蒙顿这几座城市人口之前的状态。在添加新列之前，我们已经从 <code class="docutils literal notranslate"><span class="pre">region_lang</span></code> 中筛选出了
+<p id="index-60">我们回到给 <code class="docutils literal notranslate"><span class="pre">english_lang</span></code> 数据框加入 Toronto、Montréal、Vancouver、Calgary 和 Edmonton 这几座城市人口之前的状态。在添加新列之前，我们已经从 <code class="docutils literal notranslate"><span class="pre">region_lang</span></code> 中筛选出了
 <code class="docutils literal notranslate"><span class="pre">english_lang</span></code> 数据框，其中只包含这五个目标城市里讲英语的人。</p>
 <div class="cell tag_output_scroll docutils container">
 <div class="cell_input docutils container">
@@ -6237,7 +6227,7 @@ C:\Users\peler\AppData\Local\Temp\dsh-Xle6S8\ipykernel_11548\1485919265.py:1: Fu
 </table>
 </div></div></div>
 </div>
-<p>随后我们把这些城市的人口加成一列（多伦多：5928040，蒙特利尔：4098927，温哥华：2463431，卡尔加里：1392609，埃德蒙顿：1321426）。添加时必须注意顺序正确，这个过程很容易出错。这里演示的另一种做法是：（1）先新建一个数据框，其中包含城市名称和人口，（2）注意到两者的“regions”是相同的，用 <code class="docutils literal notranslate"><span class="pre">merge</span></code> 把这两个数据框合并起来。</p>
+<p>随后我们把这些城市的人口加成一列（Toronto：5928040，Montréal：4098927，Vancouver：2463431，Calgary：1392609，Edmonton：1321426）。添加时必须注意顺序正确，这个过程很容易出错。这里演示的另一种做法是：（1）先新建一个数据框，其中包含城市名称和人口，（2）注意到两者的“regions”是相同的，用 <code class="docutils literal notranslate"><span class="pre">merge</span></code> 把这两个数据框合并起来。</p>
 <p>我们调用 <code class="docutils literal notranslate"><span class="pre">pd.DataFrame</span></code>，并以一个字典作为参数来新建数据框。字典把待建数据框的每个列名与一个条目列表对应起来。这里我们在 <code class="docutils literal notranslate"><span class="pre">&quot;region&quot;</span></code> 列中列出城市名称，在 <code class="docutils literal notranslate"><span class="pre">&quot;population&quot;</span></code> 列中列出它们的人口。</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -6400,7 +6390,7 @@ C:\Users\peler\AppData\Local\Temp\dsh-Xle6S8\ipykernel_11548\1485919265.py:1: Fu
 </table>
 </div></div></div>
 </div>
-<p>可以看到，每个城市的人口都是正确的（例如蒙特利尔：4098927，多伦多：5928040），从这里就可以接着做我们的分析了。</p>
+<p>可以看到，每个城市的人口都是正确的（例如 Montréal：4098927，Toronto：5928040），从这里就可以接着做我们的分析了。</p>
 </section>
 <section id="id23">
 <h2><span class="section-number">3.13. </span>小结<a class="headerlink" href="#id23" title="Permalink to this heading">#</a></h2>

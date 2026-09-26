@@ -74,11 +74,11 @@ pd.set_option("display.max_rows", 20)
 ```{index} 变量, 观测, 取值
 ```
 
-- **变量（variable）：**可以被测量的一种特征、数值或数量。
-- **观测（observation）：**给定实体的全部测量值。
-- **取值（value）：**给定实体在单个变量上的一次测量值。
+- **变量（variable）**：可以被测量的一种特征、数值或数量。
+- **观测（observation）**：给定实体的全部测量值。
+- **取值（value）**：给定实体在单个变量上的一次测量值。
 
-有了这些定义，**数据框**就是 Python 中一种用来存放观测、变量及其取值的表格型数据结构。最常见的情形是，数据框的每一列对应一个变量，每一行对应一条观测。例如，{numref}`fig:02-obs` 展示了一份城市人口数据集。这里，变量是“region、year、population”；它们每一个都是可以收集或测量的属性。第一条观测是“多伦多, 2016, 2235145”；这些就是三个变量在数据集中第一个实体上各自的取值。该数据集共有
+有了这些定义，**数据框**就是 Python 中一种用来存放观测、变量及其取值的表格型数据结构。最常见的情形是，数据框的每一列对应一个变量，每一行对应一条观测。例如，{numref}`fig:02-obs` 展示了一份城市人口数据集。这里，变量是“region、year、population”；它们每一个都是可以收集或测量的属性。第一条观测是“Toronto, 2016, 2235145”（多伦多，2016 年，2235145）；这些就是三个变量在数据集中第一个实体上各自的取值。该数据集共有
 13 个实体，对应{numref}`fig:02-obs` 中的 13 行。
 
 +++
@@ -187,7 +187,7 @@ type(can_lang)
 `Series` 和 `DataFrame` 是 Python 中的*数据结构*，它们对大多数数据分析来说都是核心概念。我们用到的 `pandas` 函数往往根据具体操作返回 `DataFrame`
 或 `Series`。由于
 `Series` 本质上就是简单的 `DataFrames`，本书正文里会把
-`DataFrames` 和 `Series` 都称作“数据框”。Python 中还有其他表示数据结构的类型。最常见的几种汇总在{numref}`tab:datastruc-table` 中。
+`DataFrames` 和 `Series` 都称作“数据框”（译注：严格来说，序列只有单列，数据框可以有多列；原文此处把两者都笼统称作“数据框”，只是为了口语上的简便）。Python 中还有其他表示数据结构的类型。最常见的几种汇总在{numref}`tab:datastruc-table` 中。
 
 ```{index} 数据结构; 列表, 数据结构; 集合, 数据结构; 字典 (dict), 数据结构; 元组
 ```
@@ -311,7 +311,7 @@ population_in_2016_df
 
 在 Python 中，我们可以用 `pandas` 包里的 `melt` 函数实现这一效果。`melt` 函数会把多列合并起来，通常在整理数据、需要让数据框变长变窄时使用。为了学会使用 `melt`，我们来看一个使用
 `region_lang_top5_cities_wide.csv` 数据集的例子。这份数据集给出
-2016 年加拿大人口普查中，多伦多、蒙特利尔、温哥华、卡尔加里和埃德蒙顿五个加拿大主要城市里，有多少加拿大人把每种语言列为母语的计数。开始之前，我们先用 `pd.read_csv` 读入这份（不整洁的）数据。
+2016 年加拿大人口普查中，Toronto（多伦多）、Montréal（蒙特利尔）、Vancouver（温哥华）、Calgary（卡尔加里）和 Edmonton（埃德蒙顿）五个加拿大主要城市里，有多少加拿大人把每种语言列为母语的计数。开始之前，我们先用 `pd.read_csv` 读入这份（不整洁的）数据。
 
 ```{code-cell} ipython3
 :tags: ["output_scroll"]
@@ -320,7 +320,7 @@ lang_wide
 ```
 
 上面这种不整洁格式有什么问题？{numref}`fig:img-pivot-longer-with-table` 中左边的表格以“宽”（混乱）格式表示数据。从数据分析的角度看，这种格式并不理想，因为
-*region* 变量（多伦多、蒙特利尔、温哥华、卡尔加里和埃德蒙顿）的取值被存成了列名。因此，后面要对数据集使用的那些数据分析函数，无法方便地取到这些取值。另外，*母语*变量的取值分散在多列中，在我们把它们合并成一列之前，就无法完成任何想要的可视化或统计任务。举例来说，假设我们想知道在全部五个地区中，被最多加拿大人作为母语报告的语言是哪些。用当前格式的数据回答这个问题会很困难。用这种格式的数据我们*确实*能找到答案，但如果先把数据整理整洁，回答起来会容易得多。假如母语改存成一列，如{numref}`fig:img-pivot-longer-with-table` 右边整洁数据所示，我们只需一行代码（`df["mother_tongue"].max()`）就能得到最大值。
+*region* 变量（Toronto、Montréal、Vancouver、Calgary 和 Edmonton）的取值被存成了列名。因此，后面要对数据集使用的那些数据分析函数，无法方便地取到这些取值。另外，*母语*变量的取值分散在多列中，在我们把它们合并成一列之前，就无法完成任何想要的可视化或统计任务。举例来说，假设我们想知道在全部五个地区中，被最多加拿大人作为母语报告的语言是哪些。用当前格式的数据回答这个问题会很困难。用这种格式的数据我们*确实*能找到答案，但如果先把数据整理整洁，回答起来会容易得多。假如母语改存成一列，如{numref}`fig:img-pivot-longer-with-table` 右边整洁数据所示，我们只需一行代码（`df["mother_tongue"].max()`）就能得到最大值。
 
 +++ {"tags": []}
 
@@ -352,7 +352,7 @@ lang_wide
 ```{index} see: :; 列范围
 ```
 
-我们用 `melt` 把多伦多、蒙特利尔、温哥华、卡尔加里和埃德蒙顿这几列合并成一列，列名为 `region`；同时新建一列 `mother_tongue`，存放每个大都市区中把各语言报告为母语的加拿大人数。
+我们用 `melt` 把 Toronto、Montréal、Vancouver、Calgary 和 Edmonton 这几列合并成一列，列名为 `region`；同时新建一列 `mother_tongue`，存放每个大都市区中把各语言报告为母语的加拿大人数。
 
 ```{code-cell} ipython3
 :tags: ["output_scroll"]
@@ -397,7 +397,7 @@ lang_mother_tidy
 
 +++
 
-在 Python 里整理这类数据，可以用 `pivot` 函数。`pivot` 函数通常会增加数据集的列数（把数据变宽），同时减少行数。为了学会使用 `pivot`，我们用一个例子来演示，用的是 `region_lang_top5_cities_long.csv` 数据集。这份数据集记录的是五个大城市（多伦多、蒙特利尔、温哥华、卡尔加里和埃德蒙顿）中有多少加拿大人把某种语言作为在家和工作中主要使用的语言。
+在 Python 里整理这类数据，可以用 `pivot` 函数。`pivot` 函数通常会增加数据集的列数（把数据变宽），同时减少行数。为了学会使用 `pivot`，我们用一个例子来演示，用的是 `region_lang_top5_cities_long.csv` 数据集。这份数据集记录的是五个大城市（Toronto、Montréal、Vancouver、Calgary 和 Edmonton）中有多少加拿大人把某种语言作为在家和工作中主要使用的语言。
 
 ```{code-cell} ipython3
 :tags: ["output_scroll"]
@@ -635,7 +635,7 @@ tidy_lang[tidy_lang["category"] != "Official languages"]
 ```{index} see: &; 逻辑运算符
 ```
 
-现在假设我们只想查看蒙特利尔中法语的那些行。为此需要筛选数据集，找出同时满足多个条件的行。这可以用逻辑与运算符（ampersand，即 `&` 符号）实现，Python 把它解释为“与”。我们按下方所示的代码对 `official_langs` 数据框做筛选，取出 `region == "Montréal"` *并且* `language == "French"` 的行。
+现在假设我们只想查看 Montréal 中法语的那些行。为此需要筛选数据集，找出同时满足多个条件的行。这可以用逻辑与运算符（ampersand，即 `&` 符号）实现，Python 把它解释为“与”。我们按下方所示的代码对 `official_langs` 数据框做筛选，取出 `region == "Montréal"` *并且* `language == "French"` 的行。
 
 ```{code-cell} ipython3
 tidy_lang[
@@ -654,7 +654,7 @@ tidy_lang[
 ```{index} see: |; 逻辑运算符
 ```
 
-假设我们只关心 `official_langs` 数据集中阿尔伯塔省的城市（埃德蒙顿和卡尔加里）对应的行。这里不能用上面那种 `&`，因为 `region` 不可能同时是埃德蒙顿*和*卡尔加里。可以改用逻辑或运算符（vertical pipe，即 `|`），它给出的情形是：满足一个条件*或*另一个条件*或*两个条件都满足。在下方代码中，我们让 Python 返回 `region` 列等于“卡尔加里”*或*“埃德蒙顿”的行。
+假设我们只关心 `official_langs` 数据集中阿尔伯塔省的两个城市 Edmonton（埃德蒙顿）和 Calgary（卡尔加里）对应的行。这里不能用上面那种 `&`，因为 `region` 不可能同时是 "Edmonton" *和* "Calgary"。可以改用逻辑或运算符（vertical pipe，即 `|`），它给出的情形是：满足一个条件*或*另一个条件*或*两个条件都满足。在下方代码中，我们让 Python 返回 `region` 列等于 "Calgary" *或* "Edmonton" 的行。
 
 ```{code-cell} ipython3
 official_langs[
@@ -679,7 +679,7 @@ region_data = pd.read_csv("data/region_data.csv")
 region_data
 ```
 
-要得到这五座城市的人口，可以用 `isin` 方法筛选数据集。`isin` 方法用来判断某个元素是否属于一个列表。这里我们筛选的是 `region` 列的取值与我们关注的五座城市中任意一座相同的行：多伦多、蒙特利尔、温哥华、卡尔加里和埃德蒙顿。
+要得到这五座城市的人口，可以用 `isin` 方法筛选数据集。`isin` 方法用来判断某个元素是否属于一个列表。这里我们筛选的是 `region` 列的取值与我们关注的五座城市中任意一座相同的行：Toronto、Montréal、Vancouver、Calgary 和 Edmonton。
 
 ```{code-cell} ipython3
 city_names = ["Toronto", "Montréal", "Vancouver", "Calgary", "Edmonton"]
@@ -723,13 +723,13 @@ glue("census_popn", "{0:,.0f}".format(35151728))
 glue("most_french", "{0:,.0f}".format(2669195))
 ```
 
-我们在{numref}`filter-and`中看到，有 {glue:text}`most_french` 人报告自己在蒙特利尔把法语作为在家主要使用的语言。如果我们要找的是这样的地区：在那里，把某种官方语言作为在家主要使用语言的人数多于蒙特利尔的法语人数，就可以用 `[]` 取出 `most_at_home` 的取值大于 {glue:text}`most_french` 的行。我们用 `>` 符号查找*高于*阈值的取值，用 `<` 符号查找*低于*阈值的取值；`>=` 和 `<=` 符号同样分别查找*大于或等于*阈值、*小于或等于*阈值的取值。
+我们在{numref}`filter-and`中看到，有 {glue:text}`most_french` 人报告自己在 Montréal 把法语作为在家主要使用的语言。如果我们要找的是这样的地区：在那里，把某种官方语言作为在家主要使用语言的人数多于 Montréal 的法语人数，就可以用 `[]` 取出 `most_at_home` 的取值大于 {glue:text}`most_french` 的行。我们用 `>` 符号查找*高于*阈值的取值，用 `<` 符号查找*低于*阈值的取值；`>=` 和 `<=` 符号同样分别查找*大于或等于*阈值、*小于或等于*阈值的取值。
 
 ```{code-cell} ipython3
 official_langs[official_langs["most_at_home"] > 2669195]
 ```
 
-这个操作返回的数据框只有一行，说明在考虑官方语言时，根据 2016 年加拿大人口普查，只有多伦多的英语作为在家主要使用语言的人数多于蒙特利尔的法语。
+这个操作返回的数据框只有一行，说明在考虑官方语言时，根据 2016 年加拿大人口普查，只有 Toronto 的英语作为在家主要使用语言的人数多于 Montréal 的法语。
 
 ### 用 `query` 提取行
 
@@ -750,7 +750,7 @@ official_langs.query("most_at_home > 2669195")
 ```{index} DataFrame; loc[]
 ```
 
-`[]` 操作只用于筛选行**或**选取列这两件事中的一件，不能同时完成两件。这正是 `loc[]` 的用武之地。先看第一个例子：回忆一下{numref}`第 %s 章 <intro>`中的 `loc[]`，我们可以用它取出 `tidy_lang` 数据框中行与列的子集。`loc[]` 的第一个参数给出一个逻辑表达式，把行筛选到只保留与多伦多地区有关的那些；第二个参数给出按列名保留的列列表。
+`[]` 操作只用于筛选行**或**选取列这两件事中的一件，不能同时完成两件。这正是 `loc[]` 的用武之地。先看第一个例子：回忆一下{numref}`第 %s 章 <intro>`中的 `loc[]`，我们可以用它取出 `tidy_lang` 数据框中行与列的子集。`loc[]` 的第一个参数给出一个逻辑表达式，把行筛选到只保留与 Toronto 地区有关的那些；第二个参数给出按列名保留的列列表。
 
 ```{code-cell} ipython3
 :tags: ["output_scroll"]
@@ -1152,9 +1152,9 @@ glue("toronto_popn", "{0:,.0f}".format(toronto_popn))
 glue("prop_eng_tor", "{0:.2f}".format(number_most_home / toronto_popn))
 ```
 
-再举一个例子。我们可能会问：“2016 年人口普查中，报告把英语作为在家主要使用语言的人占多大比例？”例如在多伦多，有 {glue:text}`number_most_home` 人报告自己把英语作为在家主要使用的语言，而多伦多的人口为 {glue:text}`toronto_popn` 人。所以，2016 年人口普查中多伦多报告把英语作为在家主要使用语言的人口比例为 {glue:text}`prop_eng_tor`。那么，从 `region_lang` 数据框出发，我们该怎么算出这个结果呢？
+再举一个例子。我们可能会问：“2016 年人口普查中，报告把英语作为在家主要使用语言的人占多大比例？”例如在 Toronto，有 {glue:text}`number_most_home` 人报告自己把英语作为在家主要使用的语言，而 Toronto 的人口为 {glue:text}`toronto_popn` 人。所以，2016 年人口普查中 Toronto 报告把英语作为在家主要使用语言的人口比例为 {glue:text}`prop_eng_tor`。那么，从 `region_lang` 数据框出发，我们该怎么算出这个结果呢？
 
-首先，我们需要筛选 `region_lang` 数据框，只保留语言为英语的行。我们还要把范围限定在 `five_cities` 数据框中的五个主要城市：多伦多、蒙特利尔、温哥华、卡尔加里和埃德蒙顿。筛选时只保留与英语有关、并且属于上述五个城市的行。要把这两个逻辑表达式组合起来，我们用 `&` 符号。再用 `[]` 操作，以 `"English"` 作为 `language` 筛选行，并把新数据框命名为 `english_langs`。
+首先，我们需要筛选 `region_lang` 数据框，只保留语言为英语的行。我们还要把范围限定在 `five_cities` 数据框中的五个主要城市：Toronto、Montréal、Vancouver、Calgary 和 Edmonton。筛选时只保留与英语有关、并且属于上述五个城市的行。要把这两个逻辑表达式组合起来，我们用 `&` 符号。再用 `[]` 操作，以 `"English"` 作为 `language` 筛选行，并把新数据框命名为 `english_langs`。
 ```{code-cell} ipython3
 :tags: ["output_scroll"]
 english_lang = region_lang[
@@ -1169,7 +1169,7 @@ english_lang
 five_cities
 ```
 上面的数据框显示，2016 年这五个城市的人口分别是
-5928040（多伦多）、4098927（蒙特利尔）、2463431（温哥华）、1392609（卡尔加里）和 1321426（埃德蒙顿）。接下来，我们把这份信息加到数据框的一个新列 `city_pops` 中。这里我们同样用 `assign` 方法和常规列赋值各演示一遍做法。我们把新列名（`city_pops`）作为参数，后面跟等号 `=`，最后是该列的数据。注意，`english_lang` 数据框中各行的顺序是蒙特利尔、多伦多、卡尔加里、埃德蒙顿、温哥华。所以我们要新建一个名为 `city_pops` 的列，按这个顺序列出这些城市的人口，再把它加到数据框中。还要记住，和其他 `pandas` 函数一样，`assign` 默认不会直接修改原数据框，所以 `english_lang` 数据框不会改变！
+5928040（Toronto）、4098927（Montréal）、2463431（Vancouver）、1392609（Calgary）和 1321426（Edmonton）。接下来，我们把这份信息加到数据框的一个新列 `city_pops` 中。这里我们同样用 `assign` 方法和常规列赋值各演示一遍做法。我们把新列名（`city_pops`）作为参数，后面跟等号 `=`，最后是该列的数据。注意，`english_lang` 数据框中各行的顺序是 Montréal、Toronto、Calgary、Edmonton、Vancouver。所以我们要新建一个名为 `city_pops` 的列，按这个顺序列出这些城市的人口，再把它加到数据框中。还要记住，和其他 `pandas` 函数一样，`assign` 默认不会直接修改原数据框，所以 `english_lang` 数据框不会改变！
 ```{code-cell} ipython3
 :tags: ["output_scroll"]
 english_lang.assign(
@@ -1234,7 +1234,7 @@ english_lang
 ```{index} DataFrame; merge
 ```
 
-我们回到给 `english_lang` 数据框加入多伦多、蒙特利尔、温哥华、卡尔加里和埃德蒙顿这几座城市人口之前的状态。在添加新列之前，我们已经从 `region_lang` 中筛选出了
+我们回到给 `english_lang` 数据框加入 Toronto、Montréal、Vancouver、Calgary 和 Edmonton 这几座城市人口之前的状态。在添加新列之前，我们已经从 `region_lang` 中筛选出了
 `english_lang` 数据框，其中只包含这五个目标城市里讲英语的人。
 ```{code-cell} ipython3
 :tags: ["remove-cell"]
@@ -1248,7 +1248,7 @@ english_lang = region_lang[
 :tags: ["output_scroll"]
 english_lang
 ```
-随后我们把这些城市的人口加成一列（多伦多：5928040，蒙特利尔：4098927，温哥华：2463431，卡尔加里：1392609，埃德蒙顿：1321426）。添加时必须注意顺序正确，这个过程很容易出错。这里演示的另一种做法是：（1）先新建一个数据框，其中包含城市名称和人口，（2）注意到两者的“regions”是相同的，用 `merge` 把这两个数据框合并起来。
+随后我们把这些城市的人口加成一列（Toronto：5928040，Montréal：4098927，Vancouver：2463431，Calgary：1392609，Edmonton：1321426）。添加时必须注意顺序正确，这个过程很容易出错。这里演示的另一种做法是：（1）先新建一个数据框，其中包含城市名称和人口，（2）注意到两者的“regions”是相同的，用 `merge` 把这两个数据框合并起来。
 
 我们调用 `pd.DataFrame`，并以一个字典作为参数来新建数据框。字典把待建数据框的每个列名与一个条目列表对应起来。这里我们在 `"region"` 列中列出城市名称，在 `"population"` 列中列出它们的人口。
 ```{code-cell} ipython3
@@ -1265,7 +1265,7 @@ city_populations
 english_lang = english_lang.merge(city_populations, on="region")
 english_lang
 ```
-可以看到，每个城市的人口都是正确的（例如蒙特利尔：4098927，多伦多：5928040），从这里就可以接着做我们的分析了。
+可以看到，每个城市的人口都是正确的（例如 Montréal：4098927，Toronto：5928040），从这里就可以接着做我们的分析了。
 
 ## 小结
 

@@ -412,8 +412,7 @@ document.write(`
 </figure>
 <section id="id5">
 <h3><span class="section-number">11.3.1. </span>访问 Jupyter<a class="headerlink" href="#id5" title="Permalink to this heading">#</a></h3>
-<p id="index-1">开始使用 Jupyter 最简单的办法之一，是使用名为 JupyterHub 的网页平台。JupyterHub 通常已经装好 Jupyter、Python、一批 Python 包和协作工具，配置完毕，可直接使用。JupyterHub 一般由机构创建和配置，访问时需要身份验证。例如，如果你是跟着课程读这本书，授课教师可能已经为你搭好了一个 JupyterHub！</p>
-<!--- 如果能获得访问许可，就在这里插入公开 JupyterHub 的链接（可以是 2i2c 协作项目，或 https://notebooks.gesis.org/hub/home） --> Jupyter 也可以安装在自己的电脑上；安装说明见{numref}`第 %s 章 <move-to-your-own-machine>`。
+<p id="index-1">开始使用 Jupyter 最简单的办法之一，是使用名为 JupyterHub 的网页平台。JupyterHub 通常已经装好 Jupyter、Python、一批 Python 包和协作工具，配置完毕，可直接使用。JupyterHub 一般由机构创建和配置，访问时需要身份验证。例如，如果你是跟着课程读这本书，授课教师可能已经为你搭好了一个 JupyterHub！<!--- 如果能获得访问许可，就在这里插入公开 JupyterHub 的链接（可以是 2i2c 协作项目，或 https://notebooks.gesis.org/hub/home） --> Jupyter 也可以安装在自己的电脑上；安装说明见<a class="reference internal" href="setup.html#move-to-your-own-machine"><span class="std std-numref">第 13 章</span></a>。</p>
 </section>
 </section>
 <section id="id6">
@@ -433,7 +432,7 @@ document.write(`
 </figure>
 <section id="id7">
 <h3><span class="section-number">11.4.1. </span>运行代码单元格<a class="headerlink" href="#id7" title="Permalink to this heading">#</a></h3>
-<p id="index-3">代码单元格既可以单独运行，也可以作为运行整个笔记本的一部分来执行——后者要用到 Jupyter 的**运行（Run）<strong>菜单或</strong>内核（Kernel）**菜单里的“<strong>运行全部单元格（Run All Cells）</strong>”命令。单独运行一个代码单元格，通常是在编辑或编写自己的 Python 代码时采用的做法。运行整个笔记本，通常是为了在把分析分享给别人之前确认它能完整运行，另外也用于把笔记本纳入自动化流程的场合。</p>
+<p id="index-3">代码单元格既可以单独运行，也可以作为运行整个笔记本的一部分来执行——后者要用到 Jupyter 的<strong>运行（Run）菜单或内核（Kernel）菜单</strong>里的“<strong>运行全部单元格（Run All Cells）</strong>”命令。单独运行一个代码单元格，通常是在编辑或编写自己的 Python 代码时采用的做法。运行整个笔记本，通常是为了在把分析分享给别人之前确认它能完整运行，另外也用于把笔记本纳入自动化流程的场合。</p>
 <p>要单独运行某个代码单元格，先要激活它：用光标点击该单元格即可。Jupyter 会在单元格左侧用一个蓝色矩形框把它高亮出来，表示已经激活。单元格激活后（<a class="reference internal" href="#activate-and-run-button"><span class="std std-numref">图 11.4</span></a>），既可以按工具栏上的<strong>运行</strong>（⏵）按钮来运行，也可以使用键盘快捷键 <code class="docutils literal notranslate"><span class="pre">Shift</span> <span class="pre">+</span> <span class="pre">Enter</span></code>。</p>
 <figure class="align-default" id="activate-and-run-button">
 <img alt="_images/activate-and-run-button-annotated.png" src="_images/activate-and-run-button-annotated.png" />
@@ -443,8 +442,8 @@ document.write(`
 </figure>
 <p>要运行整个笔记本中的全部代码单元格，有三种办法：</p>
 <ol class="arabic simple">
-<li><p>在菜单中选择<strong>运行</strong> &gt;&gt; <strong>运行全部单元格</strong>。</p></li>
-<li><p>在菜单中选择<strong>内核</strong> &gt;&gt; <strong>重启内核并运行全部单元格（Restart Kernel and Run All Cells…）</strong>（<a class="reference internal" href="#restart-kernel-run-all"><span class="std std-numref">图 11.5</span></a>）。</p></li>
+<li><p>在菜单中选择<strong>运行（Run）</strong> &gt;&gt; <strong>运行全部单元格（Run All Cells）</strong>。</p></li>
+<li><p>在菜单中选择<strong>内核（Kernel）</strong> &gt;&gt; <strong>重启内核并运行全部单元格（Restart Kernel and Run All Cells…）</strong>（<a class="reference internal" href="#restart-kernel-run-all"><span class="std std-numref">图 11.5</span></a>）。</p></li>
 <li><p>点击工具栏上的（⏭）按钮。</p></li>
 </ol>
 <p>这些命令都会运行笔记本中的全部代码单元格。不过它们之间有一点细微差别：只有上面第 2 种和第 3 种办法会在运行所有单元格之前重启 Python 会话，第 1 种不会重启会话。重启 Python 会话意味着，在这条命令执行之前由运行单元格创建的所有对象都会被删除。换句话说，先重启会话再运行所有单元格（第 2 种或第 3 种办法），相当于在运行整个笔记本之前把 Jupyter 完全重启了一遍。</p>
@@ -508,7 +507,7 @@ document.write(`
 </section>
 <section id="id12">
 <h2><span class="section-number">11.6. </span>保存你的工作<a class="headerlink" href="#id12" title="Permalink to this heading">#</a></h2>
-<p>和对待任何正在处理的文件一样，一定要经常保存，免得丢失已完成的进度！Jupyter 有自动保存（autosave）功能，会定期保存打开的文件，默认每两分钟保存一次。你也可以手动保存 Jupyter 笔记本：在<strong>文件</strong>菜单中选择<strong>保存笔记本</strong>，点击工具栏上的磁盘图标，或者使用快捷键（Windows 上是 <code class="docutils literal notranslate"><span class="pre">Control</span> <span class="pre">+</span> <span class="pre">S</span></code>，Mac OS 上是 <code class="docutils literal notranslate"><span class="pre">Command</span> <span class="pre">+</span> <span class="pre">S</span></code>）。</p>
+<p>和对待任何正在处理的文件一样，一定要经常保存，免得丢失已完成的进度！Jupyter 有自动保存（autosave）功能，会定期保存打开的文件，默认每两分钟保存一次。你也可以手动保存 Jupyter 笔记本：在<strong>文件</strong>菜单中选择<strong>保存笔记本</strong>，点击工具栏上的磁盘图标，或者使用快捷键（Windows 上是 <code class="docutils literal notranslate"><span class="pre">Control</span> <span class="pre">+</span> <span class="pre">S</span></code>，macOS 上是 <code class="docutils literal notranslate"><span class="pre">Command</span> <span class="pre">+</span> <span class="pre">S</span></code>）。</p>
 </section>
 <section id="id13">
 <h2><span class="section-number">11.7. </span>运行笔记本的最佳实践<a class="headerlink" href="#id13" title="Permalink to this heading">#</a></h2>
@@ -536,7 +535,7 @@ document.write(`
 </figure>
 <p>你还可能无意中做出一个不能正常运行的笔记本：在某个单元格里创建了一个对象，而这个对象后来被删除了。这种情形下，该对象只在那一个 Python 会话中存在，笔记本重启后再运行就不存在了。如果笔记本中另有单元格引用了这个对象，那么在新会话中重新运行整个笔记本时就会报错。</p>
 <p>编写代码时，这些情况可能不会给当前 Python 会话带来负面影响；但你现在应该看出来了，以后在新的会话中运行该笔记本时，它们很可能导致报错。经常在全新的 Python 会话中运行整个笔记本，有助于避免这类问题。如果你重启会话后，按线性顺序运行所有单元格时冒出新的报错，至少你能意识到存在问题。越早发现，就越能及时修好问题，确保笔记本可以从头到尾线性运行。</p>
-<p>我们建议的最佳实践是：在每一段工作中，至少在全新的 Python 会话里完整运行整个笔记本 2–3 次。请注意，这一点很关键：你<em>必须在全新的 Python 会话中做这件事</em>，也就是要重启内核。我们建议使用<strong>内核</strong> &gt;&gt; **重启内核并运行全部单元格……**命令，或者工具栏上的 ⏭ 按钮。注意，<strong>运行</strong> &gt;&gt; <strong>运行全部单元格</strong>菜单项不会重启内核，所以它不足以防范这类错误。</p>
+<p>我们建议的最佳实践是：在每一段工作中，至少在全新的 Python 会话里完整运行整个笔记本 2–3 次。请注意，这一点很关键：你<em>必须在全新的 Python 会话中做这件事</em>，也就是要重启内核。我们建议使用<strong>内核</strong> &gt;&gt; <strong>重启内核并运行全部单元格</strong>……命令，或者工具栏上的 ⏭ 按钮。注意，<strong>运行</strong> &gt;&gt; <strong>运行全部单元格</strong>菜单项不会重启内核，所以它不足以防范这类错误。</p>
 </section>
 <section id="python">
 <h3><span class="section-number">11.7.2. </span>在笔记本中引入 Python 包的最佳实践<a class="headerlink" href="#python" title="Permalink to this heading">#</a></h3>
@@ -548,7 +547,7 @@ document.write(`
 <h3><span class="section-number">11.7.3. </span>运行笔记本的最佳实践小结<a class="headerlink" href="#id15" title="Permalink to this heading">#</a></h3>
 <ol class="arabic simple">
 <li><p>编写代码时，保证它能按线性顺序执行。</p></li>
-<li><p>在 Jupyter 笔记本中写代码的过程中，经常按线性顺序完整运行笔记本（每段工作 2–3 次），做法是使用 Jupyter 菜单中的<strong>内核</strong> &gt;&gt; **重启内核并运行全部单元格……**命令，或者工具栏上的 ⏭ 按钮。</p></li>
+<li><p>在 Jupyter 笔记本中写代码的过程中，经常按线性顺序完整运行笔记本（每段工作 2–3 次），做法是使用 Jupyter 菜单中的<strong>内核</strong> &gt;&gt; <strong>重启内核并运行全部单元格</strong>……命令，或者工具栏上的 ⏭ 按钮。</p></li>
 <li><p>把加载外部 Python 包的代码写在 Jupyter 笔记本靠前的位置。</p></li>
 </ol>
 </section>
