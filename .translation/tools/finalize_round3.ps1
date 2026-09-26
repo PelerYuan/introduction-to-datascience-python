@@ -26,27 +26,33 @@ pwsh -NoProfile -File .translation\tools\build_book.ps1 *> .translation\logs\bui
 if ($LASTEXITCODE -ne 0) { throw "build failed, see build_r3.log" }
 Write-Host "build exit 0"
 
-Step "3/7 rendered-page gates"
+Step "3/7 rendered-page gates (charts, paths, tracebacks)"
 $hq = & $py .translation\tools\html_qa.py --json .translation\reports\html_qa.json 2>&1
 $hq | Select-Object -First 5
 if (-not ($hq | Select-String 'rendered book is clean')) { throw "rendered book is not clean" }
 
 Step "4/7 commit"
 git add -A
-git -c user.name="peler" -c user.email="peler@users.noreply.github.com" commit -q -m "fix: finish the read-through review (ordinals, hyperparameters, label formatting)
+git -c user.name="peler" -c user.email="peler@users.noreply.github.com" commit -q -m "fix: keep this machine's filesystem out of the published book
 
-- regression1: the RMSPE explanation now reads 第 i 个观测 instead of keeping the
-  English ordinal superscript next to 第. verify_structure normalises that one token
-  on both sides, so every other formula is still compared exactly.
-- classification2 and regression1: the last five places that called $K a 参数 are
-  超参数 now; get_params, 参数网格 and np.random.seed keep 参数 because those really
-  are function arguments.
-- wrangling: categorical values are 类别取值, matching 类别型变量 elsewhere.
-- Uniform UI-label formatting: the English gloss always sits outside the bold, so
-  lint_zh exempts the gloss rather than forcing it inside; Run no longer renders as
-  two adjacent parentheses, and quote placement is consistent.
-- The two 3-D captions put their translator note at the end of the sentence instead
-  of next to another parenthetical."
+- The cells that fail on purpose are executed here, so their rendered tracebacks
+  named this machine: File D:...\.venv-build\lib\site-packages\ibis\... and the
+  ipykernel files under AppData\Local\Temp. A new post-build tool,
+  tools/sanitize_paths.py, rewrites those strings to the paths the upstream Docker
+  image shows - the build venv's site-packages to /opt/conda/lib/python3.10/
+  site-packages, source\_build\jupyter_execute\<name>.ipynb to
+  /home/jovyan/work/<name>.ipynb, the repository root to /home/jovyan/work and the
+  temp files to /tmp - and build_book.ps1 runs it right after the build, before the
+  canonical links, so the sanitised HTML is what gets published. It is deterministic
+  and idempotent, its --check mode exits non-zero on any leftover, and it only ever
+  rewrites path strings, never chart JavaScript. No cell was touched: the code blocks
+  are still byte-identical to the English source.
+- html_qa.py now scans the whole rendered page instead of only its paragraphs, so
+  RENDERED_PATH sees error-output and traceback blocks. That is precisely what the
+  old check could not see: the ibis traceback lives in an output div, and the gate
+  reported the book clean while those paths were live on the site.
+- inference: the sampling-distribution sentence loses the 的样本的样本 pile-up and
+  now reads 再画出样本量为 40 时样本均值的抽样分布。"
 git -c http.sslBackend=openssl push "https://x-access-token:$(gh auth token)@github.com/PelerYuan/introduction-to-datascience-python.git" main 2>&1 | Select-Object -Last 1
 
 Step "5/7 publish"

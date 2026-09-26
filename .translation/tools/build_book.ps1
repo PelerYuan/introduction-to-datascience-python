@@ -61,6 +61,24 @@ Write-Host "=== jupyter-book build $Target ===" -ForegroundColor Cyan
 $code = $LASTEXITCODE
 Write-Host "=== build exit code: $code ===" -ForegroundColor $(if ($code -eq 0) { "Green" } else { "Yellow" })
 
+# The book lets cells fail on purpose, and a failing cell renders its traceback. On this
+# machine those tracebacks name this machine — `File D:\...\.venv-build\lib\site-packages\
+# ibis\...` and `C:\Users\...\AppData\Local\Temp\...` — where the English edition, built in
+# the project's Docker image, shows /opt/conda/... and /tmp/... instead. The cells cannot be
+# edited (they must stay byte-identical to the English source, and the failures are the
+# lesson), so the finished HTML is rewritten here.
+#
+# It runs immediately after the build and before add_canonical_links.py: the sanitised HTML
+# has to be what every later step and the publish step see. A non-zero exit here is an I/O
+# failure, not a leftover path — leftovers are what html_qa.py reports, and that gate runs
+# before anything is committed or published.
+$sanitize = Join-Path $root ".translation\tools\sanitize_paths.py"
+if ($code -eq 0 -and (Test-Path $sanitize)) {
+    Write-Host "=== sanitize_paths.py ===" -ForegroundColor Cyan
+    & $py $sanitize
+    if ($LASTEXITCODE -ne 0) { $code = $LASTEXITCODE }
+}
+
 $canonical = Join-Path $root "add_canonical_links.py"
 if ($code -eq 0 -and (Test-Path $canonical)) {
     Write-Host "=== add_canonical_links.py ===" -ForegroundColor Cyan

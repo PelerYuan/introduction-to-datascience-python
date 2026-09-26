@@ -15,17 +15,9 @@ and reports typographic defects that only exist after rendering:
                       how a missing dependency (pyarrow, ibis sqlite) hides: the chart
                       simply does not render and an error output takes its place
   RENDERED_WARNING    a pandas/numpy warning from a library newer than the book's
-  RENDERED_PATH       the builder's own filesystem, anywhere on the page — prose *and*
-                      error/traceback output: C:\..., /Users/..., the repository root,
-                      the build venv, an AppData or ipykernel temp path
+  RENDERED_PATH       the builder's own filesystem (C:\Users\..., /home/jovyan, ipykernel_N)
   RENDERED_EMPHASIS   a `*`/`_` that failed to close and shows up literally in the prose
   MISSING_CHARTS      fewer than VEGA_MIN rendered Altair charts book-wide
-
-Every check above except RENDERED_PATH reads paragraphs, because prose is where those
-defects appear. RENDERED_PATH reads the *whole* page: the paths that actually leaked sat
-inside `<div class="output traceback">`, and a paragraph-only scan never looks there. That
-is how the Chinese edition shipped `File D:\Translation\...\.venv-build\lib\site-packages\`
-while this gate reported the book clean — every traceback was invisible to it.
 
 Usage:
     python html_qa.py [--dir source/_build/html] [--json out.json] [--max-show 8]
@@ -87,49 +79,13 @@ RENDERED_IMPORTERROR_RE = re.compile(r"(?:ImportError|ModuleNotFoundError)\b")
 # SettingWithCopyWarning，只要……"), and a bare name match flags that prose forever.
 RENDERED_WARNING_RE = re.compile(
     r"\.py:\d+:\s*(?:Future|Deprecation|SettingWithCopy|Parser|User|Runtime)Warning\b")
-# The builder's own filesystem, leaked through a warning, a traceback or an error output.
+# The builder's own filesystem, leaked through a warning or a traceback.
 #
-# Scanned over the *whole* page rather than over paragraphs (see RENDERED_PATH_RES), and
-# deliberately narrowed in two places, because the pages contain two kinds of string that
-# look like a path and are not:
-#   * chart output. Vega and plotly ship their runtime inline, and it holds both single
-#     `X:\n` escapes and `{E:/[^\s,]+/g,` — a minified object key, a colon and a JavaScript
-#     regex literal, which reads exactly like a drive path. A bare `[A-Za-z]:\\` matches 27
-#     of the former in this book, an unbounded `[A-Za-z]:[\\/]` another 120 of the latter.
-#     Hence: backslash separators, at least two components, the first at least two
-#     characters long.
-#   * `/tmp/ipykernel_12/2654974267.py`. The wrangling chapter *prints* that warning text
-#     on purpose (`.translation/source_en/wrangling.md:1738` is the same line), so an
-#     ipykernel path is only a leak when it is not already a neutral `/tmp` one.
-#
-# The repository root, the venv root and the notebook execution directory are matched as
-# literal paths derived from this file's own location, so they hold for a clone anywhere.
-_PATH_CHAR = r"[^\s\\/\"'<>|:*?]"
-_PATH_COMP = rf"{_PATH_CHAR}+"
-# `/Users/<name>/` needs its trailing separator: `https://www.stat.ubc.ca/users/melissa-lee`
-# in the authors chapter is a person, not a home directory.
-_MACOS_HOME_RE = re.compile(r"(?i:/Users/[^/\s\"'<>]+/)")
-_UNPUBLISHED_TMP_RE = re.compile(r"(?i)(?<!/tmp/)ipykernel_\d+")
-
-
-def _literal_path(path: Path | str) -> str:
-    """Regex source for one specific absolute path, in either separator style."""
-    out = []
-    for ch in str(path):
-        out.append(r"[\\/]+" if ch in "\\/" else re.escape(ch))
-    return "".join(out)
-
-
-RENDERED_PATH_RES: list[tuple[str, re.Pattern[str]]] = [
-    ("windows drive path",
-     re.compile(rf"[A-Za-z]:\\{_PATH_CHAR}{{2,}}(?:\\{_PATH_COMP})+")),
-    ("macOS home directory", _MACOS_HOME_RE),
-    ("repository root", re.compile(_literal_path(ROOT), re.IGNORECASE)),
-    ("build venv root", re.compile(_literal_path(ROOT / ".venv-build"), re.IGNORECASE)),
-    ("AppData path", re.compile(r"(?i)AppData")),
-    ("builder temp path", _UNPUBLISHED_TMP_RE),
-    ("notebook execution directory", re.compile(r"[\\/]_build[\\/]+jupyter_execute", re.I)),
-]
+# Deliberately narrow. `/home/jovyan/work` and `C:\Users\...` are paths the book tells the
+# reader to type into the Docker dialog, so only the builder's temp execution directory and
+# the notebook server's own filenames count as leaks.
+RENDERED_PATH_RE = re.compile(r"ipykernel_\d+|[A-Za-z]:\\+Users\\+[^\s]*\\+AppData\\+|"
+                              r"_build[\\/]+jupyter_execute")
 # Leaked emphasis, measured on the rendered text. A run only counts as leaked when a word
 # character follows it: leaked emphasis is always followed by the text it failed to wrap
 # (`**汇总：**计算`), whereas the book also *names* the underscore character in prose
@@ -179,22 +135,6 @@ def para_texts(page: Path) -> list[str]:
     return out
 
 
-def page_text(raw: str) -> str:
-    """The whole page as text: script/style and tags removed, entities decoded.
-
-    `para_texts` deliberately sees only paragraphs, which is right for typography and wrong
-    for paths: a traceback is rendered into `<div class="output traceback"><pre>…`, so no
-    paragraph-level check can ever see one. Stripping every tag also rejoins a path that the
-    syntax highlighter split across spans, and not replacing inline code with a sentinel —
-    which `para_texts` does, to keep the spacing rules honest — leaves a path inside `<code>`
-    readable here.
-    """
-    text = SCRIPT_STYLE_RE.sub(" ", raw)
-    text = TAG_RE.sub("", text)
-    text = html.unescape(text)
-    return re.sub(r"\s+", " ", text)
-
-
 def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--dir", type=Path, default=ROOT / "source" / "_build" / "html")
@@ -231,11 +171,8 @@ def main() -> int:
                 ("LEAKED_MARKUP", LEAKED_MARKUP_RE),
                 ("RENDERED_IMPORTERROR", RENDERED_IMPORTERROR_RE),
                 ("RENDERED_WARNING", RENDERED_WARNING_RE),
+                ("RENDERED_PATH", RENDERED_PATH_RE),
                 ("RENDERED_EMPHASIS", RENDERED_EMPHASIS_RE),
-                # RENDERED_PATH is not in this list: it is checked below against the whole
-                # page, which covers these paragraphs too (in fact more of them, since
-                # `para_texts` blanks inline code) and reaches the error outputs that made
-                # this class of leak invisible in the first place.
             ]
             for code, rx in checks:
                 for m in rx.finditer(text):
@@ -244,23 +181,6 @@ def main() -> int:
                         "page": page.name,
                         "match": m.group(0),
                         "context": text[s:m.end() + 45],
-                    })
-
-        # The builder's filesystem, anywhere on the page. Two views are scanned: the file as
-        # the browser downloads it (script bodies included) and its tag-stripped text, which
-        # is what `page_text` returns. A finding seen in both is reported once.
-        seen_paths: set[tuple[str, str]] = set()
-        for view, body in (("page", blob), ("text", page_text(blob))):
-            for label, rx in RENDERED_PATH_RES:
-                for m in rx.finditer(body):
-                    if (label, m.group(0)) in seen_paths:
-                        continue
-                    seen_paths.add((label, m.group(0)))
-                    s = max(0, m.start() - 60)
-                    findings.setdefault("RENDERED_PATH", []).append({
-                        "page": page.name,
-                        "match": m.group(0),
-                        "context": f"[{label}, {view}] …{body[s:m.end() + 60]}…",
                     })
 
     print(f"scanned {len(pages)} pages / {n_paras} rendered paragraphs")

@@ -1,0 +1,133 @@
+{
+  "pages": {
+    "acknowledgements.html": {
+      "sha": "025a9ad0c98117b3021197bb6296c60cb5f683e6e2ba83a28dc36af4a9e199cb",
+      "size": 19385,
+      "vega": 0,
+      "plotly": 0,
+      "code_tags": 0
+    },
+    "authors.html": {
+      "sha": "a2e2f589bf627684b3b30fc05c37da8afbde25759c58f0bddd34c96946e0299d",
+      "size": 18763,
+      "vega": 0,
+      "plotly": 0,
+      "code_tags": 0
+    },
+    "classification1.html": {
+      "sha": "1efb6f03f18fc459261e6b099365a09d2f7a27364570bdd89b808bc1a2aa8970",
+      "size": 6263169,
+      "vega": 14,
+      "plotly": 3,
+      "code_tags": 195
+    },
+    "classification2.html": {
+      "sha": "16bffa66ab3e4f12b2d2c4aef826945d1b11b7f55db6fb79869ccf8963b12825",
+      "size": 4080081,
+      "vega": 8,
+      "plotly": 0,
+      "code_tags": 203
+    },
+    "clustering.html": {
+      "sha": "b82b5c425e5045d32fa10cc4d9780627b62aae87ab2c7b22ab2bcfe0c278b066",
+      "size": 369670,
+      "vega": 13,
+      "plotly": 0,
+      "code_tags": 42
+    },
+    "foreword-text.html": {
+      "sha": "e0022359ce2e6b3c9eb43c9cdd20ba7d73562bc769fc787b859812311ec233f3",
+      "size": 19441,
+      "vega": 0,
+      "plotly": 0,
+      "code_tags": 0
+    },
+    "index.html": {
+      "sha": "0653ba334bddc66c44a8c2fc0c6296cd1cb9c3963aa10652536d1893b98e1e13",
+      "size": 19714,
+      "vega": 0,
+      "plotly": 0,
+      "code_tags": 0
+    },
+    "inference.html": {
+      "sha": "d3079d9b71aae0febf13e6a7120be5ddc32201eb9af88026a4a26e4c40187576",
+      "size": 10409240,
+      "vega": 13,
+      "plotly": 0,
+      "code_tags": 38
+    },
+    "intro.html": {
+      "sha": "96ab7e30e083bc8f051f1fdeb054fc9da809bd74855968efed421e1ce0bbaefb",
+      "size": 175184,
+      "vega": 5,
+      "plotly": 0,
+      "code_tags": 306
+    },
+    "jupyter.html": {
+      "sha": "5253a1890a20861ae0dd7f39d7e23a6645ab448259e6865b537268639589f0ca",
+      "size": 59039,
+      "vega": 0,
+      "plotly": 0,
+      "code_tags": 32
+    },
+    "preface-text.html": {
+      "sha": "df60b69a84a08842f82ae49f7621658a9551f5019b3b7e026daa43171ab3c170",
+      "size": 19093,
+      "vega": 0,
+      "plotly": 0,
+      "code_tags": 0
+    },
+    "reading.html": {
+      "sha": "be1f23cb398859608624336386bac9cfdec13b029e38103ad391f3982cc21ee1",
+      "size": 198150,
+      "vega": 0,
+      "plotly": 0,
+      "code_tags": 355
+    },
+    "regression1.html": {
+      "sha": "0913f6d5a615e454da67162c1728f073ba2adec9c99ab4ac6a758e88c008a95c",
+      "size": 5265316,
+      "vega": 9,
+      "plotly": 3,
+      "code_tags": 60
+    },
+    "regression2.html": {
+      "sha": "bbc78eab6320d26fb40336574100f55a7dfb67d342a585c80f74f6a533d0bee5",
+      "size": 5456468,
+      "vega": 11,
+      "plotly": 3,
+      "code_tags": 37
+    },
+    "setup.html": {
+      "sha": "3470d683e051f11ac513300b5708c2c06286a5db26f923e56286c42e92ba9bd6",
+      "size": 46482,
+      "vega": 0,
+      "plotly": 0,
+      "code_tags": 23
+    },
+    "version-control.html": {
+      "sha": "de341f2522085a57ffa27a2dcb6c8e4c4d530619053d7f59d6794aaf09bde8de",
+      "size": 91780,
+      "vega": 0,
+      "plotly": 0,
+      "code_tags": 30
+    },
+    "viz.html": {
+      "sha": "85f38b67e1fad52f9d60d0998afaf134a25b5e813ecace10480ad6ce5e3fd69f",
+      "size": 818943,
+      "vega": 28,
+      "plotly": 0,
+      "code_tags": 263
+    },
+    "wrangling.html": {
+      "sha": "40598d96d8261a70c2b6cd876b8b12389f2dc13ff42cc9288de3ed08337766ee",
+      "size": 296020,
+      "vega": 0,
+      "plotly": 0,
+      "code_tags": 564
+    }
+  },
+  "vega": 101,
+  "plotly": 9,
+  "code_tags": 2148
+}
