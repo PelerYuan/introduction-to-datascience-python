@@ -405,7 +405,7 @@ document.write(`
 <p><span class="caption-number">图 1.1 </span><span class="caption-text">加拿大地图。</span><a class="headerlink" href="#canadamap" title="永久链接至图片">#</a></p>
 </figcaption>
 </figure>
-<p>本章要研究的数据集取自 <a class="reference external" href="https://ttimbers.github.io/canlang/"><code class="docutils literal notranslate"><span class="pre">canlang</span></code> R 数据包</a> <span id="id9">[<a class="reference internal" href="viz.html#id47" title="Tiffany Timbers. canlang: Canadian Census language data. 2020. R package version 0.0.9. URL: https://ttimbers.github.io/canlang/.">Timbers, 2020</a>]</span>，其中包含 2016 年加拿大人口普查 <span id="id10">[<a class="reference internal" href="#id40" title="Statistics Canada. Population census. 2016. URL: https://www12.statcan.gc.ca/census-recensement/2016/dp-pd/index-eng.cfm.">Statistics Canada, 2016</a>]</span> 收集的人口语言数据。这份数据记录了 214 种语言，每种语言有六个不同的属性：</p>
+<p>本章要研究的数据集取自 <a class="reference external" href="https://ttimbers.github.io/canlang/"><code class="docutils literal notranslate"><span class="pre">canlang</span></code> R 数据包</a> <span id="id9">[<a class="reference internal" href="#id48" title="Tiffany Timbers. canlang: Canadian Census language data. 2020. R package version 0.0.9. URL: https://ttimbers.github.io/canlang/.">Timbers, 2020</a>]</span>，其中包含 2016 年加拿大人口普查 <span id="id10">[<a class="reference internal" href="#id40" title="Statistics Canada. Population census. 2016. URL: https://www12.statcan.gc.ca/census-recensement/2016/dp-pd/index-eng.cfm.">Statistics Canada, 2016</a>]</span> 收集的人口语言数据。这份数据记录了 214 种语言，每种语言有六个不同的属性：</p>
 <ol class="arabic simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">category</span></code>：更高层级的语言类别，说明该语言是加拿大官方语言、原住民（Aboriginal，即 Indigenous）语言，还是非官方且非原住民的语言。</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">language</span></code>：语言的名称。</p></li>
@@ -1539,7 +1539,7 @@ Non-Official &amp; Non-Aboriginal languages,Amharic,22465,12785,200,33670
 </div>
 </div>
 <p id="index-24">你可能觉得这段代码不好读。你没说错，确实不好读！可读性上主要有两个问题。第一，每一行代码都很长。很难看清到底调用了哪些方法、用了哪些参数。第二，每一行都引入一个新的临时对象。这里 <code class="docutils literal notranslate"><span class="pre">aboriginal_lang</span></code> 和 <code class="docutils literal notranslate"><span class="pre">arranged_lang_sorted</span></code> 都只是通往 <code class="docutils literal notranslate"><span class="pre">ten_lang</span></code> 数据框途中的临时结果。这样一来，代码既难读——因为得一步步追查每个临时对象去了哪里，也难懂——因为命名了很多对象，会让人以为它们很重要，其实它们只是中间产物。处理数据框时往往需要依次调用多个方法，所以这个问题很值得解决！</p>
-<p>要解决第一个问题，我们可以把上面那些很长的表达式拆到多行。在大多数情况下，Python 中的一个表达式必须写在一行代码里，只有少数几种情形允许我们这样做。接下来我们用多行表达式（multiline expression）把这段代码改写成更好读的形式。</p>
+<p>要解决第一个问题，我们可以把上面那些很长的表达式拆到多行。在大多数情况下，Python 中的一个表达式必须写在一行代码里，只有少数几种情形允许把它拆成多行。接下来我们用多行表达式（multiline expression）把这段代码改写成更好读的形式。</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">aboriginal_lang</span> <span class="o">=</span> <span class="n">can_lang</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span>
@@ -1686,23 +1686,23 @@ Non-Official &amp; Non-Aboriginal languages,Amharic,22465,12785,200,33670
 <figure class="align-default" id="barplot-mother-tongue" style="width: 700px">
 <div class="output text_html">
 <style>
-  #altair-viz-a89d30edb35d4da69434af83996ee692.vega-embed {
+  #altair-viz-f743278b70104c99a8e8c297e8882241.vega-embed {
     width: 100%;
     display: flex;
   }
 
-  #altair-viz-a89d30edb35d4da69434af83996ee692.vega-embed details,
-  #altair-viz-a89d30edb35d4da69434af83996ee692.vega-embed details summary {
+  #altair-viz-f743278b70104c99a8e8c297e8882241.vega-embed details,
+  #altair-viz-f743278b70104c99a8e8c297e8882241.vega-embed details summary {
     position: relative;
   }
 </style>
-<div id="altair-viz-a89d30edb35d4da69434af83996ee692"></div>
+<div id="altair-viz-f743278b70104c99a8e8c297e8882241"></div>
 <script type="text/javascript">
   var VEGA_DEBUG = (typeof VEGA_DEBUG == "undefined") ? {} : VEGA_DEBUG;
   (function(spec, embedOpt){
     let outputDiv = document.currentScript.previousElementSibling;
-    if (outputDiv.id !== "altair-viz-a89d30edb35d4da69434af83996ee692") {
-      outputDiv = document.getElementById("altair-viz-a89d30edb35d4da69434af83996ee692");
+    if (outputDiv.id !== "altair-viz-f743278b70104c99a8e8c297e8882241") {
+      outputDiv = document.getElementById("altair-viz-f743278b70104c99a8e8c297e8882241");
     }
 
     const paths = {
@@ -1750,7 +1750,7 @@ Non-Official &amp; Non-Aboriginal languages,Amharic,22465,12785,200,33670
         .catch(showError)
         .then(() => displayChart(vegaEmbed));
     }
-  })({"$schema": "https://vega.github.io/schema/vega/v5.json", "data": [{"name": "source_0", "values": [{"language": "Cree, n.o.s.", "mother_tongue_end": 64050.0, "mother_tongue_start": 0.0}, {"language": "Inuktitut", "mother_tongue_end": 35210.0, "mother_tongue_start": 0.0}, {"language": "Ojibway", "mother_tongue_end": 17885.0, "mother_tongue_start": 0.0}, {"language": "Oji-Cree", "mother_tongue_end": 12855.0, "mother_tongue_start": 0.0}, {"language": "Dene", "mother_tongue_end": 10700.0, "mother_tongue_start": 0.0}, {"language": "Montagnais (Innu)", "mother_tongue_end": 10235.0, "mother_tongue_start": 0.0}, {"language": "Mi'kmaq", "mother_tongue_end": 6690.0, "mother_tongue_start": 0.0}, {"language": "Atikamekw", "mother_tongue_end": 6150.0, "mother_tongue_start": 0.0}, {"language": "Plains Cree", "mother_tongue_end": 3065.0, "mother_tongue_start": 0.0}, {"language": "Stoney", "mother_tongue_end": 3025.0, "mother_tongue_start": 0.0}]}, {"name": "source_0_x_domain_language", "values": [{"language": "Cree, n.o.s."}, {"language": "Inuktitut"}, {"language": "Ojibway"}, {"language": "Oji-Cree"}, {"language": "Dene"}, {"language": "Montagnais (Innu)"}, {"language": "Mi'kmaq"}, {"language": "Atikamekw"}, {"language": "Plains Cree"}, {"language": "Stoney"}]}], "signals": [{"name": "x_step", "value": 20}, {"name": "width", "update": "bandspace(domain('x').length, 0.1, 0.05) * x_step"}], "marks": [{"type": "rect", "name": "marks", "from": {"data": "source_0"}, "encode": {"update": {"fill": {"value": "#4c78a8"}, "width": {"signal": "max(0.25, bandwidth('x'))"}, "y2": {"field": "mother_tongue_start", "scale": "y"}, "y": {"field": "mother_tongue_end", "scale": "y"}, "x": {"field": "language", "scale": "x"}}}, "style": ["bar"]}], "scales": [{"name": "x", "type": "band", "domain": {"data": "source_0_x_domain_language", "field": "language", "sort": true}, "range": {"step": {"signal": "x_step"}}, "paddingInner": 0.1, "paddingOuter": 0.05}, {"name": "y", "type": "linear", "domain": {"data": "source_0", "fields": ["mother_tongue_start", "mother_tongue_end"]}, "range": [{"signal": "height"}, 0], "nice": true, "zero": true}], "axes": [{"scale": "y", "ticks": false, "zindex": 0, "gridScale": "x", "tickCount": {"signal": "ceil(height/40)"}, "orient": "left", "domain": false, "grid": true, "labels": false, "aria": false, "maxExtent": 0, "minExtent": 0}, {"scale": "x", "labelAlign": "right", "labelAngle": 270, "labelBaseline": "middle", "zindex": 0, "orient": "bottom", "grid": false, "title": "language"}, {"scale": "y", "zindex": 0, "title": "mother_tongue", "grid": false, "orient": "left", "tickCount": {"signal": "ceil(height/40)"}, "labelOverlap": true}], "padding": 5, "style": "cell", "height": 300, "background": "white"}, {"mode": "vega"});
+  })({"$schema": "https://vega.github.io/schema/vega/v5.json", "data": [{"name": "source_0", "values": [{"language": "Cree, n.o.s.", "mother_tongue_end": 64050.0, "mother_tongue_start": 0.0}, {"language": "Inuktitut", "mother_tongue_end": 35210.0, "mother_tongue_start": 0.0}, {"language": "Ojibway", "mother_tongue_end": 17885.0, "mother_tongue_start": 0.0}, {"language": "Oji-Cree", "mother_tongue_end": 12855.0, "mother_tongue_start": 0.0}, {"language": "Dene", "mother_tongue_end": 10700.0, "mother_tongue_start": 0.0}, {"language": "Montagnais (Innu)", "mother_tongue_end": 10235.0, "mother_tongue_start": 0.0}, {"language": "Mi'kmaq", "mother_tongue_end": 6690.0, "mother_tongue_start": 0.0}, {"language": "Atikamekw", "mother_tongue_end": 6150.0, "mother_tongue_start": 0.0}, {"language": "Plains Cree", "mother_tongue_end": 3065.0, "mother_tongue_start": 0.0}, {"language": "Stoney", "mother_tongue_end": 3025.0, "mother_tongue_start": 0.0}]}, {"name": "source_0_x_domain_language", "values": [{"language": "Cree, n.o.s."}, {"language": "Inuktitut"}, {"language": "Ojibway"}, {"language": "Oji-Cree"}, {"language": "Dene"}, {"language": "Montagnais (Innu)"}, {"language": "Mi'kmaq"}, {"language": "Atikamekw"}, {"language": "Plains Cree"}, {"language": "Stoney"}]}], "signals": [{"name": "x_step", "value": 20}, {"name": "width", "update": "bandspace(domain('x').length, 0.1, 0.05) * x_step"}], "marks": [{"type": "rect", "name": "marks", "from": {"data": "source_0"}, "encode": {"update": {"fill": {"value": "#4c78a8"}, "y2": {"field": "mother_tongue_start", "scale": "y"}, "width": {"signal": "max(0.25, bandwidth('x'))"}, "x": {"field": "language", "scale": "x"}, "y": {"field": "mother_tongue_end", "scale": "y"}}}, "style": ["bar"]}], "scales": [{"name": "x", "type": "band", "domain": {"data": "source_0_x_domain_language", "field": "language", "sort": true}, "range": {"step": {"signal": "x_step"}}, "paddingOuter": 0.05, "paddingInner": 0.1}, {"name": "y", "type": "linear", "domain": {"data": "source_0", "fields": ["mother_tongue_start", "mother_tongue_end"]}, "range": [{"signal": "height"}, 0], "nice": true, "zero": true}], "axes": [{"scale": "y", "maxExtent": 0, "gridScale": "x", "orient": "left", "labels": false, "tickCount": {"signal": "ceil(height/40)"}, "grid": true, "zindex": 0, "ticks": false, "minExtent": 0, "domain": false, "aria": false}, {"scale": "x", "orient": "bottom", "title": "language", "zindex": 0, "grid": false, "labelAngle": 270, "labelBaseline": "middle", "labelAlign": "right"}, {"scale": "y", "grid": false, "tickCount": {"signal": "ceil(height/40)"}, "zindex": 0, "orient": "left", "labelOverlap": true, "title": "mother_tongue"}], "background": "white", "height": 300, "style": "cell", "padding": 5}, {"mode": "vega"});
 </script></div><figcaption>
 <p><span class="caption-number">图 1.9 </span><span class="caption-text">加拿大居民最常报告为母语的十种原住民语言的条形图。</span><a class="headerlink" href="#barplot-mother-tongue" title="永久链接至图片">#</a></p>
 </figcaption>
@@ -1773,23 +1773,23 @@ Non-Official &amp; Non-Aboriginal languages,Amharic,22465,12785,200,33670
 <figure class="align-default" id="barplot-mother-tongue-labs" style="width: 700px">
 <div class="output text_html">
 <style>
-  #altair-viz-2579b827bde8476b810b53afe3406f89.vega-embed {
+  #altair-viz-56e5229a1a3c444aaa724085cb296040.vega-embed {
     width: 100%;
     display: flex;
   }
 
-  #altair-viz-2579b827bde8476b810b53afe3406f89.vega-embed details,
-  #altair-viz-2579b827bde8476b810b53afe3406f89.vega-embed details summary {
+  #altair-viz-56e5229a1a3c444aaa724085cb296040.vega-embed details,
+  #altair-viz-56e5229a1a3c444aaa724085cb296040.vega-embed details summary {
     position: relative;
   }
 </style>
-<div id="altair-viz-2579b827bde8476b810b53afe3406f89"></div>
+<div id="altair-viz-56e5229a1a3c444aaa724085cb296040"></div>
 <script type="text/javascript">
   var VEGA_DEBUG = (typeof VEGA_DEBUG == "undefined") ? {} : VEGA_DEBUG;
   (function(spec, embedOpt){
     let outputDiv = document.currentScript.previousElementSibling;
-    if (outputDiv.id !== "altair-viz-2579b827bde8476b810b53afe3406f89") {
-      outputDiv = document.getElementById("altair-viz-2579b827bde8476b810b53afe3406f89");
+    if (outputDiv.id !== "altair-viz-56e5229a1a3c444aaa724085cb296040") {
+      outputDiv = document.getElementById("altair-viz-56e5229a1a3c444aaa724085cb296040");
     }
 
     const paths = {
@@ -1837,7 +1837,7 @@ Non-Official &amp; Non-Aboriginal languages,Amharic,22465,12785,200,33670
         .catch(showError)
         .then(() => displayChart(vegaEmbed));
     }
-  })({"$schema": "https://vega.github.io/schema/vega/v5.json", "data": [{"name": "source_0", "values": [{"language": "Cree, n.o.s.", "mother_tongue_end": 64050.0, "mother_tongue_start": 0.0}, {"language": "Inuktitut", "mother_tongue_end": 35210.0, "mother_tongue_start": 0.0}, {"language": "Ojibway", "mother_tongue_end": 17885.0, "mother_tongue_start": 0.0}, {"language": "Oji-Cree", "mother_tongue_end": 12855.0, "mother_tongue_start": 0.0}, {"language": "Dene", "mother_tongue_end": 10700.0, "mother_tongue_start": 0.0}, {"language": "Montagnais (Innu)", "mother_tongue_end": 10235.0, "mother_tongue_start": 0.0}, {"language": "Mi'kmaq", "mother_tongue_end": 6690.0, "mother_tongue_start": 0.0}, {"language": "Atikamekw", "mother_tongue_end": 6150.0, "mother_tongue_start": 0.0}, {"language": "Plains Cree", "mother_tongue_end": 3065.0, "mother_tongue_start": 0.0}, {"language": "Stoney", "mother_tongue_end": 3025.0, "mother_tongue_start": 0.0}]}, {"name": "source_0_x_domain_language", "values": [{"language": "Cree, n.o.s."}, {"language": "Inuktitut"}, {"language": "Ojibway"}, {"language": "Oji-Cree"}, {"language": "Dene"}, {"language": "Montagnais (Innu)"}, {"language": "Mi'kmaq"}, {"language": "Atikamekw"}, {"language": "Plains Cree"}, {"language": "Stoney"}]}], "signals": [{"name": "x_step", "value": 20}, {"name": "width", "update": "bandspace(domain('x').length, 0.1, 0.05) * x_step"}], "marks": [{"type": "rect", "name": "marks", "from": {"data": "source_0"}, "encode": {"update": {"fill": {"value": "#4c78a8"}, "y": {"field": "mother_tongue_end", "scale": "y"}, "x": {"field": "language", "scale": "x"}, "width": {"signal": "max(0.25, bandwidth('x'))"}, "y2": {"field": "mother_tongue_start", "scale": "y"}}}, "style": ["bar"]}], "scales": [{"name": "x", "type": "band", "domain": {"data": "source_0_x_domain_language", "field": "language", "sort": true}, "range": {"step": {"signal": "x_step"}}, "paddingInner": 0.1, "paddingOuter": 0.05}, {"name": "y", "type": "linear", "domain": {"data": "source_0", "fields": ["mother_tongue_start", "mother_tongue_end"]}, "range": [{"signal": "height"}, 0], "zero": true, "nice": true}], "axes": [{"scale": "y", "orient": "left", "domain": false, "grid": true, "tickCount": {"signal": "ceil(height/40)"}, "minExtent": 0, "zindex": 0, "maxExtent": 0, "labels": false, "gridScale": "x", "ticks": false, "aria": false}, {"scale": "x", "title": "Language", "zindex": 0, "labelAngle": 270, "orient": "bottom", "grid": false, "labelAlign": "right", "labelBaseline": "middle"}, {"scale": "y", "title": "Mother Tongue (Number of Canadian Residents)", "labelOverlap": true, "tickCount": {"signal": "ceil(height/40)"}, "grid": false, "zindex": 0, "orient": "left"}], "background": "white", "padding": 5, "height": 300, "style": "cell"}, {"mode": "vega"});
+  })({"$schema": "https://vega.github.io/schema/vega/v5.json", "data": [{"name": "source_0", "values": [{"language": "Cree, n.o.s.", "mother_tongue_end": 64050.0, "mother_tongue_start": 0.0}, {"language": "Inuktitut", "mother_tongue_end": 35210.0, "mother_tongue_start": 0.0}, {"language": "Ojibway", "mother_tongue_end": 17885.0, "mother_tongue_start": 0.0}, {"language": "Oji-Cree", "mother_tongue_end": 12855.0, "mother_tongue_start": 0.0}, {"language": "Dene", "mother_tongue_end": 10700.0, "mother_tongue_start": 0.0}, {"language": "Montagnais (Innu)", "mother_tongue_end": 10235.0, "mother_tongue_start": 0.0}, {"language": "Mi'kmaq", "mother_tongue_end": 6690.0, "mother_tongue_start": 0.0}, {"language": "Atikamekw", "mother_tongue_end": 6150.0, "mother_tongue_start": 0.0}, {"language": "Plains Cree", "mother_tongue_end": 3065.0, "mother_tongue_start": 0.0}, {"language": "Stoney", "mother_tongue_end": 3025.0, "mother_tongue_start": 0.0}]}, {"name": "source_0_x_domain_language", "values": [{"language": "Cree, n.o.s."}, {"language": "Inuktitut"}, {"language": "Ojibway"}, {"language": "Oji-Cree"}, {"language": "Dene"}, {"language": "Montagnais (Innu)"}, {"language": "Mi'kmaq"}, {"language": "Atikamekw"}, {"language": "Plains Cree"}, {"language": "Stoney"}]}], "signals": [{"name": "x_step", "value": 20}, {"name": "width", "update": "bandspace(domain('x').length, 0.1, 0.05) * x_step"}], "marks": [{"type": "rect", "name": "marks", "from": {"data": "source_0"}, "encode": {"update": {"y2": {"field": "mother_tongue_start", "scale": "y"}, "width": {"signal": "max(0.25, bandwidth('x'))"}, "fill": {"value": "#4c78a8"}, "x": {"field": "language", "scale": "x"}, "y": {"field": "mother_tongue_end", "scale": "y"}}}, "style": ["bar"]}], "scales": [{"name": "x", "type": "band", "domain": {"data": "source_0_x_domain_language", "field": "language", "sort": true}, "range": {"step": {"signal": "x_step"}}, "paddingInner": 0.1, "paddingOuter": 0.05}, {"name": "y", "type": "linear", "domain": {"data": "source_0", "fields": ["mother_tongue_start", "mother_tongue_end"]}, "range": [{"signal": "height"}, 0], "zero": true, "nice": true}], "axes": [{"scale": "y", "maxExtent": 0, "gridScale": "x", "orient": "left", "grid": true, "domain": false, "labels": false, "tickCount": {"signal": "ceil(height/40)"}, "zindex": 0, "minExtent": 0, "ticks": false, "aria": false}, {"scale": "x", "labelBaseline": "middle", "title": "Language", "grid": false, "zindex": 0, "orient": "bottom", "labelAlign": "right", "labelAngle": 270}, {"scale": "y", "grid": false, "orient": "left", "title": "Mother Tongue (Number of Canadian Residents)", "tickCount": {"signal": "ceil(height/40)"}, "zindex": 0, "labelOverlap": true}], "background": "white", "padding": 5, "height": 300, "style": "cell"}, {"mode": "vega"});
 </script></div><figcaption>
 <p><span class="caption-number">图 1.10 </span><span class="caption-text">加拿大居民最常报告为母语的十种原住民语言的条形图，其中标注了 x 轴和 y 轴标签。注意，这个可视化还没有完成，仍有需要改进的地方。</span><a class="headerlink" href="#barplot-mother-tongue-labs" title="永久链接至图片">#</a></p>
 </figcaption>
@@ -1856,23 +1856,23 @@ Non-Official &amp; Non-Aboriginal languages,Amharic,22465,12785,200,33670
 <figure class="align-default" id="barplot-mother-tongue-labs-axis" style="width: 700px">
 <div class="output text_html">
 <style>
-  #altair-viz-668b4f45e14547f0a2ea2c100239ec3e.vega-embed {
+  #altair-viz-48f65d661ca547308cdd70de508d1ea8.vega-embed {
     width: 100%;
     display: flex;
   }
 
-  #altair-viz-668b4f45e14547f0a2ea2c100239ec3e.vega-embed details,
-  #altair-viz-668b4f45e14547f0a2ea2c100239ec3e.vega-embed details summary {
+  #altair-viz-48f65d661ca547308cdd70de508d1ea8.vega-embed details,
+  #altair-viz-48f65d661ca547308cdd70de508d1ea8.vega-embed details summary {
     position: relative;
   }
 </style>
-<div id="altair-viz-668b4f45e14547f0a2ea2c100239ec3e"></div>
+<div id="altair-viz-48f65d661ca547308cdd70de508d1ea8"></div>
 <script type="text/javascript">
   var VEGA_DEBUG = (typeof VEGA_DEBUG == "undefined") ? {} : VEGA_DEBUG;
   (function(spec, embedOpt){
     let outputDiv = document.currentScript.previousElementSibling;
-    if (outputDiv.id !== "altair-viz-668b4f45e14547f0a2ea2c100239ec3e") {
-      outputDiv = document.getElementById("altair-viz-668b4f45e14547f0a2ea2c100239ec3e");
+    if (outputDiv.id !== "altair-viz-48f65d661ca547308cdd70de508d1ea8") {
+      outputDiv = document.getElementById("altair-viz-48f65d661ca547308cdd70de508d1ea8");
     }
 
     const paths = {
@@ -1920,7 +1920,7 @@ Non-Official &amp; Non-Aboriginal languages,Amharic,22465,12785,200,33670
         .catch(showError)
         .then(() => displayChart(vegaEmbed));
     }
-  })({"$schema": "https://vega.github.io/schema/vega/v5.json", "data": [{"name": "source_0", "values": [{"language": "Cree, n.o.s.", "mother_tongue_end": 64050.0, "mother_tongue_start": 0.0}, {"language": "Inuktitut", "mother_tongue_end": 35210.0, "mother_tongue_start": 0.0}, {"language": "Ojibway", "mother_tongue_end": 17885.0, "mother_tongue_start": 0.0}, {"language": "Oji-Cree", "mother_tongue_end": 12855.0, "mother_tongue_start": 0.0}, {"language": "Dene", "mother_tongue_end": 10700.0, "mother_tongue_start": 0.0}, {"language": "Montagnais (Innu)", "mother_tongue_end": 10235.0, "mother_tongue_start": 0.0}, {"language": "Mi'kmaq", "mother_tongue_end": 6690.0, "mother_tongue_start": 0.0}, {"language": "Atikamekw", "mother_tongue_end": 6150.0, "mother_tongue_start": 0.0}, {"language": "Plains Cree", "mother_tongue_end": 3065.0, "mother_tongue_start": 0.0}, {"language": "Stoney", "mother_tongue_end": 3025.0, "mother_tongue_start": 0.0}]}, {"name": "source_0_y_domain_language", "values": [{"language": "Cree, n.o.s."}, {"language": "Inuktitut"}, {"language": "Ojibway"}, {"language": "Oji-Cree"}, {"language": "Dene"}, {"language": "Montagnais (Innu)"}, {"language": "Mi'kmaq"}, {"language": "Atikamekw"}, {"language": "Plains Cree"}, {"language": "Stoney"}]}], "signals": [{"name": "y_step", "value": 20}, {"name": "height", "update": "bandspace(domain('y').length, 0.1, 0.05) * y_step"}], "marks": [{"type": "rect", "name": "marks", "from": {"data": "source_0"}, "encode": {"update": {"x": {"field": "mother_tongue_end", "scale": "x"}, "fill": {"value": "#4c78a8"}, "x2": {"field": "mother_tongue_start", "scale": "x"}, "y": {"field": "language", "scale": "y"}, "height": {"signal": "max(0.25, bandwidth('y'))"}}}, "style": ["bar"]}], "scales": [{"name": "x", "type": "linear", "domain": {"data": "source_0", "fields": ["mother_tongue_start", "mother_tongue_end"]}, "range": [0, {"signal": "width"}], "nice": true, "zero": true}, {"name": "y", "type": "band", "domain": {"data": "source_0_y_domain_language", "field": "language", "sort": true}, "range": {"step": {"signal": "y_step"}}, "paddingOuter": 0.05, "paddingInner": 0.1}], "axes": [{"scale": "x", "gridScale": "y", "maxExtent": 0, "zindex": 0, "labels": false, "domain": false, "aria": false, "orient": "bottom", "grid": true, "tickCount": {"signal": "ceil(width/40)"}, "minExtent": 0, "ticks": false}, {"scale": "x", "labelOverlap": true, "orient": "bottom", "title": "Mother Tongue (Number of Canadian Residents)", "grid": false, "labelFlush": true, "tickCount": {"signal": "ceil(width/40)"}, "zindex": 0}, {"scale": "y", "title": "Language", "grid": false, "orient": "left", "zindex": 0}], "background": "white", "style": "cell", "padding": 5, "width": 300}, {"mode": "vega"});
+  })({"$schema": "https://vega.github.io/schema/vega/v5.json", "data": [{"name": "source_0", "values": [{"language": "Cree, n.o.s.", "mother_tongue_end": 64050.0, "mother_tongue_start": 0.0}, {"language": "Inuktitut", "mother_tongue_end": 35210.0, "mother_tongue_start": 0.0}, {"language": "Ojibway", "mother_tongue_end": 17885.0, "mother_tongue_start": 0.0}, {"language": "Oji-Cree", "mother_tongue_end": 12855.0, "mother_tongue_start": 0.0}, {"language": "Dene", "mother_tongue_end": 10700.0, "mother_tongue_start": 0.0}, {"language": "Montagnais (Innu)", "mother_tongue_end": 10235.0, "mother_tongue_start": 0.0}, {"language": "Mi'kmaq", "mother_tongue_end": 6690.0, "mother_tongue_start": 0.0}, {"language": "Atikamekw", "mother_tongue_end": 6150.0, "mother_tongue_start": 0.0}, {"language": "Plains Cree", "mother_tongue_end": 3065.0, "mother_tongue_start": 0.0}, {"language": "Stoney", "mother_tongue_end": 3025.0, "mother_tongue_start": 0.0}]}, {"name": "source_0_y_domain_language", "values": [{"language": "Cree, n.o.s."}, {"language": "Inuktitut"}, {"language": "Ojibway"}, {"language": "Oji-Cree"}, {"language": "Dene"}, {"language": "Montagnais (Innu)"}, {"language": "Mi'kmaq"}, {"language": "Atikamekw"}, {"language": "Plains Cree"}, {"language": "Stoney"}]}], "signals": [{"name": "y_step", "value": 20}, {"name": "height", "update": "bandspace(domain('y').length, 0.1, 0.05) * y_step"}], "marks": [{"type": "rect", "name": "marks", "from": {"data": "source_0"}, "encode": {"update": {"fill": {"value": "#4c78a8"}, "x": {"field": "mother_tongue_end", "scale": "x"}, "x2": {"field": "mother_tongue_start", "scale": "x"}, "y": {"field": "language", "scale": "y"}, "height": {"signal": "max(0.25, bandwidth('y'))"}}}, "style": ["bar"]}], "scales": [{"name": "x", "type": "linear", "domain": {"data": "source_0", "fields": ["mother_tongue_start", "mother_tongue_end"]}, "range": [0, {"signal": "width"}], "zero": true, "nice": true}, {"name": "y", "type": "band", "domain": {"data": "source_0_y_domain_language", "field": "language", "sort": true}, "range": {"step": {"signal": "y_step"}}, "paddingOuter": 0.05, "paddingInner": 0.1}], "axes": [{"scale": "x", "ticks": false, "labels": false, "grid": true, "domain": false, "tickCount": {"signal": "ceil(width/40)"}, "gridScale": "y", "zindex": 0, "maxExtent": 0, "minExtent": 0, "aria": false, "orient": "bottom"}, {"scale": "x", "tickCount": {"signal": "ceil(width/40)"}, "title": "Mother Tongue (Number of Canadian Residents)", "grid": false, "labelFlush": true, "orient": "bottom", "labelOverlap": true, "zindex": 0}, {"scale": "y", "title": "Language", "grid": false, "zindex": 0, "orient": "left"}], "padding": 5, "style": "cell", "background": "white", "width": 300}, {"mode": "vega"});
 </script></div><figcaption>
 <p><span class="caption-number">图 1.11 </span><span class="caption-text">加拿大居民最常报告为母语的十种原住民语言的水平条形图。这个可视化已经没有严重问题，但还可以进一步打磨。</span><a class="headerlink" href="#barplot-mother-tongue-labs-axis" title="永久链接至图片">#</a></p>
 </figcaption>
@@ -1939,23 +1939,23 @@ Non-Official &amp; Non-Aboriginal languages,Amharic,22465,12785,200,33670
 <figure class="align-default" id="barplot-mother-tongue-reorder" style="width: 700px">
 <div class="output text_html">
 <style>
-  #altair-viz-b40bf642c2734bb79cf93015751fe688.vega-embed {
+  #altair-viz-02eda473b5ab40d4889f9cebb243825f.vega-embed {
     width: 100%;
     display: flex;
   }
 
-  #altair-viz-b40bf642c2734bb79cf93015751fe688.vega-embed details,
-  #altair-viz-b40bf642c2734bb79cf93015751fe688.vega-embed details summary {
+  #altair-viz-02eda473b5ab40d4889f9cebb243825f.vega-embed details,
+  #altair-viz-02eda473b5ab40d4889f9cebb243825f.vega-embed details summary {
     position: relative;
   }
 </style>
-<div id="altair-viz-b40bf642c2734bb79cf93015751fe688"></div>
+<div id="altair-viz-02eda473b5ab40d4889f9cebb243825f"></div>
 <script type="text/javascript">
   var VEGA_DEBUG = (typeof VEGA_DEBUG == "undefined") ? {} : VEGA_DEBUG;
   (function(spec, embedOpt){
     let outputDiv = document.currentScript.previousElementSibling;
-    if (outputDiv.id !== "altair-viz-b40bf642c2734bb79cf93015751fe688") {
-      outputDiv = document.getElementById("altair-viz-b40bf642c2734bb79cf93015751fe688");
+    if (outputDiv.id !== "altair-viz-02eda473b5ab40d4889f9cebb243825f") {
+      outputDiv = document.getElementById("altair-viz-02eda473b5ab40d4889f9cebb243825f");
     }
 
     const paths = {
@@ -2003,7 +2003,7 @@ Non-Official &amp; Non-Aboriginal languages,Amharic,22465,12785,200,33670
         .catch(showError)
         .then(() => displayChart(vegaEmbed));
     }
-  })({"$schema": "https://vega.github.io/schema/vega/v5.json", "data": [{"name": "source_0"}, {"name": "data_0", "values": [{"language": "Cree, n.o.s.", "mother_tongue_end": 64050.0, "mother_tongue_start": 0.0}, {"language": "Inuktitut", "mother_tongue_end": 35210.0, "mother_tongue_start": 0.0}, {"language": "Ojibway", "mother_tongue_end": 17885.0, "mother_tongue_start": 0.0}, {"language": "Oji-Cree", "mother_tongue_end": 12855.0, "mother_tongue_start": 0.0}, {"language": "Dene", "mother_tongue_end": 10700.0, "mother_tongue_start": 0.0}, {"language": "Montagnais (Innu)", "mother_tongue_end": 10235.0, "mother_tongue_start": 0.0}, {"language": "Mi'kmaq", "mother_tongue_end": 6690.0, "mother_tongue_start": 0.0}, {"language": "Atikamekw", "mother_tongue_end": 6150.0, "mother_tongue_start": 0.0}, {"language": "Plains Cree", "mother_tongue_end": 3065.0, "mother_tongue_start": 0.0}, {"language": "Stoney", "mother_tongue_end": 3025.0, "mother_tongue_start": 0.0}]}, {"name": "source_0_y_domain_language", "values": [{"language": "Cree, n.o.s.", "sort_field": 64050}, {"language": "Inuktitut", "sort_field": 35210}, {"language": "Ojibway", "sort_field": 17885}, {"language": "Oji-Cree", "sort_field": 12855}, {"language": "Dene", "sort_field": 10700}, {"language": "Montagnais (Innu)", "sort_field": 10235}, {"language": "Mi'kmaq", "sort_field": 6690}, {"language": "Atikamekw", "sort_field": 6150}, {"language": "Plains Cree", "sort_field": 3065}, {"language": "Stoney", "sort_field": 3025}]}], "signals": [{"name": "y_step", "value": 20}, {"name": "height", "update": "bandspace(domain('y').length, 0.1, 0.05) * y_step"}], "marks": [{"type": "rect", "name": "marks", "from": {"data": "data_0"}, "encode": {"update": {"fill": {"value": "#4c78a8"}, "y": {"field": "language", "scale": "y"}, "height": {"signal": "max(0.25, bandwidth('y'))"}, "x": {"field": "mother_tongue_end", "scale": "x"}, "x2": {"field": "mother_tongue_start", "scale": "x"}}}, "style": ["bar"]}], "scales": [{"name": "x", "type": "linear", "domain": {"data": "data_0", "fields": ["mother_tongue_start", "mother_tongue_end"]}, "range": [0, {"signal": "width"}], "nice": true, "zero": true}, {"name": "y", "type": "band", "domain": {"data": "source_0_y_domain_language", "field": "language", "sort": {"op": "max", "field": "sort_field"}}, "range": {"step": {"signal": "y_step"}}, "paddingInner": 0.1, "paddingOuter": 0.05}], "axes": [{"scale": "x", "gridScale": "y", "aria": false, "orient": "bottom", "tickCount": {"signal": "ceil(width/40)"}, "domain": false, "maxExtent": 0, "labels": false, "grid": true, "minExtent": 0, "ticks": false, "zindex": 0}, {"scale": "x", "orient": "bottom", "labelFlush": true, "labelOverlap": true, "grid": false, "tickCount": {"signal": "ceil(width/40)"}, "zindex": 0, "title": "Mother Tongue (Number of Canadian Residents)"}, {"scale": "y", "grid": false, "zindex": 0, "orient": "left", "title": "Language"}], "style": "cell", "background": "white", "width": 300, "padding": 5}, {"mode": "vega"});
+  })({"$schema": "https://vega.github.io/schema/vega/v5.json", "data": [{"name": "source_0"}, {"name": "data_0", "values": [{"language": "Cree, n.o.s.", "mother_tongue_end": 64050.0, "mother_tongue_start": 0.0}, {"language": "Inuktitut", "mother_tongue_end": 35210.0, "mother_tongue_start": 0.0}, {"language": "Ojibway", "mother_tongue_end": 17885.0, "mother_tongue_start": 0.0}, {"language": "Oji-Cree", "mother_tongue_end": 12855.0, "mother_tongue_start": 0.0}, {"language": "Dene", "mother_tongue_end": 10700.0, "mother_tongue_start": 0.0}, {"language": "Montagnais (Innu)", "mother_tongue_end": 10235.0, "mother_tongue_start": 0.0}, {"language": "Mi'kmaq", "mother_tongue_end": 6690.0, "mother_tongue_start": 0.0}, {"language": "Atikamekw", "mother_tongue_end": 6150.0, "mother_tongue_start": 0.0}, {"language": "Plains Cree", "mother_tongue_end": 3065.0, "mother_tongue_start": 0.0}, {"language": "Stoney", "mother_tongue_end": 3025.0, "mother_tongue_start": 0.0}]}, {"name": "source_0_y_domain_language", "values": [{"language": "Cree, n.o.s.", "sort_field": 64050}, {"language": "Inuktitut", "sort_field": 35210}, {"language": "Ojibway", "sort_field": 17885}, {"language": "Oji-Cree", "sort_field": 12855}, {"language": "Dene", "sort_field": 10700}, {"language": "Montagnais (Innu)", "sort_field": 10235}, {"language": "Mi'kmaq", "sort_field": 6690}, {"language": "Atikamekw", "sort_field": 6150}, {"language": "Plains Cree", "sort_field": 3065}, {"language": "Stoney", "sort_field": 3025}]}], "signals": [{"name": "y_step", "value": 20}, {"name": "height", "update": "bandspace(domain('y').length, 0.1, 0.05) * y_step"}], "marks": [{"type": "rect", "name": "marks", "from": {"data": "data_0"}, "encode": {"update": {"x2": {"field": "mother_tongue_start", "scale": "x"}, "x": {"field": "mother_tongue_end", "scale": "x"}, "y": {"field": "language", "scale": "y"}, "fill": {"value": "#4c78a8"}, "height": {"signal": "max(0.25, bandwidth('y'))"}}}, "style": ["bar"]}], "scales": [{"name": "x", "type": "linear", "domain": {"data": "data_0", "fields": ["mother_tongue_start", "mother_tongue_end"]}, "range": [0, {"signal": "width"}], "zero": true, "nice": true}, {"name": "y", "type": "band", "domain": {"data": "source_0_y_domain_language", "field": "language", "sort": {"op": "max", "field": "sort_field"}}, "range": {"step": {"signal": "y_step"}}, "paddingOuter": 0.05, "paddingInner": 0.1}], "axes": [{"scale": "x", "aria": false, "domain": false, "zindex": 0, "minExtent": 0, "orient": "bottom", "tickCount": {"signal": "ceil(width/40)"}, "gridScale": "y", "ticks": false, "grid": true, "labels": false, "maxExtent": 0}, {"scale": "x", "title": "Mother Tongue (Number of Canadian Residents)", "labelOverlap": true, "orient": "bottom", "grid": false, "tickCount": {"signal": "ceil(width/40)"}, "zindex": 0, "labelFlush": true}, {"scale": "y", "grid": false, "zindex": 0, "orient": "left", "title": "Language"}], "background": "white", "padding": 5, "width": 300, "style": "cell"}, {"mode": "vega"});
 </script></div><figcaption>
 <p><span class="caption-number">图 1.12 </span><span class="caption-text">加拿大居民最常报告为母语的十种原住民语言的条形图，其中的条形已重新排列。</span><a class="headerlink" href="#barplot-mother-tongue-reorder" title="永久链接至图片">#</a></p>
 </figcaption>
@@ -2042,23 +2042,23 @@ Non-Official &amp; Non-Aboriginal languages,Amharic,22465,12785,200,33670
 <figure class="align-default" id="final-plot" style="width: 700px">
 <div class="output text_html">
 <style>
-  #altair-viz-2e09565b6812478195f2e4a2f8d26103.vega-embed {
+  #altair-viz-2b3da8d3352445b1956ea41709f4c88d.vega-embed {
     width: 100%;
     display: flex;
   }
 
-  #altair-viz-2e09565b6812478195f2e4a2f8d26103.vega-embed details,
-  #altair-viz-2e09565b6812478195f2e4a2f8d26103.vega-embed details summary {
+  #altair-viz-2b3da8d3352445b1956ea41709f4c88d.vega-embed details,
+  #altair-viz-2b3da8d3352445b1956ea41709f4c88d.vega-embed details summary {
     position: relative;
   }
 </style>
-<div id="altair-viz-2e09565b6812478195f2e4a2f8d26103"></div>
+<div id="altair-viz-2b3da8d3352445b1956ea41709f4c88d"></div>
 <script type="text/javascript">
   var VEGA_DEBUG = (typeof VEGA_DEBUG == "undefined") ? {} : VEGA_DEBUG;
   (function(spec, embedOpt){
     let outputDiv = document.currentScript.previousElementSibling;
-    if (outputDiv.id !== "altair-viz-2e09565b6812478195f2e4a2f8d26103") {
-      outputDiv = document.getElementById("altair-viz-2e09565b6812478195f2e4a2f8d26103");
+    if (outputDiv.id !== "altair-viz-2b3da8d3352445b1956ea41709f4c88d") {
+      outputDiv = document.getElementById("altair-viz-2b3da8d3352445b1956ea41709f4c88d");
     }
 
     const paths = {
@@ -2106,7 +2106,7 @@ Non-Official &amp; Non-Aboriginal languages,Amharic,22465,12785,200,33670
         .catch(showError)
         .then(() => displayChart(vegaEmbed));
     }
-  })({"$schema": "https://vega.github.io/schema/vega/v5.json", "data": [{"name": "source_0"}, {"name": "data_0", "values": [{"language": "Cree, n.o.s.", "mother_tongue_end": 64050.0, "mother_tongue_start": 0.0}, {"language": "Inuktitut", "mother_tongue_end": 35210.0, "mother_tongue_start": 0.0}, {"language": "Ojibway", "mother_tongue_end": 17885.0, "mother_tongue_start": 0.0}, {"language": "Oji-Cree", "mother_tongue_end": 12855.0, "mother_tongue_start": 0.0}, {"language": "Dene", "mother_tongue_end": 10700.0, "mother_tongue_start": 0.0}, {"language": "Montagnais (Innu)", "mother_tongue_end": 10235.0, "mother_tongue_start": 0.0}, {"language": "Mi'kmaq", "mother_tongue_end": 6690.0, "mother_tongue_start": 0.0}, {"language": "Atikamekw", "mother_tongue_end": 6150.0, "mother_tongue_start": 0.0}, {"language": "Plains Cree", "mother_tongue_end": 3065.0, "mother_tongue_start": 0.0}, {"language": "Stoney", "mother_tongue_end": 3025.0, "mother_tongue_start": 0.0}]}, {"name": "source_0_y_domain_language", "values": [{"language": "Cree, n.o.s.", "sort_field": 64050}, {"language": "Inuktitut", "sort_field": 35210}, {"language": "Ojibway", "sort_field": 17885}, {"language": "Oji-Cree", "sort_field": 12855}, {"language": "Dene", "sort_field": 10700}, {"language": "Montagnais (Innu)", "sort_field": 10235}, {"language": "Mi'kmaq", "sort_field": 6690}, {"language": "Atikamekw", "sort_field": 6150}, {"language": "Plains Cree", "sort_field": 3065}, {"language": "Stoney", "sort_field": 3025}]}], "signals": [{"name": "y_step", "value": 20}, {"name": "height", "update": "bandspace(domain('y').length, 0.1, 0.05) * y_step"}], "marks": [{"type": "rect", "name": "marks", "from": {"data": "data_0"}, "encode": {"update": {"y": {"field": "language", "scale": "y"}, "height": {"signal": "max(0.25, bandwidth('y'))"}, "fill": {"value": "#4c78a8"}, "x": {"field": "mother_tongue_end", "scale": "x"}, "x2": {"field": "mother_tongue_start", "scale": "x"}}}, "style": ["bar"]}], "scales": [{"name": "x", "type": "linear", "domain": {"data": "data_0", "fields": ["mother_tongue_start", "mother_tongue_end"]}, "range": [0, {"signal": "width"}], "nice": true, "zero": true}, {"name": "y", "type": "band", "domain": {"data": "source_0_y_domain_language", "field": "language", "sort": {"op": "max", "field": "sort_field"}}, "range": {"step": {"signal": "y_step"}}, "paddingInner": 0.1, "paddingOuter": 0.05}], "axes": [{"scale": "x", "domain": false, "orient": "bottom", "aria": false, "gridScale": "y", "maxExtent": 0, "grid": true, "labels": false, "zindex": 0, "minExtent": 0, "tickCount": {"signal": "ceil(width/40)"}, "ticks": false}, {"scale": "x", "tickCount": {"signal": "ceil(width/40)"}, "zindex": 0, "grid": false, "title": "Mother Tongue (Number of Canadian Residents)", "labelFlush": true, "labelOverlap": true, "orient": "bottom"}, {"scale": "y", "grid": false, "zindex": 0, "orient": "left", "title": "Language"}], "background": "white", "style": "cell", "padding": 5, "width": 300}, {"mode": "vega"});
+  })({"$schema": "https://vega.github.io/schema/vega/v5.json", "data": [{"name": "source_0"}, {"name": "data_0", "values": [{"language": "Cree, n.o.s.", "mother_tongue_end": 64050.0, "mother_tongue_start": 0.0}, {"language": "Inuktitut", "mother_tongue_end": 35210.0, "mother_tongue_start": 0.0}, {"language": "Ojibway", "mother_tongue_end": 17885.0, "mother_tongue_start": 0.0}, {"language": "Oji-Cree", "mother_tongue_end": 12855.0, "mother_tongue_start": 0.0}, {"language": "Dene", "mother_tongue_end": 10700.0, "mother_tongue_start": 0.0}, {"language": "Montagnais (Innu)", "mother_tongue_end": 10235.0, "mother_tongue_start": 0.0}, {"language": "Mi'kmaq", "mother_tongue_end": 6690.0, "mother_tongue_start": 0.0}, {"language": "Atikamekw", "mother_tongue_end": 6150.0, "mother_tongue_start": 0.0}, {"language": "Plains Cree", "mother_tongue_end": 3065.0, "mother_tongue_start": 0.0}, {"language": "Stoney", "mother_tongue_end": 3025.0, "mother_tongue_start": 0.0}]}, {"name": "source_0_y_domain_language", "values": [{"language": "Cree, n.o.s.", "sort_field": 64050}, {"language": "Inuktitut", "sort_field": 35210}, {"language": "Ojibway", "sort_field": 17885}, {"language": "Oji-Cree", "sort_field": 12855}, {"language": "Dene", "sort_field": 10700}, {"language": "Montagnais (Innu)", "sort_field": 10235}, {"language": "Mi'kmaq", "sort_field": 6690}, {"language": "Atikamekw", "sort_field": 6150}, {"language": "Plains Cree", "sort_field": 3065}, {"language": "Stoney", "sort_field": 3025}]}], "signals": [{"name": "y_step", "value": 20}, {"name": "height", "update": "bandspace(domain('y').length, 0.1, 0.05) * y_step"}], "marks": [{"type": "rect", "name": "marks", "from": {"data": "data_0"}, "encode": {"update": {"x2": {"field": "mother_tongue_start", "scale": "x"}, "x": {"field": "mother_tongue_end", "scale": "x"}, "fill": {"value": "#4c78a8"}, "y": {"field": "language", "scale": "y"}, "height": {"signal": "max(0.25, bandwidth('y'))"}}}, "style": ["bar"]}], "scales": [{"name": "x", "type": "linear", "domain": {"data": "data_0", "fields": ["mother_tongue_start", "mother_tongue_end"]}, "range": [0, {"signal": "width"}], "nice": true, "zero": true}, {"name": "y", "type": "band", "domain": {"data": "source_0_y_domain_language", "field": "language", "sort": {"op": "max", "field": "sort_field"}}, "range": {"step": {"signal": "y_step"}}, "paddingInner": 0.1, "paddingOuter": 0.05}], "axes": [{"scale": "x", "tickCount": {"signal": "ceil(width/40)"}, "maxExtent": 0, "ticks": false, "grid": true, "gridScale": "y", "labels": false, "minExtent": 0, "domain": false, "orient": "bottom", "aria": false, "zindex": 0}, {"scale": "x", "labelOverlap": true, "grid": false, "labelFlush": true, "tickCount": {"signal": "ceil(width/40)"}, "orient": "bottom", "title": "Mother Tongue (Number of Canadian Residents)", "zindex": 0}, {"scale": "y", "title": "Language", "grid": false, "zindex": 0, "orient": "left"}], "width": 300, "background": "white", "style": "cell", "padding": 5}, {"mode": "vega"});
 </script></div><figcaption>
 <p><span class="caption-number">图 1.13 </span><span class="caption-text">加拿大居民最常报告为母语的十种原住民语言的条形图。</span><a class="headerlink" href="#final-plot" title="永久链接至图片">#</a></p>
 </figcaption>

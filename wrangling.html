@@ -4353,7 +4353,7 @@ dtype: float64
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;pandas.core.groupby.generic.DataFrameGroupBy object at 0x0000029C48CA4070&gt;
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;pandas.core.groupby.generic.DataFrameGroupBy object at 0x00000212C545D8D0&gt;
 </pre></div>
 </div>
 </div>
@@ -4924,7 +4924,7 @@ Official（官方），在不同地区家庭中的使用情况，就要给 <code
 </div>
 </div>
 </div>
-<p>这是因为用 <code class="docutils literal notranslate"><span class="pre">[]</span></code> 只选出了 <code class="docutils literal notranslate"><span class="pre">&quot;most_at_home&quot;</span></code> 到 <code class="docutils literal notranslate"><span class="pre">&quot;lang_known&quot;</span></code> 之间的列，其中并不包含 <code class="docutils literal notranslate"><span class="pre">&quot;region&quot;</span></code>！因此，正确的做法是先用 <code class="docutils literal notranslate"><span class="pre">groupby</span></code>，再用 <code class="docutils literal notranslate"><span class="pre">[]</span></code> 传入一个包含 <code class="docutils literal notranslate"><span class="pre">region</span></code> 的列名列表；这种写法总是行得通。（译注：原文对报错原因的解释并不准确。在 pandas 中，“df[“a”:”b”]”这种写法是按行标签切片，而不是选取列范围；本例的行索引是整数 RangeIndex，所以会直接抛出 TypeError，与选出的列是否包含 region 无关。要按列名选取一段范围，应使用 “.loc[:, “most_at_home”:”lang_known”]”。）</p>
+<p>这是因为用 <code class="docutils literal notranslate"><span class="pre">[]</span></code> 只选出了 <code class="docutils literal notranslate"><span class="pre">&quot;most_at_home&quot;</span></code> 到 <code class="docutils literal notranslate"><span class="pre">&quot;lang_known&quot;</span></code> 之间的列，其中并不包含 <code class="docutils literal notranslate"><span class="pre">&quot;region&quot;</span></code>！因此，正确的做法是先用 <code class="docutils literal notranslate"><span class="pre">groupby</span></code>，再用 <code class="docutils literal notranslate"><span class="pre">[]</span></code> 传入一个包含 <code class="docutils literal notranslate"><span class="pre">region</span></code> 的列名列表；这种写法总是行得通。（译注：原文对报错原因的解释并不准确。在 pandas 中，“df[“a”:”b”]”这种写法是按行标签切片，而不是选取列范围；本例的行索引是整数 RangeIndex，所以会直接抛出 TypeError，与选出的列是否包含 region 无关。要按列名选取一段范围，应使用 “.loc[:, “most_at_home”:”lang_known”]”。上方的 KeyError 是原书手写的输出，实际运行得到的是 TypeError。）</p>
 <div class="cell tag_output_scroll docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">region_lang</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s2">"region"</span><span class="p">)[[</span><span class="s2">"most_at_home"</span><span class="p">,</span> <span class="s2">"most_at_work"</span><span class="p">,</span> <span class="s2">"lang_known"</span><span class="p">]]</span><span class="o">.</span><span class="n">max</span><span class="p">()</span><span class="o">.</span><span class="n">reset_index</span><span class="p">()</span>

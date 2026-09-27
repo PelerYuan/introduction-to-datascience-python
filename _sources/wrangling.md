@@ -1026,7 +1026,7 @@ region_lang["most_at_home":"lang_known"].groupby("region").max()
 print('KeyError: "region"')
 ```
 
-这是因为用 `[]` 只选出了 `"most_at_home"` 到 `"lang_known"` 之间的列，其中并不包含 `"region"`！因此，正确的做法是先用 `groupby`，再用 `[]` 传入一个包含 `region` 的列名列表；这种写法总是行得通。（译注：原文对报错原因的解释并不准确。在 pandas 中，“df["a":"b"]”这种写法是按行标签切片，而不是选取列范围；本例的行索引是整数 RangeIndex，所以会直接抛出 TypeError，与选出的列是否包含 region 无关。要按列名选取一段范围，应使用 “.loc[:, "most_at_home":"lang_known"]”。）
+这是因为用 `[]` 只选出了 `"most_at_home"` 到 `"lang_known"` 之间的列，其中并不包含 `"region"`！因此，正确的做法是先用 `groupby`，再用 `[]` 传入一个包含 `region` 的列名列表；这种写法总是行得通。（译注：原文对报错原因的解释并不准确。在 pandas 中，“df["a":"b"]”这种写法是按行标签切片，而不是选取列范围；本例的行索引是整数 RangeIndex，所以会直接抛出 TypeError，与选出的列是否包含 region 无关。要按列名选取一段范围，应使用 “.loc[:, "most_at_home":"lang_known"]”。上方的 KeyError 是原书手写的输出，实际运行得到的是 TypeError。）
 
 ```{code-cell} ipython3
 :tags: ["output_scroll"]
